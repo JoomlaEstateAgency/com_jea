@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
+<install type="component" version="1.5.0">
+	<name>jea</name>
+	<!-- The following elements are optional and free of formatting conttraints -->
+	<creationDate>2008 26 02</creationDate>
+	<author>Sylvain Philip</author>
+	<authorEmail>contact@sphilip.com</authorEmail>
+	<authorUrl>http://www.sphilip.com</authorUrl>
+	<copyright>Copyright (C) 2008 PHILIP Sylvain. All rights reserved.</copyright>
+	<license>GNU/GPL</license>
+	<!--  The version string is recorded in the components table -->
+	<version>0.1</version>
+	<!-- The description is optional and defaults to the name -->
+	<description>Extension for real estate agency</description>
+
+	<!-- Custom Install Script to execute -->
+	<!--<installfile>install.eventlist.php</installfile>-->
+	
+	<!-- Custom Uninstall Script to execute -->
+	<!--<uninstallfile>uninstall.eventlist.php</uninstallfile>-->
+
+
+	<!-- Site Main File Copy Section -->
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>jea.php</filename>
+		<filename>controller.php</filename>
+		<filename>medias/index.html</filename>
+		<filename>medias/css/jea.css</filename>
+		<filename>medias/css/print.css</filename>
+		<filename>medias/images/close.gif</filename>
+		<filename>medias/images/print.gif</filename>
+		<filename>medias/images/index.html</filename>
+		<filename>medias/js/http.js</filename>
+		<filename>medias/js/jea.js</filename>
+		<filename>medias/js/json.js</filename>
+		<filename>medias/js/index.html</filename>
+		<filename>upload/index.html</filename>
+		<filename>views/index.html</filename>
+		<filename>views/default/index.html</filename>
+		<filename>views/default/metadata.xml</filename>
+		<filename>views/default/view.html.php</filename>
+		<filename>views/default/tmpl/index.html</filename>
+		<filename>views/default/tmpl/default.xml</filename>
+		<filename>views/default/tmpl/default.php</filename>
+		<filename>views/default/tmpl/default_item.php</filename>
+	</files>
+	
+	<!-- Site Main Language File Copy Section -->
+	<languages folder="site">
+		<language tag="fr-FR">fr-FR.com_jea.ini</language>
+	</languages>
+	
+	<!-- Site Main Media File Copy Section -->
+	<!--<media destination="com_test">
+		<filename>image.png</filename>
+		<filename>flash.swf</filename>
+	</media>-->
+	
+	<install>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/install.mysql.utf8.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file charset="utf8" driver="mysql">sql/uninstall.mysql.utf8.sql</file>
+		</sql>
+	</uninstall>
+
+	<administration>
+	
+		<!-- Administration Menu Section -->
+		<menu>Joomla Estate Agency</menu>
+		<submenu>
+			<!-- Note that all & must be escaped to &amp; for the file to be valid XML and be parsed by the installer -->
+			<!--<menu link="option=index.php?option=com_jea&controller=properties&cat=renting">Renting management</menu>-->
+			<!-- Instead of link you can specify individual link attributes -->
+			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=renting">Gestion des locations</menu>
+			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=selling">Gestion des ventes</menu>
+			<menu img="icon" controller="characteristics">Gestion des critères</menu>
+			<menu img="icon" controller="config">Configuration</menu>
+		</submenu>
+		
+		<!-- Administration Main File Copy Section -->
+		<!-- Note the folder attribute: This attribute describes the folder
+			to copy FROM in the package to install therefore files copied
+			in this section are copied from /admin/ in the package -->
+		<files folder="admin">
+			<filename>admin.jea.php</filename>
+			<filename>index.html</filename>
+			<filename>config.xml</filename>
+			<filename>jea.class.php</filename>
+			<filename>AbstractController.php</filename>
+			<filename>controllers/index.html</filename>
+			<filename>controllers/CharacteristicsController.php</filename>
+			<filename>controllers/ConfigController.php</filename>
+			<filename>controllers/IndexController.php</filename>
+			<filename>controllers/PropertiesController.php</filename>
+			<filename>elements/index.html</filename>
+			<filename>elements/areas.php</filename>
+			<filename>elements/departments.php</filename>
+			<filename>elements/towns.php</filename>
+			<filename>elements/types.php</filename>
+			<filename>library/index.html</filename>
+			<filename>library/Http_File.php</filename>
+			<filename>library/FastJSON.class.php</filename>
+			<filename>library/Gd/index.html</filename>
+			<filename>library/Gd/Abstract.php</filename>
+			<filename>library/Gd/Transform.php</filename>
+			<filename>library/Gd/Color.php</filename>
+			<filename>models/index.html</filename>
+			<filename>models/Config.xml</filename>
+			<filename>models/characteristicsmodel.php</filename>
+			<filename>models/propertiesmodel.php</filename>
+			<filename>tables/index.html</filename>
+			<filename>tables/advantages.php</filename>
+			<filename>tables/areas.php</filename>
+			<filename>tables/conditions.php</filename>
+			<filename>tables/departments.php</filename>
+			<filename>tables/heatingtypes.php</filename>
+			<filename>tables/hotwatertypes.php</filename>
+			<filename>tables/properties.php</filename>
+			<filename>tables/slogans.php</filename>
+			<filename>tables/towns.php</filename>
+			<filename>tables/types.php</filename>
+			<filename>views/index.html</filename>
+			<filename>views/characteristics.html.php</filename>
+			<filename>views/config.html.php</filename>
+			<filename>views/index.html.php</filename>
+			<filename>views/properties.html.php</filename>
+			<filename>views/tmpl/index.html</filename>
+			<filename>views/tmpl/config.php</filename>
+			<filename>views/tmpl/default.php</filename>
+			<filename>views/tmpl/editcharacteristic.php</filename>
+			<filename>views/tmpl/editproperty.php</filename>
+			<filename>views/tmpl/jea.css</filename>
+			<filename>views/tmpl/listcharacteristics.php</filename>
+			<filename>views/tmpl/listproperties.php</filename>
+			<filename>sql/install.mysql.utf8.sql</filename>
+			<filename>sql/uninstall.mysql.utf8.sql</filename>
+		</files>
+		
+		<!-- Administration Language File Copy Section -->
+		<languages folder="admin">
+			<language tag="fr-FR">fr-FR.com_jea.ini</language>
+		</languages>
+		
+		<!-- Administration Main Media File Copy Section -->
+		<!--<media folder="admin" destination="com_test">
+			<filename>admin-image.png</filename>
+			<filename>admin-flash.swf</filename>
+		</media>-->
+	</administration>
+</install>

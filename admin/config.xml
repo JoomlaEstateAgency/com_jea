@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<params>
+
+		<param name="sort_price" type="radio" default="0" label="Sort by price" description="PARAMSLISTSSORTPRICE" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_livingspace" type="radio" default="0" label="Sort by living space" description="PARAMSLISTSSORTLIVINGSPACE" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_livingarea" type="radio" default="0" label="Sort by living area" description="PARAMSLISTSSORTLIVINGAREA" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>		
+		<param name="list_limit" type="text" size="3" default="10" label="List limit" description="PARAMSLISTLIMIT"  />	
+		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+	</params>
+</config>

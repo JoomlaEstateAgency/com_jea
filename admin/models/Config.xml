@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<name>JEA Config Form</name>
+
+	<params group="units" addpath="/administrator/components/com_jea/elements" >
+		<param name="surface_measure" type="list" default="" label="Unite de surface" description="PARAMSURFACEMEASURE">
+			<option value="m²">m²</option>
+			<option value="Sq. Ft.">Sq. Ft.</option>
+		</param>
+	</params>
+	
+	<params group="currency">
+		<param name="currency_symbol" type="text" size="5" default="€" label="Symbole monetaire" description="PARAMSCURRENCYSYMBOL"  />
+		<param name="thousands_separator" type="text" size="1" default=" " label="Separateur des centaines" description="PARAMSTHOUSANDSEPARATOR"  />
+		<param name="decimals_separator" type="text" size="1" default="," label="Separateur des decimales" description="PARAMSDECIMALSEPARATOR"  />
+		<param name="symbol_place" type="radio"  default="1" label="Place du symbole" description="PARAMSSYMBOLPLACE"  >
+			<option value="0">Avant</option>
+			<option value="1">Apres</option>
+		</param>
+	</params>
+	
+	<params group="lists">
+		<param name="sort_price" type="radio" default="0" label="Sort by price" description="PARAMSLISTSSORTPRICE" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_livingspace" type="radio" default="0" label="Sort by living space" description="PARAMSLISTSSORTLIVINGSPACE" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_livingarea" type="radio" default="0" label="Sort by living area" description="PARAMSLISTSSORTLIVINGAREA" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>		
+		<param name="list_limit" type="text" size="3" default="10" label="List limit" description="PARAMSLISTLIMIT"  />				
+	</params>
+	
+	<params group="property">
+		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>	
+	</params>
+	
+	<params group="pictures">
+		<param name="jpg_quality" type="text" size="3" default="90" label="Picture quality" description="PARAMSPICTUREQUALITY"  />
+		<param name="max_thumbnails" type="text" size="3" default="120" label="Max thumbnails width" description="PARAMSMAXTHUMBNAILS"  />
+		<param name="max_previews" type="text" size="3" default="400" label="Max previews width" description="PARAMSMAXPREVIEWS"  />					
+	</params>
+	
+</form>

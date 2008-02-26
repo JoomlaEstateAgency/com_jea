@@ -1,0 +1,30 @@
+table th {
+	background:#6779aa;
+	color:#fff;
+	text-align:left;
+	padding-left:4px;
+}
+
+td.spacer_bottom {
+	padding-bottom:10px;
+}
+
+table td {
+	vertical-align : top;
+}
+
+td.label{
+	text-align : right;
+}
+
+label.advantage{
+	display:block;
+	width:150px;
+	margin-right:10px;
+	float:left;
+}
+
+.numberbox{
+	text-align:right;
+	padding-right:2px;
+}
