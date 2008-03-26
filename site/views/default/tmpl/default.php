@@ -103,8 +103,6 @@ $rowsCount = count( $this->rows ) ;
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
 
-	<p class="limitbox"><em><?php echo JText::_('Results per page') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
-
 
 </form>
 <?php endif; ?>

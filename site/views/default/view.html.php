@@ -42,13 +42,9 @@ class JeaViewDefault extends JView
 		    
 		    $this->getItemsList();
 		}
-		
-		$style = '<link rel="stylesheet" type="text/css" href="components/com_jea/medias/css/jea.css" />';
-		$js    = '<script type="text/javascript" src="components/com_jea/medias/js/jea.js"></script>' ;
-		
-		$mainframe =& JFactory::getApplication();
-		$mainframe->addCustomHeadTag($style);
-		$mainframe->addCustomHeadTag($js);
+
+		JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+		JHTML::script('jea.js', 'components/com_jea/medias/js/', false);
 		
 		parent::display($tpl);
 	}
@@ -62,6 +58,7 @@ class JeaViewDefault extends JView
 								                      'limit', 
 								                       $this->params->get('list_limit', 10), 
 								                      'int' );
+								                       
 	    
 		$limitstart	= JRequest::getInt('limitstart', 0);
 		
