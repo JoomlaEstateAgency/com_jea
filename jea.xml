@@ -29,12 +29,7 @@
 		<filename>medias/index.html</filename>
 		<filename>medias/css/jea.css</filename>
 		<filename>medias/css/print.css</filename>
-		<filename>medias/images/close.gif</filename>
-		<filename>medias/images/print.gif</filename>
-		<filename>medias/images/index.html</filename>
-		<filename>medias/js/http.js</filename>
 		<filename>medias/js/jea.js</filename>
-		<filename>medias/js/json.js</filename>
 		<filename>medias/js/index.html</filename>
 		<filename>upload/index.html</filename>
 		<filename>views/index.html</filename>
@@ -45,6 +40,8 @@
 		<filename>views/default/tmpl/default.xml</filename>
 		<filename>views/default/tmpl/default.php</filename>
 		<filename>views/default/tmpl/default_item.php</filename>
+		<filename>views/default/tmpl/search.php</filename>
+		<filename>views/default/tmpl/search.xml</filename>
 	</files>
 	
 	<!-- Site Main Language File Copy Section -->
@@ -105,7 +102,7 @@
 			<filename>elements/types.php</filename>
 			<filename>library/index.html</filename>
 			<filename>library/Http_File.php</filename>
-			<filename>library/FastJSON.class.php</filename>
+			<filename>library/JSON.php</filename>
 			<filename>library/Gd/index.html</filename>
 			<filename>library/Gd/Abstract.php</filename>
 			<filename>library/Gd/Transform.php</filename>
