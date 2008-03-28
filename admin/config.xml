@@ -15,11 +15,6 @@
 		<param name="sort_landspace" type="radio" default="0" label="Sort by land space" description="PARAMSLISTSSORTLANDSPACE" >
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</param>		
-		<param name="list_limit" type="text" size="3" default="10" label="List limit" description="PARAMSLISTLIMIT"  />	
-		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
-			<option value="0">Hide</option>
-			<option value="1">Show</option>
 		</param>
 	</params>
 </config>
