@@ -1,16 +1,7 @@
 <?php // no direct access
-defined('_JEXEC') or die('Restricted access'); ?>
+defined('_JEXEC') or die('Restricted access');
 
-<?php
-$rowsCount = count( $this->rows ) ;
-
-//$prix = ($this->cat=='locations')? 'loyer' : 'prix' ; 
-
-//dump($this->params)	;
-
-					
-
-?>
+$rowsCount = count( $this->rows ) ?>
 
 
 <?php if ( $this->params->get('show_page_title', 0) && $this->params->get('page_title', '') ) : ?>
@@ -132,4 +123,9 @@ $rowsCount = count( $this->rows ) ;
 	<?php endif ?>
 
 </form>
-<?php endif; ?>
+<?php else : ?>
+	<?php if( JRequest::getVar('task') == 'search') : ?>
+		<p><strong><big><?php echo JText::_('No matches found') ?></big></strong></p>
+		<p><a href="javascript:window.history.back()" class="jea_return_link" ><?php echo JText::_('Back')?></a></p>
+	<?php endif ?>
+<?php endif ?>
