@@ -63,10 +63,17 @@ dl.jea_item span.slogan strong {
 	width: 300px;
 	margin-left: 2em;
 	padding-left: 2em;
-	border-left: 1px dashed #b2b4bf
+	border-left: 1px dashed #b2b4bf;
 }
 
 .item_description {
 	margin-top: 2em;
 	margin-bottom: 3em;
+}
+
+#jea_search_form td{
+	padding:0 15px 10px 0;
+}
+#jea_search_form td.jea_label {
+	text-align: right;
 }

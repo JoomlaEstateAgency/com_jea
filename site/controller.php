@@ -22,7 +22,7 @@ jimport('joomla.application.component.controller');
 class JeaController extends JController
 {	
 	
-	function display()
+	function display($tpl='')
 	{
 		// Set a default view if none exists
 		if ( ! JRequest::getCmd( 'view' ) ) {
@@ -45,11 +45,13 @@ class JeaController extends JController
 			$view->setModel($model, true);
 		}
 		
-		if ($model = & $this->getModel( 'PropertiesModel', 'JEA_' )) {
-			// Push the default model into the view
-			$view->setModel($model, true);
-		}
-		
-		parent::display();
+		parent::display($tpl);
 	}
+	
+	function search()
+	{
+		//JRequest::setVar('layout', 'search' );
+		$this->display();
+	}
+	
 }

@@ -17,6 +17,17 @@ $rowsCount = count( $this->rows ) ;
 <h1><?php echo $this->params->get('page_title') ?></h1>
 <?php endif ?>
 
+
+<?php if( JRequest::getVar('task') == 'search') : ?>
+<div class="search_results">
+	<h2><?php echo JText::_('Search result') ?></h2>
+	<h3><?php echo JText::_('Search parameters') ?> :</h3>
+	<?php echo $this->getSearchparameters() ?>
+
+</div>
+
+<?php endif ?>
+
 <?php if( !empty($this->rows) ) : ?>
 
 <form id="jForm" action="<?php echo $this->getViewUrl() ?>" method="post">
@@ -102,7 +113,15 @@ $rowsCount = count( $this->rows ) ;
 	
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
-
+	
+	<?php if( JRequest::getVar('task') == 'search') : ?>
+		<input type="hidden" name="budget_min" value="<?php echo JRequest::getFloat('budget_min', 0) ?>" />
+		<input type="hidden" name="budget_max" value="<?php echo JRequest::getFloat('budget_max', 0) ?>" />
+		<input type="hidden" name="living_space_min" value="<?php echo JRequest::getInt('living_space_min', 0) ?>" />
+		<input type="hidden" name="living_space_max" value="<?php echo JRequest::getInt('living_space_max', 0) ?>" />
+		<input type="hidden" name="rooms_min" value="<?php echo JRequest::getInt('rooms_min', 0) ?>" />
+		<?php echo $this->getAdvantages( '', 'hidden' )?>
+	<?php endif ?>
 
 </form>
 <?php endif; ?>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Search Layout">
+		<message>
+			<![CDATA[SEARCH LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Search Layout</name>
+		<description>SEARCH LAYOUT DESC</description>
+		<params>
+			<param name="filter_town" type="radio" default="1" label="Town filter" description="Show Town list">
+				<option value="0">Show</option>
+				<option value="1">Hide</option>
+			</param>
+		</params>
+	</state>
+</metadata>

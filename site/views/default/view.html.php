@@ -32,6 +32,7 @@ class JeaViewDefault extends JView
 		// Request category
 		$this->cat	= $this->params->get('cat', 'renting');
 		
+		
 		$id	= JRequest::getInt('id', 0);
 		
 		if( $id ){
@@ -63,16 +64,28 @@ class JeaViewDefault extends JView
 		$limitstart	= JRequest::getInt('limitstart', 0);
 		
 		$model =& $this->getModel();
-		$model->setCategory($this->cat);
-		
+
 		$params = array();
 	    $params['offset'] = $limitstart;
 	    $params['limit'] = $limit;
-
-	    $params['type_id'] = $this->params->get('type_id', 0);
-	    $params['department_id'] = $this->params->get('department_id', 0);
-		$params['town_id']= $this->params->get('town_id', 0);
-	    $params['area_id'] = $this->params->get('area_id', 0);
+		
+	    if( JRequest::getVar('task') == 'search'){
+	    	
+	    	$model->setCategory(JRequest::getVar('cat', ''));
+	    	$params['type_id'] = JRequest::getInt('type_id', 0);
+		    $params['department_id'] = JRequest::getInt('department_id', 0);
+			$params['town_id']= JRequest::getInt('town_id', 0);
+	    	
+	    } else {
+	    	
+	    	$model->setCategory($this->cat);
+		    $params['type_id'] = $this->params->get('type_id', 0);
+		    $params['department_id'] = $this->params->get('department_id', 0);
+			$params['town_id']= $this->params->get('town_id', 0);
+			$params['area_id'] = $this->params->get('area_id', 0);
+	    }
+		
+	    
 	    $params['ordering'] = JRequest::getCmd( 'ordering', null );
 		$params['published'] = 1;
 		
@@ -91,9 +104,7 @@ class JeaViewDefault extends JView
 	    
 	    $model =& $this->getModel();
 	    $model->setCategory($this->cat);
-	    
 	    $this->assign( $model->load($id) );
-	    $this->assign(  );
 	}
 	
 	
@@ -174,44 +185,145 @@ class JeaViewDefault extends JView
 	    }
 	}
 	
-	function getAdvantages( $advantages , $format="" )
+	function getAdvantages( $advantages="" , $format="" )
 	{
 	    
-		if ( empty($advantages) ) {
-	        return '';
+		if ( !empty($advantages) ) {
+	        $advantages = explode( '-' , $advantages );
+	    } else {
+	    	$advantages=array();
 	    }
-	    
-	    $advantages = explode( '-' , $advantages );
 	    
 	    $html = '';
 	    
 	    $model = new JEA_CharacteristicsModel('advantages');
 	    $res = $model->getItems();
 	    
-	    foreach ( $res['rows'] as $k=> $row ) {
+	    if ( empty($advantages) && $format == 'checkbox' ) {
+	    	
+	    	foreach ( $res['rows'] as $k=> $row ) {    	
+	        	$html .= '<label class="advantage">'
+	                  .'<input type="checkbox" name="advantages[' . $k . ']" value="'. $row->id .'" />'
+				      . $row->value  . '</label><br />' . PHP_EOL ;
+	    	}
+				  
+	     } elseif ( empty($advantages) && $format == 'hidden' ){
+	     	
+	     	$advantages = JRequest::getVar('advantages', array(), 'default', 'array');
+	     	foreach ( $res['rows'] as $k=> $row  ) {
+	     		if ( in_array($row->id, $advantages) ) {
+	     			 $html .= '<input type="hidden" name="advantages[' . $k . ']" value="'
+	     			       . $row->id .'" />' . PHP_EOL ;
+	     		}
+	     	}
+	     	
+	     } else {
+	     	
+			foreach ( $res['rows'] as $k=> $row ) {
 	        
-	        if ( in_array($row->id, $advantages) ) {
-	            
-	            if ( $format == 'ul' ){
-	                
-	                $html .=  "\t<li>{$row->value}</li>\n";
-
-	            } else {
-	                if ( !isset($count) ){
-		                $html .= $row->value;
-		                $count = 1;
-		            } else {
-		                $html .= ', ' . $row->value;
-		            }
-	            }
-	        }
-	    }
+	        	if ( in_array($row->id, $advantages) ) {
+	        		
+	        		if ( $format == 'ul' ) {
+	        			
+	  					$html .=  "\t<li>{$row->value}</li>\n";
+	  					
+	        		}  else  {
+	        			
+                		if ( !isset($count) ){
+	                		$html .= $row->value;
+	               			$count = 1;
+	            		} else {
+	            			$html .= ', ' . $row->value;
+	            		}
+	        		}
+	        	}
+	    	}
 	    
-	    if ( $format == 'ul' ) {
-	        $html = "<ul>\n{$html}</ul>\n" ;
-	    }
+		    if ( $format == 'ul' ) {
+		        $html = "<ul>\n{$html}</ul>\n" ;
+		    }
+	     }
+
 	   // $html .= '<div style="clear:both">&nbsp</div>';
 	    return $html;
+	}
+	
+	function getSearchparameters()
+	{
+		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'characteristicsmodel.php';
+		
+		$html='';    
+		$html .= '<strong>' . Jtext::_(JRequest::getVar('cat', '')) . '</strong><br />' . PHP_EOL ;
+		
+		if( $type_id = JRequest::getInt('type_id', 0) ) {
+			$model = new JEA_CharacteristicsModel('types');
+			$type = $model->load($type_id);
+			$html .= '<strong>' . Jtext::_('Property type') . ' : </strong>'
+			      . $type->value . '<br />' . PHP_EOL;
+		}
+	   	
+		if( $department_id = JRequest::getInt('department_id', 0) ) {
+			$model = new JEA_CharacteristicsModel('departments');
+			$department = $model->load($department_id);
+			$html .= '<strong>' . Jtext::_('Department') . ' : </strong>'
+			      . $department->value . '<br />' . PHP_EOL;
+		}
+		
+		if( $town_id = JRequest::getInt('town_id', 0) ) {
+			$model = new JEA_CharacteristicsModel('towns');
+			$town = $model->load($town_id);
+			$html .= '<strong>' . Jtext::_('Department') . ' : </strong>'
+			      . $town->value . '<br />' . PHP_EOL;
+		}
+		if( $budget_min = JRequest::getFloat('budget_min', 0) ) {
+			$html .= '<strong>' . Jtext::_('Budget min') . ' : </strong>'
+			      . $this->formatPrice($budget_min) . '<br />' . PHP_EOL;
+		}		
+		
+		if( $budget_max = JRequest::getFloat('budget_max', 0) ) {
+			$html .= '<strong>' . Jtext::_('Budget max') . ' : </strong>'
+			      . $this->formatPrice($budget_max) . '<br />' . PHP_EOL;
+		}
+
+		if( $living_space_min = JRequest::getInt('living_space_min', 0) ) {
+			$html .= '<strong>' . Jtext::_('Living space min') . ' : </strong>'
+			      . $living_space_min .' '. $this->params->get( 'surface_measure' ) . '<br />' . PHP_EOL;
+		}
+
+		if( $living_space_max = JRequest::getInt('living_space_max', 0) ) {
+			$html .= '<strong>' . Jtext::_('Living space max') . ' : </strong>'
+			      . $living_space_max .' '. $this->params->get( 'surface_measure' ) . '<br />' . PHP_EOL;
+		}
+		
+		if( $rooms_min = JRequest::getInt('rooms_min', 0) ) {
+			$html .= '<strong>' . Jtext::_('Minimum number of rooms') . ' : </strong>'
+			      . $rooms_min . '<br />' . PHP_EOL;
+		}
+
+		
+		if ( $advantages = JRequest::getVar('advantages', array(), 'default', 'array') ){
+			
+			$model = new JEA_CharacteristicsModel('advantages');
+			$html .= '<strong>' . Jtext::_('Advantages') . ' : </strong>' . PHP_EOL
+			      . '<ul>'. PHP_EOL ;
+			
+			foreach($advantages as $id){
+				$advantage = $model->load($id);
+				$html .= '<li>' . $advantage->value .'</li>' . PHP_EOL ;
+			}
+			$html .= '</ul>' . PHP_EOL ;
+		}
+		
+		return $html;
+	}
+	
+	
+	
+	function getHtmlList($table, $title, $id ){
+		
+		require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'characteristicsmodel.php';  
+	    $model = new JEA_CharacteristicsModel($table);
+	    return JHTML::_('select.genericlist', $model->getListForHtml($title) , $id, 'class="inputbox" size="1" ' , 'value', 'text', 0); 
 	}
 	
 	
