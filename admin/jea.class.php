@@ -62,9 +62,10 @@ class ComJea
 		    $instance->def('symbol_place', 1);
 		    $instance->def('sort_price', 0);
 		    $instance->def('sort_livingspace', 0);
-		    $instance->def('sort_livingarea', 0);
+		    $instance->def('sort_landspace', 0);
 		    $instance->def('list_limit', 10);
 		    $instance->def('show_print_icon', 1);
+		    $instance->def('show_contactform', 1);
 		    $instance->def('jpg_quality', 90);
 		    $instance->def('max_thumbnails', 120);
 		    $instance->def('max_previews', 400);

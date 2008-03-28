@@ -79,9 +79,9 @@ class JEA_ConfigController extends JEA_AbstractController
      */
     function defaultAction()
     {
-$component =& JComponentHelper::getComponent('com_jea');
+		$component =& JComponentHelper::getComponent('com_jea');
 
-         $t_component =& JTable::getInstance('component');
+        $t_component =& JTable::getInstance('component');
        
         $t_component->load( $component->id );
         $t_component->params='';       

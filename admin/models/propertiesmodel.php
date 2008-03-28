@@ -135,6 +135,39 @@ class JEA_PropertiesModel extends JModel
                 }
             }
         }
+        
+        /**Advanced search**/
+    	if( $budget_min = JRequest::getFloat('budget_min', 0) ) {
+			$where .= ' AND tp.price > ' . $this->_db->getEscaped( $budget_min ) ;
+		}		
+		
+		if( $budget_max = JRequest::getFloat('budget_max', 0) ) {
+			$where .= ' AND tp.price < ' . $this->_db->getEscaped( $budget_max ) ;
+		}
+
+		if( $living_space_min = JRequest::getInt('living_space_min', 0) ) {
+			$where .= ' AND tp.living_space > ' . $this->_db->getEscaped( $living_space_min ) ;
+		}
+
+		if( $living_space_max = JRequest::getInt('living_space_max', 0) ) {
+			$where .= ' AND tp.living_space < ' . $this->_db->getEscaped( $living_space_max ) ;
+		}
+		
+		if( $rooms_min = JRequest::getInt('rooms_min', 0) ) {
+			$where .= ' AND tp.rooms > ' . $this->_db->getEscaped( $rooms_min ) ;
+		}
+        
+        if ( $advantages = JRequest::getVar('advantages', array(), 'default', 'array') ) {
+        	
+        	$likes = array();
+        	
+        	foreach( $advantages as $id ){
+        		$likes[] = ' tp.advantages LIKE \'%-' .  $id .'-%\' ' ;
+        	}
+        	
+        	$where .= ' AND ' . implode('AND', $likes) ;
+        }
+        
 
         $sql  = $this->_getSqlBaseSelect();
         $sql .= $where ;
@@ -333,7 +366,7 @@ class JEA_PropertiesModel extends JModel
 		    
 		    //Sort in order to find easily property advantages in sql where clause
 		    sort( $datas['advantages'] );
-		    $datas['advantages'] = implode('-' ,$datas['advantages'] );
+		    $datas['advantages'] = '-'. implode('-' ,$datas['advantages'] ) . '-';
 		    
 		} else {
 		    

@@ -3,17 +3,17 @@
 	<name>JEA Config Form</name>
 
 	<params group="units" addpath="/administrator/components/com_jea/elements" >
-		<param name="surface_measure" type="list" default="" label="Unite de surface" description="PARAMSURFACEMEASURE">
+		<param name="surface_measure" type="list" default="" label="Surface unit" description="PARAMSURFACEMEASURE">
 			<option value="m²">m²</option>
 			<option value="Sq. Ft.">Sq. Ft.</option>
 		</param>
 	</params>
 	
 	<params group="currency">
-		<param name="currency_symbol" type="text" size="5" default="€" label="Symbole monetaire" description="PARAMSCURRENCYSYMBOL"  />
-		<param name="thousands_separator" type="text" size="1" default=" " label="Separateur des centaines" description="PARAMSTHOUSANDSEPARATOR"  />
-		<param name="decimals_separator" type="text" size="1" default="," label="Separateur des decimales" description="PARAMSDECIMALSEPARATOR"  />
-		<param name="symbol_place" type="radio"  default="1" label="Place du symbole" description="PARAMSSYMBOLPLACE"  >
+		<param name="currency_symbol" type="text" size="5" default="€" label="Currency symbol" description=""  />
+		<param name="thousands_separator" type="text" size="1" default=" " label="Thousands separator" description=""  />
+		<param name="decimals_separator" type="text" size="1" default="," label="Decimals separator" description=""  />
+		<param name="symbol_place" type="radio"  default="1" label="Symbol position" description="PARAMSSYMBOLPLACE"  >
 			<option value="0">Avant</option>
 			<option value="1">Apres</option>
 		</param>
@@ -30,7 +30,7 @@
 			<option value="1">Show</option>
 		</param>
 		
-		<param name="sort_livingarea" type="radio" default="0" label="Sort by living area" description="PARAMSLISTSSORTLIVINGAREA" >
+		<param name="sort_landspace" type="radio" default="0" label="Sort by land space" description="PARAMSLISTSSORTLANDSPACE" >
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>		
@@ -38,14 +38,19 @@
 	</params>
 	
 	<params group="property">
-		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMPRINT">
+		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMSPRINT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
-		</param>	
+		</param>
+		<param name="show_contactform" type="radio" default="1" label="Contact form" description="PARAMSCONTACTFORM">
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+			
 	</params>
 	
 	<params group="pictures">
-		<param name="jpg_quality" type="text" size="3" default="90" label="Picture quality" description="PARAMSPICTUREQUALITY"  />
+		<param name="jpg_quality" type="text" size="3" default="90" label="Pictures quality" description="PARAMSPICTUREQUALITY"  />
 		<param name="max_thumbnails" type="text" size="3" default="120" label="Max thumbnails width" description="PARAMSMAXTHUMBNAILS"  />
 		<param name="max_previews" type="text" size="3" default="400" label="Max previews width" description="PARAMSMAXPREVIEWS"  />					
 	</params>

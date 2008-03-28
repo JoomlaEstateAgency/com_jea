@@ -1,0 +1,9 @@
+Joomla Estate Agency          News
+==================================
+
+=RELEASE 0.2 / -2008=
+-Fix bug on list limit in front
+
+
+=RELEASE 0.1 / 26-mar-2008=
+- Initial public code drop

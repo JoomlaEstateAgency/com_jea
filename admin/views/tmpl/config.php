@@ -40,25 +40,25 @@ function submitbutton( pressbutton, section ) {
 <table cellspacing="0" cellpadding="0" border="0" width="100%" >
 	<tr>
 		<td valign="top" width="50%" style="padding-right:10px;">
-			<fieldset><legend>Units and measure</legend> 
+			<fieldset><legend><?php echo JText::_('Units of measurement') ?></legend> 
 			    <?php echo $this->form->render('units', 'units') ?>
 			</fieldset>
 	
-			<fieldset><legend>Currency format</legend> 
+			<fieldset><legend><?php echo JText::_('Currency format') ?></legend> 
 			    <?php echo $this->form->render('currency', 'currency') ?>
 			</fieldset>
 	
-			<fieldset><legend>Property detail</legend> 
+			<fieldset><legend><?php echo JText::_('Property detail') ?></legend> 
 			    <?php echo $this->form->render('property', 'property') ?>
 			</fieldset>
 		</td>
 		
 		<td valign="top" width="50%">
-			<fieldset><legend>Lists</legend> 
+			<fieldset><legend><?php echo JText::_('Lists') ?></legend> 
 			    <?php echo $this->form->render('lists', 'lists') ?>
 			</fieldset>
 	
-			<fieldset><legend>Pictures</legend> 
+			<fieldset><legend><?php echo JText::_('Pictures') ?></legend> 
 			    <?php echo $this->form->render('pictures', 'pictures') ?>
 			</fieldset>
 		</td>

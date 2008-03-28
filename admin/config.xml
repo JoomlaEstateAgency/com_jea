@@ -12,7 +12,7 @@
 			<option value="1">Show</option>
 		</param>
 		
-		<param name="sort_livingarea" type="radio" default="0" label="Sort by living area" description="PARAMSLISTSSORTLIVINGAREA" >
+		<param name="sort_landspace" type="radio" default="0" label="Sort by land space" description="PARAMSLISTSSORTLANDSPACE" >
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>		
