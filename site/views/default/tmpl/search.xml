@@ -9,7 +9,7 @@
 		<name>Search Layout</name>
 		<description>SEARCH LAYOUT DESC</description>
 		<params>
-			<param name="filter_town" type="radio" default="1" label="Town filter" description="Show Town list">
+			<param name="advanced_search" type="radio" default="0" label="Advanced search" description="Show Advanced search">
 				<option value="0">Show</option>
 				<option value="1">Hide</option>
 			</param>
