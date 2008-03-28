@@ -6,6 +6,14 @@
 	text-align: center;
 }
 
+.jea_tools {
+	float: right;	
+}
+
+.jea_tools img{
+	border:none;
+}
+
 /*format list */
 .limitbox {
 	text-align: right;

@@ -33,7 +33,18 @@ $rowsCount = count( $this->rows ) ;
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
 	
 	<div class="clr" ></div>
-	<p><a href="javascript:changeOrdering('price')"><?php echo JText::_('Sort by price') ?></a></p>
+	
+	<div id="sort options">
+		<?php if ( $this->params->get('sort_price') ): ?>
+		<a href="javascript:changeOrdering('price')"><?php echo JText::_('Sort by price') ?></a><br />
+		<?php endif ?>
+		<?php if ( $this->params->get('sort_livingspace') ): ?>
+		<a href="javascript:changeOrdering('living_space')"><?php echo JText::_('Sort by living space') ?></a><br />
+		<?php endif ?>
+		<?php if ( $this->params->get('sort_landspace') ): ?>
+		<a href="javascript:changeOrdering('land_space')"><?php echo JText::_('Sort by land space') ?></a><br />
+		<?php endif ?>
+	</div>
 	
 	<p class="limitbox"><em><?php echo JText::_('Results per page') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
 	

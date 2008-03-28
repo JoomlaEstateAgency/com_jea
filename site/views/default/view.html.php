@@ -141,7 +141,7 @@ class JeaViewDefault extends JView
 	
 	
 	
-	function getViewUrl ( $id=0 )
+	function getViewUrl ( $id=0, $params='' )
 	{
 	    $url = 'index.php?option=com_jea&view=default&Itemid=' . JRequest::getInt('Itemid', 0 ) ;
 	    
@@ -149,7 +149,7 @@ class JeaViewDefault extends JView
 	        $url .= '&id=' . intval( $id ) ;
 	    }
 	    
-	    return JRoute::_( $url );
+	    return JRoute::_( $url . $params );
 	}
 	
 	function formatPrice ( $price , $default="" )

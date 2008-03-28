@@ -12,7 +12,13 @@ defined('_JEXEC') or die('Restricted access');
   <?php echo $this->getPrevNextItems( $this->row->id ) ?>
 </p>
 
-<a href="javascript:window.history.back()" class="jea_return_link" ><?php echo JText::_('Back')?></a>
+
+
+<?php if ( $this->params->get('show_print_icon') ): ?>
+		<div class="jea_tools">
+		<a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a><br />
+		</div>
+<?php endif ?>
 
 <h1> <?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($this->row->type), $this->escape($this->row->town) ) ) ?> </h1>
     
@@ -148,27 +154,30 @@ defined('_JEXEC') or die('Restricted access');
  <?php echo $this->row->description ?> 
  </div>
 
-<!--     
-<form action="#" method="post" enctype="application/x-www-form-urlencoded">
+<?php if ( $this->params->get('show_contactform') ): ?>
+    
+<form action="<?php echo $this->getViewUrl ($this->row->id,'&task=sendmail' ) ?>" method="post" enctype="application/x-www-form-urlencoded">
 
-	<fieldset><legend>Ce bien vous int�resse? Laissez-nous votre message</legend>
-		<p><label for="auteur">Auteur :</label><br />
-		   <input type="text" name="auteur" id="auteur" value="" size="40" />
+	<fieldset><legend><?php echo JText::_('FORMCONTACTLEGEND') ?></legend>
+		<p><label for="name"><?php echo JText::_('Name') ?> :</label><br />
+		   <input type="text" name="name" id="name" value="<?php echo JRequest::getVar('name', '') ?>" size="40" />
 		</p>
 		
-		<p><label for="email">Email :</label><br />
-		   <input type="text" name="email" id="email" value="" size="40" />
+		<p><label for="email"><?php echo JText::_('Email') ?> :</label><br />
+		   <input type="text" name="email" id="email" value="<?php echo JRequest::getVar('email', '') ?>" size="40" />
 		</p>
 		
-		<p><label for="sujet">Sujet :</label><br />
-		   <input type="text" name="sujet" id="sujet" value="Ref : <?php echo $this->escape( $this->row->ref ) ?>" size="40" />
+		<p><label for="subject"><?php echo JText::_('Subject') ?> :</label><br />
+		   <input type="text" name="subject" id="subject" value="Ref : <?php echo $this->escape( $this->row->ref ) ?>" size="40" />
 		</p>
 		
-		<p><label for="e_message">Message :</label><br /> 
-		   <textarea name="e_message" id="e_message" rows="10" cols="40"></textarea>
+		<p><label for="e_message"><?php echo JText::_('Message') ?> :</label><br /> 
+		   <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo JRequest::getVar('e_message', '') ?></textarea>
 		</p>
-		<p><input type="submit" value="Envoyer" /></p>
+		<p><input type="submit" value="<?php echo JText::_('Send') ?>" /></p>
 	
 	</fieldset>
-</form>-->   
+</form>  
+<?php endif  ?>
 
+<p><a href="javascript:window.history.back()" class="jea_return_link" ><?php echo JText::_('Back')?></a></p>

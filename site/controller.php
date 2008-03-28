@@ -53,4 +53,41 @@ class JeaController extends JController
 		$this->display();
 	}
 	
+	function sendmail()
+	{
+		jimport('joomla.mail.helper');
+		jimport('joomla.utilities.utility');
+		$config =& JFactory::getConfig();
+		
+		$email = JMailHelper::cleanAddress( JRequest::getVar('email', '') );
+		$name = JRequest::getVar('name', '');
+		$subject = JRequest::getVar('subject', '') . ' [' .$config->getValue('fromname', '') . ']';
+		$message = JRequest::getVar('e_message', '');			
+		
+		/*verification */
+		if ( empty($name) ) {
+			JError::raiseWarning( 500, JText::_( 'You must to specify your name'));
+			
+		} elseif ( !JMailHelper::isEmailAddress($email) ) {
+			JError::raiseWarning( 500, JText::sprintf( 'Invalid email', $email ));
+			
+		} else {
+			
+			$reciptient = $config->getValue('mailfrom', '');
+			$sendOk = JUtility::sendMail($email, $name, $reciptient ,$subject , $message, false);
+							   
+			if( $sendOk ) {
+				
+				$mainframe =& JFactory::getApplication();
+				$mainframe->enqueueMessage(JText::_('Message successfully sent'));
+				
+				JRequest::setVar('name' , '');
+				JRequest::setVar('subject', '');
+				JRequest::setVar('email', '');
+				JRequest::setVar('e_message', '');
+			}
+		}		
+		$this->display();
+	}
+	
 }
