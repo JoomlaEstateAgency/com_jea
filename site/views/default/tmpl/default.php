@@ -19,13 +19,10 @@ $rowsCount = count( $this->rows ) ;
 
 
 <?php if( JRequest::getVar('task') == 'search') : ?>
-<div class="search_results">
-	<h2><?php echo JText::_('Search result') ?></h2>
-	<h3><?php echo JText::_('Search parameters') ?> :</h3>
+<div class="search_parameters">
+	<h2><?php echo JText::_('Search parameters') ?> :</h2>
 	<?php echo $this->getSearchparameters() ?>
-
 </div>
-
 <?php endif ?>
 
 <?php if( !empty($this->rows) ) : ?>
@@ -76,7 +73,7 @@ $rowsCount = count( $this->rows ) ;
 		<?php endif ?>
 			
 		<?php echo $this->cat == 'renting' ? JText::_('Renting price') :  JText::_('Selling price') ?> : 
-		<strong> <?php echo $this->formatPrice( $row->price , JText::_('Consult us') ) ?></strong>
+		<strong> <?php echo $this->formatPrice( floatval($row->price) , JText::_('Consult us') ) ?></strong>
 		<br />
 		
 		<?php 

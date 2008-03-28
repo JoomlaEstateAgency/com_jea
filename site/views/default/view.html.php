@@ -154,8 +154,9 @@ class JeaViewDefault extends JView
 	
 	function formatPrice ( $price , $default="" )
 	{
-
-	    if ( $price ) {
+		
+	    
+		if ( !empty($price) ) {
 	        
 	        //decode charset before using number_format
 	        jimport('joomla.utilities.string');

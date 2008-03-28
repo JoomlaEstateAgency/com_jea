@@ -44,7 +44,10 @@ $ajax = '0';
   		</tr>
   	</table>
   	<p><?php echo JText::_('Minimum number of rooms') ?>  : <input type="text" name="rooms_min" size="1" /></p>
-  	<p><?php echo $this->getAdvantages('', 'checkbox') ?></p>
+  	
+  	<p><?php echo JText::_('Advantages') ?> : <br />
+  	<?php echo $this->getAdvantages('', 'checkbox') ?>
+  	</p>
   	
   	</fieldset>
   	<p><input type="submit" class="button" value="<?php echo JText::_('Search') ?>" /></p>

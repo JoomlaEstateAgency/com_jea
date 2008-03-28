@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
   <?php echo $this->getPrevNextItems( $this->row->id ) ?>
 </p>
 
-<a href="<?php echo $this->getViewUrl() ?>" class="jea_return_link" ><?php echo JText::_('Return to the list')?></a>
+<a href="javascript:window.history.back()" class="jea_return_link" ><?php echo JText::_('Back')?></a>
 
 <h1> <?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($this->row->type), $this->escape($this->row->town) ) ) ?> </h1>
     
@@ -71,20 +71,21 @@ defined('_JEXEC') or die('Restricted access');
       <tr>
    
          <td><?php echo $this->row->is_renting ?  JText::_('Renting price') : JText::_('Selling price') ?></td>
-         <td> : <strong><?php echo $this->formatPrice( $this->row->price , JText::_('Consult us') ) ?></strong></td>
+
+         <td> : <strong><?php echo $this->formatPrice( floatval($this->row->price) , JText::_('Consult us') ) ?></strong></td>
       </tr>
       
    <?php if ( $this->row->charges ): ?> 
    <tr>
      <td><?php echo JText::_('Charges') ?></td>
-     <td> : <strong><?php echo $this->formatPrice( $this->row->charges ) ?></strong></td>
+     <td> : <strong><?php echo $this->formatPrice( floatval($this->row->charges), JText::_('Consult us') ) ?></strong></td>
    </tr>
    <?php endif  ?>
    
    <?php if ($this->row->fees): ?> 
    <tr>
      <td><?php echo JText::_('Fees') ?></td>
-     <td> : <strong><?php echo $this->formatPrice( $this->row->fees ) ?></strong></td>
+     <td> : <strong><?php echo $this->formatPrice( floatval($this->row->fees), JText::_('Consult us') ) ?></strong></td>
    </tr>
       <?php endif  ?>
       
@@ -150,7 +151,7 @@ defined('_JEXEC') or die('Restricted access');
 <!--     
 <form action="#" method="post" enctype="application/x-www-form-urlencoded">
 
-	<fieldset><legend>Ce bien vous intéresse? Laissez-nous votre message</legend>
+	<fieldset><legend>Ce bien vous intï¿½resse? Laissez-nous votre message</legend>
 		<p><label for="auteur">Auteur :</label><br />
 		   <input type="text" name="auteur" id="auteur" value="" size="40" />
 		</p>

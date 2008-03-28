@@ -50,7 +50,6 @@ class JeaController extends JController
 	
 	function search()
 	{
-		//JRequest::setVar('layout', 'search' );
 		$this->display();
 	}
 	
