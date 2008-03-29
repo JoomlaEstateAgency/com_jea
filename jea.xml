@@ -30,6 +30,7 @@
 		<filename>medias/css/jea.css</filename>
 		<filename>medias/css/print.css</filename>
 		<filename>medias/js/jea.js</filename>
+		<filename>medias/js/search.js</filename>
 		<filename>medias/js/index.html</filename>
 		<filename>upload/index.html</filename>
 		<filename>views/index.html</filename>
@@ -90,6 +91,7 @@
 			<filename>config.xml</filename>
 			<filename>jea.class.php</filename>
 			<filename>AbstractController.php</filename>
+			<filename>NEWS.txt</filename>
 			<filename>controllers/index.html</filename>
 			<filename>controllers/CharacteristicsController.php</filename>
 			<filename>controllers/ConfigController.php</filename>

@@ -3,7 +3,12 @@ Joomla Estate Agency          News
 
 =RELEASE 0.2 / -2008=
 -Fix bug on list limit in front
-
+-Search engine implementation
+-Language update
+-Refactor some code
+-Contact form implementation
+-Breadcrumb and title supports
+-AJAX search support
 
 =RELEASE 0.1 / 26-mar-2008=
 - Initial public code drop
