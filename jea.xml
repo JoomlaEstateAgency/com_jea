@@ -20,7 +20,6 @@
 	<!-- Custom Uninstall Script to execute -->
 	<!--<uninstallfile>uninstall.eventlist.php</uninstallfile>-->
 
-
 	<!-- Site Main File Copy Section -->
 	<files folder="site">
 		<filename>index.html</filename>
