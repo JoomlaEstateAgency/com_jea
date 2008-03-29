@@ -15,7 +15,7 @@ JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
 		</div>
 <?php endif ?>
 
-<h1> <?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($this->row->type), $this->escape($this->row->town) ) ) ?> </h1>
+<h1> <?php echo $this->page_title ?> </h1>
     
 <?php if( !empty($this->secondaries_images)): ?>
 <div class="snd_imgs" >
