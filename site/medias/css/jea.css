@@ -85,3 +85,7 @@ dl.jea_item span.slogan strong {
 #jea_search_form td.jea_label {
 	text-align: right;
 }
+
+#jea_search_form select {
+	width:12em;
+}

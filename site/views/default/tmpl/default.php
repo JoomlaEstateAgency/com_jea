@@ -1,7 +1,9 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$rowsCount = count( $this->rows ) ?>
+JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+$rowsCount = count( $this->rows );
+?>
 
 
 <?php if ( $this->params->get('show_page_title', 0) && $this->params->get('page_title', '') ) : ?>

@@ -43,8 +43,7 @@ class JeaViewDefault extends JView
 		    
 		    $this->getItemsList();
 		}
-
-		JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+		
 		JHTML::script('jea.js', 'components/com_jea/medias/js/', false);
 		
 		parent::display($tpl);
@@ -326,8 +325,5 @@ class JeaViewDefault extends JView
 	    $model = new JEA_CharacteristicsModel($table);
 	    return JHTML::_('select.genericlist', $model->getListForHtml($title) , $id, 'class="inputbox" size="1" ' , 'value', 'text', 0); 
 	}
-	
-	
-	
 	
 }

@@ -1,11 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
-
-
-//$mainframe->appendPathWay(ucfirst(htmlentities($this->row->type)) . ' sur ' . $this->row->ville );
-
-//$pdf_image = mosAdminMenus::ImageCheck( 'pdf_button.png', '/images/M_images/', NULL, NULL, _CMN_PDF, _CMN_PDF );
-//$print_image = mosAdminMenus::ImageCheck( 'printButton.png', '/images/M_images/', NULL, NULL, _CMN_PRINT, _CMN_PRINT );
+JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
 ?>
 
 <p class="pagenavigation">

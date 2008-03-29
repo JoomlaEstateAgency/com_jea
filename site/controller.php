@@ -22,7 +22,10 @@ jimport('joomla.application.component.controller');
 class JeaController extends JController
 {	
 	
-	function display($tpl='')
+    /**
+	 * Custom Constructor
+	 */
+	function JeaController( $default = array() )
 	{
 		// Set a default view if none exists
 		if ( ! JRequest::getCmd( 'view' ) ) {
@@ -31,6 +34,13 @@ class JeaController extends JController
 		}
 		
 		$this->addModelPath( JPATH_COMPONENT_ADMINISTRATOR.DS.'models' );
+		
+		parent::__construct( $default );
+	}
+	
+	function display($tpl='')
+	{
+		
 		
 		$document =& JFactory::getDocument();
 
@@ -50,7 +60,64 @@ class JeaController extends JController
 	
 	function search()
 	{
-		$this->display();
+		$json = JRequest::getVar('json', $jsontest);
+		if(empty($json)) {
+			
+			$this->display();
+			
+		} else {
+			
+			require JPATH_COMPONENT_ADMINISTRATOR . DS. 'library' . DS .'JSON.php' ;
+			$document = & JFactory::getDocument();
+			$document->setMimeEncoding('application/json') ;
+			
+			$jsonService = new Services_JSON(); 
+			$post = $jsonService->decode($json);
+			
+			$params['published'] = 1;
+			$params['type_id'] = isset($post->type_id)? $post->type_id : 0;
+		    $params['department_id'] = isset($post->department_id)? $post->department_id : 0;
+			$params['town_id']= isset($post->town_id)? $post->town_id : 0;
+			$cat = isset($post->cat)? $post->cat : 0;
+			
+			$model = & $this->getModel( 'PropertiesModel', 'JEA_' );
+			$model->setCategory($cat);
+			$res = $model->getItems($params);
+		
+			$result = array();
+			$result['types'][] = array( 'value' => 0, 'text' => '- '. Jtext::_('Property type') .' -' );
+			$result['towns'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('town') .' -' );
+			$result['departments'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('Department') .' -' );
+		
+			$temp = array();
+			$temp['types'] = array();
+			$temp['towns'] = array();
+			$temp['departments'] = array();
+		
+			foreach ($res['rows'] as $row){
+	
+			    if( $row->type_id && !isset($temp['types'][$row->type_id]) ) {
+			            
+			            $result['types'][] = array( 'value' => $row->type_id , 'text' =>  $row->type );
+			            $temp['types'][$row->type_id] = true;
+			    }
+			    
+			    if($row->town_id && !isset($temp['towns'][$row->town_id]) ) {
+			        
+			            $result['towns'][] = array( 'value' => $row->town_id , 'text' =>  $row->town );
+			            $temp['towns'][$row->town_id] = true;
+			    }
+			    
+			    if($row->department_id && !isset($temp['departments'][$row->department_id]) ) {
+	
+			            $result['departments'][] = array( 'value' => $row->department_id , 'text' =>  $row->department );
+			            $temp['departments'][$row->department_id] = true ;
+			    }
+			}
+			
+			echo $jsonService->encode($result);
+		}
+		
 	}
 	
 	function sendmail()
