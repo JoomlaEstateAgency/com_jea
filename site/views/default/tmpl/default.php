@@ -27,7 +27,7 @@ $rowsCount = count( $this->rows );
 	
 	<div class="clr" ></div>
 	
-	<div id="sort options">
+	<div id="sort_options">
 		<?php if ( $this->params->get('sort_price') ): ?>
 		<a href="javascript:changeOrdering('price')"><?php echo JText::_('Sort by price') ?></a><br />
 		<?php endif ?>
