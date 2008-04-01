@@ -60,7 +60,7 @@ class JeaController extends JController
 	
 	function search()
 	{
-		$json = JRequest::getVar('json', $jsontest);
+		$json = JRequest::getVar('json', '');
 		if(empty($json)) {
 			
 			$this->display();
