@@ -162,7 +162,7 @@ class JeaController extends JController
 			
 			$reciptient = $config->getValue('mailfrom', '');
 			$sendOk = JUtility::sendMail($email, $name, $reciptient ,$subject , $message, false);
-							   
+						   
 			if( $sendOk ) {
 				
 				$mainframe =& JFactory::getApplication();
@@ -172,6 +172,9 @@ class JeaController extends JController
 				JRequest::setVar('subject', '');
 				JRequest::setVar('email', '');
 				JRequest::setVar('e_message', '');
+			} else {
+				JError::raiseWarning( 500, JText::_( 'SENDMAIL_ERROR_MSG'));
+				
 			}
 		}		
 		$this->display();
