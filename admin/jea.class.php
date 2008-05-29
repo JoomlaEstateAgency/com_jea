@@ -54,10 +54,24 @@ class ComJea
 		    
 		    $instance =& JComponentHelper::getParams('com_jea');
 		    
+		    // fix bug #10973] Warning: cannot yet handle MBCS in html_entity_decode()!
+		    
+		    if( (int) PHP_VERSION < 5){	    	
+		    	$surface_measure = html_entity_decode( 'm&sup2;', ENT_COMPAT, 'UTF-8' );
+		    	$currency_symbol = html_entity_decode( '&euro;', ENT_COMPAT, 'UTF-8' ) ;
+		    	$thousands_separator = html_entity_decode( '&nbsp;', ENT_COMPAT, 'UTF-8' );
+		    } else {
+		    	$surface_measure = utf8_encode(html_entity_decode( 'm&sup2;', ENT_COMPAT, 'ISO-8859-15' ));
+		    	$currency_symbol = utf8_encode(html_entity_decode( '&euro;', ENT_COMPAT, 'ISO-8859-15' )) ;
+		    	$thousands_separator = utf8_encode(html_entity_decode( '&nbsp;', ENT_COMPAT, 'ISO-8859-15' ));
+		    }
+		    
+		    //--end
+		    
 		    //Sets a default values if not already assigned
-		    $instance->def('surface_measure', html_entity_decode( 'm&sup2;', ENT_COMPAT, 'UTF-8' ));
-		    $instance->def('currency_symbol', html_entity_decode( '&euro;', ENT_COMPAT, 'UTF-8' ));
-		    $instance->def('thousands_separator', html_entity_decode( '&nbsp;', ENT_COMPAT, 'UTF-8' ));
+		    $instance->def('surface_measure', $surface_measure);
+		    $instance->def('currency_symbol', $currency_symbol);
+		    $instance->def('thousands_separator', $thousands_separator);
 		    $instance->def('decimals_separator', ',');
 		    $instance->def('symbol_place', 1);
 		    $instance->def('sort_price', 0);
