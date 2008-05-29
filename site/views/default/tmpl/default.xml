@@ -15,7 +15,6 @@
 			</param>
 		</params>
 		<advanced addpath="/administrator/components/com_jea/elements">
-			
 			<param name="type_id" type="types" default="0" label="Property type" description="Filter on property type" />
 			<param name="department_id" type="departments" default="0" label="Department" description="Filter on department" />
 			<param name="town_id" type="towns" default="0" label="Town" description="Filter on town" />

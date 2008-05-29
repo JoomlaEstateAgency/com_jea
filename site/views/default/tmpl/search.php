@@ -79,5 +79,6 @@ if ($use_ajax ) {
 <?php endif ?>
     
     <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>">
+    <input type="hidden" name="newsearch" value="true">
   
 </form>

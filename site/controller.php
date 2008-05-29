@@ -33,6 +33,11 @@ class JeaController extends JController
 			JRequest::setVar('view', 'default' );
 		}
 		
+		//clear search session if there is not a search
+		if( ( JRequest::getVar( 'task' ) != 'search' ) &&  ( isset( $_SESSION['jea_search'] ) ) ) {
+			unset( $_SESSION['jea_search'] );
+		}
+		
 		$this->addModelPath( JPATH_COMPONENT_ADMINISTRATOR.DS.'models' );
 		
 		parent::__construct( $default );
@@ -62,6 +67,21 @@ class JeaController extends JController
 	{
 		$json = JRequest::getVar('json', '');
 		if(empty($json)) {
+			
+			if ( JRequest::getCmd( 'newsearch' ) ) {
+			
+				$session =& JFactory::getSession();
+				$session->set('cat', JRequest::getVar('cat', ''), 'jea_search');
+				$session->set('type_id', JRequest::getInt('type_id', 0) , 'jea_search');
+				$session->set('department_id', JRequest::getInt('department_id', 0) , 'jea_search');
+				$session->set('town_id', JRequest::getInt('town_id', 0) , 'jea_search');
+				$session->set('budget_min', JRequest::getInt('budget_min', 0) , 'jea_search');
+				$session->set('budget_max', JRequest::getInt('budget_max', 0) , 'jea_search');
+				$session->set('living_space_min', JRequest::getInt('living_space_min', 0) , 'jea_search');
+				$session->set('living_space_max', JRequest::getInt('living_space_max', 0) , 'jea_search');
+				$session->set('rooms_min', JRequest::getInt('rooms_min', 0) , 'jea_search');
+				$session->set('advantages', JRequest::getVar('advantages', array(), 'default', 'array'), 'jea_search');
+			}
 			
 			$this->display();
 			

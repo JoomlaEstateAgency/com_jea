@@ -114,15 +114,6 @@ $rowsCount = count( $this->rows );
 	
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
-	
-	<?php if( JRequest::getVar('task') == 'search') : ?>
-		<input type="hidden" name="budget_min" value="<?php echo JRequest::getFloat('budget_min', 0) ?>" />
-		<input type="hidden" name="budget_max" value="<?php echo JRequest::getFloat('budget_max', 0) ?>" />
-		<input type="hidden" name="living_space_min" value="<?php echo JRequest::getInt('living_space_min', 0) ?>" />
-		<input type="hidden" name="living_space_max" value="<?php echo JRequest::getInt('living_space_max', 0) ?>" />
-		<input type="hidden" name="rooms_min" value="<?php echo JRequest::getInt('rooms_min', 0) ?>" />
-		<?php echo $this->getAdvantages( '', 'hidden' )?>
-	<?php endif ?>
 
 </form>
 <?php else : ?>
