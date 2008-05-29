@@ -41,6 +41,6 @@ class JElementTowns extends JElement
 		//unshift default option
 		array_unshift($res, JHTML::_('select.option', '0', $default ));
 
-	     return JHTML::_('select.genericlist', $res , 'town_id', 'class="inputbox" size="1" ' , 'value', 'text', $value);
+	     return JHTML::_('select.genericlist', $res , $control_name.'['.$name.']', 'class="inputbox" size="1" ' , 'value', 'text', $value);
 	}
 }

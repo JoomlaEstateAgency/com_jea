@@ -137,27 +137,30 @@ class JEA_PropertiesModel extends JModel
         }
         
         /**Advanced search**/
-    	if( $budget_min = JRequest::getFloat('budget_min', 0) ) {
+        
+        $session =& JFactory::getSession();
+        
+    	if( $budget_min = $session->get('budget_min', 0.0, 'jea_search') ) {
 			$where .= ' AND tp.price > ' . $this->_db->getEscaped( $budget_min ) ;
-		}		
+		}
 		
-		if( $budget_max = JRequest::getFloat('budget_max', 0) ) {
+		if( $budget_max = $session->get('budget_max', 0.0, 'jea_search') ) {
 			$where .= ' AND tp.price < ' . $this->_db->getEscaped( $budget_max ) ;
 		}
 
-		if( $living_space_min = JRequest::getInt('living_space_min', 0) ) {
+		if( $living_space_min = $session->get('living_space_min', 0, 'jea_search') ) {
 			$where .= ' AND tp.living_space > ' . $this->_db->getEscaped( $living_space_min ) ;
 		}
 
-		if( $living_space_max = JRequest::getInt('living_space_max', 0) ) {
+		if( $living_space_max = $session->get('living_space_max', 0, 'jea_search' ) ) {
 			$where .= ' AND tp.living_space < ' . $this->_db->getEscaped( $living_space_max ) ;
 		}
 		
-		if( $rooms_min = JRequest::getInt('rooms_min', 0) ) {
+		if( $rooms_min = $session->get('rooms_min', 0, 'jea_search') ) {
 			$where .= ' AND tp.rooms > ' . $this->_db->getEscaped( $rooms_min ) ;
 		}
         
-        if ( $advantages = JRequest::getVar('advantages', array(), 'default', 'array') ) {
+        if ( $advantages = $session->get('advantages', array(), 'jea_search') ) {
         	
         	$likes = array();
         	
@@ -448,12 +451,11 @@ class JEA_PropertiesModel extends JModel
             $gd->load( $upload_dir.DS.'preview.jpg' );
             	
             //make min
-            $gd->resize( null, 90 ); //height 90px 
+            $gd->resize( null, 90 ); //default max height : 90px 
             if ($gd->getSize('width') > $config->get('max_thumbnails', 120) ) {
-                $gd->resize( $config->get('max_thumbnails', 120), null); //height :170px;
+                $gd->resize( $config->get('max_thumbnails', 120), null);
             }
-            	
-            //$gd->centerCrop(170,128);
+            
             $gd->saveToJpeg($upload_dir.DS.'min.jpg', $config->get( 'jpg_quality' , 90) );
         }
 
@@ -485,9 +487,9 @@ class JEA_PropertiesModel extends JModel
             $gd->load( $preview_dir.DS.$fileName );
             	
             //make min
-            //$gd->resize(170,null);
-            //$gd->centerCrop(170,128);
-            $gd->resize( null, 90 ); //height :90px;
+
+            //$gd->centerCrop([w],[h]);
+            $gd->resize( null, 90 ); //default max height : 90px 
             if ( $gd->getSize( 'width' ) > $config->get('max_thumbnails', 120) ) {
                 $gd->resize( $config->get('max_thumbnails', 120) , null ); //height :90px;
             }
