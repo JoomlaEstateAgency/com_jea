@@ -1,7 +1,12 @@
 Joomla Estate Agency          News
 ==================================
+=RELEASE 0.3 / 05-2008=
+-fix search bugs
+-fix bug on menu parameters
+-fix bug [#10973] Warning: cannot yet handle MBCS in html_entity_decode() with PHP4
+-fix bug [#10490] Error message when mail function cannot send mail
 
-=RELEASE 0.2 / -2008=
+=RELEASE 0.2 / 04-2008=
 -Fix bug on list limit in front
 -Search engine implementation
 -Language update
