@@ -25,13 +25,6 @@
 		<filename>index.html</filename>
 		<filename>jea.php</filename>
 		<filename>controller.php</filename>
-		<filename>medias/index.html</filename>
-		<filename>medias/css/jea.css</filename>
-		<filename>medias/css/print.css</filename>
-		<filename>medias/js/jea.js</filename>
-		<filename>medias/js/search.js</filename>
-		<filename>medias/js/index.html</filename>
-		<filename>upload/index.html</filename>
 		<filename>views/index.html</filename>
 		<filename>views/default/index.html</filename>
 		<filename>views/default/metadata.xml</filename>
@@ -45,15 +38,18 @@
 	</files>
 	
 	<!-- Site Main Language File Copy Section -->
-	<languages folder="site">
+	<languages folder="site/language">
 		<language tag="fr-FR">fr-FR.com_jea.ini</language>
 	</languages>
 	
 	<!-- Site Main Media File Copy Section -->
-	<!--<media destination="com_test">
-		<filename>image.png</filename>
-		<filename>flash.swf</filename>
-	</media>-->
+	<media destination="com_jea" folder="medias" >
+		<filename>css/jea.css</filename>
+		<filename>css/jea.admin.css</filename>
+		<filename>css/print.css</filename>
+		<filename>js/jea.js</filename>
+		<filename>js/search.js</filename>
+	</media>
 	
 	<install>
 		<sql>
@@ -133,7 +129,6 @@
 			<filename>views/tmpl/default.php</filename>
 			<filename>views/tmpl/editcharacteristic.php</filename>
 			<filename>views/tmpl/editproperty.php</filename>
-			<filename>views/tmpl/jea.css</filename>
 			<filename>views/tmpl/listcharacteristics.php</filename>
 			<filename>views/tmpl/listproperties.php</filename>
 			<filename>sql/install.mysql.utf8.sql</filename>
@@ -141,14 +136,8 @@
 		</files>
 		
 		<!-- Administration Language File Copy Section -->
-		<languages folder="admin">
+		<languages folder="admin/language">
 			<language tag="fr-FR">fr-FR.com_jea.ini</language>
 		</languages>
-		
-		<!-- Administration Main Media File Copy Section -->
-		<!--<media folder="admin" destination="com_test">
-			<filename>admin-image.png</filename>
-			<filename>admin-flash.swf</filename>
-		</media>-->
 	</administration>
 </install>
