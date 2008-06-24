@@ -17,10 +17,6 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-
-
-ini_set( 'include_path' , ini_get('include_path') . PATH_SEPARATOR . JPATH_COMPONENT.DS.'library' );
-
 require JPATH_COMPONENT.DS.'jea.class.php' ;
 
 ComJea::runAdmin();

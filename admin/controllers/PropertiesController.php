@@ -229,7 +229,7 @@ class JEA_PropertiesController extends JEA_AbstractController
 		$datas['published'] = JRequest::getInt( 'published', 0 , 'POST' );
 		$datas['emphasis'] = JRequest::getInt( 'emphasis', 0 , 'POST' );
 		
-		require_once 'Http_File.php';
+		require_once JPATH_COMPONENT.DS.'library/Http_File.php';
 		
 		$mainFile = new Http_File( JRequest::getVar( 'main_image', array(), 'files', 'array' ) ) ;
 		$secondFile = new Http_File( JRequest::getVar( 'second_image', array(), 'files', 'array' ) );

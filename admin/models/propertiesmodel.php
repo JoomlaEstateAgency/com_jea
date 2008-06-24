@@ -415,7 +415,7 @@ class JEA_PropertiesModel extends JModel
 
         /*images upload*/
 
-        require_once 'Gd/Transform.php';
+        require_once JPATH_COMPONENT.DS.'library/Gd/Transform.php';
         jimport('joomla.filesystem.folder');
         
         $base_upload_dir = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties' ;
