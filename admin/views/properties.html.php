@@ -100,11 +100,8 @@ class PropertiesView extends JView
 	    
 	    $this->_getHtmlLists( false );
 	    $this->params =& ComJea::getParams();
-	    
-	    $style = '<link rel="stylesheet" type="text/css" href="components/com_jea/views/tmpl/jea.css" />';
-		
-		$mainframe =& JFactory::getApplication();
-		$mainframe->addCustomHeadTag($style);
+
+		JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 	    
 	    $title  = $this->cat == 'renting' ? JText::_( 'Renting' ) : JText::_( 'Selling' ) ;
 	    $title .= ' : ' ;
@@ -119,8 +116,6 @@ class PropertiesView extends JView
 	function _getHtmlLists( $grid = true )
 	{
 	    require_once JPATH_COMPONENT.DS.'models'.DS.'characteristicsmodel.php';
-	    
-	    
 	    
 	    $t_department    = '- ' . JText::_( 'Department' ).' -' ;
 	    $t_condition     = '- ' . JText::_( 'Condition' ).' -' ;

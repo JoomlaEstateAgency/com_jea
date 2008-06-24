@@ -271,14 +271,15 @@ class JEA_PropertiesModel extends JModel
         
         
         //main image
-        $img = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties'.DS.$this->_table->id.DS.'main.jpg';
+        $img = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->_table->id.DS.'main.jpg';
+        $img_url_base = $rootURL . 'images/com_jea/images/' . $this->_table->id . '/' ;
         
         $result['main_image'] = array();
 
         if(is_file($img)){
-            $result['main_image']['url'] = "{$rootURL}components/com_jea/upload/properties/{$this->_table->id}/main.jpg";
-            $result['main_image']['preview_url'] = "{$rootURL}components/com_jea/upload/properties/{$this->_table->id}/preview.jpg";
-            $result['main_image']['min_url'] = "{$rootURL}components/com_jea/upload/properties/{$this->_table->id}/min.jpg";
+            $result['main_image']['url'] = $img_url_base . 'main.jpg';
+            $result['main_image']['preview_url'] = $img_url_base . 'preview.jpg';
+            $result['main_image']['min_url'] = $img_url_base . 'min.jpg';
             $result['main_image']['delete_url'] = "{$rootURL}administrator/index2.php?option=com_jea"
             ."&amp;controller=properties&amp;task=deleteimg&amp;id={$this->_table->id}&amp;cat={$this->_cat}";
             	
@@ -292,7 +293,7 @@ class JEA_PropertiesModel extends JModel
 
 
         //secondaries images
-        $dir = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties'.DS.$this->_table->id.DS.'secondary';
+        $dir = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->_table->id.DS.'secondary';
         $result['secondaries_images'] = array();
         
         jimport('joomla.filesystem.folder');
@@ -314,12 +315,9 @@ class JEA_PropertiesModel extends JModel
                     $file = stat ($dir.DS.$filename);
                     $detail['weight'] = round(($file[7]/1024),1) ;// poid en Ko
                     	
-                    $detail['url'] = "{$rootURL}components/"
-                    ."com_jea/upload/properties/{$this->_table->id}/secondary/{$filename}";
-                    $detail['preview_url'] = "{$rootURL}components/"
-                    ."com_jea/upload/properties/{$this->_table->id}/secondary/preview/{$filename}";
-                    $detail['min_url'] = "{$rootURL}components/"
-                    ."com_jea/upload/properties/{$this->_table->id}/secondary/min/{$filename}";
+                    $detail['url'] = $img_url_base . 'secondary/' . $filename;
+                    $detail['preview_url'] = $img_url_base . 'secondary/preview/' . $filename;
+                    $detail['min_url'] = $img_url_base . 'secondary/min/' . $filename ;
                     	
                     $detail['delete_url'] = "{$rootURL}administrator/index.php?option=com_jea"
                     ."&amp;controller=properties&amp;task=deleteimg&amp;id={$this->_table->id}"
@@ -418,7 +416,7 @@ class JEA_PropertiesModel extends JModel
         require_once JPATH_COMPONENT.DS.'library/Gd/Transform.php';
         jimport('joomla.filesystem.folder');
         
-        $base_upload_dir = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties' ;
+        $base_upload_dir = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images' ;
         
         if ( !JFolder::exists($base_upload_dir) ) { JFolder::create($base_upload_dir); }
 
@@ -511,7 +509,7 @@ class JEA_PropertiesModel extends JModel
             }
             
             //remove image upload directory if exists
-            $dirimg = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties'.DS.$id ;
+            $dirimg = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$id ;
             jimport('joomla.filesystem.folder');
 
             if( JFolder::exists($dirimg) ) {
@@ -528,7 +526,7 @@ class JEA_PropertiesModel extends JModel
 		
 	    $this->_table->load($id);
 		$deleteFiles = array();
-		$dir = JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties'.DS.$this->_table->id.DS ;
+		$dir = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->_table->id.DS ;
 		
 		if( !$image ){
 			//main image to delete
