@@ -1,6 +1,6 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
-JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 ?>
 
 <p class="pagenavigation">
@@ -28,7 +28,7 @@ JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
 </div>
 <?php endif ?>
 
-<?php if($img = is_file(JPATH_COMPONENT_SITE.DS.'upload'.DS.'properties'.DS.$this->row->id.DS.'min.jpg')) : ?>
+<?php if($img = is_file(JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->row->id.DS.'min.jpg')) : ?>
 	  <div> <img id="img_preview" src="<?php echo $this->main_image['preview_url'] ?>" alt="preview.jpg"  /> </div>
 <?php endif ?>
 

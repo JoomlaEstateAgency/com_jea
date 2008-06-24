@@ -43,7 +43,7 @@ class JeaViewDefault extends JView
 			$this->getItemsList();
 		}
 
-		JHTML::script('jea.js', 'components/com_jea/medias/js/', false);
+		JHTML::script('jea.js', 'media/com_jea/js/', false);
 
 		parent::display($tpl);
 	}
@@ -171,13 +171,21 @@ class JeaViewDefault extends JView
 			 
 			//decode charset before using number_format
 			jimport('joomla.utilities.string');
-			$decimal_separator   = JString::transcode( $this->params->get('decimals_separator', ',') , $this->_charset, 'ISO-8859-1' );
-			$thousands_separator = JString::transcode( $this->params->get('thousands_separator', ' '), $this->_charset, 'ISO-8859-1' );
-
+			if (function_exists('iconv')) {
+				$decimal_separator   = JString::transcode( $this->params->get('decimals_separator', ',') , $this->_charset, 'ISO-8859-1' );
+				$thousands_separator = JString::transcode( $this->params->get('thousands_separator', ' '), $this->_charset, 'ISO-8859-1' );
+			} else {
+				$decimal_separator   = utf8_decode( $this->params->get('decimals_separator', ','));
+				$thousands_separator = utf8_decode( $this->params->get('thousands_separator', ' '));
+			}
 			$price = number_format( $price, 0, $decimal_separator, $thousands_separator ) ;
 			 
 			//re-encode
-			$price = JString::transcode( $price, 'ISO-8859-1', $this->_charset );
+			if (function_exists('iconv')) {
+				$price = JString::transcode( $price, 'ISO-8859-1', $this->_charset );
+			} else {
+				$price = utf8_encode( $price );
+			}
 			 
 			$currency_symbol = $this->params->get('currency_symbol', '&euro;');
 			 

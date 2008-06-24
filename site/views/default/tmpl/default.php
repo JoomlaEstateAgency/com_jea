@@ -1,7 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 $rowsCount = count( $this->rows );
 ?>
 
@@ -55,10 +55,10 @@ $rowsCount = count( $this->rows );
 			</a>
 		</dt>
 	
-		<?php if ( $img = is_file( JPATH_COMPONENT.'/upload/properties/'.$row->id.'/min.jpg' ) ) : ?>
+		<?php if ( $img = is_file( JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'min.jpg' ) ) : ?>
 		<dt class="image">
 		    <a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Detail') ?>">
-		      <img src="<?php echo JURI::root().'components/com_jea/upload/properties/'.$row->id.'/min.jpg' ?>" alt="<?php echo JText::_('Detail') ?>" />
+		      <img src="<?php echo JURI::root().'images/com_jea/images/'.$row->id.'/min.jpg' ?>" alt="<?php echo JText::_('Detail') ?>" />
 			</a>
 		</dt>
 		<?php endif ?>

@@ -1,12 +1,12 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('jea.css', 'components/com_jea/medias/css/');
+JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 
 $use_ajax = $this->params->get('use_ajax', 0);
 
 if ($use_ajax ) {
-	JHTML::script('search.js', 'components/com_jea/medias/js/', true);
+	JHTML::script('search.js', 'media/com_jea/js/', true);
 	
 	$document =& JFactory::getDocument();
 	
@@ -78,7 +78,7 @@ if ($use_ajax ) {
   	
 <?php endif ?>
     
-    <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>">
-    <input type="hidden" name="newsearch" value="true">
+    <div><input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>" />
+    <input type="hidden" name="newsearch" value="true" /></div>
   
 </form>
