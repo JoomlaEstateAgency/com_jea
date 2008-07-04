@@ -2,7 +2,7 @@
 function changeOrdering( param )
 {
 	var form = document.getElementById('jForm');
-	form.ordering.value = param;
+	form.filter_order.value = param;
 	form.submit();
 }
 

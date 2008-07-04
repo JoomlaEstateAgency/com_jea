@@ -11,19 +11,14 @@ var optionsCallback = {
 		var type_select = document.getElementById('type_id');
 		var department_select = document.getElementById('department_id');
 		var town_select = document.getElementById('town_id');
-		
-	    if ( type_select.value == '0'){
+	    
+	    if ( type_select.value == '0' || department_select.value == '0' || town_select.value == '0' ){
 	        deleteChilds(type_select);
-	        addOptionsList( type_select, response.types);
-	    }
-	    
-	    if ( department_select.value == '0'){
 	        deleteChilds(department_select);
+	        deleteChilds(town_select);
+	        
+	        addOptionsList( type_select, response.types);
 	        addOptionsList( department_select, response.departments);
-	    }
-	    
-	    if ( town_select.value == '0'){
-	    	deleteChilds(town_select);
 	        addOptionsList( town_select, response.towns);
 	    }
 	}
@@ -33,8 +28,6 @@ function refreshForm(){
 
 	var formUrl = $('jea_search_form').action ;
     var cat = $('renting').checked ? 'renting' : 'selling' ;
-	//alert(type_id);
-
 	var jSonRequest = new Json.Remote( formUrl+'&format=raw' , optionsCallback );
 	
 	jSonRequest.send({'cat': cat, 
@@ -100,5 +93,9 @@ function updateList(selectElt){
 			break;
 	}
 	
-	refreshForm();	
+	if (type_id == 0 || town_id == 0 || department_id == 0) {
+		refreshForm();	
+	}
+	
+	
 }
