@@ -14,7 +14,8 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' )
+defined( '_JEXEC' ) or die( 'Restricted access' );
+JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 ?>
 <script language="javascript" type="text/javascript">
 

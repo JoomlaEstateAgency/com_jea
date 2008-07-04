@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -19,52 +19,22 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $rowsCount = count( $this->rows ) ;
 $altrow = 1;
-//TODO:utiliser JHTML::_('grid.sort' pour trier les listes
 ?>
 
-<script language="javascript" type="text/javascript">
-
-function ordering(field){
-	var form = document.adminForm;
-	form.ordering.value = field;
-	form.submit();
-}
-
-
-function submitbutton(pressbutton, section) {
-	var form = document.adminForm;
-	
-	if (pressbutton == 'new' || pressbutton == 'edit' ) {
-		form.hidemainmenu.value = "1";
-	}
-	
-	submitform( pressbutton );
-	return;
-}
-
-function findref() {
-	var form = document.adminForm;
-	if (form.find_ref.value !=''){
-		form.submit();
-	}
-}
-
-</script>
-
-<form action="index.php?option=com_jea&controller=properties&cat=<?php echo $this->cat ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_jea&controller=properties&cat=<?php echo $this->get('category') ?>" method="post" name="adminForm" id="adminForm">
 
 <table class="adminheading">
 	<tr>
 		<td width="100%">
-			<label for="find_ref" ><?php echo JText::_('Find reference') ?></label> : 
-			<input type="text" id="find_ref" name="find_ref" size="8" value="" /> 
-			<input type="button" value="ok" onclick="findref()" />
+			<label for="search" ><?php echo JText::_('Find reference') ?></label> : 
+			<input type="text" id="search" name="search" size="8" value="<?php echo $this->search ?>" /> 
+			<input type="submit" value="ok" />
 		</td>
 		<td nowrap="nowrap">
 			<?php echo JText::_('Filter') ?> : 
-			<?php echo  $this->lists['types'] ?>
-			<?php echo  $this->lists['towns'] ?>
-			<?php echo  $this->lists['departments'] ?>
+			<?php echo  $this->getHtmlList('types', $this->type_id, true ) ?>
+			<?php echo  $this->getHtmlList('towns', $this->town_id, true ) ?>
+			<?php echo  $this->getHtmlList('departments', $this->department_id, true ) ?>
 		</td>
 	</tr>
 </table>
@@ -75,8 +45,7 @@ function findref() {
 			<th style="text-align:left"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $rowsCount ?>);" /></th>
 			
 			<th nowrap="nowrap">
-				<a href="javascript:ordering('ref')" title="<?php echo JText::_('Click to sort this column') ?>">
-				<?php echo JText::_('Reference') ?></a>
+				<?php echo JHTML::_('grid.sort', 'Reference', 'ref', $this->order_dir , $this->order ) ?>
 			</th>
 			
 			<th nowrap="nowrap"><?php echo JText::_('Property type') ?></th>
@@ -88,24 +57,21 @@ function findref() {
 			<th nowrap="nowrap"><?php echo JText::_('Department') ?></th>
 			
 			<th nowrap="nowrap">
-				<a href="javascript:ordering('price')" title="<?php echo JText::_('Click to sort this column') ?>">
-				<?php echo ($this->cat=='renting')? JText::_('Rent') : JText::_('Price') ?></a>
+				<?php echo JHTML::_('grid.sort', 'Price', 'price', $this->order_dir , $this->order ) ?>
 			</th>
 			
 			<th nowrap="nowrap"><?php echo JText::_('Emphasis') ?></th>
 			
 			<th nowrap="nowrap">
-				<a href="javascript:products_filter('published')" title="<?php echo JText::_('Click to sort this column') ?>" ><?php echo JText::_('Published') ?></a>
+				<?php echo JHTML::_('grid.sort', 'Published', 'published', $this->order_dir , $this->order ) ?>
 			</th>
 			
 			<th colspan="2" nowrap="nowrap">
-				<a href="javascript:ordering('ordering')" title="<?php echo JText::_('Click to sort this column') ?>">
-				<?php echo JText::_('Ordering') ?></a>
+				<?php echo JHTML::_('grid.sort', 'Ordering', 'ordering', $this->order_dir , $this->order ) ?>
 			</th>
 			
 			<th nowrap="nowrap">
-				<a href="javascript:ordering('date_insert DESC')" title="<?php echo JText::_('Click to sort this column') ?>">
-				<?php echo JText::_('Date') ?></a>
+				<?php echo JHTML::_('grid.sort', 'Date', 'date_insert', $this->order_dir , $this->order ) ?>
 			</th>
 		</tr>
 	</thead>
@@ -135,11 +101,15 @@ function findref() {
 
 		<tr class="row<?php echo $altrow ?>">
 
-			<td><?php echo JHTML::_('grid.id',   $k, $row->id ) ?></td>
+			<td><?php echo JHTML::_('grid.checkedout', $row, $k ) ?></td>
 
 			<td>
+			<?php if ($this->is_checkout($row->checked_out)) : ?>
+				<?php echo $this->escape( $row->ref ) ?>
+			<?php else : ?>
 				<a href="#edit" onclick="return listItemTask('cb<?php echo $k ?>','edit')">
 				<?php echo $this->escape( $row->ref ) ?></a>
+			<?php endif ?>
 			</td>
 
 			<td><?php echo $this->escape( $row->type ) ?></td>
@@ -173,8 +143,10 @@ function findref() {
 	<input type="hidden" name="task" value="" /> 
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="ordering" value="ordering" />
-	<input type="hidden" name="limitstart" value="<?php echo $this->offset ?>" />
-	<input type="hidden" name="hidemainmenu" value="0" />
+	<input type="hidden" name="filter_order" value="<?php echo $this->order ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->order_dir ?>" />
+	<input type="hidden" name="limitstart" value="<?php echo $this->limitstart ?>" />
+	<?php echo JHTML::_( 'form.token' ) ?>
 </div>
 
 </form>

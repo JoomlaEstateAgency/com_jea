@@ -38,7 +38,7 @@ function submitbutton( pressbutton, section ) {
 
 </script>
 
-<form action="index.php?option=com_jea&controller=characteristics" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_jea&controller=features" method="post" name="adminForm" id="adminForm">
   
 
   <table class="adminform"> 
@@ -50,4 +50,6 @@ function submitbutton( pressbutton, section ) {
   
   <input type="hidden" name="task" value="" />
   <input type="hidden" name="id" value="<?php echo $this->row->id ?>" />
+  <?php echo JHTML::_( 'form.token' ) ?>
 </form>
+

@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -19,10 +19,9 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 $rowsCount = count( $this->rows ) ;
 $altrow = 1;
-
 ?>
 
-<form action="index.php?option=com_jea&controller=characteristics" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_jea&controller=features" method="post" name="adminForm" id="adminForm">
 
 <table class="adminheading">
 	<tr>
@@ -30,7 +29,7 @@ $altrow = 1;
 		<?php echo JText::_('Change table') ?> : 
 		</td>
 		<td nowrap="nowrap">
-			<?php echo $this->tablesList ?>
+			<?php echo $this->selectTableList ?>
 		</td>
 	</tr>
 </table>
@@ -38,9 +37,12 @@ $altrow = 1;
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th style="text-align:left"  ><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $rowsCount ?>)" title="<?php echo JText::_('Select all') ?>" /></th>
+			<th width="1%" class="title">#</th>
+			<th width="2%">
+			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows ) ?>);" />
+			</th>
 			
-			<th nowrap="nowrap" width="100%" ><?php echo JText::_('Valeur') ?></th>
+			<th nowrap="nowrap" width="100%" ><?php echo JText::_('Value') ?></th>
 
 			<th colspan="2" nowrap="nowrap"><?php echo JText::_('Ordering') ?></th>
 			
@@ -51,11 +53,11 @@ $altrow = 1;
 
 	<tfoot>
 		<tr>
-			<td colspan="4">
+			<td colspan="5">
 				<del class="container">
 					<div class="pagination">
 						<div class="limit">
-							<?php echo JText::_('Elements par page')?> :&nbsp;&nbsp;
+							<?php echo JText::_('Items per page')?> :&nbsp;&nbsp;
 							<?php echo $this->pagination->getLimitBox() ?>&nbsp;&nbsp;
 						</div>
 						<?php echo $this->pagination->getPagesLinks() ?>
@@ -73,17 +75,11 @@ $altrow = 1;
 <?php $altrow = ( $altrow == 1 )? 0 : 1; ?>
 
 		<tr class="row<?php echo $altrow ?>">
-
+		    <td><?php echo $k ?></td>
 			<td><?php echo JHTML::_('grid.id', $k, $row->id ) ?></td>
-
 			<td nowrap="nowrap"><a href="#edit" onclick="return listItemTask('cb<?php echo $k ?>','edit')"><?php echo $this->escape( $row->value ) ?></a></td>
-
 			<td align="center"><?php echo $this->pagination->orderUpIcon( $k ) ?></td>
-
 			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount ) ?></td>
-			
-			<!-- <td nowrap="nowrap"><?php //echo JText::_( $row->type ) ?></td> -->
-			
 		</tr>
 		
 <?php endforeach ?>
@@ -95,7 +91,8 @@ $altrow = 1;
 <div>
 	<input type="hidden" name="task" value="" /> 
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="limitstart" value="<?php echo $this->offset ?>" />
+	<input type="hidden" name="limitstart" value="<?php echo $this->limitstart ?>" />
+	<?php echo JHTML::_( 'form.token' ) ?>
 </div>
 
 </form>

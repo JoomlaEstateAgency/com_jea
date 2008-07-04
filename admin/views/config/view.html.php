@@ -16,15 +16,24 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JEA_IndexController extends JEA_AbstractController
+jimport( 'joomla.application.component.view');
+
+class JeaViewConfig extends JView
 {
+    var $form = null;
+    var $ini = '';
     
-    function indexAction(){
-        
-        echo 'index' ;
-        
-        parent::display();
-        
-    }
-    
+    function display( $tpl = null )
+	{ 
+	    // Create the form
+		$this->form =& ComJea::getParams();
+		$this->form->loadSetupFile( JPATH_COMPONENT.DS.'models'.DS.'Config.xml' );
+		
+	    JHTML::_('behavior.tooltip');
+	    JToolBarHelper::title(   'JEA : ' . JText::_( 'Configuration' ), 'cpanel.png' );
+	    JToolBarHelper::save();
+	    JToolBarHelper::makeDefault();
+	    
+	    parent::display($tpl);
+	}
 }

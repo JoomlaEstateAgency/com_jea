@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -16,26 +16,29 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-class JEA_ConfigController extends JEA_AbstractController
+jimport('joomla.application.component.controller');
+
+class JeaControllerConfig extends JController
 {
     
-    function indexAction()
-    {
-        jimport( 'joomla.filesystem.file' );
-        
-        $file = JPATH_COMPONENT.DS.'config.ini' ;
-        
-        if ( JFile::exists( $file ) ) {
-            
-           $this->_viewDatas['ini'] = JFile::read( $file );
-        }
-        
-        parent::display('config');
-        
-    }
+    /**
+	 * Custom Constructor
+	 */
+	function __construct( $default = array() )
+	{
+		// Set a default view if none exists
+		if ( ! JRequest::getCmd( 'view' ) ) {
+			
+			JRequest::setVar('view', 'config' );
+		}
+		
+		parent::__construct( $default );
+		
+		$this->registerTask( 'default', 'defaultConfig' );
+	}
     
     
-    function saveAction()
+    function save()
     {
 
         $units    = JRequest::getVar( 'units'    , array() , 'POST' , 'array' );
@@ -47,8 +50,8 @@ class JEA_ConfigController extends JEA_AbstractController
         $config = array_merge( $units, $currency, $lists, $property, $pictures );
         
         //transform normal space(s) into non-break space(s)
-        $unsecableSpace = html_entity_decode ('&nbsp;', ENT_COMPAT, 'UTF-8' );
-        $config['thousands_separator'] = str_replace (' ', $unsecableSpace, $config['thousands_separator'] ) ;
+        //$unsecableSpace = html_entity_decode ('&nbsp;', ENT_COMPAT, 'UTF-8' );
+        //$config['thousands_separator'] = str_replace (' ', $unsecableSpace, $config['thousands_separator'] ) ;
         
         $component =& JComponentHelper::getComponent('com_jea');
         
@@ -77,7 +80,7 @@ class JEA_ConfigController extends JEA_AbstractController
      * Restore default configuration
      *
      */
-    function defaultAction()
+    function defaultConfig()
     {
 		$component =& JComponentHelper::getComponent('com_jea');
 
@@ -102,5 +105,6 @@ class JEA_ConfigController extends JEA_AbstractController
         }
 
     }
-    
+	
+	
 }

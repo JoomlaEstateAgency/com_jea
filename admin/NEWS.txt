@@ -1,5 +1,18 @@
 Joomla Estate Agency          News
 ==================================
+
+=RELEASE 0.4 / 06-2008=
+0.4 beta (bugfixes release)
+- Fix include path for jea library
+- Refix bug #10973 -> Warning: cannot yet handle MBCS in html_entity_decode()
+- Move /components/com_jea/upload to /images/com_jea
+- Move /components/com_jea/medias to /medias/com_jea
+- Refactor entire code to be more Joomla compliant
+- Ordering properties columns in admin
+- Checked-out on properties (Avoid conflict between users)
+- Fix bug when search reference in administration.
+- Fix Ordering bug after search in front
+
 =RELEASE 0.3 / 05-2008=
 -fix search bugs
 -fix bug on menu parameters

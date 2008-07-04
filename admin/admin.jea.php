@@ -19,4 +19,4 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 require JPATH_COMPONENT.DS.'jea.class.php' ;
 
-ComJea::runAdmin();
+ComJea::run();

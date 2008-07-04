@@ -48,28 +48,74 @@ class TableProperties extends JTable
 	var $ordering = null;
 	var $emphasis = null;
 	var $date_insert = null;
+	var $checked_out = null;
+	var $checked_out_time = null ;
 	
 	function TableProperties(& $db) {
 		
         parent::__construct('#__jea_properties', 'id', $db);
 	}
 	
-	/**
-	 * Returns an array of public properties (table columns) (joomla 1.0)
-	 * @return array
-	 */
-	function getPublicProperties() {
-		static $cache = null;
-		if (is_null( $cache )) {
-			$cache = array();
-			foreach (get_class_vars( get_class( $this ) ) as $key=>$val) {
-				if (substr( $key, 0, 1 ) != '_') {
-					$cache[] = $key;
-				}
-			}
+	
+	function check()
+	{
+	   if( empty( $this->ref ) ) {
+			
+		    $this->setError( JText::_('Property must have a reference') );
+			return false;
+			
+		} elseif ( empty( $this->type_id ) ) {
+		    
+		     $this->setError( JText::_('Select a type of property') );
+			return false;
+		    
 		}
-		return $cache;
-	}	
+		
+        //avoid duplicate entry for ref
+        $query = 'SELECT id FROM #__jea_properties WHERE ref=' . $this->_db->Quote( $this->ref ) 
+               . ' AND id <>' . intval( $this->id );
+        $this->_db->setQuery( $query );
+		$this->_db->query();
+
+        if ( $this->_db->getNumRows() > 0 ){
+            
+            $this->setError( JText::sprintf( 'Reference already exists', $this->ref ) );
+            return false;
+        }
+		
+		//serialize advantages
+		if ( !empty($this->advantages) && is_array($this->advantages) ) {
+		    
+		    //Sort in order to find easily property advantages in sql where clause
+		    sort( $this->advantages );
+		    $this->advantages = '-'. implode('-' , $this->advantages ) . '-';
+		    
+		} else {
+		    
+		    $this->advantages = '';
+		}
+		
+		//check availability
+		
+		if ( ! preg_match('/^[0-9]{4}-[0-9]{2}-[0-9]{2}/', trim( $this->availability ) ) ){
+		    
+		    $this->availability = '0000-00-00';
+		}
+		
+		// Clean description for xhtml transitional compliance
+		$this->description = str_replace( '<br>', '<br />', $this->description );
+
+		//For new insertion
+        if ( !$this->id ) {	
+            $this->published = 1;
+            //Save ordering at the end
+            $where =  'is_renting=' . (int) $this->is_renting ;
+            $this->ordering = $this->getNextOrder( $where );
+            $this->date_insert = date('Y-m-d');
+        }
+        
+        return true;
+	}
 	
 	
 	

@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -24,6 +24,7 @@ $pane =& JPane::getInstance('sliders');
 
 $editor =& JFactory::getEditor();
 
+JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -47,7 +48,7 @@ function submitbutton( pressbutton, section ) {
 
 </script>
 
-<form action="index.php?option=com_jea&controller=properties" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" >
+<form action="index.php?option=com_jea&controller=properties&cat=<?php echo $this->get('category') ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" >
   
   <table cellspacing="0" cellpadding="0" border="0" width="100%" >
   <tr>
@@ -62,7 +63,7 @@ function submitbutton( pressbutton, section ) {
         
 		<tr>
 		  <td nowrap="nowrap"><label for="type_id"><?php echo JText::_('Property type') ?> :</label></td>
-		  <td width="100%" ><?php echo  $this->lists['types']?></td>
+		  <td width="100%" ><?php echo  $this->getHtmlList('types', $this->row->type_id) ?></td>
 		</tr>
 		
 		<tr>
@@ -77,9 +78,9 @@ function submitbutton( pressbutton, section ) {
 		  <td width="100%" >
 			  <input id="zip_code" type="text" name="zip_code" size="5" value="<?php echo $this->row->zip_code ?>" class="inputbox" />
 			  <span style="margin-left:25px">
-		      <?php echo  $this->lists['towns'] ?>
-			  <?php echo  $this->lists['areas'] ?>
-			  <?php echo  $this->lists['departments'] ?>
+		      <?php echo $this->getHtmlList('towns', $this->row->town_id) ?>
+			  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
+			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
 			  </span>
 		  </td>
 		</tr>
@@ -154,7 +155,7 @@ function submitbutton( pressbutton, section ) {
 		  <td nowrap="nowrap" class="label">
 		  	<label for="condition_id"><?php echo JText::_('General condition') ?> :</label>
 		  </td>
-		  <td width="100%"><?php echo   $this->lists['conditions'] ?></td>
+		  <td width="100%"><?php echo  $this->getHtmlList('conditions', $this->row->condition_id ) ?></td>
 		</tr>
 		
 		<tr>
@@ -199,12 +200,12 @@ function submitbutton( pressbutton, section ) {
 	  			
 	    <tr>
 		  <td nowrap="nowrap" class="label"><label for="hot_water_type" ><?php echo JText::_('Hot water type') ?> :</label></td>
-		  <td width="100%"><?php echo  $this->lists['hotwatertypes'] ?></td>
+		  <td width="100%"><?php echo $this->getHtmlList('hotwatertypes', $this->row->hot_water_type) ?></td>
 	    </tr>		
 			
 	    <tr>
 		  <td nowrap="nowrap" class="label"><label for="heating_type"><?php echo JText::_('Heating type') ?> :</label></td>
-		  <td class="spacer_bottom" ><?php echo  $this->lists['heatingtypes'] ?></td>
+		  <td class="spacer_bottom" ><?php echo $this->getHtmlList('heatingtypes', $this->row->heating_type) ?></td>
 		</tr>
     
     <tr>
@@ -258,7 +259,7 @@ function submitbutton( pressbutton, section ) {
 	  </tr>
 	  <tr>
 		  <td nowrap="nowrap"><label for="slogan_id"><?php echo JText::_('Slogan') ?> :</label></td>
-		  <td width="100%"><?php echo  $this->lists['slogans'] ?></td>
+		  <td width="100%"><?php echo $this->getHtmlList('slogans', $this->row->slogan_id ) ?></td>
 	  </tr>
       <tr>
 		<td><label for="availability"><?php echo JText::_('Property availability') ?> : </label></td>
@@ -274,8 +275,7 @@ function submitbutton( pressbutton, section ) {
   </tr>
   </table>
   <input type="hidden" name="task" value="" />
-  <input type="hidden" name="cat" value="<?php echo $this->cat ?>" />
-  <input type="hidden" name="id" value="<?php echo $this->row->id ? $this->row->id : 0 ?>" />
-  <input type="hidden" name="hidemainmenu" value="0" />
+  <input type="hidden" name="id" value="<?php echo $this->row->id ?>" />
+  <?php echo JHTML::_( 'form.token' ) ?>
 </form>
 

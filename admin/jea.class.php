@@ -80,73 +80,96 @@ class ComJea
 		return $instance ;
     }
     
-    
-    
-    function runAdmin()
+    function run()
     {
-		// Require the base controller
-		require_once( JPATH_COMPONENT.DS.'AbstractController.php' );
-		
 		// Component Helper
 		jimport('joomla.application.component.helper');
 		
+		
 		// Require specific controller if requested
-		$controller = JRequest::getWord('controller') ;
-		$path = JPATH_COMPONENT.DS.'controllers'.DS ;
-		
-		$controller =  ucfirst($controller.'Controller');
-		    
-		   
-		if (! file_exists( $path.$controller.'.php' ) ) {
-		    
-		   $controller = 'IndexController' ; //default controller
-		    
+		if( $controller = JRequest::getWord('controller', 'properties') ) {
+			
+			$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
+			
+			if ( file_exists($path) ) {
+				require_once $path;
+			} else {
+				$controller = '';
+			}
 		}
 		
-		require $path.$controller.'.php' ;
-		 
-		$classname = 'JEA_'.$controller ;
+		// Create the controller
+		$classname	= 'JeaController'.ucfirst($controller);
+		$controller	= new $classname( );
 		
-		if ( !class_exists($classname) )   
-			die( $classname . ' : class was not defined' );
-			
-			
-		$controller = new $classname();
-		
-		$action = JRequest::getVar( 'task' ) ? JRequest::getVar( 'task' ).'Action' : 'indexAction' ;
-		
-		
-		$controller->preDispatch();
-		
-		if ( method_exists( $controller, $action ) ) {
-		    
-			// Perform the Request task
-			$controller->execute( $action );
-		
-		}
-		
-		$controller->postDispatch();
-		
-		// Redirect if set by the controller
+		// Perform the Request task
+		$controller->execute( JRequest::getCmd( 'task' ) );
 		$controller->redirect();
         
     }
     
-    function runSite()
+    
+    function getImagesById($id)
     {
-		// Require the base controller
-        require_once(JPATH_COMPONENT.DS.'controller.php');
-		
-		// Component Helper
-		jimport('joomla.application.component.helper');
-		
-		// Create the controller
-		$controller = new JeaController();
-		
-		// Perform the Request task
-		$controller->execute(JRequest::getVar('task', null, 'default', 'cmd'));
-		$controller->redirect();
+    	$result = array();
+    	
+    	$rootURL = JURI::root();
+    	
+    	//main image
+        $img = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$id.DS.'main.jpg';
+        $img_url_base = $rootURL . 'images/com_jea/images/' . $id . '/' ;
         
+        $result['main_image'] = array();
+
+        if(is_file($img)){
+            $result['main_image']['url'] = $img_url_base . 'main.jpg';
+            $result['main_image']['preview_url'] = $img_url_base . 'preview.jpg';
+            $result['main_image']['min_url'] = $img_url_base . 'min.jpg';
+            	
+            $im = @getimagesize($img);
+            $result['main_image']['width'] = $im[0];
+            $result['main_image']['height'] = $im[1];
+            	
+            $file = stat ($img);
+            $result['main_image']['weight'] = round(($file[7]/1024),1) ;// poid en Ko
+        }
+
+
+        //secondaries images
+        $dir = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$id.DS.'secondary';
+        $result['secondaries_images'] = array();
+        
+        jimport('joomla.filesystem.folder');
+        
+        if( JFolder::exists( $dir ) ){
+                
+            $filesList = JFolder::files( $dir );
+
+            $viewfilesList = array();
+            foreach ( $filesList as $filename ) {
+
+                $detail = array();
+                $im = @getimagesize($dir.DS.$filename);
+                if ($im !== FALSE){
+                    $detail['name'] = $filename;
+                    $detail['width'] = $im[0];
+                    $detail['height'] = $im[1];
+                    	
+                    $file = stat ($dir.DS.$filename);
+                    $detail['weight'] = round(($file[7]/1024),1) ;// poid en Ko
+                    	
+                    $detail['url'] = $img_url_base . 'secondary/' . $filename;
+                    $detail['preview_url'] = $img_url_base . 'secondary/preview/' . $filename;
+                    $detail['min_url'] = $img_url_base . 'secondary/min/' . $filename ;
+                    	
+                    $viewfilesList[] = $detail ;
+                }
+            }
+            
+            $result['secondaries_images'] =  $viewfilesList ; 
+        }
+        
+        return $result ;
     }
     
     
