@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Properties Layout">
+		<message>
+			<![CDATA[PROPERTIES LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Properties Layout</name>
+		<description>PROPERTIES LAYOUT DESC</description>
+		<params>
+			<param name="cat" type="radio" default="renting" label="category" description="Choose wich category to list">
+				<option value="renting">Renting</option>
+				<option value="selling">Selling</option>
+			</param>
+		</params>
+		<advanced addpath="/administrator/components/com_jea/elements">
+			<param name="type_id" type="types" default="0" label="Property type" description="Filter on property type" />
+			<param name="department_id" type="departments" default="0" label="Department" description="Filter on department" />
+			<param name="town_id" type="towns" default="0" label="Town" description="Filter on town" />
+			<param name="area_id" type="areas" default="0" label="Area" description="Filter on area" />
+		</advanced>
+	</state>
+</metadata>

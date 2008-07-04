@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Search Layout">
+		<message>
+			<![CDATA[SEARCH LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Search Layout</name>
+		<description>SEARCH LAYOUT DESC</description>
+		<params>
+			<param name="advanced_search" type="radio" default="1" label="Advanced search" description="Show Advanced search">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+			<param name="use_ajax" type="radio" default="1" label="Use AJAX" description="PARAMUSEAJAX">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</params>
+	</state>
+</metadata>
