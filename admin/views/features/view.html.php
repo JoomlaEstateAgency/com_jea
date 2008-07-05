@@ -90,7 +90,7 @@ class JeaViewFeatures extends JView
 		$this->assign( $items );
 		$this->assignRef('selectTableList' , $selectTableList );
 			
-		JToolBarHelper::title( JText::_( $titles[$this->get('tableName')] ), 'generic.png' );
+		JToolBarHelper::title( JText::_( $titles[$this->get('tableName')] ), 'jea.png' );
 	    JToolBarHelper::addNew();
 	    JToolBarHelper::editList();
 	    JToolBarHelper::deleteList( JText::_( 'CONFIRM_DELETE_MSG' ) );
@@ -128,7 +128,7 @@ class JeaViewFeatures extends JView
 		    $title  = $table_name . ' [ ' . JText::_( 'Edit' ) . ' : ' .  $row->value . ' ]' ;
 	    }
 
-		JToolBarHelper::title( $title , 'generic.png' );
+		JToolBarHelper::title( $title , 'jea.png' );
 		JToolBarHelper::save() ;
 		JToolBarHelper::apply() ;
 		JToolBarHelper::cancel() ;

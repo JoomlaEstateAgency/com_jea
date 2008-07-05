@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -13,27 +13,27 @@
  * 
  */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+// Check to ensure this file is included in Joomla!
+defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view');
 
-class JeaViewConfig extends JView
+class JeaViewDefault extends JView
+
 {
-    var $form = null;
-    var $ini = '';
-    
-    function display( $tpl = null )
-	{ 
-	    // Create the form
-		$this->form =& ComJea::getParams();
-		$this->form->loadSetupFile( JPATH_COMPONENT.DS.'models'.DS.'Config.xml' );
+	var $pagination = null ;
+
+	function display( $tpl = null )
+	{
 		
-	    JHTML::_('behavior.tooltip');
-	    JToolBarHelper::title(   'JEA : ' . JText::_( 'Configuration' ), 'config.png' );
-	    JToolBarHelper::save();
-	    JToolBarHelper::makeDefault();
-	    
-	    parent::display($tpl);
+		JToolBarHelper::title( 'Joomla Estate Agency', 'jea.png' );
+		
+		
+		parent::display($tpl);
 	}
+
+
+
+
 }

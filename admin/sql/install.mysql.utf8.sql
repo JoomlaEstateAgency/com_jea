@@ -121,6 +121,8 @@ CREATE TABLE `#__jea_properties` (
   `ordering` int(11) NOT NULL default '0',
   `emphasis` tinyint(1) NOT NULL default '0' COMMENT 'mise en avant',
   `date_insert` date NOT NULL default '0000-00-00',
+  `checked_out` int(11) NOT NULL default '0',
+  `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `ref` (`ref`),
   KEY `departement_id` (`department_id`)

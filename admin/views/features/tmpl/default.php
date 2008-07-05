@@ -17,6 +17,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 $rowsCount = count( $this->rows ) ;
 $altrow = 1;
 ?>

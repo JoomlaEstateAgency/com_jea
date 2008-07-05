@@ -50,7 +50,7 @@ function submitbutton( pressbutton, section ) {
 
 <form action="index.php?option=com_jea&controller=properties&cat=<?php echo $this->get('category') ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" >
   
-  <table cellspacing="0" cellpadding="0" border="0" width="100%" >
+  <table cellspacing="0" cellpadding="0" border="0" width="100%" id="jea-edit" >
   <tr>
   <td valign="top">
 	  <table class="adminform">

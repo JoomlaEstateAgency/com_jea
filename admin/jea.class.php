@@ -2,10 +2,10 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.1 2008-02-26
+ * @version		0.4 2008-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
+ * @license		GNU/GPL, see LICENSE.txt
  * Joomla Estate Agency is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
  * of works licensed under the GNU General Public License or other free or open
@@ -45,8 +45,12 @@ function dump($var, $label=null, $echo=true){
 
 class ComJea
 {
-    
-    function &getParams()
+    function version ()
+    {
+    	echo 'O.4-beta';
+    }
+	
+	function &getParams()
     {
 		static $instance;
         
@@ -80,14 +84,14 @@ class ComJea
 		return $instance ;
     }
     
-    function run()
+    function run( $defaultController='default' )
     {
 		// Component Helper
 		jimport('joomla.application.component.helper');
 		
 		
 		// Require specific controller if requested
-		if( $controller = JRequest::getWord('controller', 'properties') ) {
+		if( $controller = JRequest::getWord('controller', $defaultController) ) {
 			
 			$path = JPATH_COMPONENT.DS.'controllers'.DS.$controller.'.php';
 			

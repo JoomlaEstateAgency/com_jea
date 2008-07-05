@@ -54,7 +54,7 @@ class JeaViewProperties extends JView
 		$this->assign( $items );
 		$this->pagination = new JPagination($items['total'], $items['limitstart'], $items['limit']);
 
-	    JToolBarHelper::title( JText::_( ucfirst( $this->cat ) . ' management' ), 'generic.png' );
+	    JToolBarHelper::title( JText::_( ucfirst( $this->get('category') ) . ' management' ), 'jea.png' );
 	    JToolBarHelper::publish();
 	    JToolBarHelper::unpublish();
 	    JToolBarHelper::addNew();
@@ -74,7 +74,7 @@ class JeaViewProperties extends JView
 	    $title  = $this->get('category') == 'renting' ? JText::_( 'Renting' ) : JText::_( 'Selling' ) ;
 	    $title .= ' : ' ;
 	    $title .= $this->row->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->row->ref ) : JText::_( 'New' ) ;
-	    JToolBarHelper::title( $title , 'generic.png' ) ;
+	    JToolBarHelper::title( $title , 'jea.png' ) ;
 	    
 	    JToolBarHelper::save() ;
 	    JToolBarHelper::apply() ;
