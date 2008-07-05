@@ -18,4 +18,4 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'jea.class.php';
 
-ComJea::run();
+ComJea::run('properties');
