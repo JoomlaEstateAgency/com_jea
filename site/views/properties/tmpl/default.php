@@ -101,7 +101,7 @@ $rowsCount = count( $this->rows );
 		<?php endif ?>
 		
 		<br />
-		<a href="<?php echo $this->getViewUrl ( '&id='. $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>"> 
+		<a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>"> 
 		<?php echo JText::_('Detail') ?> </a>
 		</dd>
 	
