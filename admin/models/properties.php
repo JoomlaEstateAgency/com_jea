@@ -127,12 +127,13 @@ class JeaModelProperties extends JModel
         $select = 'SELECT tp.id AS `id`, tp.ref AS `ref`, tp.adress AS `adress`, tp.price AS `price`,' . PHP_EOL
          		. 'tp.date_insert AS `date_insert`,tp.emphasis AS `emphasis`, td.value AS `department`,'. PHP_EOL
          		. 'tt.value AS `type`, tto.value AS `town`, tp.published AS published, tp.ordering AS `ordering`,' . PHP_EOL
-         		. 'tp.checked_out as `checked_out`, tp.checked_out_time as `checked_out_time`' . PHP_EOL
-         		//. '' . PHP_EOL
+         		. 'tp.checked_out AS `checked_out`, tp.checked_out_time AS `checked_out_time`,' . PHP_EOL
+         		. 'tp.created_by AS  `created_by`, tu.username AS `author`' . PHP_EOL
                 . 'FROM #__jea_properties AS tp' . PHP_EOL
                 . 'LEFT JOIN #__jea_departments AS td ON td.id = tp.department_id' . PHP_EOL
 			    . 'LEFT JOIN #__jea_types AS tt ON tt.id = tp.type_id' . PHP_EOL
-			    . 'LEFT JOIN #__jea_towns AS tto ON tto.id = tp.town_id' . PHP_EOL ;
+			    . 'LEFT JOIN #__jea_towns AS tto ON tto.id = tp.town_id' . PHP_EOL
+			    . 'LEFT JOIN #__users AS tu ON tu.id = tp.created_by' . PHP_EOL;
     	
     	$where  = 'WHERE tp.is_renting=' ;
         $where .= $this->isRenting() ? '1' : '0' ;

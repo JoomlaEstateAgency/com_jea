@@ -72,6 +72,10 @@ $altrow = 1;
 			</th>
 			
 			<th nowrap="nowrap">
+                <?php echo JHTML::_('grid.sort', 'Author', 'author', $this->order_dir , $this->order ) ?>
+            </th>
+            
+			<th nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort', 'Date', 'date_insert', $this->order_dir , $this->order ) ?>
 			</th>
 		</tr>
@@ -130,6 +134,14 @@ $altrow = 1;
 			<td align="center"><?php echo $this->pagination->orderUpIcon( $k ) ?></td>
 
 			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount ) ?></td>
+			
+			<td>
+			<?php if ( $this->user->authorize( 'com_users', 'manage' ) ): ?>
+                 <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by )  ?>" 
+                    title="<?php echo JText::_( 'Edit User' ) ?> "><?php echo $this->escape( $row->author ) ?></a>
+            <?php else : echo $this->escape( $row->author ) ?>
+			<?php endif ?>
+			</td>
 			
 			<td><?php echo JHTML::_('date',  $row->date_insert, JText::_('DATE_FORMAT_LC4') ); ?></td>
 		</tr>
