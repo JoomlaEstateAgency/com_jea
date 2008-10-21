@@ -83,7 +83,7 @@ $altrow = 1;
 
 	<tfoot>
 		<tr>
-			<td colspan="12">
+			<td colspan="13">
 				<del class="container">
 					<div class="pagination">
 						<div class="limit">
