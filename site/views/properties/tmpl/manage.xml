@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+	<layout title="Manage properties layout">
+		<message>
+			<![CDATA[MANAGE PROPERTIES LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Manage properties layout</name>
+		<description>MANAGE PROPERTIES LAYOUT DESC</description>
+		<params>
+			<param name="cat" type="radio" default="renting" label="category" description="Choose wich category to list">
+				<option value="renting">Renting</option>
+				<option value="selling">Selling</option>
+			</param>
+		</params>
+	</state>
+</metadata>

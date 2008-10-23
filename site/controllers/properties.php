@@ -53,6 +53,13 @@ class JeaControllerProperties extends JController
 			}
 		}
 		
+		//add ACL
+        $acl = & JFactory::getACL();
+        $acl->addACL( 'com_jea', 'edit', 'users', 'jea agent', 'property', 'own' );
+        $acl->addACL( 'com_jea', 'edit', 'users', 'manager', 'property', 'all' );
+        $acl->addACL( 'com_jea', 'edit', 'users', 'administrator', 'property', 'all' );
+        $acl->addACL( 'com_jea', 'edit', 'users', 'super administrator', 'property', 'all' );
+		
 		parent::__construct( $default );
 	}
 	

@@ -33,7 +33,9 @@ class JeaViewProperties extends JView
 		$id	= JRequest::getInt('id', 0);
 
 		if( $id ){
-			$tpl = 'item';
+		    if ($this->getLayout() == 'default'){
+			    $tpl = 'item';
+		    }
 			$this->getItemDetail( $id );
 
 		} else {
@@ -42,6 +44,13 @@ class JeaViewProperties extends JView
 		}
 
 		JHTML::script('jea.js', 'media/com_jea/js/', false);
+		
+		$user =& JFactory::getUser();
+        $access =& $this->get('access');
+        //dump($access);
+        
+        $this->assignRef('user', $user);
+        $this->assignRef('access', $access);
 
 		parent::display($tpl);
 	}
@@ -127,45 +136,59 @@ class JeaViewProperties extends JView
 		return JRoute::_( $params );
 	}
 
-	function formatPrice ( $price , $default="" )
-	{
-		if ( !empty($price) ) {
-			 
-			//decode charset before using number_format
-			jimport('joomla.utilities.string');
-			if (function_exists('iconv')) {
-				$decimal_separator   = JString::transcode( $this->params->get('decimals_separator', ',') , $this->_charset, 'ISO-8859-1' );
-				$thousands_separator = JString::transcode( $this->params->get('thousands_separator', ' '), $this->_charset, 'ISO-8859-1' );
-			} else {
-				$decimal_separator   = utf8_decode( $this->params->get('decimals_separator', ','));
-				$thousands_separator = utf8_decode( $this->params->get('thousands_separator', ' '));
-			}
-			$price = number_format( $price, 0, $decimal_separator, $thousands_separator ) ;
-			 
-			//re-encode
-			if (function_exists('iconv')) {
-				$price = JString::transcode( $price, 'ISO-8859-1', $this->_charset );
-			} else {
-				$price = utf8_encode( $price );
-			}
-			 
-			$currency_symbol = $this->params->get('currency_symbol', '&euro;');
-			 
-			//is currency symbol before or after price?
-			if ( $this->params->get('symbol_place', 1) ) {
-				 
-				return $this-> escape( $price .' '. $currency_symbol );
+    function formatPrice ( $price , $default="" )
+    {
+        if ( !empty($price) ) {
+             
+            $price = $this->formatNumber( $price );
+             
+            $currency_symbol = $this->params->get('currency_symbol', '&euro;');
+             
+            //is currency symbol before or after price?
+            if ( $this->params->get('symbol_place', 1) ) {
+                 
+                return $this-> escape( $price .' '. $currency_symbol );
 
-			} else {
-				 
-				return $this-> escape( $currency_symbol .' '. $price );
-			}
-			 
-		} else {
-			 
-			return $default ;
-		}
-	}
+            } else {
+                 
+                return $this-> escape( $currency_symbol .' '. $price );
+            }
+             
+        } else {
+             
+            return $default ;
+        }
+    }
+    
+    
+    function formatNumber( $number=0, $decimals=0 )
+    {
+        //verify if we need to represent decimal (ex : 2.00 = 2)
+        $temp = intval($number);
+        if (($temp - $number) == 0.0 ) {
+            $decimals=0 ;
+        }
+        
+        //decode charset before using number_format
+        jimport('joomla.utilities.string');
+        if (function_exists('iconv')) {
+            $decimal_separator   = JString::transcode( $this->params->get('decimals_separator', ',') , $this->_charset, 'ISO-8859-1' );
+            $thousands_separator = JString::transcode( $this->params->get('thousands_separator', ' '), $this->_charset, 'ISO-8859-1' );
+        } else {
+            $decimal_separator   = utf8_decode( $this->params->get('decimals_separator', ','));
+            $thousands_separator = utf8_decode( $this->params->get('thousands_separator', ' '));
+        }
+        $number = number_format( $number, $decimals, $decimal_separator, $thousands_separator ) ;
+         
+        //re-encode
+        if (function_exists('iconv')) {
+            $number = JString::transcode( $number, 'ISO-8859-1', $this->_charset );
+        } else {
+            $number = utf8_encode( $number );
+        }
+        
+        return $number;
+    }
 
 	function getAdvantages( $advantages="" , $format="" )
 	{

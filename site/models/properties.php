@@ -64,6 +64,23 @@ class JeaModelProperties extends JModel
 		
 		return $table;
 	}
+	
+    function &getAccess()
+    {
+        static $access = null;
+        
+        if ( $access === null) {
+        
+            $user   =& JFactory::getUser();
+
+            // Create a user access object for the user
+            $access                 = new stdClass();
+            $access->canEdit        = $user->authorize('com_jea', 'edit', 'property', 'all');
+            $access->canEditOwn     = $user->authorize('com_jea', 'edit', 'property', 'own');
+        }
+        
+        return $access;
+    }
     
     function getProperties()
     {        
