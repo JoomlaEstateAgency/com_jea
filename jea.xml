@@ -15,10 +15,10 @@
 	<description>Extension for real estate agency</description>
 
 	<!-- Custom Install Script to execute -->
-	<!--<installfile>install.eventlist.php</installfile>-->
+	<installfile>install.eventlist.php</installfile>
 	
 	<!-- Custom Uninstall Script to execute -->
-	<!--<uninstallfile>uninstall.eventlist.php</uninstallfile>-->
+	<uninstallfile>uninstall.eventlist.php</uninstallfile>
 
 	<!-- Site Main File Copy Section -->
 	<files folder="site">
