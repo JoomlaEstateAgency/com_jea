@@ -50,6 +50,11 @@ class ComJea
     	echo 'O.4-beta';
     }
 	
+	/**
+	 * Enter description here...
+	 *
+	 * @return JParameter
+	 */
 	function &getParams()
     {
 		static $instance;
