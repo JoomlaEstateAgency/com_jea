@@ -133,7 +133,9 @@ class JeaControllerProperties extends JController
 	
 	function deleteimg()
 	{
-		$this->_model->delete_img();
+		$id = JRequest::getInt('id',0);
+	    
+	    $this->_model->delete_img();
 		$this->setRedirect( $this->_controllerUrl . '&task=edit&id=' . $id );
 	}
 	

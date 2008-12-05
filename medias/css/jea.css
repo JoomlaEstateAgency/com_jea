@@ -89,3 +89,45 @@ dl.jea_item span.slogan strong {
 #jea_search_form select {
 	width:12em;
 }
+
+/*format tabular list */
+table.jea_listing, table.jea_listing thead, table.jea_listing th, 
+table.jea_listing tbody, table.jea_listing td {border:1px solid #ccc;}
+
+table.jea_listing {
+border-collapse:collapse;
+}
+
+table.jea_listing th, table.jea_listing td {
+padding:5px;
+text-align:left;
+}
+
+table.jea_listing tbody th {
+font-weight:bold;
+}
+
+table.jea_listing thead {
+font-weight:bold;
+white-space:nowrap;
+text-align:left;
+}
+table.jea_listing tbody tr.row1{
+    background:#F9F9F9;
+}
+
+table.jea_listing tbody tr:hover{
+    background:#FFD;
+}
+
+table.jea_listing .number {
+text-align:right;
+}
+
+table.jea_listing .published {
+text-align:center;
+}
+
+
+
+

@@ -18,4 +18,11 @@ defined('_JEXEC') or die('Restricted access');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'jea.class.php';
 
+//add ACL
+$acl = & JFactory::getACL();
+$acl->addACL( 'com_jea', 'edit', 'users', 'jea agent', 'property', 'own' );
+$acl->addACL( 'com_jea', 'edit', 'users', 'manager', 'property', 'all' );
+$acl->addACL( 'com_jea', 'edit', 'users', 'administrator', 'property', 'all' );
+$acl->addACL( 'com_jea', 'edit', 'users', 'super administrator', 'property', 'all' );
+
 ComJea::run('properties');

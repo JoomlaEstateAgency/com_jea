@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once JPATH_COMPONENT.DS.'library/Gd/Abstract.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Gd/Abstract.php';
 
 class Gd_Transform extends Gd_Abstract
 {

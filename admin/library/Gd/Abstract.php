@@ -15,7 +15,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-require_once JPATH_COMPONENT.DS.'library/Gd/Color.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Gd/Color.php';
 
 class Gd_Abstract 
 {

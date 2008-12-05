@@ -270,7 +270,7 @@ class JeaModelProperties extends JModel
             return false;
         }
         
-       $row->is_renting = $this->isRenting() ? 1 : 0;
+        $row->is_renting = $this->isRenting() ? 1 : 0;
         
         if ( ! $row->check() ) {
             JError::raiseWarning( 200, $row->getError() );
@@ -357,7 +357,7 @@ class JeaModelProperties extends JModel
     {
     	if (!$id) return false;
     	
-    	require_once JPATH_COMPONENT.DS.'library/Http_File.php';
+    	require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Http_File.php';
     	jimport('joomla.filesystem.folder');
     	
     	$base_upload_dir = JPATH_ROOT.DS . 'images' . DS . 'com_jea' . DS . 'images' ;
@@ -446,7 +446,7 @@ class JeaModelProperties extends JModel
     		static $gd = null;
     		
     		if ( $gd === null){
-    			require JPATH_COMPONENT.DS.'library/Gd/Transform.php';
+    			require JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Gd/Transform.php';
     			$gd = new Gd_Transform();
     		}
     	

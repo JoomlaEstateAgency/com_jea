@@ -108,11 +108,13 @@ class TableProperties extends JTable
 
 		//For new insertion
         if ( !$this->id ) {	
+            $user =& JFactory::getUser();
             $this->published = 1;
             //Save ordering at the end
             $where =  'is_renting=' . (int) $this->is_renting ;
             $this->ordering = $this->getNextOrder( $where );
             $this->date_insert = date('Y-m-d');
+            $this->created_by = $user->get('id');
         }
         
         return true;

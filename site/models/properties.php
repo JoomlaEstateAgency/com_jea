@@ -82,6 +82,60 @@ class JeaModelProperties extends JModel
         return $access;
     }
     
+    function getUserProperties()
+    {
+        
+        $result = array() ;
+        $mainframe =& JFactory::getApplication();
+        $params    =& ComJea::getParams();
+        $access    =& $this->getAccess();
+        $default_limit = $params->get('list_limit', 10);
+        
+        $cat        = $mainframe->getUserStateFromRequest( 'com_jea.userproperties.cat', 'cat', -1, 'int' );
+        $limit      = $mainframe->getUserStateFromRequest( 'com_jea.limit', 'limit', $default_limit, 'int' );
+        $limitstart = JRequest::getInt('limitstart', 0);
+        $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
+        $order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));
+        $rows = array();
+        
+        if($access->canEdit || $access->canEditOwn){
+            
+            $select  = $this->_getSqlBaseSelect();
+            
+            $where = '';
+            if($access->canEditOwn){
+                 $user    =& JFactory::getUser();
+                 $where = ' WHERE tp.created_by=' . intval($user->get('id'));
+            }
+            
+            if($cat >= 0){
+                if(!empty($where)){
+                    $where .= ' AND is_renting=' . $cat;
+                } else {
+                    $where .= ' WHERE is_renting=' . $cat;
+                }
+            }
+            
+            $sql = $select . $where .  ' ORDER BY ' . $order . ' ' . strtoupper( $order_dir ) ;
+            $rows = $this->_getList( $sql , $limitstart, $limit );
+            
+            if ( $this->_db->getErrorNum() ) {
+                JError::raiseWarning( 200, $this->_db->getErrorMsg() );
+                return false;
+            }                
+        }
+        
+        $result['limitstart'] = $limitstart ;
+        $result['limit'] = $limit ; 
+        $result['total'] = $this->_getListCount( $sql );
+        $result['rows'] = $rows ;
+        $result['order'] = $order ;
+        $result['order_dir'] = $order_dir;
+        $result['cat'] = $cat;
+         
+        return $result ;        
+    }
+    
     function getProperties()
     {        
         $result = array() ;
@@ -172,7 +226,7 @@ class JeaModelProperties extends JModel
         
     }
     
-    function getProperty()
+    function &getProperty()
     {
     	 $sql = $this->_getSqlBaseSelect();
          $sql .= 'WHERE tp.id ='. $this->getId() ;

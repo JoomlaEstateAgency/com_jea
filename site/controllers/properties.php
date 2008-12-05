@@ -52,14 +52,7 @@ class JeaControllerProperties extends JController
 				$router->setVar( 'filter_order', $filter_order);
 			}
 		}
-		
-		//add ACL
-        $acl = & JFactory::getACL();
-        $acl->addACL( 'com_jea', 'edit', 'users', 'jea agent', 'property', 'own' );
-        $acl->addACL( 'com_jea', 'edit', 'users', 'manager', 'property', 'all' );
-        $acl->addACL( 'com_jea', 'edit', 'users', 'administrator', 'property', 'all' );
-        $acl->addACL( 'com_jea', 'edit', 'users', 'super administrator', 'property', 'all' );
-		
+
 		parent::__construct( $default );
 	}
 	
@@ -136,10 +129,10 @@ class JeaControllerProperties extends JController
 			            $temp['departments'][$row->department_id] = true ;
 			    }
 			}
-			
+
 			echo $jsonService->encode($result);
 		}
-		
+
 	}
 	
 	function sendmail()
@@ -181,6 +174,48 @@ class JeaControllerProperties extends JController
 		}		
 		$this->display();
 	}
+	
+	function save()
+	{
+	    // Check for request forgeries
+        JRequest::checkToken() or die( 'Invalid Token' );
+        
+	    require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+	    $id = JRequest::getInt('id', 0);
+	    $Itemid = JRequest::getInt('Itemid', 0);
+	    $is_renting = JRequest::getInt('is_renting', 0);
+	    $cat = $is_renting ? 'renting' : 'selling';
+	    
+	    $model = new JeaModelProperties();
+	    $model->setCategory($cat);
+	    
+	    if ( false ===  $model->save() ) {
+	         $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+	                             . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+            
+        } else {
+            
+            $row =& $model->getRow();
+            
+            $msg = JText::sprintf( 'Successfully saved property', $row->ref ) ;
+            $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+                                 . '&Itemid=' .$Itemid, $msg );
+        }
+	    
+	}
+	
+    function deleteimg()
+    {
+        $id = JRequest::getInt('id',0);
+        $Itemid = JRequest::getInt('Itemid', 0);
+        
+        require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+        $model = new JeaModelProperties();
+        
+        $model->delete_img();
+        $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+                                 . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+    }
 	
 	
 }
