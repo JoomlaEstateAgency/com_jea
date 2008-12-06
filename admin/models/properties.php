@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.4 2008-06
+ * @version     0.5 2008-12-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -15,6 +15,8 @@
 
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
+
+jimport('joomla.application.component.model');
 
 class JeaModelProperties extends JModel
 {
@@ -264,6 +266,11 @@ class JeaModelProperties extends JModel
 			'published'      => JRequest::getInt( 'published', 0 , 'POST' ),
 			'emphasis'       => JRequest::getInt( 'emphasis', 0 , 'POST' )
         );
+        
+        if ($created_by = JRequest::getInt( 'created_by', 0 , 'POST' )){
+            $datas['created_by'] = $created_by;
+        }
+        
         
         if ( !$row->bind($datas) ) {
             JError::raiseWarning( 200, $row->getError() );

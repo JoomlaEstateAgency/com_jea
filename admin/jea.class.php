@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.4 2008-06
+ * @version     0.5 2008-12-06
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.txt
@@ -115,6 +115,23 @@ class ComJea
 		$controller->execute( JRequest::getCmd( 'task' ) );
 		$controller->redirect();
         
+    }
+    
+    function &getAccess()
+    {
+        static $access = null;
+        
+        if ( $access === null) {
+        
+            $user   =& JFactory::getUser();
+
+            // Create a user access object for the user
+            $access                 = new stdClass();
+            $access->canEdit        = $user->authorize('com_jea', 'edit', 'property', 'all');
+            $access->canEditOwn     = $user->authorize('com_jea', 'edit', 'property', 'own');
+        }
+        
+        return $access;
     }
     
     

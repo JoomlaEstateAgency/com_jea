@@ -2,8 +2,8 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.4 2008-06
- * @package		Jea.site
+ * @version     0.5 2008-12-06
+ * @package     Jea.site
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla Estate Agency is free software. This version may have been modified pursuant to the
@@ -157,7 +157,7 @@ class JeaControllerProperties extends JController
 			
 			$reciptient = $config->getValue('mailfrom', '');
 			$sendOk = JUtility::sendMail($email, $name, $reciptient ,$subject , $message, false);
-						   
+		   
 			if( $sendOk ) {
 				
 				$mainframe =& JFactory::getApplication();
@@ -179,43 +179,73 @@ class JeaControllerProperties extends JController
 	{
 	    // Check for request forgeries
         JRequest::checkToken() or die( 'Invalid Token' );
+	    
+	    $access =& ComJea::getAccess();
         
-	    require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
-	    $id = JRequest::getInt('id', 0);
-	    $Itemid = JRequest::getInt('Itemid', 0);
-	    $is_renting = JRequest::getInt('is_renting', 0);
-	    $cat = $is_renting ? 'renting' : 'selling';
-	    
-	    $model = new JeaModelProperties();
-	    $model->setCategory($cat);
-	    
-	    if ( false ===  $model->save() ) {
-	         $this->setRedirect( 'index.php?option=com_jea&view=manage&'
-	                             . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+        if ($access->canEdit || $access->canEditOwn) {
             
-        } else {
-            
-            $row =& $model->getRow();
-            
-            $msg = JText::sprintf( 'Successfully saved property', $row->ref ) ;
-            $this->setRedirect( 'index.php?option=com_jea&view=manage&'
-                                 . '&Itemid=' .$Itemid, $msg );
-        }
+            require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+            $model = new JeaModelProperties();
+	        
+    	    $id = JRequest::getInt('id', 0);
+            $Itemid = JRequest::getInt('Itemid', 0);
+            $is_renting = JRequest::getInt('is_renting', 0);
+            $cat = $is_renting ? 'renting' : 'selling';
+    	    $model->setCategory($cat);
+    	    
+    	    if ( false ===  $model->save() ) {
+    	         $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+    	                             . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+                
+            } else {
+                
+                $row =& $model->getRow();
+                
+                $msg = JText::sprintf( 'Successfully saved property', $row->ref ) ;
+                $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+                                     . '&Itemid=' .$Itemid, $msg );
+            }
+	    }
 	    
 	}
 	
-    function deleteimg()
+    function delete()
     {
-        $id = JRequest::getInt('id',0);
-        $Itemid = JRequest::getInt('Itemid', 0);
+        $access =& ComJea::getAccess();
         
-        require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
-        $model = new JeaModelProperties();
-        
-        $model->delete_img();
-        $this->setRedirect( 'index.php?option=com_jea&view=manage&'
-                                 . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+        if ($access->canEdit || $access->canEditOwn) {
+            
+            require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+            $model = new JeaModelProperties();
+            
+            $Itemid = JRequest::getInt('Itemid', 0);
+            $id = JRequest::getInt('id', 0);
+            JRequest::setVar('cid', array($id));
+            
+            if ($model->remove()){
+                
+                $this->setRedirect( 'index.php?option=com_jea&view=manage'
+                                     . '&Itemid=' .$Itemid, 
+                                     JText::_('SUCCESSFULLY REMOVED ITEM') );
+            }
+        }
     }
 	
+    function deleteimg()
+    {
+        $access =& ComJea::getAccess();
+        
+        if ($access->canEdit || $access->canEditOwn) {
+            
+            require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+            $model = new JeaModelProperties();
+            
+            $id = JRequest::getInt('id',0);
+            $Itemid = JRequest::getInt('Itemid', 0);
+            $model->delete_img();
+            $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+                                     . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
+        }
+    }
 	
 }

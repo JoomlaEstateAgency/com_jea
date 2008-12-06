@@ -1,6 +1,12 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 0.5 / 12-2008=
+-Fix bug on image deletion (redirect on blank page)
+-Fix bug #10490 Error message when mail function cannot send mail
+-Fix bug #13089 on module emphasis (break links)
+-Users can manage properties in front-office
+
 =RELEASE 0.4 / 06-2008=
 0.4 beta (bugfixes release)
 - Fix include path for jea library

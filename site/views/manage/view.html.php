@@ -2,8 +2,8 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version		0.1 2008-02-26
- * @package		Jea.site
+ * @version     0.5 2008-12-06
+ * @package     Jea.site
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla Estate Agency is free software. This version may have been modified pursuant to the
@@ -36,9 +36,9 @@ class JeaViewManage extends JeaView
     
 	function display( $tpl = null )
 	{
-        $user =& JFactory::getUser();
+        $access =& ComJea::getAccess();
 	    
-	    if(!$user->get('id')){
+	    if(!($access->canEdit || $access->canEditOwn)){
             echo JText::_('Unauthorized access');
             return;
         }
@@ -52,17 +52,7 @@ class JeaViewManage extends JeaView
 			$this->getItemsList();
 		}
 
-		JHTML::script('jea.js', 'media/com_jea/js/', false);
-		
-		
-		
-		$model =& $this->getModel();
-        $access =& $model->getAccess();
-        //dump($access);
-        
-        $this->assignRef('user', $user);
         $this->assignRef('access', $access);
-
 		parent::display($tpl);
 	}
 

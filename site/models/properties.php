@@ -2,8 +2,8 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version		0.4 2008-06
- * @package		Jea.admin
+ * @version     0.5 2008-12-06
+ * @package     Jea.site
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
  * Joomla Estate Agency is free software. This version may have been modified pursuant to the
@@ -36,21 +36,6 @@ class JeaModelProperties extends JModel
 	function getId()
 	{
 		return JRequest::getInt('id', 0);
-		/*
-		//First loooking for new insertion
-		if ($this->_lastId > 0) {
-			return $this->_lastId ;
-		}
-		
-		$cid = $this->getCid();
-		
-		if (empty($cid[0])) {
-			//try to see id
-			return JRequest::getInt('id', 0);
-		}
-		
-		return $cid[0] ;
-*/
 	}
 	
 	function &getRow()
@@ -64,23 +49,6 @@ class JeaModelProperties extends JModel
 		
 		return $table;
 	}
-	
-    function &getAccess()
-    {
-        static $access = null;
-        
-        if ( $access === null) {
-        
-            $user   =& JFactory::getUser();
-
-            // Create a user access object for the user
-            $access                 = new stdClass();
-            $access->canEdit        = $user->authorize('com_jea', 'edit', 'property', 'all');
-            $access->canEditOwn     = $user->authorize('com_jea', 'edit', 'property', 'own');
-        }
-        
-        return $access;
-    }
     
     function getUserProperties()
     {
@@ -88,11 +56,11 @@ class JeaModelProperties extends JModel
         $result = array() ;
         $mainframe =& JFactory::getApplication();
         $params    =& ComJea::getParams();
-        $access    =& $this->getAccess();
+        $access    =& ComJea::getAccess();
         $default_limit = $params->get('list_limit', 10);
         
-        $cat        = $mainframe->getUserStateFromRequest( 'com_jea.userproperties.cat', 'cat', -1, 'int' );
-        $limit      = $mainframe->getUserStateFromRequest( 'com_jea.limit', 'limit', $default_limit, 'int' );
+        $cat        = $mainframe->getUserStateFromRequest( 'com_jea.user.properties.cat', 'cat', -1, 'int' );
+        $limit      = $mainframe->getUserStateFromRequest( 'com_jea.user.limit', 'limit', $default_limit, 'int' );
         $limitstart = JRequest::getInt('limitstart', 0);
         $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
         $order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));

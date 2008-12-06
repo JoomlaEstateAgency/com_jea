@@ -41,7 +41,7 @@ $altrow = 1;
 			<th class="land_space number"><?php echo JHTML::_('grid.sort', 'Land space', 'land_space', $this->order_dir , $this->order ) ?></th>
 			<th class="price number"><?php echo JHTML::_('grid.sort', 'renting' ? JText::_('Renting price') :  JText::_('Selling price'), 'price', $this->order_dir , $this->order ) ?></th>
 			<th class="published"><?php echo JText::_('Published' )?></th>
-			<th class="edit"><?php echo JText::_('Edit' )?></th>
+			<th class="edit"><?php echo JText::_('Delete' )?></th>
 		</tr>
 		</thead>
 		
@@ -49,7 +49,8 @@ $altrow = 1;
 <?php foreach ($this->rows as $k => $row): $altrow = $altrow ? 0 : 1 ?>
 
 		<tr class="row<?php echo $altrow ?>" >
-			<td class="ref"><?php echo $row->ref ?></td>
+			<td class="ref"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&view=manage&layout=form&id='.$row->id ) ?>" title="<?php echo JText::_('Edit') ?>" > 
+			<?php echo $row->ref ?></a></td>
 			<td class="type"><?php echo $row->type ?></td>
 			<td class="adress"><?php echo $row->adress ?></td>
 			<td class="town"><?php echo $row->town ?></td>
@@ -57,10 +58,11 @@ $altrow = 1;
 			<td class="land_space number"><?php echo $this->formatNumber( floatval( $row->land_space ), 2 ). ' ' . $this->params->get('surface_measure') ?></td>
 			<td class="price number"><?php echo $this->formatPrice( floatval($row->price) , JText::_('Consult us') ) ?></td>
 			<td class="published"><?php echo $row->published ? JHTML::_('image.site', 'publish_g.png', '/administrator/images/') : JHTML::_('image.site', 'publish_r.png', '/administrator/images/') ?></td>
-			<td class="edit">
-			<a href="<?php echo JRoute::_( 'index.php?option=com_jea&view=manage&layout=form&id='.$row->id ) ?>" title="<?php echo JText::_('Edit') ?>" > 
-				<?php echo JText::_('Edit') ?>
-			</a>
+			<td class="delete">
+			<a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=delete&id='.$row->id ) ?>" 
+			   title="<?php echo JText::_('Delete') ?>"
+			   onclick="return confirm('<?php echo JText::_('Are you sure you want to delete this item?') ?>')">
+			<?php echo JHTML::_('image.site', 'media_trash.png', '/media/com_jea/images/') ?></a>
 			</td>
 		</tr>
 <?php endforeach ?>

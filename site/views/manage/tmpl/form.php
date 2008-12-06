@@ -16,15 +16,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' ) ;
 
-JFilterOutput::objectHTMLSafe( $this->row );
+JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 JHTML::_( 'behavior.calendar' );
 
-jimport( 'joomla.html.pane' );
-$pane =& JPane::getInstance('sliders');
-
+JFilterOutput::objectHTMLSafe( $this->row );
 $editor =& JFactory::getEditor();
-
-JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 
 $document=& JFactory::getDocument();
 $document->addScriptDeclaration( '

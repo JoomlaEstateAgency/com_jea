@@ -267,6 +267,10 @@ function submitbutton( pressbutton, section ) {
 		<input type="reset" class="button" value="..." onclick="return showCalendar('availability', '%Y-%m-%d');" />
 		</td>
 	  </tr>
+	  <tr>
+	    <td><label for="created_by"><?php echo JText::_('Author') ?> :</label></td>
+	    <td><?php echo JHTML::_('list.users', 'created_by', $this->row->created_by ) ?></td>
+	  </tr>
 	</table>
   <?php echo  $pane->endPanel() ?>
   <?php echo $pane->endPane() ?>
