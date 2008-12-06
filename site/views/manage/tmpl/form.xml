@@ -6,13 +6,8 @@
         </message>
     </layout>
     <state>
-        <name>Manage properties layout</name>
-        <description>MANAGE PROPERTIES LAYOUT DESC</description>
-        <params>
-            <param name="cat" type="radio" default="renting" label="category" description="Choose wich category to list">
-                <option value="renting">Renting</option>
-                <option value="selling">Selling</option>
-            </param>
-        </params>
+        <name>property submition form layout</name>
+        <description>PROPERTY SUBMITION FORM LAYOUT DESC</description>
+        <params />  
     </state>
 </metadata>

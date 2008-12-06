@@ -15,10 +15,10 @@
 	<description>Extension for real estate agency</description>
 
 	<!-- Custom Install Script to execute -->
-	<installfile>install.eventlist.php</installfile>
+	<installfile>install.php</installfile>
 	
 	<!-- Custom Uninstall Script to execute -->
-	<uninstallfile>uninstall.eventlist.php</uninstallfile>
+	<uninstallfile>uninstall.php</uninstallfile>
 
 	<!-- Site Main File Copy Section -->
 	<files folder="site">
@@ -31,11 +31,11 @@
 		<filename>views/manage/index.html</filename>
 		<filename>views/manage/metadata.xml</filename>
 		<filename>views/manage/view.html.php</filename>
+        <filename>views/manage/tmpl/default.php</filename>
+        <filename>views/manage/tmpl/default.xml</filename>
 		<filename>views/manage/tmpl/form.php</filename>
 		<filename>views/manage/tmpl/form.xml</filename>
 		<filename>views/manage/tmpl/index.html</filename>
-		<filename>views/manage/tmpl/manage.php</filename>
-		<filename>views/manage/tmpl/manage.xml</filename>
 		<filename>views/properties/index.html</filename>
 		<filename>views/properties/metadata.xml</filename>
 		<filename>views/properties/view.html.php</filename>
