@@ -51,6 +51,7 @@
 	
 	<!-- Site Main Language File Copy Section -->
 	<languages folder="site/language">
+		<language tag="en-GB">en-GB.com_jea.ini</language>
 		<language tag="fr-FR">fr-FR.com_jea.ini</language>
 	</languages>
 	
@@ -160,6 +161,7 @@
 		
 		<!-- Administration Language File Copy Section -->
 		<languages folder="admin/language">
+			<language tag="en-GB">en-GB.com_jea.ini</language>
 			<language tag="fr-FR">fr-FR.com_jea.ini</language>
 		</languages>
 	</administration>
