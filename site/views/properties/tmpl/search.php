@@ -19,7 +19,7 @@ if ($use_ajax ) {
 
 ?>
 
-<form action="index.php?option=com_jea&amp;task=search" method="post" id="jea_search_form" enctype="application/x-www-form-urlencoded" >
+<form action="<?php echo JRoute::_('&task=search&layout=default') ?>" method="post" id="jea_search_form" enctype="application/x-www-form-urlencoded" >
 
 	<fieldset><legend><?php echo JText::_('Quick search') ?></legend>
 	<p>

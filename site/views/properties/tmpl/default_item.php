@@ -1,6 +1,12 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
+
+if(!$this->row->id){
+    echo JText::_('This property doesn\'t exists anymore');
+    return;
+}
+
 ?>
 
 <p class="pagenavigation">

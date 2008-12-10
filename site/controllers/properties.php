@@ -79,9 +79,23 @@ class JeaControllerProperties extends JController
 					'advantages'       => JRequest::getVar('advantages', array(), '', 'array')
 				);
 				$session->set('params', $params, 'jea_search');
+			} else {
+			    $app = &JFactory::getApplication();
+                $router = &$app->getRouter();
+                // force the default to layout on search result
+                $router->setVar( 'layout', 'default');
 			}
 			
-			JRequest::set( $session->get('params', array() , 'jea_search') , 'POST');
+			$params = $session->get('params', array() , 'jea_search');
+			
+			// Bug correction on search pagination
+			if ($limit =JRequest::getInt('limit', 0)){
+			    
+			    $params['limit'] = $limit;
+			    $session->set('params', $params, 'jea_search');
+			}
+			
+			JRequest::set( $params , 'POST');
 			$this->display();
 			
 		} else {

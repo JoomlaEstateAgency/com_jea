@@ -51,16 +51,18 @@ class JeaViewProperties extends JeaView
 		jimport('joomla.html.pagination');
 		
 		$this->pagination = new JPagination($res['total'], $res['limitstart'], $res['limit']);
-		
-		$this->assign('total',	$res['total']);
-		$this->assign('order',	$res['order']);
-		$this->assignRef('rows',$res['rows']);
+		$this->assign($res);
 	}
 
 	function getItemDetail( $id )
 	{
 	  
 		$row =& $this->get('property');
+		
+	    if(!$row->id){
+            return;
+        }
+		
 		$this->assignRef('row', $row);
 		
 		$res = ComJea::getImagesById($row->id);

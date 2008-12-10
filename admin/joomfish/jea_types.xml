@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<joomfish type="contentelement">
+<name>jea_types</name>
+<author>S. Philip</author>
+<version>1.0</version>
+<description>Types definition for JEA component</description>
+<reference type="jea_types">
+<table name="jea_types">
+<field type="referenceid" name="id" translate="0">ID</field>
+<field type="titletext" name="value" translate="1">Value</field>
+<field type="text" name="ordering" translate="0">Ordering</field>
+</table>
+</reference>
+</joomfish>

@@ -1,6 +1,12 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 0.6 / 12-2008=
+-Fix bug on search pagination
+-Add english translation
+-Add sh404SEF plugin (site/sef_ext/com_jea)
+-Add Joomfish contentElements (admin/joomfish)
+
 =RELEASE 0.5 / 12-2008=
 -Fix bug on image deletion (redirect on blank page)
 -Fix bug #10490 Error message when mail function cannot send mail

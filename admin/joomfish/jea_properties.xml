@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<joomfish type="contentelement">
+<name>jea_properties</name>
+<author>S. Philip</author>
+<version>1.0</version>
+<description>Properties definition for JEA component</description>
+<reference type="jea_properties">
+<table name="jea_properties">
+<field type="referenceid" name="id" translate="0">ID</field>
+<field type="titletext" name="ref" translate="0">Ref</field>
+<field type="htmltext" name="description" translate="1">Description</field>
+<field type="created_date" name="date_insert" translate="0">Created</field>
+<field type="checked_out_by" name="checked_out" translate="0">Check out by</field>
+<field type="checked_out_date" name="checked_out_time" translate="0">Check out date</field>
+</table>
+</reference>
+</joomfish>
