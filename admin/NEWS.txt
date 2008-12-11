@@ -6,6 +6,8 @@ Joomla Estate Agency          News
 -Add english translation
 -Add sh404SEF plugin (site/sef_ext/com_jea)
 -Add Joomfish contentElements (admin/joomfish)
+-Default email to contact form different than administrator email in component parameters
+-Jea Agents could receive contact form in component parameters
 
 =RELEASE 0.5 / 12-2008=
 -Fix bug on image deletion (redirect on blank page)
