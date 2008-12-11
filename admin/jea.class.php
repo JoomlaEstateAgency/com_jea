@@ -81,6 +81,8 @@ class ComJea
 		    $instance->def('list_limit', 10);
 		    $instance->def('show_print_icon', 1);
 		    $instance->def('show_contactform', 1);
+		    $instance->def('default_mail', '');
+		    $instance->def('send_form_to_agent', 0);
 		    $instance->def('jpg_quality', 90);
 		    $instance->def('max_thumbnails', 120);
 		    $instance->def('max_previews', 400);

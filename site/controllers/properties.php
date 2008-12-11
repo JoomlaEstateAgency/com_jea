@@ -154,6 +154,8 @@ class JeaControllerProperties extends JController
 		jimport('joomla.mail.helper');
 		jimport('joomla.utilities.utility');
 		$config =& JFactory::getConfig();
+		$params =& ComJea::getParams();
+		$db =& JFactory::getDBO();
 		
 		$email = JMailHelper::cleanAddress( JRequest::getVar('email', '') );
 		$name = JRequest::getVar('name', '');
@@ -168,8 +170,21 @@ class JeaControllerProperties extends JController
 			JError::raiseWarning( 500, JText::sprintf( 'Invalid email', $email ));
 			
 		} else {
+			$reciptient = $params->get('default_mail');
+		    
+		    if($params->get('send_form_to_agent') == 1){
+		        
+		        $created_by = JRequest::getInt('created_by', 0);
+		        $sql = 'SELECT `email` FROM `#__users` WHERE `id`=' . intval($created_by);
+		        $db->setQuery($sql);
+		        $reciptient = $db->loadResult();
+		    }
+		    
+		    if (empty($reciptient)) {
+		        // webmaster email
+		        $reciptient = $config->getValue('mailfrom', '');
+		    }
 			
-			$reciptient = $config->getValue('mailfrom', '');
 			$sendOk = JUtility::sendMail($email, $name, $reciptient ,$subject , $message, false);
 		   
 			if( $sendOk ) {

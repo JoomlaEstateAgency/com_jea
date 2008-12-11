@@ -46,7 +46,11 @@
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
-			
+		<param name="default_mail" type="text" default="" label="Default email" description="PARAMSDEFAULTEMAIL" />
+        <param name="send_form_to_agent" type="radio" default="0" label="Send form to agent" description="PARAMSSENDFORMTOAGENT">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
 	</params>
 	
 	<params group="pictures">

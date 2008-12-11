@@ -175,7 +175,11 @@ if(!$this->row->id){
 		<p><label for="e_message"><?php echo JText::_('Message') ?> :</label><br /> 
 		   <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo JRequest::getVar('e_message', '') ?></textarea>
 		</p>
-		<p><input type="submit" value="<?php echo JText::_('Send') ?>" /></p>
+		<p>
+		<input type="hidden" name="created_by" value="<?php echo $this->row->created_by ?>" />
+		<input type="submit" value="<?php echo JText::_('Send') ?>" />
+		
+		</p>
 	
 	</fieldset>
 </form>  
