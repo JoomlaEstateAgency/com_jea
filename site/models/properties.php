@@ -156,7 +156,7 @@ class JeaModelProperties extends JModel
 		}
 		
 		if( $rooms_min = JRequest::getInt('rooms_min', 0) ) {
-			$where .= ' AND tp.rooms > ' . $this->_db->getEscaped( $rooms_min ) ;
+			$where .= ' AND tp.rooms >= ' . $this->_db->getEscaped( $rooms_min ) ;
 		}
         
         if ( $advantages = JRequest::getVar( 'advantages', array(), '', 'array' ) ) {
