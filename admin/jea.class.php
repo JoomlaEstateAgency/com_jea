@@ -47,7 +47,13 @@ class ComJea
 {
     function version ()
     {
-    	echo 'O.4-beta';
+    	if(is_file(JPATH_COMPONENT_ADMINISTRATOR . DS . 'jea.xml')) {
+        	jimport('joomla.utilities.simplexml');
+        	$xml = new JSimpleXML;
+            $xml->loadFile(JPATH_COMPONENT_ADMINISTRATOR . DS . 'jea.xml');
+            return $xml->document->version[0]->data() ;
+    	}
+        return '';
     }
 	
 	/**
