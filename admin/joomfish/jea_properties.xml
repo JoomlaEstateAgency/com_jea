@@ -3,7 +3,7 @@
 <joomfish type="contentelement">
 <name>jea_properties</name>
 <author>S. Philip</author>
-<version>1.0</version>
+<version>2.0</version>
 <description>Properties definition for JEA component</description>
 <reference type="jea_properties">
 <table name="jea_properties">

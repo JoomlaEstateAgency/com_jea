@@ -3,7 +3,7 @@
 <joomfish type="contentelement">
 <name>jea_types</name>
 <author>S. Philip</author>
-<version>1.0</version>
+<version>2.0</version>
 <description>Types definition for JEA component</description>
 <reference type="jea_types">
 <table name="jea_types">
