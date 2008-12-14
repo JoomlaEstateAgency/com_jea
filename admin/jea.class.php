@@ -86,6 +86,7 @@ class ComJea
 		    $instance->def('sort_landspace', 0);
 		    $instance->def('list_limit', 10);
 		    $instance->def('show_print_icon', 1);
+		    $instance->def('show_pdf_icon', 1);
 		    $instance->def('show_contactform', 1);
 		    $instance->def('default_mail', '');
 		    $instance->def('send_form_to_agent', 0);

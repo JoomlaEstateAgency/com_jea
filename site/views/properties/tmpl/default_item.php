@@ -15,10 +15,15 @@ if(!$this->row->id){
 
 
 
-<?php if ( $this->params->get('show_print_icon') ): ?>
-		<div class="jea_tools">
-		<a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a><br />
-		</div>
+<?php if ( $this->params->get('show_print_icon') || $this->params->get('show_pdf_icon') ): ?>
+	<div class="jea_tools">
+	<?php if ( $this->params->get('show_pdf_icon') ): ?>
+    <a href="<?php echo JRoute::_('&format=pdf') ?>" title="PDF"><?php echo JHTML::_('image.site', 'pdf_button.png') ?></a>     
+	<?php endif ?>
+	<?php if ( $this->params->get('show_print_icon') ): ?>
+	<a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a>
+    <?php endif ?>
+	</div>
 <?php endif ?>
 
 <h1> <?php echo $this->page_title ?> </h1>
@@ -39,11 +44,6 @@ if(!$this->row->id){
 <?php endif ?>
 
  <div class="clr" >&nbsp;</div>
- 
- <div class="jea_toolbar">
-   <a href="#" title="<?php //echo _CMN_PDF ?>"><?php //echo $pdf_image ?> </a> 
-   <a href="#" title="<?php //echo _CMN_PRINT ?>"><?php //echo $print_image  ?> </a>
-  </div>
   
  <h2 ><?php echo JText::_('Ref')?> : <?php echo $this->escape($this->row->ref) ?></h2>
  
