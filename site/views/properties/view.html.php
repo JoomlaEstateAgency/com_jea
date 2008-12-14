@@ -265,5 +265,64 @@ class JeaViewProperties extends JeaView
 		$options = $model->getFeatureList($table, $title);
 		return JHTML::_('select.genericlist', $options , $id, 'class="inputbox" size="1" ' , 'value', 'text', 0);
 	}
+	
+	function activateGoogleMap(&$row, $domId )
+	{
+	    $key = $this->params->get('googlemap_apikey', '');
+	    
+	    if((!$key) || (!$row->adress) || (!$row->town)) return false;
+	    
+	    $document = &JFactory::getDocument();
+	    $a_lang = explode('-', $document->getLanguage());
+        $document->addScript( 'http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=' 
+                              . $key . '&amp;hl=' . $a_lang[0] );
+        
+        $script = <<<EOD
+var map = null;
+var geocoder = null;
+    
+function initializeMap() {
+    if (GBrowserIsCompatible()) {
+        map = new GMap2(document.getElementById("$domId"));
+        map.enableScrollWheelZoom();
+        map.setCenter(new GLatLng(50, 0), 2);
+        map.addControl(new GLargeMapControl());
+        map.addControl(new GMenuMapTypeControl());
+        geocoder = new GClientGeocoder();
+    }
+}
 
+function showAddress(address) {
+  if (geocoder) {
+    geocoder.getLatLng(
+      address,
+      function(point) {
+        if (!point) {
+          alert(address + " not found");
+        } else {
+          map.setCenter(point, 13);
+          var marker = new GMarker(point);
+          map.addOverlay(marker);
+          marker.openInfoWindowHtml(address);
+        }
+      }
+    );
+  }
+}
+
+window.addEvent("domready", function(){
+    initializeMap();
+    showAddress("$row->adress, $row->town")   
+});
+
+window.addEvent("unload", function(){
+    GUnload();   
+});
+EOD;
+        $document->addScriptDeclaration($script);
+        
+	    return true ;
+	}
+	
+    
 }

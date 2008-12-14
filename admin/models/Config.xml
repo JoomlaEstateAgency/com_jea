@@ -56,6 +56,14 @@
             <option value="0">No</option>
             <option value="1">Yes</option>
         </param>
+        
+        <param name="show_googlemap" type="radio" default="0" label="Google map" description="PARAMSSHOWGOOGLEMAP">
+            <option value="0">Hide</option>
+            <option value="1">Show</option>
+        </param>
+        <param name="googlemap_apikey" type="text" default="" label="Google map API key" size="65" description="PARAMSGOOGLEMAPAPIKEY" />
+        
+        
 	</params>
 	
 	<params group="pictures">
