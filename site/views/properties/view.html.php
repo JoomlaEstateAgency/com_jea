@@ -24,7 +24,7 @@ class JeaViewProperties extends JeaView
 	function display( $tpl = null )
 	{
 		// Request category
-		$this->cat	= $this->params->get('cat', 'renting');
+		$this->cat	= JRequest::getVar('cat', $this->params->get('cat', 'renting'));
 
 		$id	= JRequest::getInt('id', 0);
 
