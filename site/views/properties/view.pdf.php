@@ -35,7 +35,10 @@ class JeaViewProperties extends JeaView
 
     function getItemDetail()
     {
-        $text = '';
+        //try to increase memory
+		ini_set( 'memory_limit' , '32M' );
+    	
+    	$text = '';
         $row =& $this->get('property');
 
         if(!$row->id){
