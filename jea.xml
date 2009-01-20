@@ -87,9 +87,9 @@
 			<!-- Note that all & must be escaped to &amp; for the file to be valid XML and be parsed by the installer -->
 			<!--<menu link="option=index.php?option=com_jea&controller=properties&cat=renting">Renting management</menu>-->
 			<!-- Instead of link you can specify individual link attributes -->
-			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=renting">Gestion des locations</menu>
-			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=selling">Gestion des ventes</menu>
-			<menu img="icon" controller="features">Gestion des critères</menu>
+			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=renting">Renting management</menu>
+			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=selling">Selling management</menu>
+			<menu img="icon" controller="features">Properties features</menu>
 			<menu img="icon" controller="config">Configuration</menu>
 		</submenu>
 		
@@ -162,7 +162,9 @@
 		<!-- Administration Language File Copy Section -->
 		<languages folder="admin/language">
 			<language tag="en-GB">en-GB.com_jea.ini</language>
+			<language tag="en-GB">en-GB.com_jea.menu.ini</language>
 			<language tag="fr-FR">fr-FR.com_jea.ini</language>
+			<language tag="fr-FR">fr-FR.com_jea.menu.ini</language>
 		</languages>
 	</administration>
 </install>
