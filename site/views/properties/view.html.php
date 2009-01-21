@@ -205,7 +205,7 @@ class JeaViewProperties extends JeaView
 		if( $town_id = JRequest::getInt('town_id', 0) ) {
 			$town =& $model->getFeature('towns');
 			$town->load($town_id);
-			$html .= '<strong>' . Jtext::_('Department') . ' : </strong>'
+			$html .= '<strong>' . Jtext::_('Town') . ' : </strong>'
 			. $town->value . '<br />' . PHP_EOL;
 		}
 		if( $budget_min = JRequest::getFloat('budget_min', 0.0) ) {

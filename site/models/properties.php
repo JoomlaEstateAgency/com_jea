@@ -125,22 +125,22 @@ class JeaModelProperties extends JModel
 	    
 	    $where = 'WHERE published=1 AND tp.is_renting=';
 	    
-    	$cat	= $params->get('cat', JRequest::getCmd('cat', 'renting'));
+    	$cat	= JRequest::getCmd('cat', $params->get('cat',  'renting'));
 		$where .= ($cat == 'renting') ? '1' : '0' ;
 		
-		if ( $type_id = $params->get('type_id' , JRequest::getInt('type_id', 0)) ) {
+		if ( $type_id = JRequest::getInt('type_id', $params->get('type_id', 0)) ) {
 			$where .= ' AND tp.type_id = ' . intval( $type_id ) ;
 		}
 			
-    	if ( $department_id = $params->get('department_id' , JRequest::getInt('department_id', 0)) ) {
+    	if ( $department_id = JRequest::getInt('department_id', $params->get('department_id', 0)) ) {
 			$where .= ' AND tp.department_id = ' . intval( $department_id ) ;
 		}
 
-    	if ( $town_id = $params->get('town_id' , JRequest::getInt('town_id', 0)) ) {
+    	if ( $town_id = JRequest::getInt('town_id', $params->get('town_id', 0)) ) {
 			$where .= ' AND tp.town_id = ' . intval( $town_id ) ;
 		}
 			
-		if ( $area_id = $params->get('area_id' , JRequest::getInt('area_id', 0)) ) {
+		if ( $area_id = JRequest::getInt('area_id', $params->get('area_id', 0)) ) {
 			$where .= ' AND tp.area_id = ' . intval( $area_id ) ;
 		}
 			
