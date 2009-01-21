@@ -27,6 +27,7 @@ var optionsCallback = {
 function refreshForm(){
 
 	var formUrl = $('jea_search_form').action ;
+	formUrl = formUrl.substring(0, formUrl.indexOf('?')) + '?option=com_jea&task=ajaxfilter';
     var cat = $('renting').checked ? 'renting' : 'selling' ;
 	var jSonRequest = new Json.Remote( formUrl+'&format=raw' , optionsCallback );
 	

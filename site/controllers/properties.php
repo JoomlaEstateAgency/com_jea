@@ -57,96 +57,94 @@ class JeaControllerProperties extends JController
 	}
 	
 	function search()
+	{	
+		$session =& JFactory::getSession();
+		
+		if ( JRequest::checkToken() ) {
+			$params = array(
+				'Itemid'           => JRequest::getInt('Itemid', 0),
+				'cat'              => JRequest::getVar('cat', ''),
+				'type_id'          => JRequest::getInt('type_id', 0),
+				'department_id'    => JRequest::getInt('department_id', 0),
+				'town_id'          => JRequest::getInt('town_id', 0),
+				'budget_min'       => JRequest::getFloat('budget_min', 0.0),
+				'budget_max'       => JRequest::getFloat('budget_max', 0.0),
+				'living_space_min' => JRequest::getInt('living_space_min', 0),
+				'living_space_max' => JRequest::getInt('living_space_max', 0),
+				'rooms_min'        => JRequest::getInt('rooms_min', 0),
+				'advantages'       => JRequest::getVar('advantages', array(), '', 'array')
+			);
+			$session->set('params', $params, 'jea_search');
+		} else {
+		    $app = &JFactory::getApplication();
+               $router = &$app->getRouter();
+               // force the default to layout on search result
+               $router->setVar( 'layout', 'default');
+		}
+		
+		$params = $session->get('params', array() , 'jea_search');
+		
+		// Bug correction on search pagination
+		if ($limit =JRequest::getInt('limit', 0)){
+		    
+		    $params['limit'] = $limit;
+		    $session->set('params', $params, 'jea_search');
+		}
+		
+		JRequest::set( $params , 'POST');
+		$this->display();
+
+	}
+	
+	function ajaxfilter()
 	{
+		require JPATH_COMPONENT_ADMINISTRATOR . DS. 'library' . DS .'JSON.php' ;
+		
 		$json = JRequest::getVar('json', '');
 		
-		if(empty($json)) {
-			
-			$session =& JFactory::getSession();
-			
-			if ( JRequest::checkToken() ) {
-				$params = array(
-					'Itemid'           => JRequest::getInt('Itemid', 0),
-					'cat'              => JRequest::getVar('cat', ''),
-					'type_id'          => JRequest::getInt('type_id', 0),
-					'department_id'    => JRequest::getInt('department_id', 0),
-					'town_id'          => JRequest::getInt('town_id', 0),
-					'budget_min'       => JRequest::getFloat('budget_min', 0.0),
-					'budget_max'       => JRequest::getFloat('budget_max', 0.0),
-					'living_space_min' => JRequest::getInt('living_space_min', 0),
-					'living_space_max' => JRequest::getInt('living_space_max', 0),
-					'rooms_min'        => JRequest::getInt('rooms_min', 0),
-					'advantages'       => JRequest::getVar('advantages', array(), '', 'array')
-				);
-				$session->set('params', $params, 'jea_search');
-			} else {
-			    $app = &JFactory::getApplication();
-                $router = &$app->getRouter();
-                // force the default to layout on search result
-                $router->setVar( 'layout', 'default');
-			}
-			
-			$params = $session->get('params', array() , 'jea_search');
-			
-			// Bug correction on search pagination
-			if ($limit =JRequest::getInt('limit', 0)){
-			    
-			    $params['limit'] = $limit;
-			    $session->set('params', $params, 'jea_search');
-			}
-			
-			JRequest::set( $params , 'POST');
-			$this->display();
-			
-		} else {
-			
-			require JPATH_COMPONENT_ADMINISTRATOR . DS. 'library' . DS .'JSON.php' ;
-			$document = & JFactory::getDocument();
-			$document->setMimeEncoding('application/json') ;
-			
-			$jsonService = new Services_JSON(); 
-			$post = $jsonService->decode($json);
-			
-			JRequest::set((array) $post, 'POST');
-			JRequest::setVar('limit', 0);
-			
-			$model =& $this->getModel('Properties');
-			$res = $model->getProperties();
+		$document = & JFactory::getDocument();
+		$document->setMimeEncoding('application/json') ;
 		
-			$result = array();
-			$result['types'][] = array( 'value' => 0, 'text' => '- '. Jtext::_('Property type') .' -' );
-			$result['towns'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('town') .' -' );
-			$result['departments'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('Department') .' -' );
+		$jsonService = new Services_JSON(); 
+		$post = $jsonService->decode($json);
 		
-			$temp = array();
-			$temp['types'] = array();
-			$temp['towns'] = array();
-			$temp['departments'] = array();
+		JRequest::set((array) $post, 'POST');
 		
-			foreach ($res['rows'] as $row){
+		$model =& $this->getModel('Properties');
+		$res = $model->getProperties(true);
 	
-			    if( $row->type_id && !isset($temp['types'][$row->type_id]) ) {
-			            
-			            $result['types'][] = array( 'value' => $row->type_id , 'text' =>  $row->type );
-			            $temp['types'][$row->type_id] = true;
-			    }
-			    
-			    if($row->town_id && !isset($temp['towns'][$row->town_id]) ) {
-			        
-			            $result['towns'][] = array( 'value' => $row->town_id , 'text' =>  $row->town );
-			            $temp['towns'][$row->town_id] = true;
-			    }
-			    
-			    if($row->department_id && !isset($temp['departments'][$row->department_id]) ) {
+		$result = array();
+		$result['types'][] = array( 'value' => 0, 'text' => '- '. Jtext::_('Property type') .' -' );
+		$result['towns'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('town') .' -' );
+		$result['departments'][]   = array( 'value' => 0, 'text' => '- '. Jtext::_('Department') .' -' );
 	
-			            $result['departments'][] = array( 'value' => $row->department_id , 'text' =>  $row->department );
-			            $temp['departments'][$row->department_id] = true ;
-			    }
-			}
+		$temp = array();
+		$temp['types'] = array();
+		$temp['towns'] = array();
+		$temp['departments'] = array();
+	
+		foreach ($res['rows'] as $row){
 
-			echo $jsonService->encode($result);
+		    if( $row->type_id && !isset($temp['types'][$row->type_id]) ) {
+		            
+		            $result['types'][] = array( 'value' => $row->type_id , 'text' =>  $row->type );
+		            $temp['types'][$row->type_id] = true;
+		    }
+		    
+		    if($row->town_id && !isset($temp['towns'][$row->town_id]) ) {
+		        
+		            $result['towns'][] = array( 'value' => $row->town_id , 'text' =>  $row->town );
+		            $temp['towns'][$row->town_id] = true;
+		    }
+		    
+		    if($row->department_id && !isset($temp['departments'][$row->department_id]) ) {
+
+		            $result['departments'][] = array( 'value' => $row->department_id , 'text' =>  $row->department );
+		            $temp['departments'][$row->department_id] = true ;
+		    }
 		}
 
+		echo $jsonService->encode($result);
 	}
 	
 	function sendmail()

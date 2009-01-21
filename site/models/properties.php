@@ -104,14 +104,19 @@ class JeaModelProperties extends JModel
         return $result ;        
     }
     
-    function getProperties()
+    function getProperties($all=false)
     {        
         $result = array() ;
         $mainframe =& JFactory::getApplication();
         $params =& ComJea::getParams();
         $default_limit = $params->get('list_limit', 10);
-
-	    $limit      = $mainframe->getUserStateFromRequest( 'com_jea.limit', 'limit', $default_limit, 'int' );
+        
+		if($all===false){
+	    	$limit = $mainframe->getUserStateFromRequest( 'com_jea.limit', 'limit', $default_limit, 'int' );
+		} else {
+			$limit = 0;
+		}
+	    
 	    $limitstart	= JRequest::getInt('limitstart', 0);
 	    $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
 		$order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));
