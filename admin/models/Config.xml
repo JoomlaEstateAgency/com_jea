@@ -14,8 +14,8 @@
 		<param name="thousands_separator" type="text" size="1" default=" " label="Thousands separator" description=""  />
 		<param name="decimals_separator" type="text" size="1" default="," label="Decimals separator" description=""  />
 		<param name="symbol_place" type="radio"  default="1" label="Symbol position" description="PARAMSSYMBOLPLACE"  >
-			<option value="0">Avant</option>
-			<option value="1">Apres</option>
+			<option value="0">Before</option>
+			<option value="1">After</option>
 		</param>
 	</params>
 	

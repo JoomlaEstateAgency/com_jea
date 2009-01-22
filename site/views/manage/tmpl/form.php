@@ -105,7 +105,7 @@ function checkForm() {
     
       <tr>
           <td nowrap="nowrap" class="label">
-            <label for="price"><?php echo  $this->row->is_renting ? JText::_('Rent') : JText::_('price') ?> :</label>
+            <label for="price"><?php echo  $this->row->is_renting ? JText::_('Renting price') : JText::_('Selling price') ?> :</label>
           </td>
           <td width="100%">
               <input id="price" type="text" name="price" value="<?php echo $this->row->price ?>" class="numberbox" /> 
