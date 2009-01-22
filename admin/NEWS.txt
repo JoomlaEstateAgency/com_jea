@@ -1,6 +1,15 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 0.7 / 01-2009=
+-Add Google map geolocalisation
+-Add Pdf view to properties detail
+-Fix bug on room min in advanced search
+-Fix translations on administrator component menu
+-Fix Missing translations
+-Fix various bugs on search results
+-Fix pagination bug
+
 =RELEASE 0.6 / 12-2008=
 -Fix bug on search pagination
 -Add english translation
