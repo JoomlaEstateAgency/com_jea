@@ -33,6 +33,7 @@
 		<filename>views/manage/index.html</filename>
 		<filename>views/manage/metadata.xml</filename>
 		<filename>views/manage/view.html.php</filename>
+		<filename>views/manage/view.pdf.php</filename>
         <filename>views/manage/tmpl/default.php</filename>
         <filename>views/manage/tmpl/default.xml</filename>
 		<filename>views/manage/tmpl/form.php</filename>
