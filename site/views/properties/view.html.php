@@ -268,7 +268,10 @@ class JeaViewProperties extends JeaView
 	
 	function activateGoogleMap(&$row, $domId )
 	{
-	    $key = $this->params->get('googlemap_apikey', '');
+	    #mootools bugfix
+	    JHTML::_('behavior.mootools');
+		
+		$key = $this->params->get('googlemap_apikey', '');
 	    
 	    if((!$key) || (!$row->adress) || (!$row->town)) return false;
 	    
