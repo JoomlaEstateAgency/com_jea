@@ -16,7 +16,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' ) ;
 
-JFilterOutput::objectHTMLSafe( $this->row );
+JFilterOutput::objectHTMLSafe( $this->row, ENT_QUOTES, array('ref', 'adress') );
 JHTML::_( 'behavior.calendar' );
 
 jimport( 'joomla.html.pane' );

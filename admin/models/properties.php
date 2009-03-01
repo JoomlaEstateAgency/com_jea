@@ -240,7 +240,7 @@ class JeaModelProperties extends JModel
         $row = & $this->getRow();
         
         $datas = array(
-        	'ref'            => JRequest::getCmd( 'ref', '', 'POST' ),
+        	'ref'            => JRequest::getVar( 'ref', '', 'POST' ),
 			'type_id'        => JRequest::getInt( 'type_id', 0 , 'POST' ),
 			'price'          => JRequest::getFloat( 'price', 0.0, 'POST' ),
 			'adress'         => JRequest::getVar( 'adress' , '', 'POST' ),
