@@ -159,7 +159,7 @@ class JeaViewManage extends JeaView
         
         $featuresModel = new JeaModelFeatures();
         $featuresModel->setTableName( 'advantages' );
-        $res = $featuresModel->getItems();
+        $res = $featuresModel->getItems(true);
         
         $advantages = array();
         
