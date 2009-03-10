@@ -123,7 +123,7 @@ class JeaModelFeatures extends JModel
 	}
 	
 	
-	function getItems()
+	function getItems($all=false)
 	{
 		$result = array();
 		$mainframe = &JFactory::getApplication();
@@ -137,16 +137,22 @@ class JeaModelFeatures extends JModel
 	    
 	    $sql = 'SELECT id, value, ordering FROM ' . $this->getSqlTableName() . ' ORDER BY ordering' ;
 		
-		$rows = $this->_getList( $sql , $limitstart, $limit );
+		$result['total'] = $this->_getListCount( $sql );
 		
-		if ( !$this->_db->getErrorNum() ) {
-	            
-	        $result['limitstart'] = $limitstart ;
+	    if( $all === true ){
+	    	
+			$result['limitstart'] = 0 ;
+			$result['limit'] = 0 ; 
+			$result['rows'] = $this->_getList( $sql);
+			
+		} else {
+			
+			$result['limitstart'] = $limitstart ;
 			$result['limit'] = $limit ; 
-			$result['total'] = $this->_getListCount( $sql );
-	        $result['rows'] = $rows ;    
-	
-	    } else {
+	        $result['rows'] = $this->_getList( $sql , $limitstart, $limit );
+		}
+		
+		if ( $this->_db->getErrorNum() ) {
 	            JError::raiseWarning( 200, $this->_db->getErrorMsg() );
 	            return false;
 	    }

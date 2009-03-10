@@ -131,7 +131,7 @@ class JeaViewProperties extends JView
 	    
 	    $featuresModel =& $this->getModel('features');
 	    $featuresModel->setTableName( 'advantages' );
-	    $res = $featuresModel->getItems();
+	    $res = $featuresModel->getItems(true);
 	    
 	    $advantages = array();
 	    
