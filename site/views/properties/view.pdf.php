@@ -57,8 +57,10 @@ class JeaViewProperties extends JeaView
         $document=& JFactory::getDocument();
         $document->setTitle(  $page_title . ' ' . JText::_('ref'). ' : ' . $row->ref );
         $document->setName($row->ref);
-
-        $text .= '<p><img src="'.$res['main_image']['preview_url'] .'" alt="" /></p>' ;
+		
+        if(is_file(JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'preview.jpg')){
+        	$text .= '<p><img src="'.$res['main_image']['preview_url'] .'" alt="" /></p>' ;
+        }
         $text .= $row->description . '<br /><br />' ;
 
         $text .= $row->is_renting ?  JText::_('Renting price') : JText::_('Selling price') ;
