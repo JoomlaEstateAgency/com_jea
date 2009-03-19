@@ -73,7 +73,7 @@ class JeaViewManage extends JeaView
         
 	    $model =& $this->getModel();
 	    
-	    $row =& $model->getProperty();
+	    $row =& $model->getRow();
 	    
 		$this->assignRef('row', $row);
 
