@@ -281,11 +281,18 @@ class JeaModelProperties extends JModel
         foreach ($fields as $field => $value){
                 $temp[]= 'tp.'.$field.' AS '. '`' . $field . '`';
         }
-        
+        //$select = 'tp'
         $select = implode(', ', $temp );
+
         $select .= ', td.value AS `department`, tc.value AS `condition`, ta.value AS `area`, '
 			    .  'ts.value AS `slogan`, tt.value AS `type`, tto.value AS `town`, ' 
 				.  'thwt.value AS `hot_water`, tht.value AS `heating`';
+		
+		//Joomfish compatibility:
+		$select .= ', td.id AS `id2`, tc.id AS `id3`, ta.id AS `id4`, '
+			    .  'ts.id AS `id5`, tt.id AS `id6`, tto.id AS `id7`, ' 
+				.  'thwt.id AS `id8`, tht.id AS `id9`';
+				
 
         return 'SELECT ' . $select . ' FROM #__jea_properties AS tp' . PHP_EOL
              . 'LEFT JOIN #__jea_departments AS td ON td.id = tp.department_id' . PHP_EOL
