@@ -159,6 +159,7 @@ class ComJea
         $result['main_image'] = array();
 
         if(is_file($img)){
+        	$result['main_image']['name'] = 'main.jpg';
             $result['main_image']['url'] = $img_url_base . 'main.jpg';
             $result['main_image']['preview_url'] = $img_url_base . 'preview.jpg';
             $result['main_image']['min_url'] = $img_url_base . 'min.jpg';
