@@ -5,8 +5,8 @@
 -- Structure de la table `#__jea_advantages`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_advantages`;
-CREATE TABLE `#__jea_advantages` (
+-- DROP TABLE IF EXISTS `#__jea_advantages`;
+CREATE TABLE IF NOT EXISTS `#__jea_advantages` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -19,8 +19,8 @@ CREATE TABLE `#__jea_advantages` (
 -- Structure de la table `#__jea_areas`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_areas`;
-CREATE TABLE `#__jea_areas` (
+-- DROP TABLE IF EXISTS `#__jea_areas`;
+CREATE TABLE IF NOT EXISTS `#__jea_areas` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -33,8 +33,8 @@ CREATE TABLE `#__jea_areas` (
 -- Structure de la table `#__jea_conditions`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_conditions`;
-CREATE TABLE `#__jea_conditions` (
+-- DROP TABLE IF EXISTS `#__jea_conditions`;
+CREATE TABLE IF NOT EXISTS `#__jea_conditions` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -47,8 +47,8 @@ CREATE TABLE `#__jea_conditions` (
 -- Structure de la table `#__jea_departments`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_departments`;
-CREATE TABLE `#__jea_departments` (
+-- DROP TABLE IF EXISTS `#__jea_departments`;
+CREATE TABLE IF NOT EXISTS `#__jea_departments` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -62,8 +62,8 @@ CREATE TABLE `#__jea_departments` (
 -- Structure de la table `#__jea_heatingtypes`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_heatingtypes`;
-CREATE TABLE `#__jea_heatingtypes` (
+-- DROP TABLE IF EXISTS `#__jea_heatingtypes`;
+CREATE TABLE IF NOT EXISTS `#__jea_heatingtypes` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -76,8 +76,8 @@ CREATE TABLE `#__jea_heatingtypes` (
 -- Structure de la table `#__jea_hotwatertypes`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_hotwatertypes`;
-CREATE TABLE `#__jea_hotwatertypes` (
+-- DROP TABLE IF EXISTS `#__jea_hotwatertypes`;
+CREATE TABLE IF NOT EXISTS `#__jea_hotwatertypes` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -90,8 +90,8 @@ CREATE TABLE `#__jea_hotwatertypes` (
 -- Structure de la table `#__jea_properties`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_properties`;
-CREATE TABLE `#__jea_properties` (
+-- DROP TABLE IF EXISTS `#__jea_properties`;
+CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `id` int(11) NOT NULL auto_increment,
   `ref` varchar(20) NOT NULL default '',
   `type_id` int(11) NOT NULL default '0',
@@ -135,8 +135,8 @@ CREATE TABLE `#__jea_properties` (
 -- Structure de la table `#__jea_slogans`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_slogans`;
-CREATE TABLE `#__jea_slogans` (
+-- DROP TABLE IF EXISTS `#__jea_slogans`;
+CREATE TABLE IF NOT EXISTS `#__jea_slogans` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -149,8 +149,8 @@ CREATE TABLE `#__jea_slogans` (
 -- Structure de la table `#__jea_towns`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_towns`;
-CREATE TABLE `#__jea_towns` (
+-- DROP TABLE IF EXISTS `#__jea_towns`;
+CREATE TABLE IF NOT EXISTS `#__jea_towns` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
@@ -163,10 +163,11 @@ CREATE TABLE `#__jea_towns` (
 -- Structure de la table `#__jea_types`
 -- 
 
-DROP TABLE IF EXISTS `#__jea_types`;
-CREATE TABLE `#__jea_types` (
+-- DROP TABLE IF EXISTS `#__jea_types`;
+CREATE TABLE IF NOT EXISTS `#__jea_types` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
