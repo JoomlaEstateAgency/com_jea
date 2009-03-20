@@ -10,7 +10,7 @@
 	<copyright>Copyright (C) 2008 PHILIP Sylvain. All rights reserved.</copyright>
 	<license>GNU/GPL</license>
 	<!--  The version string is recorded in the components table -->
-	<version>0.7-beta</version>
+	<version>0.8</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Extension for real estate agency</description>
 

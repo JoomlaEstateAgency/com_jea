@@ -1,6 +1,18 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 0.8 / 03-2009=
+
+-Fix bug in properties ordering
+-Allow specials characters in ref field
+-Fix issue about advantages list limited at 20 items
+-Add Joomfish areas contentElement
+-Some language corrections
+-Fix missing Mootools declaration for google map
+-Fix PDF issue when property has no picture
+-Fix Joomfish missing translations
+-Fix bug when adding new property in front
+
 =RELEASE 0.7 / 01-2009=
 -Add Google map geolocalisation
 -Add Pdf view to properties detail
