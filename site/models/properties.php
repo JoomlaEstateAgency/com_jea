@@ -249,10 +249,31 @@ class JeaModelProperties extends JModel
         $result['prev_item'] = null;
         $result['next_item'] = null;
         
+        $params = ComJea::getParams();
+        
         $sql = 'SELECT id FROM #__jea_properties WHERE ';
         
         $where = ( $currentRow->is_renting )? 'is_renting=1' : 'is_renting=0' ;
         $where .= ' AND published=1';
+        
+        // Bug fix [#16275] Problem with 'Previous' and 'Next' navigation
+    	if ( $type_id = JRequest::getInt('type_id', $params->get('type_id', 0)) ) {
+			$where .= ' AND type_id = ' . intval( $type_id ) ;
+		}
+			
+    	if ( $department_id = JRequest::getInt('department_id', $params->get('department_id', 0)) ) {
+			$where .= ' AND department_id = ' . intval( $department_id ) ;
+		}
+
+    	if ( $town_id = JRequest::getInt('town_id', $params->get('town_id', 0)) ) {
+			$where .= ' AND town_id = ' . intval( $town_id ) ;
+		}
+			
+		if ( $area_id = JRequest::getInt('area_id', $params->get('area_id', 0)) ) {
+			$where .= ' AND area_id = ' . intval( $area_id ) ;
+		}
+        // End Bug fix [#16275]
+        
         
         $this->_db->setQuery( $sql . $where );
         $rows = $this->_db->loadObjectList();
