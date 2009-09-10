@@ -131,6 +131,22 @@ class JeaControllerProperties extends JController
 		}	
 	}
 	
+    function copy()
+	{
+	    // Check for request forgeries
+		JRequest::checkToken() or die( 'Invalid Token' );
+		
+		if ( $this->_model->copy() ) {
+			
+			$msg = JText::sprintf('SUCCESSFULLY COPY ITEMS', count($this->_model->getCid()));
+			$this->setRedirect( $this->_controllerUrl  , $msg  );
+			
+		} else {
+			
+			$this->_setDefaultRedirect();
+		}
+	}
+	
 	function deleteimg()
 	{
 		$id = JRequest::getInt('id',0);

@@ -58,6 +58,7 @@ class JeaViewProperties extends JView
 	    JToolBarHelper::publish();
 	    JToolBarHelper::unpublish();
 	    JToolBarHelper::addNew();
+	    JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
 	    JToolBarHelper::editList();
 	    JToolBarHelper::deleteList( JText::_( 'CONFIRM_DELETE_MSG' ) );
 

@@ -302,6 +302,50 @@ class JeaModelProperties extends JModel
         return true;
     }
     
+    function copy()
+	{
+		$cids = implode( ',', $this->getCid() );
+		$table =& $this->getTable();
+		$nextOrdering = $table->getNextOrder();
+		
+		//only one request
+		$inserts = array();
+		$fields = $table->getPublicProperties();
+		unset($fields['id']);
+		unset($fields['checked_out']);
+		unset($fields['checked_out_time']);
+		
+		$fields = array_keys($fields);
+		
+		$query = 'SELECT '.implode(', ', $fields).' FROM #__jea_properties WHERE id IN (' . $cids . ')';
+
+		$rows = $this->_getList($query);
+		
+		foreach ($rows as $row){
+		    $row = (array) $row;
+		    $row['ref'] .= '_COPY'; 
+		    $row['ordering'] = $nextOrdering;
+		    $row['date_insert']  = date('Y-m-d H:i:s');
+		    foreach($row as $k => $values) {
+		        $row[$k] = $this->_db->Quote($values);
+		    }
+		    $inserts[]= '(' . implode(', ', $row) . ')';
+		    $nextOrdering++;
+		}
+		
+		$query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
+		       . implode(", \n", $inserts);
+		         
+		$this->_db->setQuery($query);
+		
+	    if ( !$this->_db->query() ) {
+			JError::raiseError( 500, $this->_db->getErrorMsg() );
+			return false;
+		}
+		
+		return true;
+	}
+    
     
     function remove()
 	{
