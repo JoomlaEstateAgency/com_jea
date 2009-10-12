@@ -59,7 +59,7 @@ class JeaViewProperties extends JeaView
         $document->setName($row->ref);
 		
         if(is_file(JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'preview.jpg')){
-        	$text .= '<p><img src="'.$res['main_image']['preview_url'] .'" alt="" /></p>' ;
+        	$text .= '<p><img src="'. $this->UrlAbsoluteToRelative($res['main_image']['preview_url']) .'" alt="" /></p>' ;
         }
         $text .= $row->description . '<br /><br />' ;
 
@@ -138,6 +138,13 @@ class JeaViewProperties extends JeaView
 
         return $text;
          
+    }
+    
+    function UrlAbsoluteToRelative($absoluteUrl)
+    {
+    	$uri =& JFactory::getURI();
+    	$uri = new JURI($absoluteUrl);
+        return str_replace($uri->base(), '', $absoluteUrl);
     }
 
 
