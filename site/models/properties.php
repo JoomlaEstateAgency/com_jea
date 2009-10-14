@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version     0.8 2009-03-20
+ * @version     0.9 2009-10-14
  * @package     Jea.site
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php

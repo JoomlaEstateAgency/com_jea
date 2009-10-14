@@ -1,5 +1,10 @@
 Joomla Estate Agency          News
 ==================================
+=RELEASE 0.9 / 10-2009=
+# Fix bug in properties view.pdf if PHP flag "allow_url_fopen" is set to 0
++ added possibility to clone properties in backend
+# Fix bug with Previous and Next when some features are selected in menu
+^ mod_jea_emphasis Joomfish compatibility
 
 =RELEASE 0.8 / 03-2009=
 

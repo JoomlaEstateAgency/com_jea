@@ -2,7 +2,7 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  * 
- * @version     0.8 2009-03-20
+ * @version     0.9 2009-10-14
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.txt
@@ -49,7 +49,7 @@ class ComJea
     {
     	if(is_file(JPATH_COMPONENT_ADMINISTRATOR . DS . 'jea.xml')) {
         	jimport('joomla.utilities.simplexml');
-        	$xml = new JSimpleXML;
+        	$xml = new JSimpleXML();
             $xml->loadFile(JPATH_COMPONENT_ADMINISTRATOR . DS . 'jea.xml');
             return $xml->document->version[0]->data() ;
     	}
