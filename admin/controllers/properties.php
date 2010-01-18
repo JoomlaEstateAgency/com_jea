@@ -167,12 +167,12 @@ class JeaControllerProperties extends JController
 	
 	function orderdown()
 	{
-		$this->_order(1);
+		$this->_order(-1);
 	}
 	
 	function orderup()
 	{
-		$this->_order(-1);
+		$this->_order(1);
 	}
 	
 	function emphasize()

@@ -124,7 +124,7 @@ class JeaModelProperties extends JModel
 	    $department_id = $mainframe->getUserStateFromRequest( $context.'department_id', 'department_id', 0, 'int' );
     	$search        = $mainframe->getUserStateFromRequest( $context.'search', 'search', '', 'string' );
     	$order         = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
-		$order_dir     = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));
+		$order_dir     = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'desc'));
 
         $select = 'SELECT tp.id AS `id`, tp.ref AS `ref`, tp.adress AS `adress`, tp.price AS `price`,' . PHP_EOL
          		. 'tp.date_insert AS `date_insert`,tp.emphasis AS `emphasis`, td.value AS `department`,'. PHP_EOL

@@ -119,7 +119,7 @@ class JeaModelProperties extends JModel
 	    
 	    $limitstart	= JRequest::getInt('limitstart', 0);
 	    $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
-		$order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));
+		$order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'desc'));
 	    
 	    $select  = $this->_getSqlBaseSelect();
 	    
