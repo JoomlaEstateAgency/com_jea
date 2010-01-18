@@ -166,11 +166,11 @@ if(!$this->row->id){
 
 	<fieldset><legend><?php echo JText::_('FORMCONTACTLEGEND') ?></legend>
 		<p><label for="name"><?php echo JText::_('Name') ?> :</label><br />
-		   <input type="text" name="name" id="name" value="<?php echo JRequest::getVar('name', '') ?>" size="40" />
+		   <input type="text" name="name" id="name" value="<?php echo $this->escape(JRequest::getVar('name', '')) ?>" size="40" />
 		</p>
 		
 		<p><label for="email"><?php echo JText::_('Email') ?> :</label><br />
-		   <input type="text" name="email" id="email" value="<?php echo JRequest::getVar('email', '') ?>" size="40" />
+		   <input type="text" name="email" id="email" value="<?php echo $this->escape(JRequest::getVar('email', '')) ?>" size="40" />
 		</p>
 		
 		<p><label for="subject"><?php echo JText::_('Subject') ?> :</label><br />
@@ -178,7 +178,7 @@ if(!$this->row->id){
 		</p>
 		
 		<p><label for="e_message"><?php echo JText::_('Message') ?> :</label><br /> 
-		   <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo JRequest::getVar('e_message', '') ?></textarea>
+		   <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo $this->escape(JRequest::getVar('e_message', '')) ?></textarea>
 		</p>
 		<p>
 		<input type="hidden" name="created_by" value="<?php echo $this->row->created_by ?>" />
