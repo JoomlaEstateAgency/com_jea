@@ -143,8 +143,19 @@ class JeaControllerProperties extends JController
 		            $temp['departments'][$row->department_id] = true ;
 		    }
 		}
+		
+		if (isset($result['departments'])) usort($result['departments'], array('JeaControllerProperties', '__ajaxAlphaSort'));
+		if (isset($result['towns'])) usort($result['towns'], array('JeaControllerProperties', '__ajaxAlphaSort'));
 
 		echo $jsonService->encode($result);
+	}
+	
+    function __ajaxAlphaSort(&$arg1, &$arg2)
+	{
+		$val1       = strtolower($arg1['text']);
+		$val2      = strtolower($arg2['text']);
+
+		return strnatcmp($val1, $val2);
 	}
 	
 	function sendmail()
