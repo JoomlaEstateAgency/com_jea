@@ -422,16 +422,21 @@ class JeaModelProperties extends JModel
         $upload_dir = $base_upload_dir . DS . $id;
         
         $config =& ComJea::getParams();
-        
-        $maxPreviewWidth = $config->get('max_previews', 400) ;
-        $maxThumbnailWidth = $config->get('max_thumbnails', 120);
-        $maxThumbnailHeight = 90 ; //default max height : 90px 
+
+        $maxPreviewWidth = $config->get('max_previews_width', 400) ;
+        $maxPreviewHeight = $config->get('max_previews_height', 400) ;
+        $maxThumbnailWidth = $config->get('max_thumbnails_width', 120);
+        $maxThumbnailHeight = $config->get('max_thumbnails_height', 90);
         $jpgQuality = $config->get( 'jpg_quality' , 90) ;
+        $cropThumbnails = $config->get( 'crop_thumbnails' , 0) ;
 
         //main image
         if ( $mainImage->isPosted() ){
             	
             if ( !JFolder::exists($upload_dir) ) { JFolder::create($upload_dir); }
+            
+            //First delete main image before upload
+            $this->delete_img($id);
             	
             $mainImage->setValidExtensions( $validExtensions );
             $mainImage->setName('main.jpg');
@@ -445,16 +450,25 @@ class JeaModelProperties extends JModel
             //make preview       
             $this->_resizeImage( $upload_dir.DS.$fileName, 
                                  $upload_dir.DS.'preview.jpg',
-                                 null,
+                                 $maxPreviewHeight,
                                  $maxPreviewWidth, 
-                                 $jpgQuality );
+                                 $jpgQuality );            
+            
             	
             //make min
-            $this->_resizeImage( $upload_dir.DS.'preview.jpg', 
-                                 $upload_dir.DS.'min.jpg',
-                                 $maxThumbnailHeight,
-                                 $maxThumbnailWidth,
-                                 $jpgQuality );
+            if($cropThumbnails){
+	            $this->_cropImage( $upload_dir.DS.'preview.jpg', 
+	                               $upload_dir.DS.'min.jpg',
+	                               $maxThumbnailHeight,
+	                               $maxThumbnailWidth,
+	                               $jpgQuality );            	
+            } else {
+	            $this->_resizeImage( $upload_dir.DS.'preview.jpg', 
+	                                 $upload_dir.DS.'min.jpg',
+	                                 $maxThumbnailHeight,
+	                                 $maxThumbnailWidth,
+	                                 $jpgQuality );
+            }
         }
 
         if($secondImage->isPosted()){
@@ -465,7 +479,7 @@ class JeaModelProperties extends JModel
         	if ( !JFolder::exists($upload_dir) ) { JFolder::create($upload_dir); }
         	if ( !JFolder::exists($preview_dir) ) { JFolder::create($preview_dir); }
         	if ( !JFolder::exists($thumbnail_dir) ) { JFolder::create($thumbnail_dir); }
-	
+        
             $secondImage->setValidExtensions( $validExtensions );
             $secondImage->nameToSafe();
             	
@@ -477,16 +491,25 @@ class JeaModelProperties extends JModel
             //make preview
             $this->_resizeImage( $upload_dir.DS.$fileName, 
                                  $preview_dir.DS.$fileName, 
-                                 null,
+                                 $maxPreviewHeight,
                                  $maxPreviewWidth, 
                                  $jpgQuality );	
             
             //make min
-            $this->_resizeImage( $preview_dir.DS.$fileName, 
-                                 $thumbnail_dir.DS.$fileName,
-                                 $maxThumbnailHeight,
-                                 $maxThumbnailWidth,
-                                 $jpgQuality );
+            if($cropThumbnails){
+	            $this->_cropImage( $preview_dir.DS.$fileName, 
+	                               $thumbnail_dir.DS.$fileName,
+	                               $maxThumbnailHeight,
+	                               $maxThumbnailWidth,
+	                               $jpgQuality );            	
+            } else {
+            
+	            $this->_resizeImage( $preview_dir.DS.$fileName, 
+	                                 $thumbnail_dir.DS.$fileName,
+	                                 $maxThumbnailHeight,
+	                                 $maxThumbnailWidth,
+	                                 $jpgQuality );
+            }
         }
         return true;
     }
@@ -494,32 +517,63 @@ class JeaModelProperties extends JModel
     
     function _resizeImage( $from, $to, $maxHeight=null, $maxWidth=null, $jpgQuality=90 )
     {
-    		static $gd = null;
-    		
-    		if ( $gd === null){
-    			require JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Gd/Transform.php';
-    			$gd = new Gd_Transform();
-    		}
+    		$gd =& $this->_getGd();
     	
     		$gd->load( $from );
     		
     		if ($maxHeight) {
-    			$gd->resize( null, $maxHeight );
+    			
+    			if ( $gd->getSize( 'height' ) > $maxHeight ) {
+    				$gd->resize( null, $maxHeight );
+    			}
     		
 	            if ( $gd->getSize( 'width' ) > $maxWidth ) {
 	                $gd->resize( $maxWidth , null );
 	            }
+	            
     		} else {
-    			$gd->resize( $maxWidth , null );
+    			
+    			if ( $gd->getSize( 'width' ) > $maxWidth ) {
+	                $gd->resize( $maxWidth , null );
+	            }
     		}
-            	
-            $gd->saveToJpeg( $to , $jpgQuality );
+           	if($gd->type == 'jpeg'){
+            	$gd->saveToJpeg( $to , $jpgQuality );
+           	} else {
+           		$gd->save($to);
+           	}
     }
     
-    
+    function _cropImage($from, $to, $height=null, $width=null, $jpgQuality=90)
+    {
+    	$gd =& $this->_getGd();
+    	$gd->load( $from );
+    	
+    	// Anticipate Height by cross product
+    	$redim_height = (intval($gd->getSize( 'height' )) * intval($width)) / intval($gd->getSize( 'width' ));
+    	
+    	if($redim_height < $height){
+    		$gd->resize( null, $height );
+    	} else {
+		    $gd->resize( $width , null );
+    	}
+    	
+    	$gd->centerCrop($width, $height);
+    	$gd->saveToJpeg( $to , $jpgQuality );
+    }
     
 
-
+    function & _getGd()
+    {
+    	static $gd = null;
+    		
+   		if ( $gd === null){
+   			require JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Gd/Transform.php';
+   			$gd = new Gd_Transform();
+   		}
+   		
+   		return $gd;
+    }
      
 }
 
