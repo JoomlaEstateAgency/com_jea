@@ -186,8 +186,7 @@ class JeaControllerProperties extends JController
 
 	function _order( $inc )
 	{
-	    $model = & $this->getModel('Properties');
-		$model->order($inc);
+		$this->_model->order($inc);
 		$this->_setDefaultRedirect();
 	}
 	
