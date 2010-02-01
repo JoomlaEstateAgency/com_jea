@@ -275,6 +275,9 @@ class JeaViewProperties extends JeaView
 	    
 	    if((!$key) || (!$row->adress) || (!$row->town)) return false;
 	    
+	    $address = str_replace(array("\n", "\r\n"), '', addslashes($row->adress)); 
+	    $town = str_replace(array("\n", "\r\n"), '', addslashes($row->town));
+	    
 	    $document = &JFactory::getDocument();
 	    $a_lang = explode('-', $document->getLanguage());
         $document->addScript( 'http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=' 
@@ -315,7 +318,7 @@ function showAddress(address) {
 
 window.addEvent("domready", function(){
     initializeMap();
-    showAddress("$row->adress, $row->town")   
+    showAddress("$address, $town")   
 });
 
 window.addEvent("unload", function(){
