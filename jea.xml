@@ -125,6 +125,7 @@
 			<filename>joomfish/index.html</filename>
 			<filename>library/index.html</filename>
 			<filename>library/Http_File.php</filename>
+			<filename>library/Iptc.php</filename>
 			<filename>library/JSON.php</filename>
 			<filename>library/Gd/index.html</filename>
 			<filename>library/Gd/Abstract.php</filename>
@@ -156,6 +157,7 @@
 			<filename>views/properties/view.html.php</filename>
 			<filename>views/properties/tmpl/default.php</filename>
 			<filename>views/properties/tmpl/default_form.php</filename>
+			<filename>views/properties/tmpl/default_iptc.php</filename>
 			<filename>sql/install.mysql.utf8.sql</filename>
 			<filename>sql/uninstall.mysql.utf8.sql</filename>
 		</files>

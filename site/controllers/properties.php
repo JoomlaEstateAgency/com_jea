@@ -144,6 +144,7 @@ class JeaControllerProperties extends JController
 		    }
 		}
 		
+		// TODO: User parameter : Alpha ou order
 		if (isset($result['departments'])) usort($result['departments'], array('JeaControllerProperties', '__ajaxAlphaSort'));
 		if (isset($result['towns'])) usort($result['towns'], array('JeaControllerProperties', '__ajaxAlphaSort'));
 
