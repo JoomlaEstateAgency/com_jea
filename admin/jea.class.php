@@ -160,6 +160,8 @@ class ComJea
         $img_url_base = $rootURL . 'images/com_jea/images/' . $id . '/' ;
         
         $result['main_image'] = array();
+        
+        require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Iptc.php';
 
         if(is_file($img)){
         	$result['main_image']['name'] = 'main.jpg';
@@ -173,6 +175,11 @@ class ComJea
             	
             $file = stat ($img);
             $result['main_image']['weight'] = round(($file[7]/1024),1) ;// poid en Ko
+            
+            //iptc infos
+            $iptc = new iptc($img);
+            $result['main_image']['title']       = $iptc->get(IPTC_HEADLINE);
+			$result['main_image']['description'] = $iptc->get(IPTC_CAPTION);
         }
 
 
@@ -202,6 +209,11 @@ class ComJea
                     $detail['url'] = $img_url_base . 'secondary/' . $filename;
                     $detail['preview_url'] = $img_url_base . 'secondary/preview/' . $filename;
                     $detail['min_url'] = $img_url_base . 'secondary/min/' . $filename ;
+                    
+                    //iptc infos on medium image
+		            $iptc = new iptc($dir.DS.'preview'.DS.$filename);
+		            $detail['title']       = $iptc->get(IPTC_HEADLINE);
+					$detail['description'] = $iptc->get(IPTC_CAPTION);
                     	
                     $viewfilesList[] = $detail ;
                 }

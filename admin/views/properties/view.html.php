@@ -33,6 +33,10 @@ class JeaViewProperties extends JView
 			case 'form':
 				$this->editItem();
 				break;
+		    case 'iptc':
+				$infos = $this->get('iptc');
+				$this->assignRef('infos' , $infos );
+				break;
 			default :
 				$this->listIems();
 

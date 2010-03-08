@@ -155,6 +155,22 @@ class JeaControllerProperties extends JController
 		$this->setRedirect( $this->_controllerUrl . '&task=edit&id=' . $id );
 	}
 	
+    function editiptc()
+	{
+		$this->_display('iptc');
+	}
+	
+	function saveiptc()
+	{
+		$this->_model->saveIptc();
+		$id = JRequest::getInt('id');
+    	$image = JRequest::getVar('image', '');
+    	$redirect =  $this->_controllerUrl . '&task=editiptc&tmpl=component&id=' 
+    	          . $id . '&image=' . $image ;
+    	          
+		$this->setRedirect($redirect);
+	}
+	
 	function unpublish()
 	{
 		$this->_publish(false);

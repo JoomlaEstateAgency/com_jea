@@ -221,12 +221,17 @@ class JeaModelProperties extends JModel
 		if (!empty($imgs['main_image']) && is_array($imgs['main_image'])) {
 	        $imgs['main_image']['delete_url'] = $rootURL . 'administrator/index2.php?option=com_jea'
 	            .'&amp;controller=properties&amp;task=deleteimg&amp;id='.$row->id.'&amp;cat=' . $this->_cat;
+	        $imgs['main_image']['iptc_url'] = $rootURL . 'administrator/index.php?option=com_jea'
+	            .'&amp;controller=properties&amp;tmpl=component&amp;task=editiptc&amp;id='.$row->id; 
 		}
             
         foreach ( $imgs['secondaries_images']  as $k => $v) {
         	$imgs['secondaries_images'][$k]['delete_url'] = $rootURL . 'administrator/index.php?option=com_jea'
                     .'&amp;controller=properties&amp;task=deleteimg&amp;id=' . $row->id
                     .'&amp;image='.$v['name'].'&amp;cat=' .$this->_cat ;
+            $imgs['secondaries_images'][$k]['iptc_url'] = $rootURL . 'administrator/index.php?option=com_jea'
+                    .'&amp;controller=properties&amp;tmpl=component&amp;task=editiptc&amp;id=' . $row->id
+                    .'&amp;image='.urlencode($v['name']) ;
         }
         
 		$result['row'] = $row;
@@ -512,6 +517,88 @@ class JeaModelProperties extends JModel
             }
         }
         return true;
+    }
+    
+    function getIptc()
+    {
+    	require_once JPATH_COMPONENT.DS.'library/Iptc.php';
+    	$id = JRequest::getInt('id');
+    	$image = JRequest::getVar('image', '');
+    	$dir = JPATH_ROOT . DS . 'images' .DS. 'com_jea' 
+		     .DS. 'images' . DS . $id;
+		
+		if( !$image ){
+			$file = $dir . DS . 'main.jpg' ;
+		} else {
+			$file = $dir. DS . 'secondary'.DS.'preview'.DS.$image;
+		}
+		
+		$ret = new stdClass();
+		$ret->title = '';
+		$ret->description = '';
+		
+		if(file_exists($file)) {
+
+			$iptc = new iptc($file);
+			//var_dump($iptc);
+
+			if($iptc->hasmeta){
+				$ret->title       = $iptc->get(IPTC_HEADLINE);
+				$ret->description = $iptc->get(IPTC_CAPTION);
+			}
+			
+		}
+		
+		return $ret;
+    }
+    
+    
+    
+    function saveIptc()
+    {
+    	require_once JPATH_COMPONENT.DS.'library/Iptc.php';
+    	
+    	$id = JRequest::getInt('id');
+    	$image = JRequest::getVar('image', '');
+    	$title = JRequest::getVar('title', '');
+    	$description = JRequest::getVar('description', '');
+	    
+		$dir = JPATH_ROOT . DS . 'images' .DS. 'com_jea' 
+		     .DS. 'images' . DS . $id;
+		
+		if( !$image ){
+			$file = $dir . DS . 'main.jpg' ;
+		} else {
+			$file = $dir. DS . 'secondary'.DS.'preview'.DS. $image;
+		}
+		
+		if(file_exists($file)) {
+			
+			$infos = getimagesize($file);
+			
+			// Iptc class works only with Jpg files
+			if($infos[2] != IMAGETYPE_JPEG){
+				return false;
+			}
+			
+			$iptc = new iptc($file);
+			
+			if($iptc->hasmeta){
+				$iptc->removeAllTags();
+			}
+			
+			if(!empty($title)){
+				$iptc->set(IPTC_HEADLINE,$title);
+			}
+			
+			if(!empty($description)){
+				$iptc->set(IPTC_CAPTION, $description);
+			}
+			
+			$iptc->write();
+		}
+		
+		return true;
     }
     
     

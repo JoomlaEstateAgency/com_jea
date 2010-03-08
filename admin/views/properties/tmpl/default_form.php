@@ -231,7 +231,9 @@ function submitbutton( pressbutton, section ) {
 		  <input type="file" name="main_image" value=""  size="30"/> <input class="button" type="button" value="<?php echo JText::_('Send') ?>" onclick="submitbutton('apply')" />
 			<?php if (!empty($this->main_image)) : ?>
 			<fieldset style="margin-top:10px;">
+				<a class="modal" rel="{handler: 'iframe', size: {x: 400, y: 150}}" href="<?php echo $this->main_image['iptc_url'] ?>" >
 				<img src="<?php echo $this->main_image['min_url'] ?>" alt="preview.jpg" title="<?php echo $this->main_image['width'].'X'.$this->main_image['height'].'px - '.$this->main_image['weight'].' ko' ?>" />
+				</a>
 				<a href="<?php echo $this->main_image['delete_url'] ?>"><?php echo JText::_('Delete') ?></a>
 			</fieldset>
 			<?php endif ?>
@@ -241,7 +243,9 @@ function submitbutton( pressbutton, section ) {
 		  <div style="height:200px; overflow:auto;">
 		  <?php foreach($this->secondaries_images as $image) : ?>
 			<fieldset style="margin-top:10px;">
+			<a class="modal" rel="{handler: 'iframe', size: {x: 400, y: 150}}" href="<?php echo $image['iptc_url'] ?>" >
 			<img src="<?php echo $image['min_url'] ?>" alt="<?php echo $image['name'] ?>" title="<?php echo $image['width'].'X'.$image['height'].'px - '.$image['weight'].' ko' ?>" />
+			</a>
 			<a href="<?php echo $image['delete_url'] ?>"><?php echo JText::_('Delete') ?></a>
 			</fieldset>
 		  <?php endforeach ?>
