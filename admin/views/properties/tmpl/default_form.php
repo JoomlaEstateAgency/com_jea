@@ -269,7 +269,7 @@ function submitbutton( pressbutton, section ) {
 	  </tr>
 	  <tr>
 	    <td><label for="created_by"><?php echo JText::_('Author') ?> :</label></td>
-	    <td><?php echo JHTML::_('list.users', 'created_by', $this->row->created_by ) ?></td>
+	    <td><?php echo JHTML::_('list.users', 'created_by', $this->row->created_by, 1, null, 'name', 0 ) ?></td>
 	  </tr>
 	</table>
   <?php echo  $pane->endPanel() ?>
