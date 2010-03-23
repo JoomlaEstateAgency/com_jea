@@ -64,12 +64,11 @@ class JeaControllerConfig extends JController
         
         if ( !$t_component->store() ) {
             
-            JError::raiseWarning( 200, 'Erreur d\'ecriture' );//TODO:traduire
+            JError::raiseWarning( 200, 'Error while trying to save config' );
            
-            
         } else {
             
-            $msg = "Configuration bien enregistree" ; //TODO:traduire
+            $msg = JText::_('Config was successfully saved');
 			$this->setRedirect( $redirectLink , $msg );
         }
         
@@ -95,12 +94,12 @@ class JeaControllerConfig extends JController
         
         if ( !$t_component->store() ) {
             
-            JError::raiseWarning( 200, 'Erreur' );//TODO:traduire
+            JError::raiseWarning( 200, 'Error while trying to restore the default config' );
            
             
         } else {
             
-            $msg = "Configuration par defaut restauree" ; //TODO:traduire
+            $msg = JText::_('Default config was successfully restored') ;
 			$this->setRedirect( $redirectLink , $msg );
         }
 

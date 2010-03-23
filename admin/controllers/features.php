@@ -76,7 +76,7 @@ class JeaControllerFeatures extends JController
 		  		$url = $url . '&task=edit&id=' . $row->id ;
 		  	}
 		  	
-		  	$msg = JText::_( 'Successfully saved feature' ) ; //TODO:traduire
+		  	$msg = JText::_( 'Successfully saved feature' ) ;
 		    $this->setRedirect( $url , $msg );
 		}
 	}

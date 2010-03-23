@@ -216,7 +216,6 @@ class JeaControllerProperties extends JController
 		if ( $this->_model->publish($bool) ) {
 			
 			$state = $bool ? 'published' : 'unpublished' ;
-			//TODO:traduire
 			$msg = JText::sprintf('Properties(s) successfully '. $state , count($this->_model->getCid()));
 			$this->setRedirect( $this->_controllerUrl , $msg );
 			
