@@ -104,8 +104,6 @@ if(!$this->row->id){
       <?php endif  ?>
       
      <p>
-     <?php //TODO: Rajouter surface tout court (ex: garage) ?>
-     
 		<?php 
 		if ($this->row->living_space) {
 		    echo  JText::_( 'Living space' ) . ' : <strong>' . $this->row->living_space . ' ' 

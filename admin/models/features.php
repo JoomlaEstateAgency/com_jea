@@ -193,27 +193,7 @@ class JeaModelFeatures extends JModel
             return false;
         }
         
-		//TODO: images des slogans
-		
-		/*
-		$table_name = $this->_table->get('_tbl');
-		
-		
-		if($table_name == '#__jea_slogans'){
-		    require_once 'File_Utils.php';
-		    require_once 'Gd/Transform.php';
-		    
-		    $upload_dir = COM_IMMO_FRONT_PATH._S_.'upload'._S_.'slogans' ;
-		    File_Utils::create_dir($upload_dir);
-			$police = COM_IMMO_PATH._S_.'polices'._S_.'ariblk.ttf';
-			$gd = new Gd_Transform();
-			$gd->createNewImageWithTtfText($name ,$police, 13, 'FF0000');
-			$gd->rotate(8,'FFFFFF');
-			$gd->save($upload_dir._S_.$this->_table->id.'.png','png');
-		}*/ 
-        $this->_lastId = $row->id;       
-
-        
+        $this->_lastId = $row->id;
         return true;
 		
 	}
