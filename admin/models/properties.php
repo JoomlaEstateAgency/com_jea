@@ -519,9 +519,9 @@ class JeaModelProperties extends JModel
         return true;
     }
     
-    function getIptc()
+    function &getIptc()
     {
-    	require_once JPATH_COMPONENT.DS.'library/Iptc.php';
+    	require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Iptc.php';
     	$id = JRequest::getInt('id');
     	$image = JRequest::getVar('image', '');
     	$dir = JPATH_ROOT . DS . 'images' .DS. 'com_jea' 
@@ -556,7 +556,7 @@ class JeaModelProperties extends JModel
     
     function saveIptc()
     {
-    	require_once JPATH_COMPONENT.DS.'library/Iptc.php';
+    	require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Iptc.php';
     	
     	$id = JRequest::getInt('id');
     	$image = JRequest::getVar('image', '');

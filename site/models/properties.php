@@ -241,6 +241,37 @@ class JeaModelProperties extends JModel
     	return $featuresModel->getListForHtml( $title );
     }
     
+    function &getIptc()
+    {
+        require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/Iptc.php';
+    	$id = JRequest::getInt('id');
+    	$image = JRequest::getVar('image', '');
+    	$dir = JPATH_ROOT . DS . 'images' .DS. 'com_jea' 
+		     .DS. 'images' . DS . $id;
+		
+		if( !$image ){
+			$file = $dir . DS . 'main.jpg' ;
+		} else {
+			$file = $dir. DS . 'secondary'.DS.'preview'.DS.$image;
+		}
+		
+		$ret = new stdClass();
+		$ret->title = '';
+		$ret->description = '';
+		
+		if(file_exists($file)) {
+
+			$iptc = new iptc($file);
+			if($iptc->hasmeta){
+				$ret->title       = $iptc->get(IPTC_HEADLINE);
+				$ret->description = $iptc->get(IPTC_CAPTION);
+			}
+			
+		}
+		
+		return $ret;
+    }
+    
     
     function getPreviousAndNext()
     {

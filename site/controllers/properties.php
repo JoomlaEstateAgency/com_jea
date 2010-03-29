@@ -248,6 +248,21 @@ class JeaControllerProperties extends JController
 	    
 	}
 	
+	function saveiptc()
+	{
+	    require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
+	    $id = JRequest::getInt('id');
+    	$image = JRequest::getVar('image', '');
+        $model = new JeaModelProperties();
+        
+        $model->saveIptc();
+    	$redirect =  'index.php?option=com_jea&view=manage&layout=default_iptc&tmpl=component&id='
+    	          . $id . '&image=' . $image ;
+    	          
+		$this->setRedirect($redirect);
+        
+	}
+	
     function delete()
     {
         $access =& ComJea::getAccess();

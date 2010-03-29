@@ -23,20 +23,12 @@ require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'features.php';
 class JeaViewManage extends JeaView 
 {
     
-    
-    function &getModel()
-    {
-        static $model = null;
-        if ($model === null){
-            $model = new JeaModelProperties();
-        }
-        return $model;
-    }
-    
-    
 	function display( $tpl = null )
 	{
-        $access =& ComJea::getAccess();
+        $defaultModel = new JeaModelProperties();
+	    $this->setModel($defaultModel, true);
+	    
+	    $access =& ComJea::getAccess();
 	    
 	    if(!($access->canEdit || $access->canEditOwn)){
             echo JText::_('Unauthorized access');
@@ -44,11 +36,10 @@ class JeaViewManage extends JeaView
         }
 
 		if( $this->getLayout() == 'form'){
-
 			$this->getItemDetail();
-
+		} elseif($this->getLayout() == 'default_iptc') {
+		    $this->getIptcDetails();
 		} else {
-
 			$this->getItemsList();
 		}
 
@@ -59,34 +50,29 @@ class JeaViewManage extends JeaView
 
 	function getItemsList()
 	{
-	    $model =& $this->getModel();
-	    $res = $model->getUserProperties();
 		jimport('joomla.html.pagination');
-		
+		$res = $this->get('userProperties');
 		$this->pagination = new JPagination($res['total'], $res['limitstart'], $res['limit']);
-		
 		$this->assign($res);
 	}
 
 	function getItemDetail()
 	{
-        
-	    $model =& $this->getModel();
-	    
-	    $row =& $model->getRow();
-	    
+	    $row =& $this->get('row');
 		$this->assignRef('row', $row);
 
 		$res = ComJea::getImagesById($row->id);
 		
-		
 	    if (!empty($res['main_image']) && is_array($res['main_image'])) {
             $res['main_image']['delete_url'] = JRoute::_('&task=deleteimg&id='.$row->id ) ;
+            $res['main_image']['iptc_url'] = JRoute::_('&layout=default_iptc&tmpl=component&id='.$row->id ) ;
         }
             
         foreach ( $res['secondaries_images']  as $k => $v) {
-            $res['secondaries_images'][$k]['delete_url'] = JRoute::_(   '&task=deleteimg&image='.$v['name'] 
+            $res['secondaries_images'][$k]['delete_url'] = JRoute::_(   '&layout=default_iptc&image='.urlencode($v['name']) 
                                                                        . '&id='.$row->id ) ;
+            $res['secondaries_images'][$k]['iptc_url'] = JRoute::_(   '&layout=default_iptc&image='.urlencode($v['name'])
+                                                                       . '&tmpl=component&id='.$row->id ) ;
         }
 		
         if($row->id){
@@ -107,6 +93,12 @@ class JeaViewManage extends JeaView
 		$document=& JFactory::getDocument();
 		$document->setTitle( $page_title );
 
+	}
+	
+	function getIptcDetails()
+	{
+	    $iptc =& $this->get('iptc');
+	    $this->assignRef('infos', $iptc);
 	}
 	
 	
