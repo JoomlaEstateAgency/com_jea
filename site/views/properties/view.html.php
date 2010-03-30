@@ -39,8 +39,6 @@ class JeaViewProperties extends JeaView
 			$this->getItemsList();
 		}
 
-		JHTML::script('jea.js', 'media/com_jea/js/', false);
-
 		parent::display($tpl);
 	}
 
@@ -176,7 +174,6 @@ class JeaViewProperties extends JeaView
 			}
 		}
 
-		// $html .= '<div style="clear:both">&nbsp</div>';
 		return $html;
 	}
 

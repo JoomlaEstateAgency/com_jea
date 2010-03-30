@@ -1,6 +1,7 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
+JHTML::script('jea.js', 'media/com_jea/js/', false);
 
 if(!$this->row->id){
     echo JText::_('This property doesn\'t exists anymore');
