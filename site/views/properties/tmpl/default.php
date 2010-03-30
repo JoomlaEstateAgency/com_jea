@@ -49,7 +49,10 @@ $rowsCount = count( $this->rows );
 		<dt class="title" >
 			<a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>" > 
 			<strong> 
+			<?php if(empty($row->title)):?>
 			<?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
+			<?php else : echo $this->escape($row->title) ?>
+			<?php endif ?>
 			</strong> 
 			( <?php echo JText::_('Ref' ) . ' : ' . $row->ref ?> )
 			</a>

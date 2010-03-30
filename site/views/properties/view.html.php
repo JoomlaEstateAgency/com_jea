@@ -67,9 +67,12 @@ class JeaViewProperties extends JeaView
 		$this->assignRef('main_image', $res['main_image']);
 		$this->assignRef('secondaries_images', $res['secondaries_images']);
 		
-	  
-		$page_title = ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN',
-		$this->escape($row->type), $this->escape($row->town)));
+		if(empty($row->title)) {
+    		$page_title = ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN',
+    		$this->escape($row->type), $this->escape($row->town)));
+		} else {
+		    $page_title = $this->escape($row->title) ;
+		}
 
 		$this->assign( 'page_title', $page_title );
 	  

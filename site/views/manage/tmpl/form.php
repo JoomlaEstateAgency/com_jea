@@ -115,6 +115,13 @@ function checkForm() {
         </tr>
         
         <tr>
+          <td nowrap="nowrap"><label for="title"><?php echo JText::_('Title') ?> : </label></td>
+          <td width="100%">
+            <input id="title" type="text" name="title" value="<?php echo $this->escape( $this->row->title ) ?>" class="inputbox" size="45" />
+          </td>
+        </tr>
+        
+        <tr>
           <td nowrap="nowrap"><label for="type_id"><?php echo JText::_('Property type') ?> :</label></td>
           <td width="100%" ><?php echo  $this->getHtmlList('types', $this->row->type_id) ?></td>
         </tr>
