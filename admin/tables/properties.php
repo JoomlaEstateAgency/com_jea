@@ -21,6 +21,8 @@ class TableProperties extends JTable
 
 	var $id=null;
 	var $ref=null;
+	var $title=null;
+	var $alias=null;
     var $type_id=null;
 	var $is_renting = null;
 	var $price=null;
@@ -83,6 +85,26 @@ class TableProperties extends JTable
             $this->setError( JText::sprintf( 'Reference already exists', $this->ref ) );
             return false;
         }
+        
+        
+        // Alias cleanup
+        if(empty($this->alias)) {
+			$this->alias = $this->title;
+		}
+		$this->alias = JFilterOutput::stringURLSafe($this->alias);
+        
+	    //avoid duplicate entry for alias
+        $query = 'SELECT id FROM #__jea_properties WHERE alias=' . $this->_db->Quote( $this->alias )
+               . ' AND id <>' . intval( $this->id );
+        $this->_db->setQuery( $query );
+		$this->_db->query();
+		$numRows = $this->_db->getNumRows();
+
+        if ( $numRows > 0 ){
+            $this->alias .= '_'. ($numRows+1);
+        }
+        
+        
 		
 		//serialize advantages
 		if ( !empty($this->advantages) && is_array($this->advantages) ) {

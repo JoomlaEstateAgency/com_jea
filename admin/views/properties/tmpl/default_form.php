@@ -60,6 +60,20 @@ function submitbutton( pressbutton, section ) {
 		  	<input id="ref" type="text" name="ref" value="<?php echo $this->escape( $this->row->ref ) ?>" class="inputbox" />
 		  </td>
 		</tr>
+		
+		<tr>
+		  <td nowrap="nowrap"><label for="title"><?php echo JText::_('Title') ?> : </label></td>
+		  <td width="100%">
+		  	<input id="title" type="text" name="title" value="<?php echo $this->row->title ?>" class="inputbox" size="40" />
+		  </td>
+		</tr>
+		
+		<tr>
+		  <td nowrap="nowrap"><label for="alias"><?php echo JText::_('Alias') ?> : </label></td>
+		  <td width="100%">
+		  	<input id="alias" type="text" name="alias" value="<?php echo $this->escape( $this->row->alias ) ?>" class="inputbox" size="40" />
+		  </td>
+		</tr>
         
 		<tr>
 		  <td nowrap="nowrap"><label for="type_id"><?php echo JText::_('Property type') ?> :</label></td>

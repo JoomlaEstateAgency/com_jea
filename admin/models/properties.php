@@ -246,6 +246,8 @@ class JeaModelProperties extends JModel
         
         $datas = array(
         	'ref'            => JRequest::getVar( 'ref', '', 'POST' ),
+        	'title'          => JRequest::getVar( 'title', '', 'POST' ),
+        	'alias'          => JRequest::getVar( 'alias', '', 'POST' ),
 			'type_id'        => JRequest::getInt( 'type_id', 0 , 'POST' ),
 			'price'          => JRequest::getFloat( 'price', 0.0, 'POST' ),
 			'adress'         => JRequest::getVar( 'adress' , '', 'POST' ),
