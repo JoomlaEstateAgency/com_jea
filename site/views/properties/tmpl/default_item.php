@@ -1,13 +1,54 @@
 <?php // no direct access
 defined('_JEXEC') or die('Restricted access');
-JHTML::stylesheet('jea.css', 'media/com_jea/css/');
-JHTML::script('jea.js', 'media/com_jea/js/', false);
-
 if(!$this->row->id){
     echo JText::_('This property doesn\'t exists anymore');
     return;
 }
 
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library'.DS.'JSON.php';
+$serviceJson = new Services_JSON();
+
+JHTML::stylesheet('jea.css', 'media/com_jea/css/');
+
+$secondaries_images = array();
+
+if(!empty($this->main_image['min_url'])) {
+    $secondaries_images[] = $this->main_image ;
+}
+
+foreach($this->secondaries_images as $image){
+    $secondaries_images[] = $image;
+}
+
+$js_secondaries_images = $serviceJson->encode($secondaries_images);
+
+$script=<<<EOB
+
+var secondaries_images = $js_secondaries_images;
+
+window.addEvent('domready', function() {
+	
+	$('snd_imgs').getElements('img').each(function(el){
+		el.addEvent('click', function(){
+			secondaries_images.each(function(item){
+    			if (el.src == item.min_url){
+    				$('img_preview').setProperty('src', item.preview_url);
+    				$('image_title').empty();
+    				$('image_description').empty();
+    				$('image_title').appendText(item.title);
+    				$('image_description').appendText(item.description);
+    			}
+			});
+		});
+	});
+});
+
+
+EOB;
+
+JHTML::_('behavior.mootools');
+$document=& JFactory::getDocument();
+$document->addScriptDeclaration($script);
 ?>
 
 <p class="pagenavigation">
@@ -29,19 +70,22 @@ if(!$this->row->id){
 
 <h1> <?php echo $this->page_title ?> </h1>
     
-<?php if( !empty($this->secondaries_images)): ?>
-<div class="snd_imgs" >
-	  <img src="<?php echo $this->main_image['min_url'] ?>" alt="<?php echo $this->main_image['name'] ?>" 
-	  title="<?php echo JText::_('Enlarge')?>" onclick="swapImage('<?php echo $this->main_image['preview_url'] ?>')" /> <br />
-	<?php foreach($this->secondaries_images as $image) : ?>
-      <img src="<?php echo $image['min_url'] ?>"  alt="<?php echo $image['name'] ?>" 
-	  title="<?php echo JText::_('Enlarge')?>" onclick="swapImage('<?php echo $image['preview_url'] ?>')" /> <br />
+<?php if( !empty($secondaries_images)): ?>
+<div class="snd_imgs" id="snd_imgs" >
+	<?php foreach($secondaries_images as $image) : ?>
+      <img src="<?php echo $image['min_url'] ?>"  
+           alt="<?php echo $image['name'] ?>" 
+	       title="<?php echo $image['title'] ?>"  /> <br />
     <?php endforeach ?>
 </div>
 <?php endif ?>
 
 <?php if($img = is_file(JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->row->id.DS.'min.jpg')) : ?>
-	  <div> <img id="img_preview" src="<?php echo $this->main_image['preview_url'] ?>" alt="preview.jpg"  /> </div>
+	  <div> 
+	  <img id="img_preview" src="<?php echo $this->main_image['preview_url'] ?>" alt="preview.jpg"  /> 
+	  <div id="image_title" class="jea_image_title"><?php echo $this->main_image['title'] ?></div>
+	  <div id="image_description" class="jea_image_desc" ><?php echo $this->main_image['description'] ?></div>
+	  </div>
 <?php endif ?>
 
  <div class="clr" >&nbsp;</div>

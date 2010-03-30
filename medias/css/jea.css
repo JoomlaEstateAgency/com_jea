@@ -66,6 +66,14 @@ dl.jea_item span.slogan strong {
 	cursor: pointer
 }
 
+.jea_image_title {
+	font-weight: bold;
+}
+
+.jea_image_desc {
+	font-style: italic;
+}
+
 .item_second_column {
 	float: right;
 	width: 300px;
