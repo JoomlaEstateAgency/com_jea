@@ -21,6 +21,7 @@ class TableTowns extends JTable
     
 	var $id=null;
 	var $value=null;
+	var $department_id = null;
 	var $ordering=null;
     
 	function TableTowns(& $db) {

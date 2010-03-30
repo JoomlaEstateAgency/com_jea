@@ -134,6 +134,51 @@ class JeaViewFeatures extends JView
 		JToolBarHelper::cancel() ;
 	  
 		$this->assignRef('row' , $row );
+		$this->assign('tableName' , $this->get('tableName') );
+	}
+	
+    function getDeptsList($default=0)
+	{
+		$featuresModel =& $this->getModel('features');
+		$title         = '- ' . JText::_( 'Departments' ).' -' ;
+		$list = array();
+	    
+
+		$featuresModel->setTableName('departments');
+		
+		$list = $featuresModel->getListForHtml($title, 'text');
+		
+		return JHTML::_(
+			'select.genericlist', 
+			$list, 
+			'department_id', 
+			'class="inputbox" size="1" ', 
+			'value', 
+			'text', 
+			$default 
+		);
+	}
+	
+    function getTownsList($default=0)
+	{
+		$featuresModel =& $this->getModel('features');
+		$title         = '- ' . JText::_( 'Towns' ).' -' ;
+		$list = array();
+	    
+
+		$featuresModel->setTableName('towns');
+		
+		$list = $featuresModel->getListForHtml($title, 'text');
+		
+		return JHTML::_(
+			'select.genericlist', 
+			$list, 
+			'town_id', 
+			'class="inputbox" size="1" ', 
+			'value', 
+			'text', 
+			$default 
+		);
 	}
 
 }

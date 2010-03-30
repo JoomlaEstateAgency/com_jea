@@ -183,6 +183,14 @@ class JeaModelFeatures extends JModel
 		
 		$row->value = JRequest::getVar( 'value', '' ) ;
 		
+	    if($department_id = JRequest::getInt( 'department_id', '' )){
+		    $row->department_id = $department_id ;
+		}
+		
+	    if($town_id = JRequest::getInt( 'town_id', '' )){
+		    $row->town_id = $town_id ;
+		}
+		
 		if( !$row->id ){
 			// save new item at the end of ordering
 			$row->ordering = $row->getNextOrder();

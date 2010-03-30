@@ -21,6 +21,7 @@ class TableAreas extends JTable
     
 	var $id=null;
 	var $value=null;
+	var $town_id=null;
 	var $ordering=null;
     
 	function TableAreas(& $db) {
