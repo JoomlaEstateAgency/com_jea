@@ -107,6 +107,7 @@
 			<filename>NEWS.txt</filename>
 			<filename>LICENCE.txt</filename>
 			<filename>controllers/index.html</filename>
+			<filename>controllers/ajax.php</filename>
 			<filename>controllers/config.php</filename>
 			<filename>controllers/default.php</filename>
 			<filename>controllers/features.php</filename>

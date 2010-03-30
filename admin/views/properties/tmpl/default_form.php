@@ -25,6 +25,65 @@ $pane =& JPane::getInstance('sliders');
 $editor =& JFactory::getEditor();
 
 JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
+
+// Ajax behavior on towns and departments
+
+
+$script=<<<EOB
+
+var townOptionsCallback = {
+	onComplete: function(response){
+		var first = $('area_id').getFirst().clone();
+	    $('area_id').empty();
+	    $('area_id').appendChild(first);
+	    
+	    response.each(function(item){
+	    	var option  = new Element('option', {'value' : item.id});
+	    	option.appendText(item.value);
+	    	$('area_id').appendChild(option);
+	    });
+	}
+};
+
+var deptOptionsCallback = {
+	onComplete: function(response){
+		var first = $('town_id').getFirst().clone();
+	    $('town_id').empty();
+	    $('town_id').appendChild(first);
+	    
+	    if(response){
+		    response.each(function(item){
+		    	var option  = new Element('option', {'value' : item.id});
+		    	option.appendText(item.value);
+		    	$('town_id').appendChild(option);
+		    });
+	    }
+	}
+};
+
+window.addEvent('domready', function() {
+	
+	
+	$('department_id').addEvent('change', function(){
+		var url = 'index.php?option=com_jea&controller=ajax&task=get_towns'
+		    + '&department_id=' + this.value;
+		var jSonRequest = new Json.Remote( url , deptOptionsCallback );
+		jSonRequest.send();
+	});
+	
+	$('town_id').addEvent('change', function(){
+		var url = 'index.php?option=com_jea&controller=ajax&task=get_areas'
+		    + '&town_id=' + this.value;
+		var jSonRequest = new Json.Remote( url , townOptionsCallback );
+		jSonRequest.send();
+	});
+});
+
+EOB;
+
+$document =& JFactory::getDocument();
+$document->addScriptDeclaration($script);
+
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -92,9 +151,9 @@ function submitbutton( pressbutton, section ) {
 		  <td width="100%" >
 			  <input id="zip_code" type="text" name="zip_code" size="5" value="<?php echo $this->row->zip_code ?>" class="inputbox" />
 			  <span style="margin-left:25px">
+			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
 		      <?php echo $this->getHtmlList('towns', $this->row->town_id) ?>
 			  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
-			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
 			  </span>
 		  </td>
 		</tr>
