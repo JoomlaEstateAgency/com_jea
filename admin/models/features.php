@@ -160,9 +160,15 @@ class JeaModelFeatures extends JModel
 	    return $result ;
 	}
 	
-	function getListForHtml( $first_txt='' ){
+    function getListForHtml( $first_txt='', $orderby='ordering', $where='' ){
 		
-        $sql = 'SELECT `id` AS value ,`value` AS text FROM ' . $this->getSqlTableName() . ' ORDER BY ordering' ;
+		if(!empty($where)){
+			$where = 'WHERE ' . $where;
+		}
+		
+		$sql = 'SELECT `id` AS value ,`value` AS text FROM ' . $this->getSqlTableName()
+             . ' ' . $where . ' ORDER BY ' . $orderby ;
+             
         $rows = $this->_getList( $sql );
 
         if ( $this->_db->getErrorNum() ) {
