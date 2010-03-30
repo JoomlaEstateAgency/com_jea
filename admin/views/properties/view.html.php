@@ -130,6 +130,61 @@ class JeaViewProperties extends JView
 		return 'list Error';	
 	}
 	
+    function getTownsList($default=0, $department_id=0, $grid=false )
+	{
+		$featuresModel =& $this->getModel('features');
+		$title         = '- ' . JText::_( 'Town' ).' -' ;
+		$list = array();
+		$onChange = $grid ? 'onchange="document.adminForm.submit();"' : '' ;
+		
+		if($department_id > 0) {
+			$featuresModel->setTableName( 'towns' );
+			$list = $featuresModel->getListForHtml(
+				$title, 'text', 
+				'department_id=' . intval($department_id)
+			);
+		} else {
+			// Potentialy Too much values
+			$list[] = JHTML::_('select.option', '0', $title );
+		}
+		return JHTML::_(
+			'select.genericlist', 
+			$list, 
+			'town_id', 
+			'class="inputbox" size="1" '.$onChange, 
+			'value', 
+			'text', 
+			$default 
+		);
+	}
+	
+    function getAreasList($default=0, $town_id=0 )
+    {
+		$featuresModel = new JeaModelFeatures();
+		$title         = '- ' . JText::_( 'Area' ).' -' ;
+		$list = array();
+		
+		if($town_id > 0) {
+			$featuresModel->setTableName( 'areas' );
+			$list = $featuresModel->getListForHtml(
+				$title, 'text', 
+				'town_id=' . intval($town_id)
+			);
+		} else {
+			// Potentialy Too much values
+			$list[] = JHTML::_('select.option', '0', $title );
+		}
+		return JHTML::_(
+			'select.genericlist', 
+			$list, 
+			'area_id', 
+			'class="inputbox" size="1"', 
+			'value', 
+			'text', 
+			$default 
+		);
+    }
+	
 	function getAdvantagesRadioList()
 	{
 	    $html = '';

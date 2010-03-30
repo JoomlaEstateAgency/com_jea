@@ -152,8 +152,8 @@ function submitbutton( pressbutton, section ) {
 			  <input id="zip_code" type="text" name="zip_code" size="5" value="<?php echo $this->row->zip_code ?>" class="inputbox" />
 			  <span style="margin-left:25px">
 			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
-		      <?php echo $this->getHtmlList('towns', $this->row->town_id) ?>
-			  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
+    		  <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
+    		  <?php echo $this->getAreasList($this->row->area_id, $this->row->town_id) ?>
 			  </span>
 		  </td>
 		</tr>
