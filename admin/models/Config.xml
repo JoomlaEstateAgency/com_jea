@@ -23,7 +23,7 @@
 	
 		<param name="orderby" type="list" default="" label="Primary Order" description="Order column that the items will be displayed in.">
 			<option value="">Default</option>
-			<option value="date">Date</option>
+			<option value="date_insert">Date</option>
 			<option value="price">Price</option>
 			<option value="livingspace">Living space</option>
 			<option value="landspace">Land space</option>

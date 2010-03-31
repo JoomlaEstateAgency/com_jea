@@ -77,6 +77,10 @@ $document->addScriptDeclaration($script);
 			</strong> 
 			( <?php echo JText::_('Ref' ) . ' : ' . $row->ref ?> )
 			</a>
+			<?php 
+			echo "Date : $row->date_insert <br />";
+			echo "hits : $row->hits <br />";
+			?>
 		</dt>
 	
 		<?php if ( is_file( JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'min.jpg' ) ) : ?>

@@ -46,10 +46,13 @@ class JeaControllerProperties extends JController
 		// only when we list properties
 		if(!$id ) {
 			$filter_order = JRequest::getCmd('filter_order');
+			$filter_order_Dir = JRequest::getCmd('filter_order_Dir');
+			$router = &JSite::getRouter();
 			if ( $filter_order ) {
-				$app	= &JFactory::getApplication();
-				$router = &$app->getRouter();
 				$router->setVar( 'filter_order', $filter_order);
+			}
+			if( $filter_order_Dir ) {
+			    $router->setVar( 'filter_order_Dir', $filter_order_Dir);
 			}
 		}
 

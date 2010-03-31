@@ -138,7 +138,16 @@ class JeaViewProperties extends JeaView
 
 	function getViewUrl ( $id='' )
 	{
-	    return JRoute::_( 'index.php?view=properties&id='. $id );
+	    $extra = '';
+	    if($filter_order = JRequest::getCmd('filter_order')){
+	        $extra .= '&filter_order='.$filter_order ;
+	    }
+		if($filter_order_Dir = JRequest::getCmd('filter_order_Dir')){
+		    $extra .= '&filter_order_Dir='. $filter_order_Dir ;
+		}
+	    
+	    
+	    return JRoute::_( 'index.php?view=properties&id='. $id . $extra);
 	}
 	
 

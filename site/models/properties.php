@@ -58,15 +58,13 @@ class JeaModelProperties extends JModel
         $params    =& ComJea::getParams();
         $access    =& ComJea::getAccess();
         $default_limit = $params->get('list_limit', 10);
-        $default_order = $params->get('orderby', 'id');
-        $default_order_direction = $params->get('orderby_direction', 'asc');
         
         $cat        = $mainframe->getUserStateFromRequest( 'com_jea.user.properties.cat', 'cat', -1, 'int' );
         $limit      = $mainframe->getUserStateFromRequest( 'com_jea.user.limit', 'limit', $default_limit, 'int' );
         $limitstart = JRequest::getInt('limitstart', 0);
         
-        $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', $default_order));
-        $order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', $default_order_direction ));
+        $order      = $this->_getOrder();
+        $order_dir  = $this->_getOrderDirection();
         
         $rows = array();
         
@@ -122,8 +120,8 @@ class JeaModelProperties extends JModel
 		}
 	    
 	    $limitstart	= JRequest::getInt('limitstart', 0);
-	    $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
-		$order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'desc'));
+	    $order      = $this->_getOrder();
+        $order_dir  = $this->_getOrderDirection();
 	    
 	    $select  = $this->_getSqlBaseSelect();
 	    
@@ -289,8 +287,10 @@ class JeaModelProperties extends JModel
     	$currentRow =& $this->getRow();
         $result['prev_item'] = null;
         $result['next_item'] = null;
+        $params =& ComJea::getParams();
         
-        $params = ComJea::getParams();
+        $order      = $this->_getOrder();
+        $order_dir  = $this->_getOrderDirection();
         
         $sql = 'SELECT id,
         CASE WHEN CHAR_LENGTH(alias) THEN CONCAT_WS(":", id, alias) ELSE id END AS slug
@@ -317,10 +317,10 @@ class JeaModelProperties extends JModel
 		}
         // End Bug fix [#16275]
         
-		// $order = ' ORDER'
+		$order = ' ORDER BY ' . $order . ' ' . strtoupper( $order_dir ) ;
         
         
-        $this->_db->setQuery( $sql . $where );
+        $this->_db->setQuery( $sql . $where . $order);
         $rows = $this->_db->loadObjectList();
         
         if($rows){
@@ -333,7 +333,32 @@ class JeaModelProperties extends JModel
         }
         return $result;
     }
-
+    
+    function _getOrder()
+    {
+        $params = ComJea::getParams();
+        $default_order = $params->get('orderby', 'id');
+        $order = strtolower( JRequest::getCmd('filter_order', $default_order));
+        $table =& $this->getTable();
+        $fields = $table->getProperties();
+    	if(!array_key_exists($order, $fields)) {
+    	    $order = 'id';
+    	}
+    	return $this->_db->getEscaped($order);
+    }
+    
+    
+    function _getOrderDirection()
+    {
+        $params = ComJea::getParams();
+        $default_direction = $params->get('orderby_direction', 'asc');
+        $valid = array('asc', 'desc');
+        $order_dir  = strtolower(JRequest::getCmd('filter_order_Dir', $default_direction ));
+        if(!in_array($order_dir, $valid)) {
+            $order_dir = 'asc';
+        }
+        return $this->_db->getEscaped($order_dir);
+    }
     
 	function _getSqlBaseSelect()
     {
