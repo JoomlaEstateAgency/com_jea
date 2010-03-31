@@ -130,7 +130,7 @@ class JeaModelProperties extends JModel
          		. 'tp.date_insert AS `date_insert`,tp.emphasis AS `emphasis`, td.value AS `department`,'. PHP_EOL
          		. 'tt.value AS `type`, tto.value AS `town`, tp.published AS published, tp.ordering AS `ordering`,' . PHP_EOL
          		. 'tp.checked_out AS `checked_out`, tp.checked_out_time AS `checked_out_time`,' . PHP_EOL
-         		. 'tp.created_by AS  `created_by`, tu.username AS `author`' . PHP_EOL
+         		. 'tp.created_by AS  `created_by`, tu.username AS `author`, tp.hits AS `hits`' . PHP_EOL
                 . 'FROM #__jea_properties AS tp' . PHP_EOL
                 . 'LEFT JOIN #__jea_departments AS td ON td.id = tp.department_id' . PHP_EOL
 			    . 'LEFT JOIN #__jea_types AS tt ON tt.id = tp.type_id' . PHP_EOL
@@ -202,7 +202,13 @@ class JeaModelProperties extends JModel
         $row->emphasis = ($row->emphasis )? 0 : 1 ;
         $row->store();
     }
-
+    
+    function resetHits()
+    {
+        $row =& $this->getRow();
+        $row->hits = 0 ;
+        $row->store();
+    }
 
     function getItem()
     {

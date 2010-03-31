@@ -197,6 +197,14 @@ class JeaControllerProperties extends JController
 		$this->_setDefaultRedirect();
 	}
 	
+	function resethits()
+	{
+	    $id = JRequest::getInt('id',0);
+	    
+	    $this->_model->resetHits();
+		$this->setRedirect( $this->_controllerUrl . '&task=edit&id=' . $id );
+	}
+	
 	/******************************  Private functions   *****************************************/
 	
 

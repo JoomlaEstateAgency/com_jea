@@ -186,6 +186,32 @@ function submitbutton( pressbutton, section ) {
   </td>
   
   <td valign="top" width="330" nowrap="nowrap" style="padding: 7px 0 0 5px" >
+  
+  <?php if(!empty($this->row->id)): ?>
+  <table width="100%" style="border: 1px dashed silver; padding: 5px; margin-bottom: 10px;">
+  	<tr>
+  		<td><strong><?php echo JText::_( 'Property ID' ) ?>:</strong></td>
+  		<td><?php echo $this->row->id ?></td>
+  	</tr>
+  	<tr>
+  		<td><strong><?php echo JText::_( 'State' ) ?>:</strong></td>
+  		<td><?php echo $this->row->published == 1 ? JText::_( 'Published' ) : JText::_( 'Unpublished' ) ?></td>
+  	</tr>
+  	<tr>
+  		<td><strong><?php echo JText::_( 'hits' ); ?>:</strong></td>
+  		<td><?php echo intval($this->row->hits) ?>
+  		<?php if(!empty($this->row->hits)): ?>
+			<input name="reset_hits" type="button" class="button" value="<?php echo JText::_( 'Reset' ); ?>" onclick="submitbutton('resethits');" />
+		<?php endif ?>
+  		</td>
+  	</tr>
+  	<tr>
+  		<td><strong><?php echo JText::_( 'Created' ) ?>:</strong></td>
+  		<td><?php echo JHTML::_('date',  $this->row->date_insert,  JText::_('DATE_FORMAT_LC2') ) ?></td>
+  	</tr>
+  </table>
+  <?php endif ?>
+  
   <?php echo $pane->startPane("content-pane") ?>
   
   <?php echo $pane->startPanel( JText::_('Specifications') , "params-pane" ) ?>

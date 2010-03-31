@@ -78,12 +78,20 @@ $altrow = 1;
 			<th nowrap="nowrap">
 				<?php echo JHTML::_('grid.sort', 'Date', 'date_insert', $this->order_dir , $this->order ) ?>
 			</th>
+			
+			<th nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort', 'Hits', 'hits', $this->order_dir , $this->order ) ?>
+			</th>
+			
+			<th nowrap="nowrap">
+				<?php echo JHTML::_('grid.sort', 'Id', 'id', $this->order_dir , $this->order ) ?>
+			</th>
 		</tr>
 	</thead>
 
 	<tfoot>
 		<tr>
-			<td colspan="13">
+			<td colspan="15">
 				<del class="container">
 					<div class="pagination">
 						<div class="limit">
@@ -108,7 +116,7 @@ $altrow = 1;
 
 			<td><?php echo JHTML::_('grid.checkedout', $row, $k ) ?></td>
 
-			<td>
+			<td width="20%">
 			<?php if ($this->is_checkout($row->checked_out)) : ?>
 				<?php echo $this->escape( $row->ref ) ?>
 			<?php else : ?>
@@ -118,10 +126,10 @@ $altrow = 1;
 			</td>
 
 			<td><?php echo $this->escape( $row->type ) ?></td>
-			<td><?php echo $this->escape( $row->adress ) ?></td>
+			<td width="80%"><?php echo $this->escape( $row->adress ) ?></td>
 			<td><?php echo $this->escape( $row->town ) ?></td>
-			<td><?php echo $this->escape( $row->department ) ?></td>
-			<td><?php echo $row->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?></td>
+			<td nowrap="nowrap"><?php echo $this->escape( $row->department ) ?></td>
+			<td nowrap="nowrap" align="center" ><?php echo $row->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?></td>
 			<td align="center">
 				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $k ?>','emphasize')">
 				<img src="images/<?php echo ( $row->emphasis ) ? 'tick.png' : 'publish_x.png';?>"
@@ -144,6 +152,8 @@ $altrow = 1;
 			</td>
 			
 			<td><?php echo JHTML::_('date',  $row->date_insert, JText::_('DATE_FORMAT_LC4') ); ?></td>
+			<td align="center"><?php echo $row->hits ?></td>
+			<td align="center"><?php echo $row->id ?></td>
 		</tr>
 
 		<?php endforeach ?>
