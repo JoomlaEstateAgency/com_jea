@@ -64,6 +64,8 @@
 		<filename>css/print.css</filename>
 		<filename>images/logo.png</filename>
 		<filename>images/media_trash.png</filename>
+		<filename>images/sort_asc.png</filename>
+		<filename>images/sort_desc.png</filename>
 		<filename>images/header/icon-48-jea.png</filename>
 		<filename>images/menu/icon-16-jea.png</filename>
 		<filename>js/jea.js</filename>
