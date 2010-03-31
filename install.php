@@ -31,6 +31,10 @@ class ComJea_Install {
                    . 'ADD `alias` VARCHAR( 255 ) NOT NULL DEFAULT \'\' AFTER `title`' ;
             $db->setQuery($query);
             $db->query();
+            
+            $query = 'UPDATE `#__jea_properties` SET `alias`=`ref`';
+            $db->setQuery($query);
+            $db->query();
         }
         
         $db->setQuery('SHOW COLUMNS FROM #__jea_areas');
