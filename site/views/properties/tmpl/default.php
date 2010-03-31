@@ -77,10 +77,9 @@ $document->addScriptDeclaration($script);
 			</strong> 
 			( <?php echo JText::_('Ref' ) . ' : ' . $row->ref ?> )
 			</a>
-			<?php 
-			echo "Date : $row->date_insert <br />";
-			echo "hits : $row->hits <br />";
-			?>
+			<?php if ( $this->params->get('show_creation_date', 0) ) : ?>
+			<span class="date"><?php echo JHTML::_('date',  $row->date_insert, JText::_('DATE_FORMAT_LC3') ); ?></span>
+			<?php endif ?>
 		</dt>
 	
 		<?php if ( is_file( JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'min.jpg' ) ) : ?>

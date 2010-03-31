@@ -86,6 +86,11 @@ $document->addScriptDeclaration($script);
 <?php endif ?>
 
 <h1> <?php echo $this->page_title ?> </h1>
+
+<?php if ( $this->params->get('show_creation_date', 0) ) : ?>
+    <p><span class="date">
+    <?php echo JHTML::_('date',  $this->row->date_insert, JText::_('DATE_FORMAT_LC3') ); ?></span></p>
+<?php endif ?>
     
 <?php if( !empty($secondaries_images)): ?>
 <div class="snd_imgs" id="snd_imgs" >

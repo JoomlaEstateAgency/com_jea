@@ -19,6 +19,11 @@
 			<param name="department_id" type="departments" default="0" label="Department" description="Filter on department" />
 			<param name="town_id" type="towns" default="0" label="Town" description="Filter on town" />
 			<param name="area_id" type="areas" default="0" label="Area" description="Filter on area" />
+			
+			<param name="show_creation_date" type="radio" default="0" label="Show creation date" >
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
 		</advanced>
 	</state>
 </metadata>
