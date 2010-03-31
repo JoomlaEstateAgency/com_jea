@@ -82,6 +82,7 @@ class ComJea
 		    $instance->def('decimals_separator', ',');
 		    $instance->def('symbol_place', 1);
 		    $instance->def('orderby', '');
+		    $instance->def('orderby_direction', 'asc');
 		    $instance->def('sort_date', 0);
 		    $instance->def('sort_price', 0);
 		    $instance->def('sort_livingspace', 0);
