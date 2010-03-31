@@ -50,6 +50,25 @@ class JeaViewProperties extends JeaView
 		
 		$this->pagination = new JPagination($res['total'], $res['limitstart'], $res['limit']);
 		$this->assign($res);
+		
+    	$sort_links = array();
+	    if ( $this->params->get('sort_date') ) {
+            $sort_links[] = $this->sort('Sort by date', 'date_insert', $res['order_dir'] , $res['order'] );
+        }
+        if ( $this->params->get('sort_price') ) {
+            $sort_links[] = $this->sort('Sort by Price', 'price', $res['order_dir'] , $res['order'] );
+        }
+        if ( $this->params->get('sort_livingspace') ) {
+            $sort_links[] = $this->sort('Sort by living space', 'living_space', $res['order_dir'] , $res['order'] );
+        }
+        if ( $this->params->get('sort_landspace') ) {
+            $sort_links[] = $this->sort('Sort by land space', 'land_space', $res['order_dir'] , $res['order'] );
+        }
+	    if ( $this->params->get('sort_hits') ) {
+            $sort_links[] = $this->sort('Sort by popularity', 'hits', $res['order_dir'] , $res['order'] );
+        }
+	    $this->assign( 'sort_links', $sort_links );
+		
 	}
 
 	function getItemDetail( $id )
@@ -260,6 +279,28 @@ class JeaViewProperties extends JeaView
 		$model =& $this->getModel();
 		$options = $model->getFeatureList($table, $title);
 		return JHTML::_('select.genericlist', $options , $id, 'class="inputbox" size="1" ' , 'value', 'text', 0);
+	}
+	
+	/**
+	 * @param	string	The link title
+	 * @param	string	The order field for the column
+	 * @param	string	The current direction
+	 * @param	string	The selected ordering
+	 */
+	function sort( $title, $order, $direction = 'asc', $selected = 0 )
+	{
+		$direction	= strtolower( $direction );
+		$images		= array( 'sort_asc.png', 'sort_desc.png' );
+		$index		= intval( $direction == 'desc' );
+		$direction	= ($direction == 'desc') ? 'asc' : 'desc';
+
+		$html = '<a href="javascript:changeOrdering(\''.$order.'\',\''.$direction.'\');" >';
+		$html .= JText::_( $title );
+		if ($order == $selected ) {
+			$html .= JHTML::_('image.site',  $images[$index], '/media/com_jea/images/', NULL, NULL);
+		}
+		$html .= '</a>';
+		return $html;
 	}
 	
 	function activateGoogleMap(&$row, $domId )

@@ -58,12 +58,16 @@ class JeaModelProperties extends JModel
         $params    =& ComJea::getParams();
         $access    =& ComJea::getAccess();
         $default_limit = $params->get('list_limit', 10);
+        $default_order = $params->get('orderby', 'id');
+        $default_order_direction = $params->get('orderby_direction', 'asc');
         
         $cat        = $mainframe->getUserStateFromRequest( 'com_jea.user.properties.cat', 'cat', -1, 'int' );
         $limit      = $mainframe->getUserStateFromRequest( 'com_jea.user.limit', 'limit', $default_limit, 'int' );
         $limitstart = JRequest::getInt('limitstart', 0);
-        $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', 'ordering'));
-        $order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', 'asc'));
+        
+        $order      = $this->_db->getEscaped( JRequest::getCmd('filter_order', $default_order));
+        $order_dir  = $this->_db->getEscaped( JRequest::getCmd('filter_order_Dir', $default_order_direction ));
+        
         $rows = array();
         
         if($access->canEdit || $access->canEditOwn){

@@ -20,10 +20,11 @@ JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 $rowsCount = count( $this->rows );
 
 $script=<<<EOB
-function changeOrdering( param )
+function changeOrdering( order, direction )
 {
 	var form = document.getElementById('jForm');
-	form.filter_order.value = param;
+	form.filter_order.value = order;
+	form.filter_order_Dir.value = direction;
 	form.submit();
 }
 EOB;
@@ -56,15 +57,7 @@ $document->addScriptDeclaration($script);
 	<div class="clr" ></div>
 	
 	<div id="sort_options">
-		<?php if ( $this->params->get('sort_price') ): ?>
-		<a href="javascript:changeOrdering('price')"><?php echo JText::_('Sort by price') ?></a><br />
-		<?php endif ?>
-		<?php if ( $this->params->get('sort_livingspace') ): ?>
-		<a href="javascript:changeOrdering('living_space')"><?php echo JText::_('Sort by living space') ?></a><br />
-		<?php endif ?>
-		<?php if ( $this->params->get('sort_landspace') ): ?>
-		<a href="javascript:changeOrdering('land_space')"><?php echo JText::_('Sort by land space') ?></a><br />
-		<?php endif ?>
+		<?php echo implode(' | ', $this->sort_links)  ?>
 	</div>
 	
 	<p class="limitbox"><em><?php echo JText::_('Results per page') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
@@ -143,6 +136,7 @@ $document->addScriptDeclaration($script);
 	
 	<div class="clear">
 	  <input type="hidden" id="filter_order" name="filter_order" value="<?php echo $this->order ?>" />
+      <input type="hidden" id="filter_order_Dir" name="filter_order_Dir" value="<?php echo $this->order_dir ?>" />
 	  <input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>" />
 	</div>
 	
