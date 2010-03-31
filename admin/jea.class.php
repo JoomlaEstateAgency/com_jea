@@ -81,9 +81,12 @@ class ComJea
 		    $instance->def('thousands_separator', $thousands_separator);
 		    $instance->def('decimals_separator', ',');
 		    $instance->def('symbol_place', 1);
+		    $instance->def('orderby', '');
+		    $instance->def('sort_date', 0);
 		    $instance->def('sort_price', 0);
 		    $instance->def('sort_livingspace', 0);
 		    $instance->def('sort_landspace', 0);
+		    $instance->def('sort_hits', 0);
 		    $instance->def('list_limit', 10);
 		    $instance->def('show_print_icon', 1);
 		    $instance->def('show_pdf_icon', 1);
