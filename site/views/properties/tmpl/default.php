@@ -18,6 +18,19 @@ defined('_JEXEC') or die('Restricted access');
 
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 $rowsCount = count( $this->rows );
+
+$script=<<<EOB
+function changeOrdering( param )
+{
+	var form = document.getElementById('jForm');
+	form.filter_order.value = param;
+	form.submit();
+}
+EOB;
+
+$document=& JFactory::getDocument();
+$document->addScriptDeclaration($script);
+
 ?>
 
 
@@ -62,7 +75,7 @@ $rowsCount = count( $this->rows );
 <?php foreach ($this->rows as $k => $row) :?>
 	<dl class="jea_item" >
 		<dt class="title" >
-			<a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>" > 
+			<a href="<?php echo $this->getViewUrl ( $row->slug ) ?>" title="<?php echo JText::_('Show detail') ?>" > 
 			<strong> 
 			<?php if(empty($row->title)):?>
 			<?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
@@ -75,7 +88,7 @@ $rowsCount = count( $this->rows );
 	
 		<?php if ( is_file( JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'min.jpg' ) ) : ?>
 		<dt class="image">
-		    <a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Detail') ?>">
+		    <a href="<?php echo $this->getViewUrl ( $row->slug ) ?>" title="<?php echo JText::_('Detail') ?>">
 		      <img src="<?php echo JURI::root().'images/com_jea/images/'.$row->id.'/min.jpg' ?>" alt="<?php echo JText::_('Detail') ?>" />
 			</a>
 		</dt>
@@ -119,7 +132,7 @@ $rowsCount = count( $this->rows );
 		<?php endif ?>
 		
 		<br />
-		<a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>"> 
+		<a href="<?php echo $this->getViewUrl ( $row->slug ) ?>" title="<?php echo JText::_('Show detail') ?>"> 
 		<?php echo JText::_('Detail') ?> </a>
 		</dd>
 	

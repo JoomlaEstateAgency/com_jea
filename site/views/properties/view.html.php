@@ -98,7 +98,7 @@ class JeaViewProperties extends JeaView
 	  
 		if ( $res['prev_item'] ) {
 
-			$html .= '<a href="' . $this->getViewUrl($res['prev_item']->id) . '">' . $previous . '</a>' ;
+			$html .= '<a href="' . $this->getViewUrl($res['prev_item']->slug) . '">' . $previous . '</a>' ;
 		} else {
 			$html .=  $previous ;
 		}
@@ -107,7 +107,7 @@ class JeaViewProperties extends JeaView
 
 		if ($res['next_item']) {
 
-			$html .= '<a href="' . $this->getViewUrl($res['next_item']->id) . '">' . $next . '</a>' ;
+			$html .= '<a href="' . $this->getViewUrl($res['next_item']->slug) . '">' . $next . '</a>' ;
 		}  else {
 				
 		 $html .= $next ;
@@ -117,13 +117,9 @@ class JeaViewProperties extends JeaView
 
 	}
 
-	function getViewUrl ( $id=0, $params='' )
+	function getViewUrl ( $id='' )
 	{
-		if ( $id ) {
-			$params .= '&id=' . intval( $id ) ;
-		}
-	  
-		return JRoute::_( $params );
+	    return JRoute::_( 'index.php?view=properties&id='. $id );
 	}
 	
 

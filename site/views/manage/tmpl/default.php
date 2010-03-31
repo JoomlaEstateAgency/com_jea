@@ -64,7 +64,7 @@ $altrow = 1;
 <?php foreach ($this->rows as $k => $row): $altrow = $altrow ? 0 : 1 ?>
 
 		<tr class="row<?php echo $altrow ?>" >
-			<td class="ref"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&view=manage&layout=form&id='.$row->id ) ?>" title="<?php echo JText::_('Edit') ?>" > 
+			<td class="ref"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&view=manage&layout=form&id='.$row->slug ) ?>" title="<?php echo JText::_('Edit') ?>" > 
 			<?php echo $row->ref ?></a></td>
 			<td class="type"><?php echo $row->type ?></td>
 			<td class="adress"><?php echo $row->adress ?></td>

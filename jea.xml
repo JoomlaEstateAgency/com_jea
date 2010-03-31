@@ -25,6 +25,7 @@
 		<filename>index.html</filename>
 		<filename>jea.php</filename>
 		<filename>view.php</filename>
+		<filename>router.php</filename>
 		<filename>controllers/frontajax.php</filename>
 		<filename>controllers/properties.php</filename>
 		<filename>models/properties.php</filename>
