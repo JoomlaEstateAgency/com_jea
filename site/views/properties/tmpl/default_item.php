@@ -51,8 +51,12 @@ window.addEvent('domready', function() {
         				$('img_preview').setProperty('src', item.preview_url);
         				$('image_title').empty();
         				$('image_description').empty();
-        				$('image_title').appendText(item.title);
-        				$('image_description').appendText(item.description);
+        				if(item.title) {
+        					$('image_title').appendText(item.title);
+        				}
+        				if(item.description) {
+        					$('image_description').appendText(item.description);
+        				}
         			}
     			});
     		});
