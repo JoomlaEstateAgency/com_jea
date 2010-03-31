@@ -28,7 +28,8 @@ class ComJea_Install {
         if(!isset($cols['title']) && !isset($cols['alias'])){
             $query = 'ALTER TABLE `#__jea_properties` '
                    . 'ADD `title` VARCHAR( 255 ) NOT NULL DEFAULT \'\' AFTER `ref`, '
-                   . 'ADD `alias` VARCHAR( 255 ) NOT NULL DEFAULT \'\' AFTER `title`' ;
+                   . 'ADD `alias` VARCHAR( 255 ) NOT NULL DEFAULT \'\' AFTER `title`, ' 
+                   . 'ADD `hits` INT( 11 ) NOT NULL DEFAULT \'0\'';
             $db->setQuery($query);
             $db->query();
             

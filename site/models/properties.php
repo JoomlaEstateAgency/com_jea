@@ -201,10 +201,16 @@ class JeaModelProperties extends JModel
     
     function &getProperty()
     {
-    	 $sql = $this->_getSqlBaseSelect();
-         $sql .= 'WHERE tp.id ='. $this->getId() ;
+    	 $id = (int) $this->getId() ;
+         $sql = $this->_getSqlBaseSelect();
+         $sql .= 'WHERE tp.id ='. $id ;
          $this->_db->setQuery($sql) ;
          $res = $this->_db->loadObjectList() ;
+         
+         // Hit
+         $property =& $this->getTable();
+		 $property->hit($id);
+         
          return $res[0];
     }
     

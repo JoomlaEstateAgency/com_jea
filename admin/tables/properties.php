@@ -53,6 +53,7 @@ class TableProperties extends JTable
 	var $checked_out = null;
 	var $checked_out_time = null ;
 	var $created_by = null;
+	var $hits = null;
 	
 	function TableProperties(& $db) {
 		
