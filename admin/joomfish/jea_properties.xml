@@ -9,6 +9,8 @@
 <table name="jea_properties">
 <field type="referenceid" name="id" translate="0">ID</field>
 <field type="titletext" name="ref" translate="0">Ref</field>
+<field type="titletext" name="title" translate="1">Ref</field>
+<field type="titletext" name="alias" translate="1">Ref</field>
 <field type="htmltext" name="description" translate="1">Description</field>
 <field type="created_date" name="date_insert" translate="0">Created</field>
 <field type="checked_out_by" name="checked_out" translate="0">Check out by</field>

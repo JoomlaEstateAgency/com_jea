@@ -21,7 +21,7 @@
 	
 	<params group="lists">
 	
-		<param name="orderby" type="list" default="" label="Primary Order" description="Order column that the items will be displayed in.">
+		<param name="orderby" type="list" default="" label="Primary Order" description="Column that determines the order in which elements are displayed">
 			<option value="">Default</option>
 			<option value="date_insert">Date</option>
 			<option value="price">Price</option>
@@ -31,7 +31,7 @@
 			<option value="order">Ordering</option>
 		</param>
 		
-		<param name="orderby_direction" type="radio" default="0" label="Primary order direction" description="Order direction that the items will be displayed in." >
+		<param name="orderby_direction" type="radio" default="0" label="Primary order direction" description="Ordering direction on wich the items will be displayed in" >
 			<option value="asc">Ascending</option>
 			<option value="desc">Descending</option>
 		</param>
