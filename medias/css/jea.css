@@ -55,22 +55,31 @@ dl.jea_item span.slogan strong {
 	float: right;
 }
 
-.snd_imgs {
-	float: right;
-	height: 300px;
-	overflow: auto;
+#jea-gallery {
+	margin-bottom: 10px;
 }
 
-.snd_imgs img {
-	width: 120px;
-	cursor: pointer
+#jea-gallery-scroll{
+	overflow-x:hidden;
+	overflow-y:auto;
 }
 
-.jea_image_title {
+#jea-gallery-scroll img{
+	margin-bottom:5px;
+}
+
+#jea-gallery-preview, #jea-gallery-scroll {
+	float:left;
+}
+#jea-gallery-preview {
+	margin-right:15px;
+}
+
+#jea-preview-title {
 	font-weight: bold;
 }
 
-.jea_image_desc {
+#jea-preview-description {
 	font-style: italic;
 }
 

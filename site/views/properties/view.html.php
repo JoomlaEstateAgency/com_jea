@@ -101,6 +101,17 @@ class JeaViewProperties extends JeaView
 		
 		$document=& JFactory::getDocument();
 		$document->setTitle( $page_title );
+		
+		switch($this->params->get('images_layout')){
+		    case 'gallery':
+		        $this->assign( 'images_layout', 'gallery' );
+		        break;
+		    case 'squeezebox':
+		        $this->assign( 'images_layout', 'squeezebox' );
+		        break;
+		    default: 
+		        $this->assign( 'images_layout', 'gallery' );
+		}
 	  
 	}
 
@@ -310,6 +321,32 @@ class JeaViewProperties extends JeaView
 		}
 		$html .= '</a>';
 		return $html;
+	}
+	
+	
+	function initGallery($id)
+	{
+        $previewHeight = $this->params->get('max_previews_height', 400);
+        $previewWidth = $this->params->get('max_previews_width', 400);
+        $thumbnails_width = $this->params->get('max_thumbnails_width', 120);
+        $previewImgPath = JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS
+                        . $id.DS.'preview.jpg';
+        if(is_file($previewImgPath)) {
+            $im = @getimagesize($previewImgPath);
+            $previewHeight = $im[1];
+        }
+        
+        $document=& JFactory::getDocument();
+        $document->addStyleDeclaration("
+            #jea-gallery-scroll{
+            	height:{$previewHeight}px;
+            	width: {$thumbnails_width}px;
+            }
+            
+	        #jea-gallery-preview{
+            	width: {$previewWidth}px;
+            }
+        ");
 	}
 	
 	function activateGoogleMap(&$row, $domId )

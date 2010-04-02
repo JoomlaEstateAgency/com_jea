@@ -46,7 +46,8 @@
 		<filename>views/properties/tmpl/index.html</filename>
 		<filename>views/properties/tmpl/default.xml</filename>
 		<filename>views/properties/tmpl/default.php</filename>
-		<filename>views/properties/tmpl/default_item.php</filename>
+		<filename>views/properties/tmpl/default_gallery.php</filename>
+		<filename>views/properties/tmpl/default_squeezebox.php</filename>
 		<filename>views/properties/tmpl/search.php</filename>
 		<filename>views/properties/tmpl/search.xml</filename>
 	</files>

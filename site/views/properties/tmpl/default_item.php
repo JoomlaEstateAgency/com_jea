@@ -20,63 +20,12 @@ if(!$this->row->id){
     return;
 }
 
-require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library'.DS.'JSON.php';
-$serviceJson = new Services_JSON();
-
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
-
-$secondaries_images = array();
-
-if(!empty($this->main_image['min_url'])) {
-    $secondaries_images[] = $this->main_image ;
-}
-
-foreach($this->secondaries_images as $image){
-    $secondaries_images[] = $image;
-}
-
-$js_secondaries_images = $serviceJson->encode($secondaries_images);
-
-$script=<<<EOB
-
-var secondaries_images = $js_secondaries_images;
-
-window.addEvent('domready', function() {
-	
-	if($('snd_imgs')) {
-    	$('snd_imgs').getElements('img').each(function(el){
-    		el.addEvent('click', function(){
-    			secondaries_images.each(function(item){
-        			if (el.src == item.min_url){
-        				$('img_preview').setProperty('src', item.preview_url);
-        				$('image_title').empty();
-        				$('image_description').empty();
-        				if(item.title) {
-        					$('image_title').appendText(item.title);
-        				}
-        				if(item.description) {
-        					$('image_description').appendText(item.description);
-        				}
-        			}
-    			});
-    		});
-    	});
-	}
-});
-
-
-EOB;
-
-JHTML::_('behavior.mootools');
-$document=& JFactory::getDocument();
-$document->addScriptDeclaration($script);
 ?>
 
 <p class="pagenavigation">
   <?php echo $this->getPrevNextItems( $this->row->id ) ?>
 </p>
-
-
 
 <?php if ( $this->params->get('show_print_icon') || $this->params->get('show_pdf_icon') ): ?>
 	<div class="jea_tools">
@@ -95,26 +44,12 @@ $document->addScriptDeclaration($script);
     <p><span class="date">
     <?php echo JHTML::_('date',  $this->row->date_insert, JText::_('DATE_FORMAT_LC3') ); ?></span></p>
 <?php endif ?>
-    
-<?php if( !empty($secondaries_images)): ?>
-<div class="snd_imgs" id="snd_imgs" >
-	<?php foreach($secondaries_images as $image) : ?>
-      <img src="<?php echo $image['min_url'] ?>"  
-           alt="<?php echo $image['name'] ?>" 
-	       title="<?php echo $image['title'] ?>"  /> <br />
-    <?php endforeach ?>
+
+<?php if(!empty($this->main_image)): ?>
+<div id="jea-gallery">
+    <?php echo $this->loadTemplate($this->images_layout) ?>
 </div>
 <?php endif ?>
-
-<?php if($img = is_file(JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$this->row->id.DS.'min.jpg')) : ?>
-	  <div> 
-	  <img id="img_preview" src="<?php echo $this->main_image['preview_url'] ?>" alt="preview.jpg"  /> 
-	  <div id="image_title" class="jea_image_title"><?php echo $this->main_image['title'] ?></div>
-	  <div id="image_description" class="jea_image_desc" ><?php echo $this->main_image['description'] ?></div>
-	  </div>
-<?php endif ?>
-
- <div class="clr" >&nbsp;</div>
   
  <h2 ><?php echo JText::_('Ref')?> : <?php echo $this->escape($this->row->ref) ?></h2>
  
@@ -141,17 +76,13 @@ $document->addScriptDeclaration($script);
    	<?php if (intval($this->row->availability)): ?>
    	<p><em><?php echo JText::_('Availability date') ?> : <?php echo $this->row->availability ?></em> </p>
    	<?php endif  ?>
-   	
-   	
-      
-     <table>
-      
-      <tr>
-   
-         <td><?php echo $this->row->is_renting ?  JText::_('Renting price') : JText::_('Selling price') ?></td>
-
-         <td> : <strong><?php echo $this->formatPrice( floatval($this->row->price) , JText::_('Consult us') ) ?></strong></td>
-      </tr>
+ 
+  <table>
+    <tr>
+      <td><?php echo $this->row->is_renting ?  JText::_('Renting price') : JText::_('Selling price') ?></td>
+    
+      <td> : <strong><?php echo $this->formatPrice( floatval($this->row->price) , JText::_('Consult us') ) ?></strong></td>
+   </tr>
       
    <?php if ( $this->row->charges ): ?> 
    <tr>
@@ -166,7 +97,6 @@ $document->addScriptDeclaration($script);
      <td> : <strong><?php echo $this->formatPrice( floatval($this->row->fees), JText::_('Consult us') ) ?></strong></td>
    </tr>
       <?php endif  ?>
-      
   </table>
   
   <h3><?php echo JText::_('Description') ?> :</h3>

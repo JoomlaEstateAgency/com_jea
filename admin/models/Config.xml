@@ -73,6 +73,11 @@
             <option value="0">Hide</option>
             <option value="1">Show</option>
         </param>
+        
+        <param name="images_layout" type="radio" default="gallery" label="Images layout" description="PARAMSIMAGESLAYOUT">
+            <option value="gallery">Classical</option>
+            <option value="squeezebox">SqueezeBox</option>
+        </param>
 		
 		<param name="show_contactform" type="radio" default="1" label="Contact form" description="PARAMSCONTACTFORM">
 			<option value="0">Hide</option>
