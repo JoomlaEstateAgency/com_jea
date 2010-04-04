@@ -18,6 +18,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' ) ;
 
 JFilterOutput::objectHTMLSafe( $this->row, ENT_QUOTES, array('ref', 'adress') );
 JHTML::_( 'behavior.calendar' );
+JHTML::_( 'behavior.modal' );
 
 jimport( 'joomla.html.pane' );
 $pane =& JPane::getInstance('sliders', array('startOffset'=> $this->sliderOffset, 'startTransition'=>0));
