@@ -107,6 +107,13 @@ dl.jea_item span.slogan strong {
 	width:12em;
 }
 
+label.advantage{
+	display:block;
+	width:150px;
+	margin-right:10px;
+	float:left;
+}
+
 /*format tabular list */
 table.jea_listing, table.jea_listing thead, table.jea_listing th, 
 table.jea_listing tbody, table.jea_listing td {border:1px solid #ccc;}

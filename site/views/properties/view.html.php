@@ -182,7 +182,7 @@ class JeaViewProperties extends JeaView
 			foreach ( $options as $k=> $row ) {
 				$html .= '<label class="advantage">'
 				.'<input type="checkbox" name="advantages[' . $k . ']" value="'. $row->value .'" />'
-				. $row->text  . '</label><br />' . PHP_EOL ;
+				. $row->text  . '</label>' . PHP_EOL ;
 			}
 			
 		}  else {

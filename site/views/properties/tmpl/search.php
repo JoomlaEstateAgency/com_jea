@@ -103,9 +103,12 @@ if ($use_ajax ) {
   	</table>
   	<p><?php echo JText::_('Minimum number of rooms') ?>  : <input type="text" name="rooms_min" size="1" /></p>
   	
-  	<p><?php echo JText::_('Advantages') ?> : <br />
-  	<?php echo $this->getAdvantages('', 'checkbox') ?>
-  	</p>	
+  	<h2><?php echo JText::_('Advantages') ?> : </h2>
+  	<div id="advantages_list">
+      	<div class="clr" ></div>
+      	<?php echo $this->getAdvantages('', 'checkbox') ?>
+      	<div class="clr" ></div>
+  	</div>	
   	</fieldset>
   	
   	<p><input type="submit" class="button" value="<?php echo JText::_('Search') ?>" /></p>
