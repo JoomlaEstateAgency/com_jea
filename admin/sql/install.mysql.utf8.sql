@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `published` tinyint(1) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
   `emphasis` tinyint(1) NOT NULL default '0' COMMENT 'mise en avant',
-  `date_insert` date NOT NULL default '0000-00-00',
+  `date_insert` datetime NOT NULL default '0000-00-00 00:00:00',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL default '0',
