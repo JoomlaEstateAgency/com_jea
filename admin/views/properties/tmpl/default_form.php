@@ -20,7 +20,7 @@ JFilterOutput::objectHTMLSafe( $this->row, ENT_QUOTES, array('ref', 'adress') );
 JHTML::_( 'behavior.calendar' );
 
 jimport( 'joomla.html.pane' );
-$pane =& JPane::getInstance('sliders');
+$pane =& JPane::getInstance('sliders', array('startOffset'=> $this->sliderOffset, 'startTransition'=>0));
 
 $editor =& JFactory::getEditor();
 
@@ -99,6 +99,12 @@ function submitbutton( pressbutton, section ) {
 			return;
 		}
 	}
+
+	$('content-pane').getElements('h3.title').each(function(item, count){
+		if(item.hasClass('jpane-toggler-down')){
+			form.sliderOffset.value = count;
+		}
+	});
 	
 	<?php echo $editor->save( 'description' ) ?>
 	submitform(pressbutton);
@@ -383,6 +389,7 @@ function submitbutton( pressbutton, section ) {
   </table>
   <input type="hidden" name="task" value="" />
   <input type="hidden" name="id" value="<?php echo $this->row->id ?>" />
+  <input type="hidden" name="sliderOffset" value="0" />
   <?php echo JHTML::_( 'form.token' ) ?>
 </form>
 

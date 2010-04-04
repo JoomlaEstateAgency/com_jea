@@ -91,6 +91,10 @@ class JeaControllerProperties extends JController
 		// Check for request forgeries
 		JRequest::checkToken() or die( 'Invalid Token' );
 		
+		$mainframe = &JFactory::getApplication();
+        // Save the last slider pannel	openning	
+		$mainframe->setUserState( 'com_jea.sliderOffset', JRequest::getInt('sliderOffset', 0));
+		
 		if ( false ===  $this->_model->save() ) {
 
 		    $this->edit();

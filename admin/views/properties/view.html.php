@@ -81,6 +81,10 @@ class JeaViewProperties extends JView
 	    $title .= $this->row->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->row->ref ) : JText::_( 'New' ) ;
 	    JToolBarHelper::title( $title , 'jea.png' ) ;
 	    
+	    $mainframe = &JFactory::getApplication();
+	    //Get the last slider pannel openning
+	    $this->assign('sliderOffset',  $mainframe->getUserState( 'com_jea.sliderOffset'));
+	    
 	    JToolBarHelper::save() ;
 	    JToolBarHelper::apply() ;
 	    JToolBarHelper::cancel() ;
