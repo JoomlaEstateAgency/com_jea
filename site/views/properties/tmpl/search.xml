@@ -18,5 +18,27 @@
 				<option value="1">Yes</option>
 			</param>
 		</params>
+		<advanced>
+			<param name="category" type="list" default="0" label="Category" description="PARAMCATEGORY">
+				<option value="0">Renting or Selling</option>
+				<option value="1">Selling only</option>
+				<option value="2">Renting only</option>
+			</param>
+			
+			<param name="show_types" type="radio" default="1" label="Filter on types">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="show_departments" type="radio" default="1" label="Filter on departments">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="show_towns" type="radio" default="1" label="Filter on towns">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</advanced>
 	</state>
 </metadata>

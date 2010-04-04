@@ -19,6 +19,7 @@ defined('_JEXEC') or die('Restricted access');
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 
 $use_ajax = $this->params->get('use_ajax', 0);
+$category = $this->params->get('category', 0);
 
 if ($use_ajax ) {
 	JHTML::script('search.js', 'media/com_jea/js/', true);
@@ -37,26 +38,44 @@ if ($use_ajax ) {
 <form action="<?php echo JRoute::_('&task=search&layout=default') ?>" method="post" id="jea_search_form" enctype="application/x-www-form-urlencoded" >
 
 	<fieldset><legend><?php echo JText::_('Quick search') ?></legend>
+
+    <?php if($category == 1): ?>
+    <input type="hidden" id="cat" name="cat" value="selling" />
+    <?php elseif($category == 2): ?>
+    <input type="hidden" id="cat" name="cat" value="renting" />
+    <?php else: ?>
 	<p>
     <input type="radio" name="cat" id="renting" value="renting" checked="checked" <?php echo $use_ajax ? 'onclick="refreshForm()"' : '' ?> >
     <label for="renting"><?php echo JText::_('Renting') ?></label>
     <input type="radio" name="cat" id="selling" value="selling" <?php echo $use_ajax ? 'onclick="refreshForm()"' : '' ?> >
     <label for="selling"><?php echo JText::_('Selling') ?></label>
     </p>
+    <?php endif ?>
     
 <?php if ( $use_ajax ): ?>
     <p>
+    <?php if ($this->params->get('show_types', 1) == 1):?>
     <select id="type_id" name="type_id" onchange="updateList(this)" class="inputbox"><option value="0"> </option></select>
+    <?php endif ?>
+    <?php if ($this->params->get('show_departments', 1) == 1):?>
     <select id="department_id"  name="department_id" onchange="updateList(this)" class="inputbox" ><option value="0"> </option></select>
+    <?php endif ?>
+    <?php if ($this->params->get('show_towns', 1) == 1):?>
     <select id="town_id" name="town_id" onchange="updateList(this)" class="inputbox"><option value="0"> </option></select>
+    <?php endif ?>
     </p>
-    
 <?php else: ?> 
 
    	<p>
+   	<?php if ($this->params->get('show_types', 1) == 1):?>
 	<?php echo $this->getHtmlList('types', '--'.JText::_( 'Property type' ).'--', 'type_id' ) ?>
+	<?php endif ?>
+	<?php if ($this->params->get('show_departments', 1) == 1):?>
 	<?php echo $this->getHtmlList('departments', '--'.JText::_( 'Department' ).'--', 'department_id' ) ?>
+	<?php endif ?>
+	<?php if ($this->params->get('show_towns', 1) == 1):?>
   	<?php echo $this->getHtmlList('towns', '--'.JText::_( 'Town' ).'--', 'town_id' ) ?>
+  	<?php endif ?>
   	</p>
   	
 <?php endif ?>
