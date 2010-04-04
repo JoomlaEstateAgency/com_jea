@@ -41,7 +41,8 @@ class ComJea_Install {
         if(isset($cols['date_insert'])) {
             $query = 'ALTER TABLE `#__jea_properties` CHANGE `date_insert` '
                    . '`date_insert` DATETIME NOT NULL DEFAULT \'0000-00-00 00:00:00\'';
-            $db->setQuery($query);      
+            $db->setQuery($query);
+            $db->query();    
         }
         
         $db->setQuery('SHOW COLUMNS FROM #__jea_areas');
