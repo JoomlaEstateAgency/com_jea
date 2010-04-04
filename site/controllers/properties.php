@@ -79,10 +79,8 @@ class JeaControllerProperties extends JController
 			);
 			$session->set('params', $params, 'jea_search');
 		} else {
-		    $app = &JFactory::getApplication();
-               $router = &$app->getRouter();
-               // force the default to layout on search result
-               $router->setVar( 'layout', 'default');
+            // force the default to layout on search result
+		    JRequest::setVar('layout', 'default');
 		}
 		
 		$params = $session->get('params', array() , 'jea_search');

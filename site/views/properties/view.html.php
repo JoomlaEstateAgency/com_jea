@@ -147,18 +147,26 @@ class JeaViewProperties extends JeaView
 
 	}
 
-	function getViewUrl ( $id='' )
+	function getViewUrl ( $id='', $extra='' )
 	{
-	    $extra = '';
+	    
+	    if($task = JRequest::getCmd('task')){
+	        $extra .= '&task='.$task ;
+	    }
+	    
 	    if($filter_order = JRequest::getCmd('filter_order')){
 	        $extra .= '&filter_order='.$filter_order ;
 	    }
+	    
 		if($filter_order_Dir = JRequest::getCmd('filter_order_Dir')){
 		    $extra .= '&filter_order_Dir='. $filter_order_Dir ;
 		}
+		
+		if($id){
+		    $id = '&id='.$id;
+		}
 	    
-	    
-	    return JRoute::_( 'index.php?view=properties&id='. $id . $extra);
+	    return JRoute::_( 'index.php?view=properties'. $id . $extra);
 	}
 	
 
