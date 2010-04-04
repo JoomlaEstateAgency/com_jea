@@ -65,24 +65,26 @@
 	</params>
 	
 	<params group="property">
+	    <param name="images_layout" type="radio" default="gallery" label="Images layout" description="PARAMSIMAGESLAYOUT">
+            <option value="gallery">Classical</option>
+            <option value="squeezebox">SqueezeBox</option>
+        </param>
+        
 		<param name="show_print_icon" type="radio" default="1" label="Print Icon" description="PARAMSPRINT">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		
 		<param name="show_pdf_icon" type="radio" default="1" label="PDF Icon" description="PARAMSPDF">
             <option value="0">Hide</option>
             <option value="1">Show</option>
-        </param>
-        
-        <param name="images_layout" type="radio" default="gallery" label="Images layout" description="PARAMSIMAGESLAYOUT">
-            <option value="gallery">Classical</option>
-            <option value="squeezebox">SqueezeBox</option>
         </param>
 		
 		<param name="show_contactform" type="radio" default="1" label="Contact form" description="PARAMSCONTACTFORM">
 			<option value="0">Hide</option>
 			<option value="1">Show</option>
 		</param>
+		
 		<param name="default_mail" type="text" default="" label="Default email" description="PARAMSDEFAULTEMAIL" />
         <param name="send_form_to_agent" type="radio" default="0" label="Send form to agent" description="PARAMSSENDFORMTOAGENT">
             <option value="0">No</option>
@@ -93,9 +95,8 @@
             <option value="0">Hide</option>
             <option value="1">Show</option>
         </param>
+        
         <param name="googlemap_apikey" type="text" default="" label="Google map API key" size="65" description="PARAMSGOOGLEMAPAPIKEY" />
-        
-        
 	</params>
 	<!-- 
 	<params group="pictures">
