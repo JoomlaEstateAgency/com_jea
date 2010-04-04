@@ -1,5 +1,26 @@
 Joomla Estate Agency          News
 ==================================
+=RELEASE 1.0 / 04-2010=
+^ Update search layout and mod_jea_search with more configuration options
+^ Remember the last slider opened in backend edit property form
++ Add new gallery layout with Squeezebox
++ Add more configuration options
+^ Sort lists improvements in frontend
++ Add Hit counter on properties
+- Remove sh40SEF plugin support
++ Add native SEF routing
++ Add title and description management for properties images (IPTC infos)
++ Add property title and alias (for SEF)
++ Ajaxify dropdown lists (departments, towns, areas) in backend property form
++ Add relation between departments,towns and areas tables
+# Escape address for Google map
+# Fix charset in mod_jea_emphasis
++ Add height configuration option for thumbnails generation
++ Add height configuration option for preview picture generation
++ Add crop configuration option for thumbnails generation
+^ Natural sort of towns / departments in search listings
+# Fix XSS issue in properties contact form
+
 =RELEASE 0.9 / 10-2009=
 # Fix bug in properties view.pdf if PHP flag "allow_url_fopen" is set to 0
 + added possibility to clone properties in backend
