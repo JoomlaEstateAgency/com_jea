@@ -32,11 +32,11 @@ class ComJea_Install {
                    . 'ADD `hits` INT( 11 ) NOT NULL DEFAULT \'0\'';
             $db->setQuery($query);
             $db->query();
-            
-            $query = 'UPDATE `#__jea_properties` SET `alias`=`ref` WHERE `ref`=\'\'';
-            $db->setQuery($query);
-            $db->query();
         }
+        
+        $query = 'UPDATE `#__jea_properties` SET `alias`=`ref` WHERE `alias`=\'\'';
+        $db->setQuery($query);
+        $db->query();
         
         if(isset($cols['date_insert'])) {
             $query = 'ALTER TABLE `#__jea_properties` CHANGE `date_insert` '
