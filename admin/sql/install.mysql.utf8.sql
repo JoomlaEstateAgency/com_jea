@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL default '0',
+  `hits` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `ref` (`ref`),
   KEY `departement_id` (`department_id`)
