@@ -41,6 +41,7 @@
 		<filename>views/manage/tmpl/index.html</filename>
 		<filename>views/properties/index.html</filename>
 		<filename>views/properties/metadata.xml</filename>
+		<filename>views/properties/view.feed.php</filename>
 		<filename>views/properties/view.html.php</filename>
 		<filename>views/properties/view.pdf.php</filename>
 		<filename>views/properties/tmpl/index.html</filename>
