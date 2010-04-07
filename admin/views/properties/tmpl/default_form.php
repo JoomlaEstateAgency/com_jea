@@ -153,7 +153,7 @@ function submitbutton( pressbutton, section ) {
 		  	<?php if(!empty($this->row->id)): ?>
 		  	<a class="modal" rel="{handler: 'iframe', size: {x: 600, y: 500}}" 
 		  	   href="index.php?option=com_jea&controller=properties&task=geolocalization&tmpl=component&id=<?php echo $this->row->id?>">
-		  	Geolocalization</a>
+		  	<?php echo JText::_('Geolocalization')?></a>
 		  	<?php endif ?>
 		  </td>
 		</tr>		
