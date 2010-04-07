@@ -31,6 +31,7 @@ class JeaViewProperties extends JView
 		
 		switch ($tpl) {
 			case 'form':
+			case 'geolocalization':
 				$this->editItem();
 				break;
 		    case 'iptc':

@@ -164,6 +164,7 @@
 			<filename>views/properties/view.html.php</filename>
 			<filename>views/properties/tmpl/default.php</filename>
 			<filename>views/properties/tmpl/default_form.php</filename>
+			<filename>views/properties/tmpl/default_geolocalization.php</filename>
 			<filename>views/properties/tmpl/default_iptc.php</filename>
 			<filename>sql/install.mysql.utf8.sql</filename>
 			<filename>sql/uninstall.mysql.utf8.sql</filename>

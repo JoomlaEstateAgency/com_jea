@@ -64,6 +64,20 @@ class ComJea_Install {
         }
     }
     
+    function updateJea_1_0_to_1_1()
+    {
+        $db =& JFactory::getDBO();
+        $db->setQuery('SHOW COLUMNS FROM #__jea_properties');
+        $cols = $db->loadObjectList('Field');
+        if(!isset($cols['latitude']) && !isset($cols['longitude'])){
+            $query = 'ALTER TABLE `#__jea_properties` '
+                   . 'ADD `latitude` VARCHAR( 255 ) NOT NULL DEFAULT \'0\', '
+                   . 'ADD `longitude` VARCHAR( 255 ) NOT NULL DEFAULT \'0\'';
+            $db->setQuery($query);
+            $db->query();
+        }
+    }
+    
     function addAclAroGroup($newName, $parent_name='Registered')
     {	
     	$db =& JFactory::getDBO();
@@ -103,6 +117,7 @@ class ComJea_Install {
 function com_install()
 {
 	ComJea_Install::updateJea_0_9_to_1_0();
+	ComJea_Install::updateJea_1_0_to_1_1();
     ComJea_Install::addAclAroGroup('Jea Agent');
 }
 

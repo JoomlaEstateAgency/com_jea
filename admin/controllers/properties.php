@@ -175,6 +175,23 @@ class JeaControllerProperties extends JController
 		$this->setRedirect($redirect);
 	}
 	
+	function geolocalization()
+	{
+	    $this->_display('geolocalization');
+	}
+	
+    function savegeolocalization()
+	{
+	    $id = JRequest::getInt('id',0);
+	    
+	    if($this->_model->saveGeolocalization()) {
+	        $msg = JText::_( 'Successfully saved geolocalization') ;
+		    $redirect = $this->_controllerUrl
+		              . '&task=geolocalization&tmpl=component&id='. $id;
+	        $this->setRedirect($redirect , $msg );
+	    }
+	}
+	
 	function unpublish()
 	{
 		$this->_publish(false);

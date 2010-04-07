@@ -414,6 +414,26 @@ class JeaModelProperties extends JModel
 			
     }
     
+    
+    function saveGeolocalization()
+    {
+        $row = & $this->getRow();
+        if(empty($row->id)){
+            JError::raiseWarning( 200, 'Only existing property can save geolocalization' );
+            return false;
+        }
+        
+        $row->latitude  = JRequest::getVar('latitude', 0);
+        $row->longitude = JRequest::getVar('longitude', 0);
+       
+        if ( !$row->store() ) {
+            JError::raiseWarning( 200, $row->getError() );
+            return false;
+        }
+
+        return true;        
+    }
+    
 /* ------------------ Protected methods ----------------------- */
     
     

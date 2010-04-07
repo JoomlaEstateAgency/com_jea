@@ -149,7 +149,12 @@ function submitbutton( pressbutton, section ) {
 		<tr>
 		  <td nowrap="nowrap"><label for="adress"><?php echo JText::_('Adress') ?> :</label></td>
 		  <td width="100%" >
-		  	<input id="adress" type="text" name="adress" value="<?php echo $this->escape( $this->row->adress ) ?>" class="inputbox" size="70" />
+		  	<input id="adress" type="text" name="adress" value="<?php echo $this->escape( $this->row->adress ) ?>" class="inputbox" size="70" style="margin-right: 10px" />
+		  	<?php if(!empty($this->row->id)): ?>
+		  	<a class="modal" rel="{handler: 'iframe', size: {x: 600, y: 500}}" 
+		  	   href="index.php?option=com_jea&controller=properties&task=geolocalization&tmpl=component&id=<?php echo $this->row->id?>">
+		  	Geolocalization</a>
+		  	<?php endif ?>
 		  </td>
 		</tr>		
 		
