@@ -41,8 +41,14 @@ class JeaViewProperties extends JeaView
         
         foreach ( $res['rows'] as $row ) {
 
-            // strip html from feed item title
-            $title = $this->escape( $row->title );
+            if(empty($row->title)) {
+    		    $title = ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN',
+    		    $this->escape($row->type), $this->escape($row->town)));
+    		} else {
+    		    // strip html from feed item title
+    		    $title = $this->escape( $row->title );
+    		}
+            
             
             // url link to article
             $item->link = JRoute::_('index.php?view=properties&id='. $row->id);
