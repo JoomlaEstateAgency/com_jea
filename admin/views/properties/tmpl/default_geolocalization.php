@@ -109,7 +109,8 @@ $document->addScript('http://maps.google.com/maps/api/js?sensor=false&language='
 $document->addScriptDeclaration($script);
 ?>
 
-<h1><?php echo JText::_('Geolocalization')?> [<?php echo $this->row->ref ?>]</h1>
+<h1><?php echo JText::_('Geolocalization')?> [<?php echo $this->row->ref ?> - 
+<small>long : <?php echo $this->row->longitude ?>, lat: <?php echo $this->row->latitude ?> ]</small></h1>
 
 <form action="index.php?option=com_jea&controller=properties" method="post" name="adminForm" id="adminForm" >
 
