@@ -161,7 +161,7 @@ JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 
 <?php if ( $this->params->get('show_contactform') ): ?>
     
-<form action="<?php echo $this->getViewUrl ($this->row->id,'&task=sendmail' ) ?>" method="post" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo $this->getViewUrl ($this->row->id,'&task=sendmail',  true ) ?>" method="post" enctype="application/x-www-form-urlencoded">
 
 	<fieldset><legend><?php echo JText::_('FORMCONTACTLEGEND') ?></legend>
 		<p><label for="name"><?php echo JText::_('Name') ?> :</label><br />

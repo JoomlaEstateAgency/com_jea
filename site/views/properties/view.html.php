@@ -34,7 +34,10 @@ class JeaViewProperties extends JeaView
 		    }
 			$this->getItemDetail( $id );
 
-		} else {
+		} elseif ($this->getLayout() == 'searchmap') {
+		    
+		
+	    } else {
 
 			$this->getItemsList();
 		}
@@ -157,10 +160,10 @@ class JeaViewProperties extends JeaView
 
 	}
 
-	function getViewUrl ( $id='', $extra='' )
+	function getViewUrl ( $id='', $extra='', $override_task=false )
 	{
 	    
-	    if($task = JRequest::getCmd('task')){
+	    if($override_task === false && $task = JRequest::getCmd('task')){
 	        $extra .= '&task='.$task ;
 	    }
 	    
@@ -175,6 +178,7 @@ class JeaViewProperties extends JeaView
 		if($id){
 		    $id = '&id='.$id;
 		}
+		
 	    
 	    return JRoute::_( 'index.php?view=properties'. $id . $extra);
 	}
