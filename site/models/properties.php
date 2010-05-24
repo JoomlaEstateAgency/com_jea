@@ -280,6 +280,11 @@ class JeaModelProperties extends JModel
 		return $ret;
     }
     
+    function getCoordinates()
+    {
+        
+    }
+    
     
     function getPreviousAndNext()
     {
