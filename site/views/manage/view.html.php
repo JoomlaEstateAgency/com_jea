@@ -69,7 +69,7 @@ class JeaViewManage extends JeaView
         }
             
         foreach ( $res['secondaries_images']  as $k => $v) {
-            $res['secondaries_images'][$k]['delete_url'] = JRoute::_(   '&layout=default_iptc&image='.urlencode($v['name']) 
+            $res['secondaries_images'][$k]['delete_url'] = JRoute::_(   '&task=deleteimg&image='.urlencode($v['name']) 
                                                                        . '&id='.$row->id ) ;
             $res['secondaries_images'][$k]['iptc_url'] = JRoute::_(   '&layout=default_iptc&image='.urlencode($v['name'])
                                                                        . '&tmpl=component&id='.$row->id ) ;
