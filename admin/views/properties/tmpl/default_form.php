@@ -32,6 +32,17 @@ JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
 
 $script=<<<EOB
 
+function updateCoordinates(content)
+{
+	url = 'index.php?option=com_jea&controller=ajax&task=getCoordinates&id='+$('adminForm').id.value
+	var jSonRequest = new Json.Remote(url, {onComplete: function(result){
+        
+		text = '[ Long : '+ result.longitude + ', lat: '+ result.latitude + ' ]';
+		$('coordinates').setText(text);
+		
+    }}).send();
+}
+
 var townOptionsCallback = {
 	onComplete: function(response){
 		var first = $('area_id').getFirst().clone();
@@ -151,9 +162,10 @@ function submitbutton( pressbutton, section ) {
 		  <td width="100%" >
 		  	<input id="adress" type="text" name="adress" value="<?php echo $this->escape( $this->row->adress ) ?>" class="inputbox" size="70" style="margin-right: 10px" />
 		  	<?php if(!empty($this->row->id)): ?>
-		  	<a class="modal" rel="{handler: 'iframe', size: {x: 600, y: 500}}" 
+		  	<a class="modal" rel="{handler: 'iframe', size: {x: 600, y: 500}, onClose:updateCoordinates}" 
 		  	   href="index.php?option=com_jea&controller=properties&task=geolocalization&tmpl=component&id=<?php echo $this->row->id?>">
-		  	<?php echo JText::_('Geolocalization')?></a>
+		  	<?php echo JText::_('Geolocalization')?></a> 
+		  	<span id="coordinates">[ Long : <?php echo $this->row->longitude ?>, lat: <?php echo $this->row->latitude ?> ]</span>
 		  	<?php endif ?>
 		  </td>
 		</tr>		
@@ -165,7 +177,7 @@ function submitbutton( pressbutton, section ) {
 			  <span style="margin-left:25px">
 			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
     		  <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
-    		  <?php echo $this->getAreasList($this->row->area_id, $this->row->town_id) ?>
+    		  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
 			  </span>
 		  </td>
 		</tr>

@@ -68,6 +68,22 @@ class JeaControllerAjax extends JController
     	$this->_output($response);
     }
     
+    function getCoordinates()
+    {
+        $db =& JFactory::getDBO();
+    	$response = false;
+    	
+    	if($id = JRequest::getInt('id', 0)) {
+    	    
+    		$query = 'SELECT latitude, longitude FROM #__jea_properties'
+    		       . ' WHERE id='. intval($id) ;
+	    	$db->setQuery($query);
+	    	$response = $db->loadObject();
+    	}
+    	
+    	$this->_output($response);
+    }
+    
     function _output($response)
     {
     	$jsonService = new Services_JSON();
