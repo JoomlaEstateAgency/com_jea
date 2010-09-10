@@ -125,10 +125,12 @@ class JeaModelProperties extends JModel
 	    
 	    $select  = $this->_getSqlBaseSelect();
 	    
-	    $where = 'WHERE published=1 AND tp.is_renting=';
-	    
-    	$cat	= JRequest::getCmd('cat', $params->get('cat',  'renting'));
-		$where .= ($cat == 'renting') ? '1' : '0' ;
+	    $where = 'WHERE published=1';
+		
+        if ( $cat = JRequest::getCmd('cat', $params->get('cat',  '')) ) {
+            $is_renting = ($cat == 'renting') ? '1' : '0';
+			$where .= ' AND tp.is_renting = ' . $is_renting ;
+		}
 		
 		if ( $type_id = JRequest::getInt('type_id', $params->get('type_id', 0)) ) {
 			$where .= ' AND tp.type_id = ' . intval( $type_id ) ;
@@ -147,11 +149,11 @@ class JeaModelProperties extends JModel
 		}
 			
     	if( $budget_min = JRequest::getFloat('budget_min', 0.0) ) {
-			$where .= ' AND tp.price > ' . $this->_db->getEscaped( $budget_min ) ;
+			$where .= ' AND tp.price >= ' . $this->_db->getEscaped( $budget_min ) ;
 		}
 		
 		if( $budget_max =JRequest::getFloat('budget_max', 0.0) ) {
-			$where .= ' AND tp.price < ' . $this->_db->getEscaped( $budget_max ) ;
+			$where .= ' AND tp.price <= ' . $this->_db->getEscaped( $budget_max ) ;
 		}
 
 		if( $living_space_min = JRequest::getInt('living_space_min', 0) ) {
