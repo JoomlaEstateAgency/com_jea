@@ -114,6 +114,10 @@ label.advantage{
 	float:left;
 }
 
+#advantages_list {
+	margin-bottom: 10px;
+}
+
 /*format tabular list */
 table.jea_listing, table.jea_listing thead, table.jea_listing th, 
 table.jea_listing tbody, table.jea_listing td {border:1px solid #ccc;}
@@ -157,5 +161,46 @@ text-align:center;
 }
 
 
+#found_properties {
+	white-space: nowrap;
+}
 
+.slider_background {
+	background: url("../images/slider_bg.png") center center no-repeat;
+	height: 20px;
+	width: 250px;
+}
+
+.knob {
+	background: url("../images/knob.png") center center no-repeat;
+	height: 20px;
+	width: 16px;
+	cursor: move;
+}
+
+.jea_slider_block {
+	float: left;
+	width: 250px;
+	margin: 10px 10px 10px 0;
+}
+
+.jea_slider_block h2 {
+	font-size: 12px;
+	font-weight: bold;
+	margin:0 !important;
+	padding:0 !important;
+	text-align: center;
+}
+
+.slider_infos {
+	text-align: center !important;
+}
+
+.slider_min_value {
+	margin-right: 10px;
+}
+
+.slider_max_value {
+	margin-left: 10px;
+}
 

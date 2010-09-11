@@ -434,6 +434,34 @@ EOD;
         
 	    return true ;
 	}
+
+	
+    function getFieldLimit($fieldName='', $category = 'renting') 
+	{
+	    $db =& JFactory::getDBO();
+	    
+	    $where = 'is_renting=1';
+	    
+	    if($category == 'selling') {
+	        $where = 'is_renting=0';
+	    }
+	    
+	    $query = 'SELECT ' . $fieldName . ' FROM #__jea_properties WHERE '. $where
+	           . ' ORDER by ' . $fieldName . ' ASC';
+	    $db->setQuery($query);
+	    $results = $db->loadResultArray();
+	    
+	    if(empty($results)) {
+	        return array(0,0);
+	    }
+	    
+	    if(count($results) == 1) {
+	        return array(0, $results[0]);
+	    }
+	    
+	    return array($results[0], $results[count($results)-1] );
+	    
+	}
 	
     
 }

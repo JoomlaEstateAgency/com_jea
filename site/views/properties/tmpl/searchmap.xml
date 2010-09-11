@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="Search map Layout">
+		<message>
+			<![CDATA[SEARCH MAP LAYOUT DESC]]>
+		</message>
+	</layout>
+	<state>
+		<name>Search map Layout</name>
+		<description>SEARCH MAP LAYOUT DESC</description>
+		<params>
+		    <param name="default_map_area" type="text" default="" label="Default map area" description="DEFAULT_MAP_AREA_DESC" size="20" />
+		    <param name="map_width" type="text" default="" label="Map witdth" description="MAP_WIDTH_DESC" size="5" />
+		    <param name="map_height" type="text" default="" label="Map height" description="MAP_WIDTH_DESC" size="5" />
+		    
+		    
+			<param name="advanced_search" type="radio" default="1" label="Advanced search" description="Show Advanced search">
+				<option value="0">Hide</option>
+				<option value="1">Show</option>
+			</param>
+		
+			<param name="category" type="list" default="0" label="Category" description="PARAMCATEGORY">
+				<option value="0">Renting or Selling</option>
+				<option value="1">Selling only</option>
+				<option value="2">Renting only</option>
+			</param>
+			
+			<param name="show_types" type="radio" default="1" label="Filter on types">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="show_departments" type="radio" default="1" label="Filter on departments">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+			
+			<param name="show_towns" type="radio" default="1" label="Filter on towns">
+				<option value="0">No</option>
+				<option value="1">Yes</option>
+			</param>
+		</params>
+		
+		<advanced addpath="/administrator/components/com_jea/elements">
+			<param name="type_id" type="types" default="0" label="Property type" description="Filter on property type" />
+			<param name="department_id" type="departments" default="0" label="Department" description="Filter on department" />
+			<param name="town_id" type="towns" default="0" label="Town" description="Filter on town" />
+			<param name="area_id" type="areas" default="0" label="Area" description="Filter on area" />
+		</advanced>
+	</state>
+</metadata>
