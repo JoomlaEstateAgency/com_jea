@@ -157,11 +157,11 @@ class JeaModelProperties extends JModel
 		}
 
 		if( $living_space_min = JRequest::getInt('living_space_min', 0) ) {
-			$where .= ' AND tp.living_space > ' . $this->_db->getEscaped( $living_space_min ) ;
+			$where .= ' AND tp.living_space >= ' . $this->_db->getEscaped( $living_space_min ) ;
 		}
 
 		if( $living_space_max = JRequest::getInt('living_space_max', 0) ) {
-			$where .= ' AND tp.living_space < ' . $this->_db->getEscaped( $living_space_max ) ;
+			$where .= ' AND tp.living_space <= ' . $this->_db->getEscaped( $living_space_max ) ;
 		}
 		
 		if( $rooms_min = JRequest::getInt('rooms_min', 0) ) {
