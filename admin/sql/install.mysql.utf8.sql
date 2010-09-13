@@ -103,19 +103,20 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `land_space` int(11) NOT NULL default '0',
   `rooms` int(11) NOT NULL default '0',
   `charges` decimal(12,2) NOT NULL default '0.00',
-  `fees` decimal(12,2) NOT NULL default '0.00' COMMENT 'honoraires',
+  `fees` decimal(12,2) NOT NULL default '0.00',
+  `deposit` decimal(12,2) NOT NULL default '0.00',
   `hot_water_type` tinyint(1) NOT NULL default '0',
-  `heating_type` tinyint(2) NOT NULL default '0' COMMENT 'type_chauffage',
+  `heating_type` tinyint(2) NOT NULL default '0',
   `bathrooms` tinyint(3) NOT NULL default '0',
   `toilets` tinyint(3) NOT NULL default '0',
   `availability` date NOT NULL default '0000-00-00',
   `floor` int(11) NOT NULL default '0',
-  `advantages` varchar(255) NOT NULL default '' COMMENT 'criteres',
+  `advantages` varchar(255) NOT NULL default '' COMMENT 'amenities list',
   `description` text NOT NULL,
   `slogan_id` int(11) NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  `emphasis` tinyint(1) NOT NULL default '0' COMMENT 'mise en avant',
+  `emphasis` tinyint(1) NOT NULL default '0' COMMENT 'featured property',
   `date_insert` datetime NOT NULL default '0000-00-00 00:00:00',
   `checked_out` int(11) NOT NULL default '0',
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -124,8 +125,11 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `latitude` varchar(20) NOT NULL default '0',
   `longitude` varchar(20) NOT NULL default '0',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `ref` (`ref`),
-  KEY `departement_id` (`department_id`)
+  UNIQUE KEY `idx_jea_ref` (`ref`),
+  KEY `idx_jea_isrenting` (`is_renting`),
+  KEY `idx_jea_typeid` (`type_id`),
+  KEY `idx_jea_departmentid` (`department_id`),
+  KEY `idx_jea_townid` (`town_id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

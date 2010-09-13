@@ -76,6 +76,39 @@ class ComJea_Install {
             $db->setQuery($query);
             $db->query();
         }
+        
+        $db->setQuery('SHOW INDEXES FROM #__jea_properties');
+        $cols = $db->loadObjectList('Key_name');
+        if(isset($cols['departement_id'])) {
+            $db->setQuery('ALTER TABLE `#__jea_properties` DROP INDEX `departement_id`');
+            $db->query();
+        }
+        
+        if(isset($cols['ref'])) {
+            $query = 'ALTER TABLE `#__jea_properties` '
+                   . 'DROP INDEX `ref`, '
+                   . 'ADD UNIQUE INDEX `idx_jea_ref` (`ref`)';
+            $db->setQuery($query);
+            $db->query();
+        }
+        
+        if(!isset($cols['idx_jea_isrenting']) &&
+           !isset($cols['idx_jea_typeid']) &&
+           !isset($cols['idx_jea_departmentid']) &&
+           !isset($cols['idx_jea_townid'])) {
+
+           $query = 'ALTER TABLE `#__jea_properties` '
+                   . 'ADD INDEX `idx_jea_isrenting` (`is_renting`), '
+                   . 'ADD INDEX `idx_jea_typeid` (`type_id`), '
+                   . 'ADD INDEX `idx_jea_departmentid` (`department_id`), '
+                   . 'ADD INDEX `idx_jea_townid` (`town_id`)';
+            $db->setQuery($query);
+            $db->query();
+               
+       }
+        
+        
+        
     }
     
     function addAclAroGroup($newName, $parent_name='Registered')
