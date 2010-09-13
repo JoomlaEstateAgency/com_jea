@@ -371,68 +371,87 @@ class JeaViewProperties extends JeaView
         ");
 	}
 	
-	function activateGoogleMap(&$row, $domId )
+	function showGoogleMap(&$row )
 	{
+	    
 	    #mootools bugfix
 	    JHTML::_('behavior.mootools');
-		
-		$key = $this->params->get('googlemap_apikey', '');
 	    
-	    if((!$key) || (!$row->adress) || (!$row->town)) return false;
+	    $document =& JFactory::getDocument();
+        $langs  = explode('-', $document->getLanguage());
+
+        $lang   = $langs[0];
+        $region = $langs[1];
 	    
-	    $address = str_replace(array("\n", "\r\n"), '', addslashes($row->adress)); 
-	    $town = str_replace(array("\n", "\r\n"), '', addslashes($row->town));
+	    $latitude  = floatval($row->latitude);
+	    $longitude = floatval($row->longitude);
+	    $address   = str_replace(array("\n", "\r\n"), ' ', addslashes($row->adress)); 
+	    $town      = str_replace(array("\n", "\r\n"), ' ', addslashes($row->town));
 	    
-	    $document = &JFactory::getDocument();
-	    $a_lang = explode('-', $document->getLanguage());
-        $document->addScript( 'http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=' 
-                              . $key . '&amp;hl=' . $a_lang[0] );
+    	if(!empty($address) && !empty($town)){
+            $address .= ', ' . $town . ', '. $lang;                                   
+        } elseif (!empty($address)) {
+            $address .= ', '. $lang;  
+        } elseif (!empty($town)) {
+            $address = $town . ', '. $lang;  
+        } elseif (!empty($row->department)) {
+            $address = addslashes($row->department) . ', '. $lang;  
+        } else {
+            $address = $lang;
+        }
+
+        $document->addScript('http://maps.google.com/maps/api/js?sensor=false&language=' 
+                             . $lang . '&region=' . $region );
         
         $script = <<<EOD
 var map = null;
-var geocoder = null;
-    
-function initializeMap() {
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("$domId"));
-        map.enableScrollWheelZoom();
-        map.setCenter(new GLatLng(50, 0), 2);
-        map.addControl(new GLargeMapControl());
-        map.addControl(new GMenuMapTypeControl());
-        geocoder = new GClientGeocoder();
-    }
-}
 
-function showAddress(address) {
-  if (geocoder) {
-    geocoder.getLatLng(
-      address,
-      function(point) {
-        if (!point) {
-          alert(address + " not found");
-        } else {
-          map.setCenter(point, 13);
-          var marker = new GMarker(point);
-          map.addOverlay(marker);
-          marker.openInfoWindowHtml(address);
-        }
-      }
-    );
-  }
+function initMap(mapOptions, MarkerLatlng) {
+    map = new google.maps.Map($("jea_property_map"), mapOptions);
+    var marker = new google.maps.Marker({
+        position: MarkerLatlng, 
+        map: map, 
+        title: '{$row->ref}'
+    });
 }
 
 window.addEvent("domready", function(){
-    initializeMap();
-    showAddress("$address, $town")   
+    var longitude  = {$longitude};
+    var latitude   = {$latitude};
+
+    if( longitude != 0 && latitude != 0 ) {
+        var myLatlng = new google.maps.LatLng(latitude, longitude);
+        var options = {
+          zoom : 15,
+          center : myLatlng,
+          mapTypeId : google.maps.MapTypeId.ROADMAP
+        };
+        
+        initMap(options, myLatlng);
+
+    } else {
+    	var geocoder = new google.maps.Geocoder();
+    	var opts = {'address':'$address', 'language':'$lang', 'region':'$region'};
+        geocoder.geocode(opts, function(results, status) {
+        	if (status == google.maps.GeocoderStatus.OK) {
+        	
+        		var myLatlng = results[0].geometry.location;
+        		var options = {
+                  center : myLatlng,
+                  mapTypeId : google.maps.MapTypeId.ROADMAP
+                };
+        		
+        		initMap(options, myLatlng);
+        		map.fitBounds(results[0].geometry.viewport);
+        	}
+        });
+    }
 });
 
-window.addEvent("unload", function(){
-    GUnload();   
-});
 EOD;
         $document->addScriptDeclaration($script);
         
-	    return true ;
+	    return '<div id="jea_property_map"></div>' ;
 	}
 
 	

@@ -154,10 +154,10 @@ JHTML::stylesheet('jea.css', 'media/com_jea/css/');
  <?php echo $this->row->description ?> 
  </div>
 
-<?php if ( $this->params->get('show_googlemap') ): $this->activateGoogleMap($this->row, 'map_canvas') ?>
+<?php if ( $this->params->get('show_googlemap') ): ?>
 <h3><?php echo JText::_('Property geolocalization') ?> :</h3>
-<div id="map_canvas" style="width: 500px; height: 300px"></div>
-<?php endif  ?>
+<?php echo $this->showGoogleMap($this->row) ?>
+<?php endif ?>
 
 <?php if ( $this->params->get('show_contactform') ): ?>
     

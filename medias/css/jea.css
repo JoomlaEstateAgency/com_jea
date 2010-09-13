@@ -118,6 +118,11 @@ label.advantage{
 	margin-bottom: 10px;
 }
 
+#jea_property_map {
+	width: 500px; 
+	height: 300px;
+}
+
 /*format tabular list */
 table.jea_listing, table.jea_listing thead, table.jea_listing th, 
 table.jea_listing tbody, table.jea_listing td {border:1px solid #ccc;}
