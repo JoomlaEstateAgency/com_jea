@@ -1,21 +1,22 @@
 /*
-Script: Slider.js
-	Contains <Slider>
+Based on Mootools 1.1 Slider.js
+Author : Sylvain Philip
 
 License:
 	MIT-style license.
 */
 
 /*
-Class: Slider
-	Creates a slider with two elements: a knob and a container. Returns the values.
+Class: BiSlider
+	Creates a slider with tree elements: two knobs and a container. Returns the values.
 
 Note:
 	The Slider requires an XHTML doctype.
 
 Arguments:
-	element - the knob container
-	knob - the handle
+	element - the knobs container
+	knobMin - the min handle
+	knobMax - the max handle
 	options - see Options below
 
 Options:
