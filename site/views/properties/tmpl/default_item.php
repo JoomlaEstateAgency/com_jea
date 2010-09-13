@@ -91,6 +91,13 @@ JHTML::stylesheet('jea.css', 'media/com_jea/css/');
    </tr>
    <?php endif  ?>
    
+   <?php if ( $this->row->is_renting &&  floatval($this->row->deposit) > 0 ): ?> 
+   <tr>
+     <td><?php echo JText::_('Deposit') ?></td>
+     <td> : <strong><?php echo $this->formatPrice( floatval($this->row->deposit), '0' ) ?></strong></td>
+   </tr>
+   <?php endif  ?>
+   
    <?php if ($this->row->fees): ?> 
    <tr>
      <td><?php echo JText::_('Fees') ?></td>

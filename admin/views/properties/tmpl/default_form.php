@@ -260,15 +260,27 @@ function submitbutton( pressbutton, section ) {
 		  	<input id="charges" type="text" name="charges" value="<?php echo $this->row->charges ?>" class="numberbox" /> 
 		  	<?php echo $this->params->get('currency_symbol', '&euro;') ?> 
 		  </td>
-		</tr>
+	  </tr>
 		
-		<tr>
+	  <?php if ($this->row->is_renting): ?> 
+	  <tr>
+		  <td nowrap="nowrap" class="label"><label for="deposit"><?php echo JText::_('Deposit') ?> :</label></td>
+		  <td>
+		  	<input id="deposit" type="text" name="deposit" value="<?php echo $this->row->deposit ?>" class="numberbox" /> 
+		  	<?php echo $this->params->get('currency_symbol', '&euro;') ?> 
+		  </td>
+	  </tr>
+	  <?php endif ?>
+		
+	  <tr>
 		  <td nowrap="nowrap" class="label"><label for="fees"><?php echo JText::_('Fees') ?> :</label></td>
 		  <td class="spacer_bottom" >
 		  	<input id="fees" type="text" name="fees" value="<?php echo $this->row->fees ?>" class="numberbox" /> 
 		  	<?php echo $this->params->get('currency_symbol', '&euro;') ?> 
 		  </td>
-		</tr>	  
+	  </tr>
+		
+		
 	  
 	  <tr>
 	    <th colspan="2"><?php echo JText::_('Description') ?></th>

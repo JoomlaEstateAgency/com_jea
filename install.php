@@ -69,8 +69,9 @@ class ComJea_Install {
         $db =& JFactory::getDBO();
         $db->setQuery('SHOW COLUMNS FROM #__jea_properties');
         $cols = $db->loadObjectList('Field');
-        if(!isset($cols['latitude']) && !isset($cols['longitude'])){
+        if(!isset($cols['latitude']) && !isset($cols['longitude']) && !isset($cols['deposit'])){
             $query = 'ALTER TABLE `#__jea_properties` '
+                   . 'ADD `deposit` DECIMAL(12,2) NOT NULL DEFAULT \'0.00\' AFTER `fees`, '
                    . 'ADD `latitude` VARCHAR( 255 ) NOT NULL DEFAULT \'0\', '
                    . 'ADD `longitude` VARCHAR( 255 ) NOT NULL DEFAULT \'0\'';
             $db->setQuery($query);

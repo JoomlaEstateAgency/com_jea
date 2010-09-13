@@ -37,6 +37,7 @@ class TableProperties extends JTable
 	var $rooms = null;
 	var $charges = null;
 	var $fees = null;
+	var $deposit = null;
 	var $hot_water_type = null;
 	var $heating_type = null;
 	var $bathrooms = null;

@@ -267,6 +267,7 @@ class JeaModelProperties extends JModel
 			'rooms'          => JRequest::getInt( 'rooms', 0 , 'POST' ),
 			'charges'        => JRequest::getFloat( 'charges', 0.0, 'POST' ),
 			'fees'           => JRequest::getFloat( 'fees', 0.0, 'POST' ),
+			'deposit'        => JRequest::getFloat( 'deposit', 0.0, 'POST' ),
 			'hot_water_type' => JRequest::getInt( 'hot_water_type', 0 , 'POST' ),
 			'heating_type'   => JRequest::getInt( 'heating_type', 0 , 'POST' ),
 			'bathrooms'      => JRequest::getInt( 'bathrooms', 0 , 'POST' ),
