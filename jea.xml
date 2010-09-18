@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
-<install type="component" version="1.5.0">
+<install type="component" version="1.5.0" method="upgrade">
 	<name>jea</name>
 	<!-- The following elements are optional and free of formatting conttraints -->
 	<creationDate>2008 26 02</creationDate>
@@ -10,7 +10,7 @@
 	<copyright>Copyright (C) 2008 PHILIP Sylvain. All rights reserved.</copyright>
 	<license>GNU/GPL</license>
 	<!--  The version string is recorded in the components table -->
-	<version>1.0</version>
+	<version>1.1</version>
 	<!-- The description is optional and defaults to the name -->
 	<description>Extension for real estate agency</description>
 
@@ -26,32 +26,9 @@
 		<filename>jea.php</filename>
 		<filename>view.php</filename>
 		<filename>router.php</filename>
-		<filename>controllers/frontajax.php</filename>
-		<filename>controllers/properties.php</filename>
-		<filename>models/properties.php</filename>
-		<filename>views/index.html</filename>
-		<filename>views/manage/index.html</filename>
-		<filename>views/manage/metadata.xml</filename>
-		<filename>views/manage/view.html.php</filename>
-        <filename>views/manage/tmpl/default.php</filename>
-        <filename>views/manage/tmpl/default.xml</filename>
-		<filename>views/manage/tmpl/form.php</filename>
-		<filename>views/manage/tmpl/form.xml</filename>
-		<filename>views/manage/tmpl/default_iptc.php</filename>
-		<filename>views/manage/tmpl/index.html</filename>
-		<filename>views/properties/index.html</filename>
-		<filename>views/properties/metadata.xml</filename>
-		<filename>views/properties/view.feed.php</filename>
-		<filename>views/properties/view.html.php</filename>
-		<filename>views/properties/view.pdf.php</filename>
-		<filename>views/properties/tmpl/index.html</filename>
-		<filename>views/properties/tmpl/default.xml</filename>
-		<filename>views/properties/tmpl/default.php</filename>
-		<filename>views/properties/tmpl/default_item.php</filename>
-		<filename>views/properties/tmpl/default_gallery.php</filename>
-		<filename>views/properties/tmpl/default_squeezebox.php</filename>
-		<filename>views/properties/tmpl/search.php</filename>
-		<filename>views/properties/tmpl/search.xml</filename>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
 	</files>
 	
 	<!-- Site Main Language File Copy Section -->
@@ -62,17 +39,10 @@
 	
 	<!-- Site Main Media File Copy Section -->
 	<media destination="com_jea" folder="medias" >
-		<filename>css/jea.css</filename>
-		<filename>css/jea.admin.css</filename>
-		<filename>css/print.css</filename>
-		<filename>images/logo.png</filename>
-		<filename>images/media_trash.png</filename>
-		<filename>images/sort_asc.png</filename>
-		<filename>images/sort_desc.png</filename>
-		<filename>images/header/icon-48-jea.png</filename>
-		<filename>images/menu/icon-16-jea.png</filename>
-		<filename>js/jea.js</filename>
-		<filename>js/search.js</filename>
+	    <filename>index.html</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
 	</media>
 	
 	<install>
@@ -106,68 +76,19 @@
 			in this section are copied from /admin/ in the package -->
 		<files folder="admin">
 			<filename>admin.jea.php</filename>
-			<filename>index.html</filename>
 			<filename>config.xml</filename>
+			<filename>index.html</filename>
 			<filename>jea.class.php</filename>
 			<filename>NEWS.txt</filename>
 			<filename>LICENCE.txt</filename>
-			<filename>controllers/index.html</filename>
-			<filename>controllers/ajax.php</filename>
-			<filename>controllers/config.php</filename>
-			<filename>controllers/default.php</filename>
-			<filename>controllers/features.php</filename>
-			<filename>controllers/properties.php</filename>
-			<filename>elements/index.html</filename>
-			<filename>elements/areas.php</filename>
-			<filename>elements/departments.php</filename>
-			<filename>elements/towns.php</filename>
-			<filename>elements/types.php</filename>
-			<filename>joomfish/jea_advantages.xml</filename>
-			<filename>joomfish/jea_conditions.xml</filename>
-			<filename>joomfish/jea_heatingtypes.xml</filename>
-			<filename>joomfish/jea_hotwatertypes.xml</filename>
-			<filename>joomfish/jea_properties.xml</filename>
-			<filename>joomfish/jea_slogans.xml</filename>
-			<filename>joomfish/jea_types.xml</filename>
-			<filename>joomfish/index.html</filename>
-			<filename>library/index.html</filename>
-			<filename>library/Http_File.php</filename>
-			<filename>library/Iptc.php</filename>
-			<filename>library/JSON.php</filename>
-			<filename>library/Gd/index.html</filename>
-			<filename>library/Gd/Abstract.php</filename>
-			<filename>library/Gd/Transform.php</filename>
-			<filename>library/Gd/Color.php</filename>
-			<filename>models/index.html</filename>
-			<filename>models/Config.xml</filename>
-			<filename>models/features.php</filename>
-			<filename>models/properties.php</filename>
-			<filename>tables/index.html</filename>
-			<filename>tables/advantages.php</filename>
-			<filename>tables/areas.php</filename>
-			<filename>tables/conditions.php</filename>
-			<filename>tables/departments.php</filename>
-			<filename>tables/heatingtypes.php</filename>
-			<filename>tables/hotwatertypes.php</filename>
-			<filename>tables/properties.php</filename>
-			<filename>tables/slogans.php</filename>
-			<filename>tables/towns.php</filename>
-			<filename>tables/types.php</filename>
-			<filename>views/index.html</filename>
-			<filename>views/config/view.html.php</filename>
-			<filename>views/config/tmpl/default.php</filename>
-			<filename>views/default/view.html.php</filename>
-			<filename>views/default/tmpl/default.php</filename>
-			<filename>views/features/view.html.php</filename>
-			<filename>views/features/tmpl/default.php</filename>
-			<filename>views/features/tmpl/default_form.php</filename>
-			<filename>views/properties/view.html.php</filename>
-			<filename>views/properties/tmpl/default.php</filename>
-			<filename>views/properties/tmpl/default_form.php</filename>
-			<filename>views/properties/tmpl/default_geolocalization.php</filename>
-			<filename>views/properties/tmpl/default_iptc.php</filename>
-			<filename>sql/install.mysql.utf8.sql</filename>
-			<filename>sql/uninstall.mysql.utf8.sql</filename>
+			<folder>controllers</folder>
+			<folder>elements</folder>
+			<folder>joomfish</folder>
+			<folder>library</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<folder>sql</folder>
 		</files>
 		
 		<!-- Administration Language File Copy Section -->
