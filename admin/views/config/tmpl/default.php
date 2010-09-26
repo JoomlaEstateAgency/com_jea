@@ -62,6 +62,10 @@ function submitbutton( pressbutton, section ) {
 			<fieldset><legend><?php echo JText::_('Pictures') ?></legend> 
 			    <?php echo $this->form->render('pictures', 'pictures') ?>
 			</fieldset>
+			
+			<fieldset><legend><?php echo JText::_('Others options') ?></legend> 
+			    <?php echo $this->form->render('others', 'others') ?>
+			</fieldset>
 		</td>
 	</tr>
 

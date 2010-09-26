@@ -103,6 +103,7 @@ class ComJea
 		    $instance->def('max_previews_width', 400);
 		    $instance->def('max_previews_height', 400);
 		    $instance->def('crop_thumbnails', 0);
+		    $instance->def('relationship_dpts_towns_area', 1);
 		}
 
 		return $instance ;

@@ -73,28 +73,31 @@ var deptOptionsCallback = {
 	}
 };
 
-window.addEvent('domready', function() {
-	
-	
-	$('department_id').addEvent('change', function(){
-		var url = 'index.php?option=com_jea&controller=ajax&task=get_towns'
-		    + '&department_id=' + this.value;
-		var jSonRequest = new Json.Remote( url , deptOptionsCallback );
-		jSonRequest.send();
-	});
-	
-	$('town_id').addEvent('change', function(){
-		var url = 'index.php?option=com_jea&controller=ajax&task=get_areas'
-		    + '&town_id=' + this.value;
-		var jSonRequest = new Json.Remote( url , townOptionsCallback );
-		jSonRequest.send();
-	});
-});
-
 EOB;
 
 $document =& JFactory::getDocument();
 $document->addScriptDeclaration($script);
+
+if($this->params->get('relationship_dpts_towns_area', 0)) {
+    $document->addScriptDeclaration("
+    window.addEvent('domready', function() {
+    	
+    	
+    	$('department_id').addEvent('change', function(){
+    		var url = 'index.php?option=com_jea&controller=ajax&task=get_towns'
+    		    + '&department_id=' + this.value;
+    		var jSonRequest = new Json.Remote( url , deptOptionsCallback );
+    		jSonRequest.send();
+    	});
+    	
+    	$('town_id').addEvent('change', function(){
+    		var url = 'index.php?option=com_jea&controller=ajax&task=get_areas'
+    		    + '&town_id=' + this.value;
+    		var jSonRequest = new Json.Remote( url , townOptionsCallback );
+    		jSonRequest.send();
+    	});
+    });");
+}
 
 ?>
 
@@ -176,8 +179,13 @@ function submitbutton( pressbutton, section ) {
 			  <input id="zip_code" type="text" name="zip_code" size="5" value="<?php echo $this->row->zip_code ?>" class="inputbox" />
 			  <span style="margin-left:25px">
 			  <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
-    		  <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
-    		  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
+			  <?php if($this->params->get('relationship_dpts_towns_area', 0)): ?>
+        		  <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
+        		  <?php echo $this->getAreasList($this->row->area_id, $this->row->town_id) ?>
+    		  <?php else :?>
+        		  <?php echo $this->getHtmlList('towns', $this->row->town_id) ?>
+        		  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
+    		  <?php endif ?>
 			  </span>
 		  </td>
 		</tr>

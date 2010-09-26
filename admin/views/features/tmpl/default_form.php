@@ -48,16 +48,18 @@ function submitbutton( pressbutton, section ) {
 	  <td nowrap="nowrap"><label for="value"><?php echo JText::_('Value') ?> :</label></td>
 	  <td width="100%" ><input id="value" type="text" name="value" value="<?php echo $this->escape( $this->row->value ) ?>" class="inputbox" size="50" /></td>
 	</tr>
-    <?php if ($this->tableName == 'towns'): ?>
-	<tr>
-	  <td nowrap="nowrap"><label for="department_id"><?php echo JText::_('Department') ?> :</label></td>
-	  <td width="100%" ><?php echo $this->getDeptsList($this->row->department_id)?></td>
-	</tr>
-	<?php elseif ($this->tableName == 'areas'): ?>
-	<tr>
-	  <td nowrap="nowrap"><label for="town_id"><?php echo JText::_('Towns') ?> :</label></td>
-	  <td width="100%" ><?php echo $this->getTownsList($this->row->town_id)?></td>
-	</tr>
+	<?php if($this->params->get('relationship_dpts_towns_area', 0)): ?>
+        <?php if ($this->tableName == 'towns'): ?>
+    	<tr>
+    	  <td nowrap="nowrap"><label for="department_id"><?php echo JText::_('Department') ?> :</label></td>
+    	  <td width="100%" ><?php echo $this->getDeptsList($this->row->department_id)?></td>
+    	</tr>
+    	<?php elseif ($this->tableName == 'areas'): ?>
+    	<tr>
+    	  <td nowrap="nowrap"><label for="town_id"><?php echo JText::_('Towns') ?> :</label></td>
+    	  <td width="100%" ><?php echo $this->getTownsList($this->row->town_id)?></td>
+    	</tr>
+    	<?php endif ?>
 	<?php endif ?>
   </table>
   

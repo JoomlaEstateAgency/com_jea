@@ -26,7 +26,10 @@ class JeaViewFeatures extends JView
 
 	function display( $tpl = null )
 	{
-		switch ($tpl) {
+		$params =& ComJea::getParams();
+		$this->assignRef('params' , $params );
+	    
+	    switch ($tpl) {
 			case 'form':
 				$this->editItem();
 				break;

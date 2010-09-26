@@ -80,7 +80,10 @@ EOB;
 
 $document=& JFactory::getDocument();
 
-$document->addScriptDeclaration($ajaxScript);
+if($this->params->get('relationship_dpts_towns_area', 0)) {
+    $document->addScriptDeclaration($ajaxScript);
+}
+
 $document->addScriptDeclaration( '
 function checkForm() {
     var form = document.jeaForm;
@@ -139,8 +142,13 @@ function checkForm() {
               <input id="zip_code" type="text" name="zip_code" size="5" value="<?php echo $this->row->zip_code ?>" class="inputbox" />
               <span style="margin-left:25px">
               <?php echo $this->getHtmlList('departments', $this->row->department_id) ?>
-              <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
-              <?php echo $this->getAreasList($this->row->area_id, $this->row->town_id) ?>
+              <?php if($this->params->get('relationship_dpts_towns_area', 0)): ?>
+        		  <?php echo $this->getTownsList($this->row->town_id, $this->row->department_id) ?>
+        		  <?php echo $this->getAreasList($this->row->area_id, $this->row->town_id) ?>
+    		  <?php else :?>
+        		  <?php echo $this->getHtmlList('towns', $this->row->town_id) ?>
+        		  <?php echo $this->getHtmlList('areas', $this->row->area_id) ?>
+    		  <?php endif ?>
               </span>
           </td>
         </tr>

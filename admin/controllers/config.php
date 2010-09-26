@@ -46,8 +46,9 @@ class JeaControllerConfig extends JController
         $lists    = JRequest::getVar( 'lists'    , array() , 'POST' , 'array' );
         $property = JRequest::getVar( 'property' , array() , 'POST' , 'array' );
         $pictures = JRequest::getVar( 'pictures' , array() , 'POST' , 'array' );
+        $others   = JRequest::getVar( 'others'   , array() , 'POST' , 'array' );
         
-        $config = array_merge( $units, $currency, $lists, $property, $pictures );
+        $config = array_merge( $units, $currency, $lists, $property, $pictures, $others );
         
         //transform normal space(s) into non-break space(s)
         //$unsecableSpace = html_entity_decode ('&nbsp;', ENT_COMPAT, 'UTF-8' );

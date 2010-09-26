@@ -116,4 +116,11 @@
 		</param>
 	</params>
 	
+	<params group="others">
+        <param name="relationship_dpts_towns_area" type="radio" default="1" label="Relationship between departments, towns, areas" description="RELATIONSHIP_DPTS_TOWNS_AREA_DESCR">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </param>
+	</params>
+	
 </form>
