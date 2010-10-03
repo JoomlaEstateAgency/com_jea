@@ -60,6 +60,16 @@ class JeaViewManage extends JeaView
 	{
 	    $row =& $this->get('row');
 		$this->assignRef('row', $row);
+		$session =& JFactory::getSession();
+		
+	    // Keep post data if there is an error 
+		$post_error = $session->get('post_error', array() , 'jea');
+		if(!empty($post_error)) {
+    		$this->row->bind($post_error);
+            if(is_array($this->row->advantages)) {
+                $this->row->advantages = implode('-', $this->row->advantages);
+            }
+		}
 
 		$res = ComJea::getImagesById($row->id);
 		

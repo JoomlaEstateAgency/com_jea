@@ -226,6 +226,7 @@ class JeaControllerProperties extends JController
             
             require_once JPATH_COMPONENT_ADMINISTRATOR .DS.'models'.DS.'properties.php';
             $model = new JeaModelProperties();
+            $session =& JFactory::getSession();
 	        
     	    $id = JRequest::getInt('id', 0);
             $Itemid = JRequest::getInt('Itemid', 0);
@@ -234,12 +235,18 @@ class JeaControllerProperties extends JController
     	    $model->setCategory($cat);
     	    
     	    if ( false ===  $model->save() ) {
-    	         $this->setRedirect( 'index.php?option=com_jea&view=manage&'
+    	        // Save post in session
+    	        $session->set('post_error', JRequest::get('post'), 'jea');
+    	        
+    	        $this->setRedirect( 'index.php?option=com_jea&view=manage&'
     	                             . 'layout=form&id=' . $id . '&Itemid=' .$Itemid );
                 
             } else {
                 
                 $row =& $model->getRow();
+                
+                // clear post in session
+                $session->clear('post_error', 'jea');
                 
                 $msg = JText::sprintf( 'Successfully saved property', $row->ref ) ;
                 $this->setRedirect( 'index.php?option=com_jea&view=manage&'

@@ -76,6 +76,15 @@ class JeaViewProperties extends JView
 		$item =& $this->get('item');
 		
 		$this->assign( $item );
+		
+		// Keep post data if there is an error 
+		$exceptions = JError::getErrors();
+		if(!empty($exceptions)) {
+    		$this->row->bind(JRequest::get('post'));
+            if(is_array($this->row->advantages)) {
+                $this->row->advantages = implode('-', $this->row->advantages);
+            }
+		}
 	    
 	    $title  = $this->get('category') == 'renting' ? JText::_( 'Renting' ) : JText::_( 'Selling' ) ;
 	    $title .= ' : ' ;
