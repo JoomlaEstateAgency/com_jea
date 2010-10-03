@@ -55,7 +55,8 @@ class JeaControllerKml extends JController
     		    } else {
     		        $name = $row->title;
     		    }
-    		    $name .= ' (' . JText::_('Ref' ) . ' : ' . $row->ref. ')' ;
+    		    $name = '<a href="'.$url.'">' . $name 
+    		          .' (' . JText::_('Ref' ) . ' : ' . $row->ref. ')</a>' ;
     		    
     		    
     		    $description = '<div style="clear:both"></div>';
