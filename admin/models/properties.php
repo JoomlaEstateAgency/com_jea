@@ -449,9 +449,10 @@ class JeaModelProperties extends JModel
     	$validExtensions = array('jpg','JPG','jpeg','JPEG','gif','GIF','png','PNG') ;
     	
 		$mainImage   = new Http_File( JRequest::getVar( 'main_image', array(), 'files', 'array' ) ) ;
-    	$secondImage = new Http_File( JRequest::getVar( 'second_image', array(), 'files', 'array' ) );
         
-        if ( !JFolder::exists($base_upload_dir) ) { JFolder::create($base_upload_dir); }
+        if ( !JFolder::exists($base_upload_dir) ) { 
+            JFolder::create($base_upload_dir); 
+        }
 
         $upload_dir = $base_upload_dir . DS . $id;
         
@@ -467,7 +468,9 @@ class JeaModelProperties extends JModel
         //main image
         if ( $mainImage->isPosted() ){
             	
-            if ( !JFolder::exists($upload_dir) ) { JFolder::create($upload_dir); }
+            if ( !JFolder::exists($upload_dir) ) { 
+                JFolder::create($upload_dir); 
+            }
             
             //First delete main image before upload
             $this->delete_img($id);
@@ -504,45 +507,73 @@ class JeaModelProperties extends JModel
 	                                 $jpgQuality );
             }
         }
-
-        if($secondImage->isPosted()){
-
-            $upload_dir = $upload_dir.DS.'secondary';
-            $preview_dir = $upload_dir.DS.'preview' ;
-            $thumbnail_dir = $upload_dir.DS.'min' ;
-        	if ( !JFolder::exists($upload_dir) ) { JFolder::create($upload_dir); }
-        	if ( !JFolder::exists($preview_dir) ) { JFolder::create($preview_dir); }
-        	if ( !JFolder::exists($thumbnail_dir) ) { JFolder::create($thumbnail_dir); }
         
-            $secondImage->setValidExtensions( $validExtensions );
-            $secondImage->nameToSafe();
-            	
-            if(! $fileName = $secondImage->moveTo( $upload_dir )){
-                JError::raiseWarning( 200, JText::_( $secondImage->getError() ) );
-                return false;
-            }
+        // Secondaries images
+        
+        $upload_dir = $upload_dir.DS.'secondary';
+        $preview_dir = $upload_dir.DS.'preview' ;
+        $thumbnail_dir = $upload_dir.DS.'min' ;
+        
+    	if ( !JFolder::exists($upload_dir) ) { 
+    	    JFolder::create($upload_dir); 
+    	}
+    	if ( !JFolder::exists($preview_dir) ) { 
+    	    JFolder::create($preview_dir); 
+    	}
+    	if ( !JFolder::exists($thumbnail_dir) ) { 
+    	    JFolder::create($thumbnail_dir); 
+    	}
+    	
+        $raw_secondImages = JRequest::getVar( 'second_image', array(), 'files', 'array' );
+		$secondariesImages = array();
+		$upload_fields = array('name', 'type', 'tmp_name', 'error', 'size');
+		foreach($upload_fields as $field) {
+		    if(isset($raw_secondImages[$field]) && is_array($raw_secondImages[$field])) {
+		        foreach($raw_secondImages[$field] as $k => $value) {
+		            if(!isset($secondariesImages[$k])) {
+		                $secondariesImages[$k] = array();
+		            }
+		            $secondariesImages[$k][$field] = $value;
+		        }
+		    }
+		}
+        
+        foreach($secondariesImages as $file ) {
+        
+            $secondImage = new Http_File($file);
             
-            //make preview
-            $this->_resizeImage( $upload_dir.DS.$fileName, 
-                                 $preview_dir.DS.$fileName, 
-                                 $maxPreviewHeight,
-                                 $maxPreviewWidth, 
-                                 $jpgQuality );	
+            if($secondImage->isPosted()){  
             
-            //make min
-            if($cropThumbnails){
-	            $this->_cropImage( $preview_dir.DS.$fileName, 
-	                               $thumbnail_dir.DS.$fileName,
-	                               $maxThumbnailHeight,
-	                               $maxThumbnailWidth,
-	                               $jpgQuality );            	
-            } else {
-            
-	            $this->_resizeImage( $preview_dir.DS.$fileName, 
-	                                 $thumbnail_dir.DS.$fileName,
-	                                 $maxThumbnailHeight,
-	                                 $maxThumbnailWidth,
-	                                 $jpgQuality );
+                $secondImage->setValidExtensions( $validExtensions );
+                $secondImage->nameToSafe();
+                	
+                if(! $fileName = $secondImage->moveTo( $upload_dir )){
+                    JError::raiseWarning( 200, JText::_( $secondImage->getError() ) );
+                    return false;
+                }
+                
+                //make preview
+                $this->_resizeImage( $upload_dir.DS.$fileName, 
+                                     $preview_dir.DS.$fileName, 
+                                     $maxPreviewHeight,
+                                     $maxPreviewWidth, 
+                                     $jpgQuality );	
+                
+                //make min
+                if($cropThumbnails){
+    	            $this->_cropImage( $preview_dir.DS.$fileName, 
+    	                               $thumbnail_dir.DS.$fileName,
+    	                               $maxThumbnailHeight,
+    	                               $maxThumbnailWidth,
+    	                               $jpgQuality );            	
+                } else {
+                
+    	            $this->_resizeImage( $preview_dir.DS.$fileName, 
+    	                                 $thumbnail_dir.DS.$fileName,
+    	                                 $maxThumbnailHeight,
+    	                                 $maxThumbnailWidth,
+    	                                 $jpgQuality );
+                }
             }
         }
         return true;

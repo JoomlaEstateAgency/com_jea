@@ -294,7 +294,12 @@ function checkForm() {
   </fieldset>
   
   <fieldset><legend><?php echo JText::_('Secondaries property pictures') ?></legend>
-      <input type="file" name="second_image" value=""  size="30"/> <input class="button" type="button" value="<?php echo JText::_('Send') ?>" onclick="if (checkForm()) this.form.submit()" />
+      
+      <?php for($i=0; $i < $this->params->get('secondaries_img_upload_number', 3); $i++): ?>
+		      <input type="file" name="second_image[]" value=""  size="30"/> <br />
+	  <?php endfor ?>
+	  <input class="button" type="button" value="<?php echo JText::_('Send') ?>" onclick="if (checkForm()) this.form.submit()" />
+	  
       <div style="height:200px; overflow:auto;">
       <?php foreach($this->secondaries_images as $image) : ?>
         <fieldset style="margin-top:10px;">

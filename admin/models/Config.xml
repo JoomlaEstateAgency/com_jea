@@ -96,13 +96,6 @@
             <option value="1">Show</option>
         </param>
 	</params>
-	<!-- 
-	<params group="pictures">
-		<param name="jpg_quality" type="text" size="3" default="90" label="Pictures quality" description="PARAMSPICTUREQUALITY"  />
-		<param name="max_thumbnails" type="text" size="3" default="120" label="Max thumbnails width" description="PARAMSMAXTHUMBNAILS"  />
-		<param name="max_previews" type="text" size="3" default="400" label="Max previews width" description="PARAMSMAXPREVIEWS"  />					
-	</params>
-	 -->
 	
 	<params group="pictures">
 		<param name="jpg_quality" type="text" size="3" default="90" label="Pictures quality" description="PARAMSPICTUREQUALITY"  />
@@ -114,6 +107,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</param>
+		<param name="secondaries_img_upload_number" type="text" size="3" default="3" label="Secondaries images upload number" description="SECONDARIES_IMAGES_UPLOAD_NUMBER_DESCR"  />
 	</params>
 	
 	<params group="others">
