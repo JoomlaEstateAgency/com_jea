@@ -23,19 +23,36 @@ class JeaViewFeatures extends JView
 
 {
 	var $pagination = null ;
+	
+	var $tablesTranslations = array(
+            'types'         => 'Property types' , 
+            'conditions'    => 'Property conditions' , 
+            'departments'   => 'Departments' , 
+            'towns'         => 'Towns' , 
+            'areas'         => 'Areas' ,
+            'advantages'    => 'Advantages' ,
+            'heatingtypes'  => 'Heating types' ,
+            'hotwatertypes' => 'Hot water types',
+            'slogans'       => 'Slogans' 
+    );
 
 	function display( $tpl = null )
 	{
 		$params =& ComJea::getParams();
 		$this->assignRef('params' , $params );
 	    
-	    switch ($tpl) {
-			case 'form':
-				$this->editItem();
-				break;
-			default :
-				$this->listIems();
-
+		
+		if ($tpl == 'form') {
+		    $this->editItem();
+		    
+		} elseif ($this->getLayout() == 'export') {
+		    JToolBarHelper::title( JText::_( 'CSV export', 'jea.png' ));
+		    JToolBarHelper::back();
+		} elseif ($this->getLayout() == 'import') {
+		    JToolBarHelper::title( JText::_( 'CSV import', 'jea.png' ));
+		    JToolBarHelper::back();
+		} else {
+		    $this->listIems();
 		}
 
 		parent::display($tpl);
@@ -51,21 +68,9 @@ class JeaViewFeatures extends JView
 		
 		$this->pagination = new JPagination($items['total'], $items['limitstart'], $items['limit']);
 
-		$tablesTranslations = array(
-		    'types'         => 'Property types' , 
-	        'conditions'    => 'Property conditions' , 
-	        'departments'   => 'Departments' , 
-	        'towns'         => 'Towns' , 
-	        'areas'         => 'Areas' ,
-	        'advantages'    => 'Advantages' ,
-	        'heatingtypes'  => 'Heating types' ,
-	        'hotwatertypes' => 'Hot water types',
-	        'slogans'       => 'Slogans' 
-	    );
-
         $options = array();
 
-        foreach ( $tablesTranslations as $tableName => $translation ) {
+        foreach ( $this->tablesTranslations as $tableName => $translation ) {
         	$options[] = JHTML::_('select.option', $tableName, JText::_( $translation ) );
         }
          
@@ -97,6 +102,8 @@ class JeaViewFeatures extends JView
 	    JToolBarHelper::addNew();
 	    JToolBarHelper::editList();
 	    JToolBarHelper::deleteList( JText::_( 'CONFIRM_DELETE_MSG' ) );
+	    JToolBarHelper::custom('import', 'import', '', 'Import', false);
+	    JToolBarHelper::custom('export', 'export', '', 'Export', false);
 
 	}
 
@@ -183,5 +190,5 @@ class JeaViewFeatures extends JView
 			$default 
 		);
 	}
-
+	
 }

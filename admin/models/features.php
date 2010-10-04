@@ -226,4 +226,133 @@ class JeaModelFeatures extends JModel
 		
 		return true;
 	}
+	
+	function getCSVData($tableName='')
+	{
+	    $this->setTableName($tableName);
+	    $table      =& $this->getTable();
+	    $cols_names = array_keys($table->getPublicProperties());
+        $parser     =& $this->_getCSVParser();
+	    $this->_db->setQuery('SELECT * FROM '. $this->getSqlTableName());
+        return $parser->unparse($this->_db->loadAssocList(), $cols_names);
+	}
+	
+	/**
+	 * Import rows from CSV file and return the number of inserted rows
+	 *
+	 * @param string $file
+	 * @param string $tableName
+	 * @return int
+	 */
+	
+	function importFromCSV($file='', $tableName='') 
+	{
+	    jimport('joomla.filesystem.file');
+	    if(!JFile::exists($file)) {
+	        JError::raiseWarning( 'file', JText::_('File doesn\'t exist') );
+	        return 0;
+	    }
+	    
+	    $this->setTableName($tableName);
+	    $table =& $this->getTable();
+        $empty_row = $table->getPublicProperties();
+        $array_backQuotes = create_function('&$v,$k', '$v = \'`\'.$v .\'`\';');
+        $cols_names = array_keys($empty_row);
+        array_walk($cols_names, $array_backQuotes);
+        $parser =& $this->_getCSVParser();
+        $parser->parse($file);
+        
+	    $rows = $this->_getList('SELECT * FROM '. $this->getSqlTableName());
+	    $ids = array();
+	    foreach($rows as $row) {
+	        $ids[$row->id] = $row;
+	    }
+	    
+	    $insert_with_ids = array();
+	    $insert_without_ids = array();
+	    
+	    foreach($parser->data as $row) {
+	        $raw_line = array_merge($empty_row, $row);
+	        if(empty($raw_line['value'])) {
+	            // if value is empty, we don't need to import row
+	            continue;
+	        }
+	        
+	        $row_value = trim($raw_line['value']);
+	        $row_id = 0;
+	        
+	        if(isset($raw_line['id'])) {
+	            $row_id = intval($raw_line['id']);
+	        }
+	        
+	        foreach($raw_line as $k=> $v) {
+	            $raw_line[$k] = $this->_db->Quote(trim($v));
+	        }
+	        
+	        $insert_row = '(' . implode(',', $raw_line). ')';
+	        
+	        if(isset($ids[$row_id])) {
+	            if($ids[$row_id]->value == $row_value) {
+	                // Exactly the same
+	                continue;
+	            }
+	            
+	            $insert_without_ids[] = $insert_row;
+	        } else {
+	            $insert_with_ids[] = $insert_row;
+	        }
+	    }
+	    
+	    
+	    if(!empty($insert_with_ids)) {
+    	    $query = 'INSERT INTO '. $this->getSqlTableName() 
+    	           .'('. implode(',', $cols_names) . ') VALUES'. PHP_EOL
+    	           . implode(",\n", $insert_with_ids);
+    	           
+    	    $this->_db->setQuery($query);
+    	    if ( !$this->_db->query() ) {
+    			JError::raiseError( 500, $this->_db->getErrorMsg() );
+    			return 0;
+    		}
+	    }
+	    
+	    if(!empty($insert_without_ids) && isset($empty_row['id'])) {
+	        // Insertion without id
+	        unset($empty_row['id']);
+	        $cols_names = array_keys($empty_row);
+            array_walk($cols_names, $array_backQuotes);
+            $query = 'INSERT INTO '. $this->getSqlTableName() 
+	               . '('. implode(',', $cols_names) . ') VALUES'. PHP_EOL
+	               . implode(",\n", $insert_without_ids);
+    	    $this->_db->setQuery($query);
+    	    if ( !$this->_db->query() ) {
+    			JError::raiseError( 500, $this->_db->getErrorMsg() );
+    			return 0;
+    		}
+	    }
+	    
+	    return count($insert_with_ids) + count($insert_without_ids);
+	}
+	
+	/**
+	 * Get CSV parser instance
+	 *
+	 * @return parseCSV
+	 */
+	function &_getCSVParser() 
+	{
+	    static $parser;
+	    if($parser === null) {
+	        require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'library/parsecsv.lib.php';
+	        $parser = new parseCSV();
+	        $parser->delimiter = ";";
+	    }
+	    // Reinit internal vars
+        $parser->file = null;
+        $parser->file_data = null;
+        $parser->data = array();
+        $parser->titles = array();
+        
+	    return $parser;
+	}
 }

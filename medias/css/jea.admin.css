@@ -33,6 +33,14 @@ label.advantage{
 	background-image:url(../images/header/icon-48-jea.png);
 }
 
+.icon-32-export {
+	background: url(../images/export.png);
+}
+
+.icon-32-import {
+	background: url(../images/import.png);
+}
+
 div.file_reader{
 	width :700px;
 	height :300px;
