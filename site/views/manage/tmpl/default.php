@@ -28,15 +28,15 @@ $altrow = 1;
 
 <p class="jea_add_new"><a href="<?php echo JRoute::_('&layout=form') ?>"><?php echo JText::_('Add new property' )?></a></p>
 
-<?php if( !empty($this->rows) ) : ?>
-
 <form name="adminForm" id="adminForm" action="<?php echo JRoute::_('') ?>" method="post">
 
+<?php if (!empty($this->rows)): ?>	
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
 	
 	<p class="limitbox"><em><?php echo JText::_('Results per page') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
-	
+<?php endif ?>
+
 	<p>
     	<select name="cat" onchange="this.form.submit()" class="inputbox" size="1">
     	   <option value="-1">--<?php echo JText::_('Filter') ?>--</option>
@@ -45,6 +45,7 @@ $altrow = 1;
     	</select>
 	</p>
 	
+<?php if (!empty($this->rows)): ?>	
 	<table class="jea_listing" >
 		<thead>
 		<tr>
@@ -93,7 +94,6 @@ $altrow = 1;
 	
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
-
+<?php endif ?>
 </form>
 
-<?php endif ?>
