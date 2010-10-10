@@ -85,6 +85,7 @@ $altrow = 1;
 		</tbody>
 	
 	</table>
+<?php endif ?>
 	
 	 <div>
 	  <input type="hidden" name="filter_order" value="<?php echo $this->order ?>" />
@@ -94,6 +95,5 @@ $altrow = 1;
 	
 	<p class="pagenavigation"><?php echo $this->pagination->getPagesLinks() ?><br />
 	<em><?php echo $this->pagination->getPagesCounter(); ?></em></p>
-<?php endif ?>
 </form>
 
