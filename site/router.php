@@ -60,6 +60,11 @@ function JeaParseRoute($segments)
 		$vars['id']    = $segments[$count-1];
 		return $vars;
 	}
+	
+	if ($count == 1 && is_numeric($segments[0])) {
+	    // Should be a JEA item id
+	    $vars['id'] = $segments[0];
+	}
 
 	//Handle View and Identifier
 	switch($item->query['view']) {
