@@ -21,6 +21,7 @@ if(!$this->row->id){
 }
 
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
+$dispatcher =& JDispatcher::getInstance();
 ?>
 
 <p class="pagenavigation">
@@ -186,11 +187,17 @@ JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 		<p><label for="e_message"><?php echo JText::_('Message') ?> :</label><br /> 
 		   <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo $this->escape(JRequest::getVar('e_message', '')) ?></textarea>
 		</p>
+        
+        <?php $dispatcher->trigger('onFormCaptchaDisplay') ?>
+        
+        
 		<p>
 		<input type="hidden" name="created_by" value="<?php echo $this->row->created_by ?>" />
+		<?php echo JHTML::_( 'form.token' ) ?>
 		<input type="submit" value="<?php echo JText::_('Send') ?>" />
-		
 		</p>
+		
+		
 	
 	</fieldset>
 </form>  

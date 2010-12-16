@@ -162,16 +162,26 @@ class JeaControllerProperties extends JController
 	
 	function sendmail()
 	{
-		jimport('joomla.mail.helper');
+		// Check for request forgeries
+        JRequest::checkToken() or die( 'Invalid Token' );
+	    
+	    jimport('joomla.mail.helper');
 		jimport('joomla.utilities.utility');
 		$config =& JFactory::getConfig();
 		$params =& ComJea::getParams();
 		$db =& JFactory::getDBO();
+		$dispatcher =& JDispatcher::getInstance();
 		
 		$email = JMailHelper::cleanAddress( JRequest::getVar('email', '') );
 		$name = JRequest::getVar('name', '');
 		$subject = JRequest::getVar('subject', '') . ' [' .$config->getValue('fromname', '') . ']';
-		$message = JRequest::getVar('e_message', '');			
+		$message = JRequest::getVar('e_message', '');
+		
+		$captcha_code = JRequest::getVar('captcha_code', '', 'post');
+		$dispatcher->trigger('onCaptchaCheck', array($captcha_code, &$result));
+		if ($result == false) {
+		    return $this->display();
+		}
 		
 		/*verification */
 		if ( empty($name) ) {
