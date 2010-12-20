@@ -250,6 +250,15 @@ class JeaModelProperties extends JModel
     {
         $row = & $this->getRow();
         
+        $dispatcher =& JDispatcher::getInstance();
+        JPluginHelper::importPlugin( 'jea' );
+        
+        $isNew = true;
+        
+        if(!empty($row->id)) {
+            $isNew = false;
+        }
+        
         $datas = array(
         	'ref'            => JRequest::getVar( 'ref', '', 'POST' ),
         	'title'          => JRequest::getVar( 'title', '', 'POST' ),
@@ -293,23 +302,27 @@ class JeaModelProperties extends JModel
         
         $row->is_renting = $this->isRenting() ? 1 : 0;
         
-        if ( ! $row->check() ) {
+        $result = $dispatcher->trigger('onBeforeSaveProperty', array(&$row, $isNew));
+        
+        if ( ! $row->check() || in_array(false, $result, true) ) {
             JError::raiseWarning( 200, $row->getError() );
             return false;
         }
+        
        
         if ( !$row->store() ) {
             JError::raiseWarning( 200, $row->getError() );
             return false;
         }
         
-        //check newsletter
         $row->checkin();
 
 		if ( !$this->_uploadImages($row->id) ) {
 			JError::raiseWarning( 200, 'Image upload error' );
             return false;
 		}
+		
+		$dispatcher->trigger('onAfterSaveProperty', array(&$row, $isNew));
 		
 		$this->_lastId = $row->id;
 

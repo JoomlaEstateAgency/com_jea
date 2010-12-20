@@ -58,9 +58,14 @@ class TableProperties extends JTable
 	var $latitude = null;
 	var $longitude = null;
 	
-	function TableProperties(& $db) {
-		
+	function TableProperties(& $db)
+	{
+		$dispatcher =& JDispatcher::getInstance();
+        JPluginHelper::importPlugin( 'jea' );
+        
         parent::__construct('#__jea_properties', 'id', $db);
+        
+        $dispatcher->trigger('onInitTableProperty', array(&$this));
 	}
 	
 	
