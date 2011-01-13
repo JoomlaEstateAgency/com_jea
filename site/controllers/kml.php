@@ -40,7 +40,7 @@ class JeaControllerKml extends JController
 		$documentNode =& $doc->createElement('Document');
 		
 		foreach($res['rows'] as $row) {
-		    if($row->latitude > 0 && $row->longitude > 0) {
+		    if(abs($row->latitude) > 0 && abs($row->longitude) > 0) {
 
     		    $placemarkNode =& $doc->createElement('Placemark');
     		    $nameNode      =& $doc->createElement('name');
