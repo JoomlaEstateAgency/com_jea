@@ -178,8 +178,10 @@ class JeaControllerProperties extends JController
 		$message = JRequest::getVar('e_message', '');
 		
 		$captcha_code = JRequest::getVar('captcha_code', '', 'post');
-		$dispatcher->trigger('onCaptchaCheck', array($captcha_code, &$result));
-		if ($result == false) {
+		
+	    $result = $dispatcher->trigger('onCaptchaCheck', array($captcha_code));
+		
+		if (in_array(false, $result, true)) {
 		    return $this->display();
 		}
 		
