@@ -1,5 +1,27 @@
 Joomla Estate Agency          News
 ==================================
+
+=PRE-RELEASE 1.1=
+
+# Fix published state & datetime at new property creation
++ Add feed view
++ Add geolocalization management with google map API V3 (no need API key)
+^ Make default order by id ASC in backend
+# Fix forgotten word in language files
+# Fix bug on deleting secondaries images in frontend
+^ Search request optimization
++ Geolocalized Search results on Google map
++ Add deposit field for properties to rent
+^ Optionnal relationship between departments / towns / areas 
+# Fix bug when trying to send mail after a search with the property contact form
+^ Multi-upload for secondaries images
+# Fix form reset when there is an error (for new properties)
++ CSV import / export implementation to features lists
+# Fix bug [#22784] : Renting/Selling filter renders a blank manage page if option is selected without any properties
++ Add JEA search plugin (made by David Lozano)
++ Add Captcha plugin for JEA
++ Add 7 plugins events entries : onBeforeEndPane, onAfterStartPane, onBeforeShowDescription, onAfterShowDescription, onBeforeSaveProperty, onAfterSaveProperty, onInitTableProperty
+
 =RELEASE 1.0 / 04-2010=
 ^ Update search layout and mod_jea_search with more configuration options
 ^ Remember the last slider opened in backend edit property form
