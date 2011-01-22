@@ -22,6 +22,7 @@ if(!$this->row->id){
 
 JHTML::stylesheet('jea.css', 'media/com_jea/css/');
 $dispatcher =& JDispatcher::getInstance();
+JPluginHelper::importPlugin( 'jea' );
 ?>
 
 <p class="pagenavigation">
@@ -157,10 +158,14 @@ $dispatcher =& JDispatcher::getInstance();
 
      
  <div class="clr" >&nbsp;</div>
+ 
+<?php $dispatcher->trigger('onBeforeShowDescription', array(&$this->row)) ?>
           
  <div class="item_description" > 
  <?php echo $this->row->description ?> 
  </div>
+ 
+<?php $dispatcher->trigger('onAfterShowDescription', array(&$this->row)) ?>
 
 <?php if ( $this->params->get('show_googlemap') ): ?>
 <h3><?php echo JText::_('Property geolocalization') ?> :</h3>

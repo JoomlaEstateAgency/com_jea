@@ -16,6 +16,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' ) ;
 
+$dispatcher =& JDispatcher::getInstance();
+JPluginHelper::importPlugin( 'jea' );
+
 JFilterOutput::objectHTMLSafe( $this->row, ENT_QUOTES, array('ref', 'adress') );
 JHTML::_( 'behavior.calendar' );
 JHTML::_( 'behavior.modal' );
@@ -246,6 +249,8 @@ function submitbutton( pressbutton, section ) {
   
   <?php echo $pane->startPane("content-pane") ?>
   
+  <?php $dispatcher->trigger('onAfterStartPane', array(&$pane, &$this->row)) ?>
+  
   <?php echo $pane->startPanel( JText::_('Specifications') , "params-pane" ) ?>
     <table>
 	  <tr>
@@ -423,6 +428,9 @@ function submitbutton( pressbutton, section ) {
 	  </tr>
 	</table>
   <?php echo  $pane->endPanel() ?>
+  
+  <?php $dispatcher->trigger('onBeforeEndPane', array(&$pane, &$this->row)) ?>
+  
   <?php echo $pane->endPane() ?>
   </td>
   
