@@ -55,21 +55,39 @@ class JeaViewProperties extends JeaView
 		$this->assign($res);
 		
     	$sort_links = array();
+    	
 	    if ( $this->params->get('sort_date') ) {
             $sort_links[] = $this->sort('Sort by date', 'date_insert', $res['order_dir'] , $res['order'] );
         }
+        
         if ( $this->params->get('sort_price') ) {
             $sort_links[] = $this->sort('Sort by Price', 'price', $res['order_dir'] , $res['order'] );
         }
+        
         if ( $this->params->get('sort_livingspace') ) {
             $sort_links[] = $this->sort('Sort by living space', 'living_space', $res['order_dir'] , $res['order'] );
         }
+        
         if ( $this->params->get('sort_landspace') ) {
             $sort_links[] = $this->sort('Sort by land space', 'land_space', $res['order_dir'] , $res['order'] );
         }
+        
 	    if ( $this->params->get('sort_hits') ) {
             $sort_links[] = $this->sort('Sort by popularity', 'hits', $res['order_dir'] , $res['order'] );
         }
+        
+	    if ( $this->params->get('sort_towns') ) {
+            $sort_links[] = $this->sort('Sort by town', 'town', $res['order_dir'] , $res['order'] );
+        }
+
+	    if ( $this->params->get('sort_departements') ) {
+            $sort_links[] = $this->sort('Sort by department', 'department', $res['order_dir'] , $res['order'] );
+        }
+
+	    if ( $this->params->get('sort_areas') ) {
+            $sort_links[] = $this->sort('Sort by area', 'area', $res['order_dir'] , $res['order'] );
+        }
+        
 	    $this->assign( 'sort_links', $sort_links );
 	    
 		//add alternate feed link

@@ -346,11 +346,18 @@ class JeaModelProperties extends JModel
         $params = ComJea::getParams();
         $default_order = $params->get('orderby', 'id');
         $order = strtolower( JRequest::getCmd('filter_order', $default_order));
-        $table =& $this->getTable();
-        $fields = $table->getProperties();
-    	if(!array_key_exists($order, $fields)) {
-    	    $order = 'id';
-    	}
+    	
+        $valid_orders = array('town', 'department', 'area', 'condition', 'type');
+        
+        if (!in_array($order, $valid_orders)) {
+			$table =& $this->getTable();
+			$fields = $table->getProperties();
+        
+			if(!array_key_exists($order, $fields)) {
+				$order = 'id';
+			}
+		}
+    	
     	return $this->_db->getEscaped($order);
     }
     

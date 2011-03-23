@@ -61,6 +61,23 @@
 			<option value="1">Show</option>
 		</param>
 		
+		<param name="sort_towns" type="radio" default="0" label="Sort by town" description="PARAMSLISTSSORTTOWN" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_departements" type="radio" default="0" label="Sort by department" description="PARAMSLISTSSORTDEPARTMENT" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		<param name="sort_areas" type="radio" default="0" label="Sort by area" description="PARAMSLISTSSORTAREA" >
+			<option value="0">Hide</option>
+			<option value="1">Show</option>
+		</param>
+		
+		
+		
 		<param name="list_limit" type="text" size="3" default="10" label="List limit" description="PARAMSLISTLIMIT"  />				
 	</params>
 	

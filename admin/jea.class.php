@@ -88,6 +88,9 @@ class ComJea
 		    $instance->def('sort_livingspace', 0);
 		    $instance->def('sort_landspace', 0);
 		    $instance->def('sort_hits', 0);
+		    $instance->def('sort_towns', 0);
+		    $instance->def('sort_departements', 0);
+		    $instance->def('sort_areas', 0);
 		    $instance->def('list_limit', 10);
 		    $instance->def('show_print_icon', 1);
 		    $instance->def('show_pdf_icon', 1);
