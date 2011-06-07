@@ -111,6 +111,8 @@ class JeaModelProperties extends JModel
         $result = array() ;
         $mainframe =& JFactory::getApplication();
         $params =& ComJea::getParams();
+        $dispatcher =& JDispatcher::getInstance();
+        JPluginHelper::importPlugin( 'jea' );
         $default_limit = $params->get('list_limit', 10);
         
 		if($all===false){
@@ -178,7 +180,9 @@ class JeaModelProperties extends JModel
         	
         	$where .= ' AND ' . implode('AND', $likes) ;
         }
-
+        
+        // Third party plugins could alter the search query
+		$dispatcher->trigger('onBeforeSearchQuery', array(&$select, &$where, &$order, &$order_dir));
 		
 		$sql = $select . $where .  ' ORDER BY ' . $order . ' ' . strtoupper( $order_dir ) ;
 		
