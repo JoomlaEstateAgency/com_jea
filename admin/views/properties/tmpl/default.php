@@ -34,8 +34,17 @@ $altrow = 1;
 		<td nowrap="nowrap">
 			<?php echo JText::_('Filter') ?> : 
 			<?php echo  $this->getHtmlList('types', $this->type_id, true ) ?>
-			<?php echo  $this->getHtmlList('towns', $this->town_id, true ) ?>
 			<?php echo  $this->getHtmlList('departments', $this->department_id, true ) ?>
+			
+			<?php if ($this->params->get('relationship_dpts_towns_area', 0)): ?>
+			
+			<?php echo  $this->getTownsList($this->town_id, $this->department_id, true ) ?>
+			    
+			<?php else: ?>
+			
+			<?php echo  $this->getHtmlList('towns', $this->town_id, true ) ?>
+			    
+			<?php endif ?>
 		</td>
 	</tr>
 </table>
