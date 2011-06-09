@@ -149,9 +149,9 @@ $altrow = 1;
 			<td align="center"><?php echo JHTML::_('grid.published', $row, $k, 'publish_g.png') ?></td>
 			
 
-			<td align="center"><?php echo $this->pagination->orderUpIcon($k, true, 'orderup', 'Move Up', ($this->order == 'ordering' && $this->order_dir == 'asc')) ?></td>
+			<td align="center"><?php echo $this->pagination->orderUpIcon($k, true, 'orderup', 'Move Up', ($this->order == 'ordering' && $this->order_dir == 'desc')) ?></td>
 
-			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount, true, 'orderdown', 'Move Down', ($this->order == 'ordering' && $this->order_dir == 'asc')) ?></td>
+			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount, true, 'orderdown', 'Move Down', ($this->order == 'ordering' && $this->order_dir == 'desc')) ?></td>
 			
 			<td>
 			<?php if ( $this->user->authorize( 'com_users', 'manage' ) ): ?>
