@@ -25,10 +25,10 @@
 			<option value="">Default</option>
 			<option value="date_insert">Date</option>
 			<option value="price">Price</option>
-			<option value="livingspace">Living space</option>
-			<option value="landspace">Land space</option>
+			<option value="living_space">Living space</option>
+			<option value="land_space">Land space</option>
 			<option value="hits">Hits</option>
-			<option value="order">Ordering</option>
+			<option value="ordering">Ordering</option>
 		</param>
 		
 		<param name="orderby_direction" type="radio" default="0" label="Primary order direction" description="Ordering direction on wich the items will be displayed in" >
