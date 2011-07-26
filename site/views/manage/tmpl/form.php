@@ -311,6 +311,10 @@ function checkForm() {
       <?php endforeach ?>
       </div>
   </fieldset>
+  
+  <fieldset><legend><?php echo JText::_('Geolocalization') ?></legend>
+    <?php echo $this->loadTemplate('geolocalization') ?>
+  </fieldset>
     
   <fieldset><legend><?php echo JText::_('Miscellaneous informations') ?></legend>
     <table>
