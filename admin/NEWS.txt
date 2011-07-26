@@ -1,7 +1,7 @@
 Joomla Estate Agency          News
 ==================================
 
-=PRE-RELEASE 1.1=
+=RELEASE 1.1 / 07-2011=
 
 # Fix published state & datetime at new property creation
 + Add feed view
@@ -18,9 +18,22 @@ Joomla Estate Agency          News
 # Fix form reset when there is an error (for new properties)
 + CSV import / export implementation to features lists
 # Fix bug [#22784] : Renting/Selling filter renders a blank manage page if option is selected without any properties
+# Limit cross request forgery by adding token checking on contact form submission and By adding captcha plugin support.
 + Add JEA search plugin (made by David Lozano)
 + Add Captcha plugin for JEA
-+ Add 7 plugins events entries : onBeforeEndPane, onAfterStartPane, onBeforeShowDescription, onAfterShowDescription, onBeforeSaveProperty, onAfterSaveProperty, onInitTableProperty
++ Add 8 plugins events entries : onBeforeEndPane, 
+                                 onAfterStartPane, 
+                                 onBeforeShowDescription, 
+                                 onAfterShowDescription, 
+                                 onBeforeSaveProperty, 
+                                 onAfterSaveProperty, 
+                                 onInitTableProperty,
+                                 onBeforeSearchQuery
+^ Add relationship between towns and departments on the backend filtering select lists. 
+  This should improve performances when there is massive load of data in the towns select list.
+# Fix wrong cols name in the orderby param in Config.xml
+^ Save sorting state in backend and allow to reorder items only if the sorting state is 'ordering ASC'
+^ Module jea_search and module jea_emphasis update
 
 =RELEASE 1.0 / 04-2010=
 ^ Update search layout and mod_jea_search with more configuration options
