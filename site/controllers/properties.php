@@ -104,6 +104,8 @@ class JeaControllerProperties extends JController
 		$json = JRequest::getVar('json', '');
 		
 		$document = & JFactory::getDocument();
+		$doc = &JDocument::getInstance('raw');
+		$document = $doc;
 		$document->setMimeEncoding('application/json') ;
 		
 		$jsonService = new Services_JSON(); 
