@@ -1,50 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/component-install.dtd">
-<install type="component" version="1.5.0" method="upgrade">
+<extension type="component" version="1.7" method="upgrade">
 	<name>jea</name>
-	<!-- The following elements are optional and free of formatting conttraints -->
-	<creationDate>2008 26 02</creationDate>
 	<author>Sylvain Philip</author>
+	<creationDate>2012 01 01</creationDate>
 	<authorEmail>contact@sphilip.com</authorEmail>
-	<authorUrl>http://www.sphilip.com</authorUrl>
-	<copyright>Copyright (C) 2008 PHILIP Sylvain. All rights reserved.</copyright>
-	<license>GNU/GPL</license>
-	<!--  The version string is recorded in the components table -->
-	<version>1.1</version>
-	<!-- The description is optional and defaults to the name -->
-	<description>Extension for real estate agency</description>
+	<authorUrl>www.sphilip.com</authorUrl>
+	<copyright>Copyright (C) PHILIP Sylvain. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<version>2.0</version>
+	<description>Easy real estate Ads management</description>
 
-	<!-- Custom Install Script to execute -->
-	<installfile>install.php</installfile>
+	<!-- Runs on install/uninstall/update -->
+	<scriptfile>installscript.php</scriptfile>
 	
-	<!-- Custom Uninstall Script to execute -->
-	<uninstallfile>uninstall.php</uninstallfile>
-
-	<!-- Site Main File Copy Section -->
-	<files folder="site">
-		<filename>index.html</filename>
-		<filename>jea.php</filename>
-		<filename>view.php</filename>
-		<filename>router.php</filename>
-		<folder>controllers</folder>
-		<folder>models</folder>
-		<folder>views</folder>
-	</files>
-	
-	<!-- Site Main Language File Copy Section -->
-	<languages folder="site/language">
-		<language tag="en-GB">en-GB.com_jea.ini</language>
-		<language tag="fr-FR">fr-FR.com_jea.ini</language>
-	</languages>
-	
-	<!-- Site Main Media File Copy Section -->
-	<media destination="com_jea" folder="medias" >
-	    <filename>index.html</filename>
-		<folder>css</folder>
-		<folder>images</folder>
-		<folder>js</folder>
-	</media>
-	
+	<!-- Install / Uninstall Database Section -->
 	<install>
 		<sql>
 			<file charset="utf8" driver="mysql">sql/install.mysql.utf8.sql</file>
@@ -55,25 +24,49 @@
 			<file charset="utf8" driver="mysql">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-
-	<administration>
 	
-		<!-- Administration Menu Section -->
+	<!-- Runs on update -->
+	<update> 
+		<schemas>
+			<schemapath type="mysql">sql/updates/mysql</schemapath>
+		</schemas>
+	</update>
+	
+
+	<!-- Frontend -->
+	<files folder="site">
+		<filename>index.html</filename>
+		<filename>jea.php</filename>
+		<filename>view.php</filename>
+		<filename>router.php</filename>
+		<folder>controllers</folder>
+		<folder>models</folder>
+		<folder>views</folder>
+	</files>
+
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_jea.ini</language>
+		<language tag="fr-FR">language/fr-FR.com_jea.ini</language>
+	</languages>
+	
+	<!-- Media files -->
+	<media destination="com_jea" folder="media" >
+	    <filename>index.html</filename>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+	</media>
+	
+	<!-- Backend -->
+	<administration>
 		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
 		<submenu>
-			<!-- Note that all & must be escaped to &amp; for the file to be valid XML and be parsed by the installer -->
-			<!--<menu link="option=index.php?option=com_jea&controller=properties&cat=renting">Renting management</menu>-->
-			<!-- Instead of link you can specify individual link attributes -->
 			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=renting">Renting management</menu>
 			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=selling">Selling management</menu>
 			<menu img="icon" controller="features">Properties features</menu>
 			<menu img="icon" controller="config">Configuration</menu>
 		</submenu>
-		
-		<!-- Administration Main File Copy Section -->
-		<!-- Note the folder attribute: This attribute describes the folder
-			to copy FROM in the package to install therefore files copied
-			in this section are copied from /admin/ in the package -->
+
 		<files folder="admin">
 			<filename>admin.jea.php</filename>
 			<filename>config.xml</filename>
@@ -84,6 +77,7 @@
 			<folder>controllers</folder>
 			<folder>elements</folder>
 			<folder>joomfish</folder>
+			<folder>language</folder>
 			<folder>library</folder>
 			<folder>models</folder>
 			<folder>tables</folder>
@@ -91,12 +85,5 @@
 			<folder>sql</folder>
 		</files>
 		
-		<!-- Administration Language File Copy Section -->
-		<languages folder="admin/language">
-			<language tag="en-GB">en-GB.com_jea.ini</language>
-			<language tag="en-GB">en-GB.com_jea.menu.ini</language>
-			<language tag="fr-FR">fr-FR.com_jea.ini</language>
-			<language tag="fr-FR">fr-FR.com_jea.menu.ini</language>
-		</languages>
 	</administration>
-</install>
+</extension>
