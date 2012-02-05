@@ -131,4 +131,9 @@
 		<field name="secondaries_img_upload_number" type="text" size="3" default="3" label="Secondaries images upload number" description="SECONDARIES_IMAGES_UPLOAD_NUMBER_DESCR"  />
 	</fieldset>
 	
+	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+		<field name="rules" type="rules" label="JCONFIG_PERMISSIONS_LABEL" class="inputbox" validate="rules" filter="rules" component="com_jea" section="component" />
+	</fieldset>
+	
+	
 </config>

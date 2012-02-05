@@ -1,8 +1,7 @@
 <?php
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
- * 
- * @version     $Id$
+ *
  * @package		Jea.admin
  * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
  * @license		GNU/GPL, see LICENSE.php
@@ -21,23 +20,26 @@ jimport( 'joomla.application.component.view');
 
 require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
 
-class JeaViewProperties extends JView
+class JeaViewProperty extends JView
 {
 	
+    
+    
     function display( $tpl = null )
 	{
 	    
-	    $params = JComponentHelper::getParams('com_jea');
-		$this->assignRef('params' , $params );
+	    // $params = JComponentHelper::getParams('com_jea');
+		// $this->assignRef('params' , $params );
 
-		JeaHelper::addSubmenu('properties');
-
-		$this->user		= JFactory::getUser();
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 		
-		// var_dump($items);
+	    // Check for errors.
+		if (count($errors = $this->get('Errors'))) {
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
+		}
 		
 		$this->addToolbar();
 
@@ -49,27 +51,12 @@ class JeaViewProperties extends JView
 	 * Add the page title and toolbar.
 	 *
 	 */
-	protected function addToolbar()
-	{
-	    JToolBarHelper::title( JText::_('Properties management'), 'jea.png' );
-	    JToolBarHelper::publish();
-	    JToolBarHelper::unpublish();
-	    JToolBarHelper::addNew();
-	    JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-	    JToolBarHelper::editList();
-	    JToolBarHelper::deleteList( JText::_( 'CONFIRM_DELETE_MSG' ) );
-	}
 	
 
-	function editItem()
+	function addToolbar()
 	{
-		JRequest::setVar( 'hidemainmenu', 1 );
-
-		$item =& $this->get('item');
-		
-		$this->assign( $item );
-		
-		// Keep post data if there is an error 
+		/*
+	    // Keep post data if there is an error 
 		$exceptions = JError::getErrors();
 		if(!empty($exceptions)) {
     		$this->row->bind(JRequest::get('post'));
@@ -77,15 +64,16 @@ class JeaViewProperties extends JView
                 $this->row->advantages = implode('-', $this->row->advantages);
             }
 		}
+		*/
 	    
-	    $title  = $this->get('category') == 'renting' ? JText::_( 'Renting' ) : JText::_( 'Selling' ) ;
-	    $title .= ' : ' ;
-	    $title .= $this->row->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->row->ref ) : JText::_( 'New' ) ;
+	    $title .= $this->item->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->ref ) : JText::_( 'New' ) ;
 	    JToolBarHelper::title( $title , 'jea.png' ) ;
 	    
+	    /*
 	    $mainframe = &JFactory::getApplication();
 	    //Get the last slider pannel openning
 	    $this->assign('sliderOffset',  $mainframe->getUserState( 'com_jea.sliderOffset'));
+	    */
 	    
 	    JToolBarHelper::save() ;
 	    JToolBarHelper::apply() ;

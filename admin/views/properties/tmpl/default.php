@@ -17,169 +17,198 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
-$rowsCount = count( $this->rows ) ;
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
+JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+
+JHtml::_('behavior.tooltip');
+JHtml::_('behavior.multiselect');
+
+$rowsCount = count($this->items) ;
 $altrow = 1;
+
+$listOrder	= $this->escape($this->state->get('list.ordering'));
+$listDirection	= $this->escape($this->state->get('list.direction'));
+$saveOrder	= $listOrder == 'p.ordering';
+
+$transactionType = $this->state->get('filter.transaction_type');
 ?>
 
-<form action="index.php?option=com_jea&controller=properties&cat=<?php echo $this->get('category') ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties') ?>" method="post" name="adminForm" id="adminForm">
 
-<table class="adminheading">
-	<tr>
-		<td width="100%">
-			<label for="search" ><?php echo JText::_('Find reference') ?></label> : 
-			<input type="text" id="search" name="search" size="8" value="<?php echo $this->search ?>" /> 
-			<input type="submit" value="ok" />
-		</td>
-		<td nowrap="nowrap">
-			<?php echo JText::_('Filter') ?> : 
-			<?php echo  $this->getHtmlList('types', $this->type_id, true ) ?>
-			<?php echo  $this->getHtmlList('departments', $this->department_id, true ) ?>
-			
-			<?php if ($this->params->get('relationship_dpts_towns_area', 0)): ?>
-			
-			<?php echo  $this->getTownsList($this->town_id, $this->department_id, true ) ?>
-			    
-			<?php else: ?>
-			
-			<?php echo  $this->getHtmlList('towns', $this->town_id, true ) ?>
-			    
-			<?php endif ?>
-		</td>
-	</tr>
-</table>
+<fieldset id="filter-bar">
+  <div class="clr"></div>
+    <div class="filter-search fltlft">
+      <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+      <input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('FILTER_SEARCH_DESC'); ?>" />
+
+      <button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
+      <button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+    </div>
+    
+    <div class="filter-select fltrt">
+      <select name="filter_transaction_type" class="inputbox" onchange="this.form.submit()" >
+        <option value=""> - <?php echo JText::_('Transaction type')?> - </option>
+        <option value="RENTING" <?php if ($transactionType == 'RENTING') echo 'selected="selected"'?>><?php echo JText::_('Renting')?></option>
+        <option value="SELLING" <?php if ($transactionType == 'SELLING') echo 'selected="selected"'?>><?php echo JText::_('Selling')?></option>
+        <?php // TODO: call plugin entry to add more transaction types  ?>
+      </select>
+    
+      <?php echo JHtml::_('features.types', $this->state->get('filter.type_id'), 'filter_type_id', 'onchange="document.adminForm.submit();"' ) ?>
+      <?php echo JHtml::_('features.departments', $this->state->get('filter.department_id'), 'filter_department_id', 'onchange="document.adminForm.submit();"' ) ?>
+
+      <?php if ($this->params->get('relationship_dpts_towns_area', 0)): ?>
+      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', $this->state->get('filter.department_id'), 'onchange="document.adminForm.submit();"' ) ?>
+      <?php else: ?>
+      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', null, 'onchange="document.adminForm.submit();"' ) ?>
+      <?php endif ?>
+    </div>
+    <div class="clr"></div>
+</fieldset>
 
 <table class="adminlist">
-	<thead>
-		<tr>
-			<th style="text-align:left"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo $rowsCount ?>);" /></th>
-			
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Reference', 'ref', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th nowrap="nowrap"><?php echo JText::_('Property type') ?></th>
-			
-			<th nowrap="nowrap"><?php echo JText::_('Adress') ?></th>
-			
-			<th nowrap="nowrap"><?php echo JText::_('Town') ?></th>
-			
-			<th nowrap="nowrap"><?php echo JText::_('Department') ?></th>
-			
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Price', 'price', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th nowrap="nowrap"><?php echo JText::_('Emphasis') ?></th>
-			
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Published', 'published', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th colspan="2" nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Ordering', 'ordering', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th nowrap="nowrap">
-                <?php echo JHTML::_('grid.sort', 'Author', 'author', $this->order_dir , $this->order ) ?>
-            </th>
-            
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Date', 'date_insert', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Hits', 'hits', $this->order_dir , $this->order ) ?>
-			</th>
-			
-			<th nowrap="nowrap">
-				<?php echo JHTML::_('grid.sort', 'Id', 'id', $this->order_dir , $this->order ) ?>
-			</th>
-		</tr>
-	</thead>
+  <thead>
+    <tr>
+      <th width="1%">
+        <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+      </th>
+      <th width="10%">
+        <?php echo JHTML::_('grid.sort', 'Reference', 'p.ref', $listDirection , $listOrder ) ?>
+      </th>
+      <th>
+        <?php echo JText::_('Property type') ?>
+      </th>
+      <th width="27%">
+        <?php echo JText::_('Adress') ?>
+      </th>
+      <th width="10%">
+        <?php echo JText::_('Town') ?>
+      </th>
+      <th width="10%">
+        <?php echo JText::_('Department') ?>
+      </th>
+      <th width="10%">
+        <?php echo JHTML::_('grid.sort', 'Price', 'p.price', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="1%">
+        <?php echo JHTML::_('grid.sort', 'JFEATURED', 'p.emphasis', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="1%">
+        <?php echo JHTML::_('grid.sort', 'Published', 'p.published', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="10%">
+        <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'p.ordering', $listDirection , $listOrder ) ?>
+        <?php if ($saveOrder) :?>
+            <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
+        <?php endif; ?>
+      </th>
+      <th width="10%">
+         <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'author', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="5%">
+        <?php echo JHTML::_('grid.sort', 'JDATE', 'p.date_insert', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="1%">
+        <?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'p.hits', $listDirection , $listOrder ) ?>
+      </th>
+      <th width="1%"> 
+        <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $listDirection , $listOrder ) ?>
+      </th>
+    </tr>
+  </thead>
 
-	<tfoot>
-		<tr>
-			<td colspan="15">
-				<del class="container">
-					<div class="pagination">
-						<div class="limit">
-							<?php echo JText::_('Items per page')?> :&nbsp;&nbsp;
-							<?php echo $this->pagination->getLimitBox() ?>&nbsp;&nbsp;
-						</div>
-						<?php echo $this->pagination->getPagesLinks() ?>
-						<div class="limit"><?php echo $this->pagination->getPagesCounter() ?></div>
-					</div>
-				</del>
-			</td>
-		</tr>
-	</tfoot>
+  <tfoot>
+    <tr>
+      <td colspan="14">
+        <?php echo $this->pagination->getListFooter() ?>
+      </td>
+    </tr>
+  </tfoot>
 
-	<tbody>
+  <tbody>
 
-	<?php foreach ($this->rows as $k => $row) :?>
+<?php foreach ($this->items as $i => $item) : ?>
 
-	<?php $altrow = ( $altrow == 1 )? 0 : 1; ?>
+<?php 
+$altrow = ( $altrow == 1 )? 0 : 1;
 
-		<tr class="row<?php echo $altrow ?>">
+$canCreate  = $this->user->authorise('core.create',   'com_jea.property.'.$item->id);
+$canEdit  = $this->user->authorise('core.edit',     'com_jea.property.'.$item->id);
+$canCheckin = $this->user->authorise('core.manage',   'com_checkin') || $item->checked_out == $this->user->id || $item->checked_out == 0;
+$canEditOwn = $this->user->authorise('core.edit.own',   'com_jea.property.'.$item->id) && $item->created_by == $this->user->id;
+$canChange  = $this->user->authorise('core.edit.state', 'com_jea.property.'.$item->id) && $canCheckin;
+?>
 
-			<td><?php echo JHTML::_('grid.checkedout', $row, $k ) ?></td>
+    <tr class="row<?php echo $altrow ?>">
+      <td><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
+      <td>
+      <?php if ($item->checked_out) : ?>
+            <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'properties.', $canCheckin); ?>
+          <?php endif; ?>
+          <?php if ($canEdit || $canEditOwn) : ?>
+            <a href="<?php echo JRoute::_('index.php?option=com_jea&task=property.edit&id='.(int) $item->id); ?>">
+            <?php echo $this->escape($item->ref); ?></a>
+          <?php else : ?>
+            <?php echo $this->escape($item->ref); ?>
+          <?php endif; ?>
+      </td>
 
-			<td width="20%">
-			<?php if ($this->is_checkout($row->checked_out)) : ?>
-				<?php echo $this->escape( $row->ref ) ?>
-			<?php else : ?>
-				<a href="#edit" onclick="return listItemTask('cb<?php echo $k ?>','edit')">
-				<?php echo $this->escape( $row->ref ) ?></a>
-			<?php endif ?>
-			</td>
+      <td><?php echo $this->escape( $item->type ) ?></td>
+      <td><?php echo $this->escape( $item->address ) ?></td>
+      <td><?php echo $this->escape( $item->town ) ?></td>
+      <td class="left nowrap"><?php echo $this->escape( $item->department ) ?></td>
+      <td class="right" ><?php echo $item->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?></td>
+      <td class="center">
+        <?php echo JHtml::_('contentadministrator.featured', $item->emphasis, $i, $canChange); ?>
+      </td>
 
-			<td><?php echo $this->escape( $row->type ) ?></td>
-			<td width="80%"><?php echo $this->escape( $row->adress ) ?></td>
-			<td><?php echo $this->escape( $row->town ) ?></td>
-			<td nowrap="nowrap"><?php echo $this->escape( $row->department ) ?></td>
-			<td nowrap="nowrap" align="center" ><?php echo $row->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?></td>
-			<td align="center">
-				<a href="javascript: void(0);" onclick="return listItemTask('cb<?php echo $k ?>','emphasize')">
-				<img src="images/<?php echo ( $row->emphasis ) ? 'tick.png' : 'publish_x.png';?>"
-				width="16" height="16" border="0" alt="<?php echo $row->emphasis ? JText::_('Yes') : JText::_('No') ?>" />
-				</a>
-			</td>
+      <td class="center">
+      <?php echo JHTML::_('grid.published', $item, $i, 'publish_g.png') ?>
+      </td>
+      
+      <td class="order">
+          <?php if ($canChange) : ?>
+            <?php if ($saveOrder) :?>
+              <?php if ($listDirection == 'asc') : ?>
+                <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderup', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+                <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+              <?php elseif ($listDirection == 'desc') : ?>
+                <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+                <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+              <?php endif; ?>
+            <?php endif; ?>
+            <input type="text" name="order[]" size="5" value="<?php echo $item->ordering ?>" <?php if (!$saveOrder) echo 'disabled="disabled"' ?> class="text-area-order" />
+          <?php else : ?>
+            <?php echo $item->ordering ?>
+          <?php endif; ?>
+      </td>
+      
+      <td>
+      <?php if ( $this->user->authorize( 'com_users', 'manage' ) ): ?>
+                 <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $item->created_by )  ?>" 
+                    title="<?php echo JText::_( 'Edit User' ) ?> "><?php echo $this->escape( $item->author ) ?></a>
+            <?php else : echo $this->escape( $item->author ) ?>
+      <?php endif ?>
+      </td>
+      
+      <td class="center"><?php echo JHTML::_('date',  $item->date_insert, JText::_('DATE_FORMAT_LC4') ); ?></td>
+      <td class="center"><?php echo $item->hits ?></td>
+      <td class="center"><?php echo $item->id ?></td>
+    </tr>
 
-			<td align="center"><?php echo JHTML::_('grid.published', $row, $k, 'publish_g.png') ?></td>
-			
+<?php endforeach ?>
 
-			<td align="center"><?php echo $this->pagination->orderUpIcon($k, true, 'orderup', 'Move Up', ($this->order == 'ordering' && $this->order_dir == 'desc')) ?></td>
-
-			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount, true, 'orderdown', 'Move Down', ($this->order == 'ordering' && $this->order_dir == 'desc')) ?></td>
-			
-			<td>
-			<?php if ( $this->user->authorize( 'com_users', 'manage' ) ): ?>
-                 <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $row->created_by )  ?>" 
-                    title="<?php echo JText::_( 'Edit User' ) ?> "><?php echo $this->escape( $row->author ) ?></a>
-            <?php else : echo $this->escape( $row->author ) ?>
-			<?php endif ?>
-			</td>
-			
-			<td><?php echo JHTML::_('date',  $row->date_insert, JText::_('DATE_FORMAT_LC4') ); ?></td>
-			<td align="center"><?php echo $row->hits ?></td>
-			<td align="center"><?php echo $row->id ?></td>
-		</tr>
-
-		<?php endforeach ?>
-
-	</tbody>
+  </tbody>
 
 </table>
 
+
 <div>
-	<input type="hidden" name="task" value="" /> 
+	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="ordering" value="ordering" />
-	<input type="hidden" name="filter_order" value="<?php echo $this->order ?>" />
-	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->order_dir ?>" />
-	<input type="hidden" name="limitstart" value="<?php echo $this->limitstart ?>" />
-	<?php echo JHTML::_( 'form.token' ) ?>
+	<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
+	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
+	<?php echo JHtml::_('form.token') ?>
 </div>
 
 </form>

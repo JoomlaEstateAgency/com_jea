@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="1.7" method="upgrade">
+<extension type="component" version="2.5" method="upgrade">
 	<name>jea</name>
 	<author>Sylvain Philip</author>
 	<creationDate>2012 01 01</creationDate>
@@ -11,7 +11,7 @@
 	<description>Easy real estate Ads management</description>
 
 	<!-- Runs on install/uninstall/update -->
-	<scriptfile>installscript.php</scriptfile>
+	<scriptfile>script.php</scriptfile>
 	
 	<!-- Install / Uninstall Database Section -->
 	<install>
@@ -61,14 +61,12 @@
 	<administration>
 		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
 		<submenu>
-			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=renting">Renting management</menu>
-			<menu img="icon" link="option=com_jea&amp;controller=properties&amp;cat=selling">Selling management</menu>
+			<menu img="icon" controller="properties">Properies management</menu>
 			<menu img="icon" controller="features">Properties features</menu>
-			<menu img="icon" controller="config">Configuration</menu>
 		</submenu>
 
 		<files folder="admin">
-			<filename>admin.jea.php</filename>
+			<filename>jea.php</filename>
 			<filename>config.xml</filename>
 			<filename>index.html</filename>
 			<filename>jea.class.php</filename>

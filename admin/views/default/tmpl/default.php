@@ -19,22 +19,28 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.html.pane');
 JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
-$pane =& JPane::getInstance('tabs');
+$pane = JPane::getInstance('tabs');
 ?>
 
 
 <?php echo $pane->startPane( 'jea_info' ) ?>
+
 <?php echo $pane->startPanel( JText::_( 'About' ), 'pan1' ) ?>
-      <img src="../media/com_jea/images/logo.png" alt="logo.png" style="float:left;margin-right: 50px" />
-      <p>
-      	<strong>Joomla Estate Agency <?php echo ComJea::version() ?> </strong>
-      </p>
-      
-      <p style="height:200px">
-      	<?php echo JText::_('Main developer') ?> : Sylvain Philip, contact@sphilip.com
-      </p>
+<div style="height:300px;float:left;margin-right: 50px;">
+  <img src="../media/com_jea/images/logo.png" alt="logo.png" />
+</div>
+
+<div style="height:300px">
+    <p><strong>Joomla Estate Agency <?php echo $this->getVersion() ?> </strong></p>
+    <p><a href="http://joomlacode.org/gf/project/jea/" target="_blank" ><?php echo JText::_('Project home') ?></a></p>
+    <p><a href="http://joomlacode.org/gf/project/jea/forum/" target="_blank" ><?php echo JText::_('Forum') ?></a></p>
+    <p><a href="http://joomlacode.org/gf/project/jea/wiki/" target="_blank" ><?php echo JText::_('Documentation') ?></a></p>
+    <p><?php echo JText::_('Main developer') ?> : <a href="http://www.sphilip.com" target="_blank" >Sylvain Philip</a></p>
+    <p><?php echo JText::_('Logo') ?> : <a href="http://www.lievregraphiste.com/" target="_blank" >Elisa Roche</a></p>
+</div>
       
 <?php echo $pane->endPanel() ?>
+
 <?php echo $pane->startPanel( JText::_( 'Licence' ), 'pan2' ) ?>
 
 

@@ -20,19 +20,6 @@ jimport('joomla.application.component.controller');
 
 class JeaControllerDefault extends JController
 {
-    
-    /**
-	 * Custom Constructor
-	 */
-	function __construct( $default = array() )
-	{
-		// Set a default view if none exists
-		if ( ! JRequest::getCmd( 'view' ) ) {
-			
-			JRequest::setVar('view', 'default' );
-		}
-		parent::__construct( $default );
-	}
-	
+    protected $default_view = 'default';
 	
 }

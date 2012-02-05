@@ -13,27 +13,18 @@
  * 
  */
 
+
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view');
+// Include dependancies
+jimport('joomla.application.component.controller');
 
-class JeaViewConfig extends JView
-{
-    var $form = null;
-    var $ini = '';
-    
-    function display( $tpl = null )
-	{ 
-	    // Create the form
-		$this->form =& ComJea::getParams();
-		$this->form->loadSetupFile( JPATH_COMPONENT.DS.'models'.DS.'Config.xml' );
-		
-	    JHTML::_('behavior.tooltip');
-	    JToolBarHelper::title(   'JEA : ' . JText::_( 'Configuration' ), 'config.png' );
-	    JToolBarHelper::save();
-	    JToolBarHelper::makeDefault();
-	    
-	    parent::display($tpl);
-	}
+if (JRequest::getCmd('task') == '') {
+    // In order to define controllers/default.php as default controller
+    JRequest::setVar('task', 'default.display');
 }
+
+$controller	= JController::getInstance('jea');
+$controller->execute(JRequest::getCmd('task'));
+$controller->redirect();

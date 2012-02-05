@@ -17,20 +17,34 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
-jimport( 'joomla.application.component.view');
+jimport('joomla.application.component.view');
+
+require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
 
 class JeaViewDefault extends JView
-
 {
-	var $pagination = null ;
 
-	function display( $tpl = null )
+	public function display( $tpl = null )
 	{
 		
-		JToolBarHelper::title( 'Joomla Estate Agency', 'jea.png' );
+		JeaHelper::addSubmenu('default');
+	    
+	    JToolBarHelper::title( 'Joomla Estate Agency', 'jea.png' );
 		JToolBarHelper::preferences('com_jea');
 		
+		
+		
 		parent::display($tpl);
+	}
+	
+	protected function getVersion()
+	{
+    	if (is_file(JPATH_COMPONENT . DS . 'jea.xml')) {
+	        $xml = JFactory::getXML(JPATH_COMPONENT . DS . 'jea.xml');
+	        return $xml->version;
+    	}
+    	
+        return '';
 	}
 
 

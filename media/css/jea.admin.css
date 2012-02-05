@@ -1,3 +1,8 @@
+
+table.adminlist th {
+	white-space: nowrap;
+}
+
 #jea-edit table th {
 	background:#6779aa;
 	color:#fff;
@@ -17,6 +22,8 @@
 	text-align : right;
 }
 
+
+
 label.advantage{
 	display:block;
 	width:150px;
@@ -28,6 +35,8 @@ label.advantage{
 	text-align:right;
 	padding-right:2px;
 }
+
+
 
 .icon-48-jea {
 	background-image:url(../images/header/icon-48-jea.png);
@@ -48,5 +57,7 @@ div.file_reader{
 	border: 1px solid #ccc;
 	margin: auto;
 	padding: 10px;
+	font-size: 12px;
+	background: #fff;
 }
 

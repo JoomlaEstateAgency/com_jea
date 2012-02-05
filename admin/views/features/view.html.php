@@ -18,6 +18,8 @@
 defined('_JEXEC') or die();
 
 jimport( 'joomla.application.component.view');
+require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
+
 
 class JeaViewFeatures extends JView
 
@@ -38,8 +40,11 @@ class JeaViewFeatures extends JView
 
 	function display( $tpl = null )
 	{
-		$params =& ComJea::getParams();
+		// Get the parameters
+		$params = JComponentHelper::getParams('com_jea');
 		$this->assignRef('params' , $params );
+		
+		JeaHelper::addSubmenu('features');
 	    
 		
 		if ($tpl == 'form') {
