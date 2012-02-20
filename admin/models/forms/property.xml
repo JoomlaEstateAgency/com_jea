@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form>
+	<fieldset addfieldpath="/administrator/components/com_jea/models/fields">
+		<field name="asset_id" type="hidden" filter="unset" />
+		<field name="ref" type="text" label="Reference" class="inputbox" size="10" />
+		<field name="title" type="text" label="JGLOBAL_TITLE" description="JFIELD_TITLE_DESC" class="inputbox" size="40" />
+		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL" description="JFIELD_ALIAS_DESC" class="inputbox" size="40" />
+		<field name="transaction_type" type="list" label="Transaction type" required="true" >
+			<option value="SELLING">Selling</option>
+			<option value="RENTING">Renting</option>
+		</field>
+		<field name="type_id" type="featureList" subtype="types" label="Property type" class="inputbox" required="true" />
+		<field name="advantages" type="advantages"  class="advantage" />
+		<field name="images" type="gallery"  />
+		<field name="description" type="editor" class="inputbox" label="JGLOBAL_DESCRIPTION" filter="JComponentHelper::filterText" buttons="true" />
+		<field name="rules" type="rules" label="JFIELD_RULES_LABEL" translate_label="false" class="inputbox" filter="rules" component="com_jea" section="property" validate="rules" />
+	</fieldset>
+	
+	<fieldset name="localization">
+		<field name="address" type="text" label="Address" class="inputbox" size="70" />
+		<field name="zip_code" type="text" label="Zip code" class="inputbox" size="5" />
+		<field name="department_id" type="featureList" subtype="departments" label="Department" class="inputbox" filter="intval" />
+		<field name="town_id" type="featureList" subtype="towns" label="Town" class="inputbox" filter="intval" />
+		<field name="area_id" type="featureList" subtype="areas" label="Area" class="inputbox" filter="intval" />
+	</fieldset>
+
+	<fieldset name="publication">
+		<field name="id"  type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL" description ="JGLOBAL_FIELD_ID_DESC" size="10" default="0" readonly="true"  />
+		<field name="hits" type="text" label="JGLOBAL_HITS" description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6" readonly="true" filter="unset" />
+		<field name="published" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" filter="intval" size="1" default="1">
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+		</field>
+		<field name="emphasis" type="list" label="JFEATURED" description="COM_JEAT_FIELD_FEATURED_DESC" default="0">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="slogan_id" type="featureList" subtype="slogans" label="Slogan" class="inputbox" filter="intval" />
+		<field name="date_insert" type="calendar" label="Created" description="CREATED_DESC" class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<field name="created_by" type="user" label="Author" description="CREATED_BY_DESC" />
+	</fieldset>
+	
+	<fieldset name="financial_informations" addfieldpath="/administrator/components/com_jea/models/fields">
+		<field name="price" type="price" label="Price" class="numberbox" size="10" />
+		<field name="charges" type="price" label="Charges" class="numberbox" size="10" />
+		<field name="fees" type="price" label="Fees" class="numberbox" size="10" />
+		<field name="deposit" type="price" label="Deposit" class="numberbox" size="10" />
+	</fieldset>
+
+	<fieldset name="details" addfieldpath="/administrator/components/com_jea/models/fields">
+		<field name="living_space" type="surface" label="Living space" class="numberbox" filter="floatval" size="7" />
+		<field name="land_space"   type="surface" label="Land space" class="numberbox" filter="floatval" size="7" />
+		<field name="availability" type="calendar" label="Property availability" class="inputbox" size="11" format="%Y-%m-%d" filter="user_utc" />
+		<field name="condition_id" type="featureList" subtype="conditions" label="Condition" class="inputbox" filter="intval" />
+		<field name="floor"   type="text" label="Floors" class="numberbox" filter="floatval" size="3" />
+		<field name="rooms"   type="text" label="Number of rooms" class="numberbox" filter="floatval" size="3" />
+		<field name="bathrooms"   type="text" label="Number of bathrooms" class="numberbox" filter="floatval" size="3" />
+		<field name="toilets"   type="text" label="Number of toilets" class="numberbox" filter="intval" size="3" />
+		<field name="hot_water_type" type="featureList" subtype="hotwatertypes" label="Hot water type" class="inputbox" filter="intval" />
+		<field name="heating_type" type="featureList" subtype="heatingtypes" label="Heating type" class="inputbox" filter="intval" />
+	</fieldset>
+
+</form>

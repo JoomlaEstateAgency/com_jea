@@ -23,7 +23,10 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
 class JeaViewProperty extends JView
 {
 	
-    
+    protected $form;
+	protected $item;
+	protected $state;
+	protected $canDo;
     
     function display( $tpl = null )
 	{
@@ -34,6 +37,7 @@ class JeaViewProperty extends JView
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo	= JeaHelper::getActions($this->item->id);
 		
 	    // Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -49,67 +53,51 @@ class JeaViewProperty extends JView
 	
 	/**
 	 * Add the page title and toolbar.
+	 * 
+	 * Inspired from ContentViewArticle in com_content
 	 *
 	 */
-	
-
 	function addToolbar()
 	{
-		/*
-	    // Keep post data if there is an error 
-		$exceptions = JError::getErrors();
-		if(!empty($exceptions)) {
-    		$this->row->bind(JRequest::get('post'));
-            if(is_array($this->row->advantages)) {
-                $this->row->advantages = implode('-', $this->row->advantages);
-            }
-		}
-		*/
-	    
-	    $title .= $this->item->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->ref ) : JText::_( 'New' ) ;
+	    JRequest::setVar('hidemainmenu', true);
+		$user		= JFactory::getUser();
+		$userId		= $user->get('id');
+		$isNew		= ($this->item->id == 0);
+		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		
+		$title = $this->item->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->ref ) : JText::_( 'New' ) ;
 	    JToolBarHelper::title( $title , 'jea.png' ) ;
-	    
-	    /*
-	    $mainframe = &JFactory::getApplication();
-	    //Get the last slider pannel openning
-	    $this->assign('sliderOffset',  $mainframe->getUserState( 'com_jea.sliderOffset'));
-	    */
-	    
-	    JToolBarHelper::save() ;
-	    JToolBarHelper::apply() ;
-	    JToolBarHelper::cancel() ;
-	}
-	
-	
-	function getAdvantagesRadioList()
-	{
-	    $html = '';
-	    
-	    $featuresModel =& $this->getModel('features');
-	    $featuresModel->setTableName( 'advantages' );
-	    $res = $featuresModel->getItems(true);
-	    
-	    $advantages = array();
-	    
-	    if ( !empty( $this->row->advantages ) ) {
-	        $advantages = explode( '-' , $this->row->advantages );
-	    }
-	    
-	    foreach ( $res['rows'] as $k=> $row ) {
-	        
-	        $checked = '';
-	        
-	        if ( in_array($row->id, $advantages) ) {
-	            $checked = 'checked="checked"' ;
-	        }
-	        
-	        $html .= '<label class="advantage">' . PHP_EOL 
-	              .'<input type="checkbox" name="advantages[' . $k . ']" value="' 
-				  . $row->id . '" ' . $checked . ' />' . PHP_EOL 
-				  . $row->value . PHP_EOL 
-	              . '</label>' . PHP_EOL ;
-	    }
-	    return $html;
+
+		// Built the actions for new and existing records.
+
+		// For new records, check the create permission.
+		if ($isNew && ($this->canDo->get('core.create'))) {
+			JToolBarHelper::apply('property.apply');
+			JToolBarHelper::save('property.save');
+			JToolBarHelper::save2new('property.save2new');
+			JToolBarHelper::cancel('property.cancel');
+		} else {
+			// Can't save the record if it's checked out.
+			if (!$checkedOut) {
+				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
+				if ($this->canDo->get('core.edit') || ($this->canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
+					JToolBarHelper::apply('property.apply');
+					JToolBarHelper::save('property.save');
+
+					// We can save this record, but check the create permission to see if we can return to make a new one.
+					if ($this->canDo->get('core.create')) {
+						JToolBarHelper::save2new('property.save2new');
+					}
+				}
+			}
+
+			// If checked out, we can still save
+			if ($this->canDo->get('core.create')) {
+				JToolBarHelper::save2copy('property.save2copy');
+			}
+
+			JToolBarHelper::cancel('property.cancel', 'JTOOLBAR_CLOSE');
+		}
 	}
 
 }

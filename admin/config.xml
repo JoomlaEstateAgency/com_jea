@@ -128,7 +128,7 @@
 			<option value="0">No</option>
 			<option value="1">Yes</option>
 		</field>
-		<field name="secondaries_img_upload_number" type="text" size="3" default="3" label="Secondaries images upload number" description="SECONDARIES_IMAGES_UPLOAD_NUMBER_DESCR"  />
+		<field name="img_upload_number" type="text" size="3" default="3" label="Images upload number" description="IMAGES_UPLOAD_NUMBER_DESCR"  />
 	</fieldset>
 	
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">

@@ -87,12 +87,12 @@ CREATE TABLE IF NOT EXISTS `#__jea_hotwatertypes` (
 
 CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `id` int(11) NOT NULL auto_increment,
+  `asset_id` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table', 
   `ref` varchar(20) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
   `transaction_type` enum( 'RENTING', 'SELLING' ) NOT NULL default 'SELLING',
   `type_id` int(11) NOT NULL default '0',
-  `is_renting` tinyint(1) NOT NULL default '0',
   `price` decimal(12,2) NOT NULL default '0.00',
   `address` varchar(255) NOT NULL default '',
   `town_id` int(11) NOT NULL default '0',
@@ -123,6 +123,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL default '0',
   `hits` int(11) NOT NULL default '0',
+  `images` TEXT NOT NULL,
   `latitude` varchar(20) NOT NULL default '0',
   `longitude` varchar(20) NOT NULL default '0',
   PRIMARY KEY  (`id`),

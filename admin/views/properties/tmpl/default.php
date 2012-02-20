@@ -58,9 +58,9 @@ $transactionType = $this->state->get('filter.transaction_type');
       <?php echo JHtml::_('features.departments', $this->state->get('filter.department_id'), 'filter_department_id', 'onchange="document.adminForm.submit();"' ) ?>
 
       <?php if ($this->params->get('relationship_dpts_towns_area', 0)): ?>
-      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', $this->state->get('filter.department_id'), 'onchange="document.adminForm.submit();"' ) ?>
+      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', 'onchange="document.adminForm.submit();"', $this->state->get('filter.department_id') ) ?>
       <?php else: ?>
-      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', null, 'onchange="document.adminForm.submit();"' ) ?>
+      <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', 'onchange="document.adminForm.submit();"' ) ?>
       <?php endif ?>
     </div>
     <div class="clr"></div>
@@ -143,7 +143,7 @@ $canChange  = $this->user->authorise('core.edit.state', 'com_jea.property.'.$ite
       <td><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
       <td>
       <?php if ($item->checked_out) : ?>
-            <?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'properties.', $canCheckin); ?>
+            <?php echo JHtml::_('jgrid.checkedout', $i, $item->author, $item->checked_out_time, 'properties.', $canCheckin); ?>
           <?php endif; ?>
           <?php if ($canEdit || $canEditOwn) : ?>
             <a href="<?php echo JRoute::_('index.php?option=com_jea&task=property.edit&id='.(int) $item->id); ?>">

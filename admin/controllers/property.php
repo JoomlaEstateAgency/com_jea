@@ -27,8 +27,7 @@ jimport('joomla.application.component.controllerform');
  */
 class JeaControllerProperty extends JControllerForm
 {
-    
-    
+
 
 }
 

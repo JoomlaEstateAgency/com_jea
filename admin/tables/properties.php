@@ -18,66 +18,23 @@ defined('_JEXEC') or die('Restricted access');
 
 class TableProperties extends JTable
 {
-
-	var $id=null;
-	var $ref=null;
-	var $title=null;
-	var $alias=null;
-    var $type_id=null;
-	var $is_renting = null;
-	var $price=null;
-	var $adress =null;
-	var $town_id=null;
-	var $area_id =null;
-	var $zip_code =null;
-	var $department_id =null;
-	var $condition_id =null;
-	var $living_space = null;
-	var $land_space = null;
-	var $rooms = null;
-	var $charges = null;
-	var $fees = null;
-	var $deposit = null;
-	var $hot_water_type = null;
-	var $heating_type = null;
-	var $bathrooms = null;
-	var $toilets = null;
-	var $availability = null;
-	var $floor = null;
-	var $advantages = null;
-	var $description = null;
-	var $slogan_id = null;
-	var $published = null;
-	var $ordering = null;
-	var $emphasis = null;
-	var $date_insert = null;
-	var $checked_out = null;
-	var $checked_out_time = null ;
-	var $created_by = null;
-	var $hits = null;
-	var $latitude = null;
-	var $longitude = null;
-	
-	function TableProperties(& $db)
+	/**
+	 * Constructor
+	 * @param	JDatabase	A database connector object
+	 */
+	public function __construct(&$db)
 	{
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
         JPluginHelper::importPlugin( 'jea' );
         
         parent::__construct('#__jea_properties', 'id', $db);
         
-        $dispatcher->trigger('onInitTableProperty', array(&$this));
+        $dispatcher->trigger('onInitTableProperty', array($this));
 	}
-	
 	
 	function check()
 	{
-	   if( empty( $this->ref ) ) {
-			
-		    $this->setError( JText::_('Property must have a reference') );
-			return false;
-			
-		} elseif ( empty( $this->type_id ) ) {
-		    
+	   if ( empty( $this->type_id ) ) {
 		     $this->setError( JText::_('Select a type of property') );
 			return false;
 		    
