@@ -91,7 +91,7 @@ $transactionType = $this->state->get('filter.transaction_type');
         <?php echo JHTML::_('grid.sort', 'Price', 'p.price', $listDirection , $listOrder ) ?>
       </th>
       <th width="1%">
-        <?php echo JHTML::_('grid.sort', 'JFEATURED', 'p.emphasis', $listDirection , $listOrder ) ?>
+        <?php echo JHTML::_('grid.sort', 'JFEATURED', 'p.featured', $listDirection , $listOrder ) ?>
       </th>
       <th width="1%">
         <?php echo JHTML::_('grid.sort', 'Published', 'p.published', $listDirection , $listOrder ) ?>
@@ -106,7 +106,7 @@ $transactionType = $this->state->get('filter.transaction_type');
          <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'author', $listDirection , $listOrder ) ?>
       </th>
       <th width="5%">
-        <?php echo JHTML::_('grid.sort', 'JDATE', 'p.date_insert', $listDirection , $listOrder ) ?>
+        <?php echo JHTML::_('grid.sort', 'JDATE', 'p.created', $listDirection , $listOrder ) ?>
       </th>
       <th width="1%">
         <?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'p.hits', $listDirection , $listOrder ) ?>
@@ -157,13 +157,14 @@ $canChange  = $this->user->authorise('core.edit.state', 'com_jea.property.'.$ite
       <td><?php echo $this->escape( $item->address ) ?></td>
       <td><?php echo $this->escape( $item->town ) ?></td>
       <td class="left nowrap"><?php echo $this->escape( $item->department ) ?></td>
-      <td class="right" ><?php echo $item->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?></td>
-      <td class="center">
-        <?php echo JHtml::_('contentadministrator.featured', $item->emphasis, $i, $canChange); ?>
+      <td class="right" ><?php echo $item->price ?> <?php echo $this->params->get('currency_symbol', '&euro;') ?>
+      <?php if ($item->transaction_type == 'RENTING') echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $item->rate_frequency) ?>
       </td>
-
       <td class="center">
-      <?php echo JHTML::_('grid.published', $item, $i, 'publish_g.png') ?>
+        <?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange) ?>
+      </td>
+      <td class="center">
+      <?php echo JHtml::_('jgrid.published', $item->published, $i, 'properties.', $canChange, 'cb') ?>
       </td>
       
       <td class="order">
@@ -185,13 +186,13 @@ $canChange  = $this->user->authorise('core.edit.state', 'com_jea.property.'.$ite
       
       <td>
       <?php if ( $this->user->authorize( 'com_users', 'manage' ) ): ?>
-                 <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=edit&cid[]='. $item->created_by )  ?>" 
+                 <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=user.edit&id='. $item->created_by )  ?>" 
                     title="<?php echo JText::_( 'Edit User' ) ?> "><?php echo $this->escape( $item->author ) ?></a>
-            <?php else : echo $this->escape( $item->author ) ?>
+      <?php else : echo $this->escape( $item->author ) ?>
       <?php endif ?>
       </td>
       
-      <td class="center"><?php echo JHTML::_('date',  $item->date_insert, JText::_('DATE_FORMAT_LC4') ); ?></td>
+      <td class="center"><?php echo JHTML::_('date',  $item->created, JText::_('DATE_FORMAT_LC4') ); ?></td>
       <td class="center"><?php echo $item->hits ?></td>
       <td class="center"><?php echo $item->id ?></td>
     </tr>

@@ -51,77 +51,37 @@ class JeaViewProperties extends JView
 	 */
 	protected function addToolbar()
 	{
-	    JToolBarHelper::title( JText::_('Properties management'), 'jea.png' );
-	    JToolBarHelper::publish();
-	    JToolBarHelper::unpublish();
-	    JToolBarHelper::addNew();
-	    JToolBarHelper::customX( 'copy', 'copy.png', 'copy_f2.png', 'Copy' );
-	    JToolBarHelper::editList();
-	    JToolBarHelper::deleteList( JText::_( 'CONFIRM_DELETE_MSG' ) );
-	}
-	
+	    $canDo	= JeaHelper::getActions();
+		$user	= JFactory::getUser();
 
-	function editItem()
-	{
-		JRequest::setVar( 'hidemainmenu', 1 );
+		JToolBarHelper::title( JText::_('Properties management'), 'jea.png' );
 
-		$item =& $this->get('item');
-		
-		$this->assign( $item );
-		
-		// Keep post data if there is an error 
-		$exceptions = JError::getErrors();
-		if(!empty($exceptions)) {
-    		$this->row->bind(JRequest::get('post'));
-            if(is_array($this->row->advantages)) {
-                $this->row->advantages = implode('-', $this->row->advantages);
-            }
+		if ($canDo->get('core.create')) {
+			JToolBarHelper::addNew('property.add');
+			JToolBarHelper::custom('properties.copy', 'copy.png', 'copy_f2.png', 'Copy');
 		}
-	    
-	    $title  = $this->get('category') == 'renting' ? JText::_( 'Renting' ) : JText::_( 'Selling' ) ;
-	    $title .= ' : ' ;
-	    $title .= $this->row->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->row->ref ) : JText::_( 'New' ) ;
-	    JToolBarHelper::title( $title , 'jea.png' ) ;
-	    
-	    $mainframe = &JFactory::getApplication();
-	    //Get the last slider pannel openning
-	    $this->assign('sliderOffset',  $mainframe->getUserState( 'com_jea.sliderOffset'));
-	    
-	    JToolBarHelper::save() ;
-	    JToolBarHelper::apply() ;
-	    JToolBarHelper::cancel() ;
+
+		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
+			JToolBarHelper::editList('property.edit');
+		}
+
+		if ($canDo->get('core.edit.state')) {
+			JToolBarHelper::divider();
+			JToolBarHelper::publish('property.publish', 'JTOOLBAR_PUBLISH', true);
+			JToolBarHelper::unpublish('property.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			JToolBarHelper::custom('properties.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
+		}
+
+		if ($canDo->get('core.delete')) {
+		    JToolBarHelper::divider();
+			JToolBarHelper::deleteList(JText::_('CONFIRM_DELETE_MSG'), 'properties.delete');
+		}
+		
+	    if ($canDo->get('core.admin')) {
+	        JToolBarHelper::divider();
+			JToolBarHelper::preferences('com_jea');
+		}
 	}
-	
-	
-	function getAdvantagesRadioList()
-	{
-	    $html = '';
-	    
-	    $featuresModel =& $this->getModel('features');
-	    $featuresModel->setTableName( 'advantages' );
-	    $res = $featuresModel->getItems(true);
-	    
-	    $advantages = array();
-	    
-	    if ( !empty( $this->row->advantages ) ) {
-	        $advantages = explode( '-' , $this->row->advantages );
-	    }
-	    
-	    foreach ( $res['rows'] as $k=> $row ) {
-	        
-	        $checked = '';
-	        
-	        if ( in_array($row->id, $advantages) ) {
-	            $checked = 'checked="checked"' ;
-	        }
-	        
-	        $html .= '<label class="advantage">' . PHP_EOL 
-	              .'<input type="checkbox" name="advantages[' . $k . ']" value="' 
-				  . $row->id . '" ' . $checked . ' />' . PHP_EOL 
-				  . $row->value . PHP_EOL 
-	              . '</label>' . PHP_EOL ;
-	    }
-	    return $html;
-	}
+
 
 }

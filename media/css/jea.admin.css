@@ -17,7 +17,7 @@ span.input-suffix {
 }
 
 
-fieldset.adminform label.advantage {
+fieldset.adminform label.amenity {
 	display:inline-block;
 	width:200px;
 	margin-right:15px;
@@ -28,7 +28,7 @@ fieldset.adminform label.advantage {
 	line-height: 13px;
 }
 
-fieldset.adminform label.advantage input {
+fieldset.adminform label.amenity input {
 	float:none;
 	margin: 0 10px 0 0;
 }

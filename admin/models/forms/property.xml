@@ -11,10 +11,11 @@
 			<option value="RENTING">Renting</option>
 		</field>
 		<field name="type_id" type="featureList" subtype="types" label="Property type" class="inputbox" required="true" />
-		<field name="advantages" type="advantages"  class="advantage" />
+		<field name="amenities" type="amenities" class="amenity" />
 		<field name="images" type="gallery"  />
 		<field name="description" type="editor" class="inputbox" label="JGLOBAL_DESCRIPTION" filter="JComponentHelper::filterText" buttons="true" />
 		<field name="rules" type="rules" label="JFIELD_RULES_LABEL" translate_label="false" class="inputbox" filter="rules" component="com_jea" section="property" validate="rules" />
+		<field name="notes" type="textarea" label="COM_JEA_FIELD_NOTES_LABEL" description="COM_JEA_FIELD_NOTES_DESC" rows="8" cols="45" />
 	</fieldset>
 	
 	<fieldset name="localization">
@@ -23,6 +24,9 @@
 		<field name="department_id" type="featureList" subtype="departments" label="Department" class="inputbox" filter="intval" />
 		<field name="town_id" type="featureList" subtype="towns" label="Town" class="inputbox" filter="intval" />
 		<field name="area_id" type="featureList" subtype="areas" label="Area" class="inputbox" filter="intval" />
+		<field name="latitude"  type="text" label="Longitude" class="numberbox" size="25" />
+		<field name="longitude" type="text" label="Latitude" class="numberbox" size="25" />
+		<field name="geolocalization" type="geolocalization" label="Geolocalization"  />
 	</fieldset>
 
 	<fieldset name="publication">
@@ -32,17 +36,23 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>
-		<field name="emphasis" type="list" label="JFEATURED" description="COM_JEAT_FIELD_FEATURED_DESC" default="0">
+		<field name="featured" type="list" label="JFEATURED" description="COM_JEAT_FIELD_FEATURED_DESC" default="0">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 		<field name="slogan_id" type="featureList" subtype="slogans" label="Slogan" class="inputbox" filter="intval" />
-		<field name="date_insert" type="calendar" label="Created" description="CREATED_DESC" class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
-		<field name="created_by" type="user" label="Author" description="CREATED_BY_DESC" />
+		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL" class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<field name="modified" type="calendar" label="JGLOBAL_FIELD_MODIFIED_LABEL" class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+		<field name="created_by" type="user" label="JGLOBAL_FIELD_CREATED_BY_LABEL" description="CREATED_BY_DESC" />
 	</fieldset>
 	
 	<fieldset name="financial_informations" addfieldpath="/administrator/components/com_jea/models/fields">
 		<field name="price" type="price" label="Price" class="numberbox" size="10" />
+		<field name="rate_frequency" type="list" label="COM_JEA_FIELD_RATE_FREQUENCY_LABEL">
+			<option value="MONTHLY">COM_JEA_OPTION_MONTHLY</option>
+			<option value="WEEKLY">COM_JEA_OPTION_WEEKLY</option>
+			<option value="DAILY">COM_JEA_OPTION_DAILY</option>
+		</field>
 		<field name="charges" type="price" label="Charges" class="numberbox" size="10" />
 		<field name="fees" type="price" label="Fees" class="numberbox" size="10" />
 		<field name="deposit" type="price" label="Deposit" class="numberbox" size="10" />
@@ -53,8 +63,21 @@
 		<field name="land_space"   type="surface" label="Land space" class="numberbox" filter="floatval" size="7" />
 		<field name="availability" type="calendar" label="Property availability" class="inputbox" size="11" format="%Y-%m-%d" filter="user_utc" />
 		<field name="condition_id" type="featureList" subtype="conditions" label="Condition" class="inputbox" filter="intval" />
-		<field name="floor"   type="text" label="Floors" class="numberbox" filter="floatval" size="3" />
+		<field name="orientation" type="list" label="COM_JEA_FIELD_ORIENTATION_LABEL">
+			<option value="0">JOPTION_DO_NOT_USE</option>
+			<option value="N">COM_JEA_OPTION_NORTH</option>
+			<option value="NW">COM_JEA_OPTION_NORTH_WEST</option>
+			<option value="NE">COM_JEA_OPTION_NORTH_EAST</option>
+			<option value="E">COM_JEA_OPTION_EAST</option>
+			<option value="W">COM_JEA_OPTION_WEST</option>
+			<option value="S">COM_JEA_OPTION_SOUTH</option>
+			<option value="SW">COM_JEA_OPTION_SOUTH_WEST</option>
+			<option value="SE">COM_JEA_OPTION_SOUTH_EAST</option>
+		</field>
+		<field name="floor"   type="text" label="COM_JEA_FIELD_FLOOR_LABEL" class="numberbox" filter="floatval" size="3" />
+		<field name="floors_number"  type="text" label="COM_JEA_FIELD_FLOORS_NUMBER_LABEL" class="numberbox" filter="floatval" size="3" />
 		<field name="rooms"   type="text" label="Number of rooms" class="numberbox" filter="floatval" size="3" />
+		<field name="bedrooms"   type="text" label="COM_JEA_FIELD_BEDROOMS_LABEL" class="numberbox" filter="intval" size="3" />
 		<field name="bathrooms"   type="text" label="Number of bathrooms" class="numberbox" filter="floatval" size="3" />
 		<field name="toilets"   type="text" label="Number of toilets" class="numberbox" filter="intval" size="3" />
 		<field name="hot_water_type" type="featureList" subtype="hotwatertypes" label="Hot water type" class="inputbox" filter="intval" />

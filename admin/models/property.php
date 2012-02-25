@@ -50,23 +50,24 @@ class JeaModelProperty extends JModelAdmin
         // Remove deposit field if transaction type is not SELLING
         if (empty($item->transaction_type) || $item->transaction_type == 'SELLING') {
             $form->removeField('deposit');
+            $form->removeField('rate_frequency');
         } elseif ($item->transaction_type == 'RENTING') {
             $form->setFieldAttribute('price', 'label', 'Rent');
         }
 
         // Check for existing article.
         // Modify the form based on Edit State access controls.
-        if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jea.propery.'.(int) $id))
+        if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jea.property.'.(int) $id))
         || ($id == 0 && !$user->authorise('core.edit.state', 'com_jea'))
         )
         {
             // Disable fields for display.
-            $form->setFieldAttribute('emphasis', 'disabled', 'true');
+            $form->setFieldAttribute('featured', 'disabled', 'true');
             $form->setFieldAttribute('published', 'disabled', 'true');
 
             // Disable fields while saving.
             // The controller has already verified this is an article you can edit.
-            $form->setFieldAttribute('emphasis', 'filter', 'unset');
+            $form->setFieldAttribute('featured', 'filter', 'unset');
             $form->setFieldAttribute('published', 'filter', 'unset');
 
         }
@@ -85,17 +86,16 @@ class JeaModelProperty extends JModelAdmin
      */
     public function save($data)
     {
-        if (isset($data['images']) && is_array($data['images'])) {
-            $data['images'] = json_encode($data['images']);
-        } else {
-            $empty = array();
-            $data['images'] = json_encode($empty);
-        }
-
         // Alter the title for save as copy
         if (JRequest::getVar('task') == 'save2copy') {
-            // $data['title']	= $title;
-            // $data['alias']	= $alias;
+            $data['ref']   = JString::increment($data['ref']); 
+		    $data['title'] = JString::increment($data['title']); 
+		    $data['alias'] = JString::increment($data['alias'], 'dash');
+        }
+        
+        if (empty($data['images'])) {
+            // Set a default empty json array
+            $data['images'] = '[]';
         }
 
         if (parent::save($data)) {
@@ -176,24 +176,119 @@ class JeaModelProperty extends JModelAdmin
             $table->store();
         }
 
-        
-        // Remove image files
-        $list = JFolder::files($uploadDir);
-        foreach ($list as $filename) {
-            
-            if (strpos($filename, 'thumb') === 0) {
-                continue;
-            }
-            
-            if (!isset($imageNames[$filename])) {
-                $removeList = JFolder::files($uploadDir, $filename.'$', false, true);
-                foreach ($removeList as $removeFile) {
-                    JFile::delete($removeFile);
+        if (JFolder::exists($uploadDir)) {
+            // Remove image files
+            $list = JFolder::files($uploadDir);
+            foreach ($list as $filename) {
+                
+                if (strpos($filename, 'thumb') === 0) {
+                    continue;
+                }
+                
+                if (!isset($imageNames[$filename])) {
+                    $removeList = JFolder::files($uploadDir, $filename.'$', false, true);
+                    foreach ($removeList as $removeFile) {
+                        JFile::delete($removeFile);
+                    }
                 }
             }
         }
 
     }
+    
+	/**
+     * Method to toggle the featured setting of properties.
+     *
+     * @param    array    The ids of the items to toggle.
+     * @param    int        The value to toggle to.
+     *
+     * @return    boolean    True on success.
+     */
+    public function featured($pks, $value = 0)
+    {
+        // Sanitize the ids.
+        $pks = (array) $pks;
+        JArrayHelper::toInteger($pks);
+
+        if (empty($pks)) {
+            $this->setError(JText::_('COM_JEA_NO_ITEM_SELECTED'));
+            return false;
+        }
+
+        try {
+            $db = $this->getDbo();
+            $db->setQuery('UPDATE #__jea_properties' .
+                ' SET featured = '.(int) $value.
+                ' WHERE id IN ('.implode(',', $pks).')'
+            );
+            if (!$db->query()) {
+                throw new Exception($db->getErrorMsg());
+            }
+            return true;
+
+        } catch (Exception $e) {
+            $this->setError($e->getMessage());
+        }
+
+        return false;
+    }
+    
+    public function copy($pks)
+	{
+		// Sanitize the ids.
+        $pks = (array) $pks;
+        JArrayHelper::toInteger($pks);
+
+		$table = $this->getTable();
+		$nextOrdering = $table->getNextOrder();
+		
+		//only one request
+		$inserts = array();
+		$fields = $table->getProperties();
+		$db = $this->getDbo();
+		
+		unset($fields['id']);
+		unset($fields['checked_out']);
+		unset($fields['checked_out_time']);
+		
+		$fields = array_keys($fields);
+		$query = 'SELECT '.implode(', ', $fields).' FROM #__jea_properties WHERE id IN (' .implode(',', $pks). ')';
+		$rows = $this->_getList($query);
+		
+		foreach ($rows as $row){
+		    $row = (array) $row;
+		    $row['ref'] = JString::increment($row['ref']); 
+		    $row['title'] = JString::increment($row['title']); 
+		    $row['alias'] = JString::increment($row['alias'], 'dash');
+		    $row['ordering'] = $nextOrdering;
+		    $row['created']  = date('Y-m-d H:i:s');
+		    foreach($row as $k => $values) {
+		        $row[$k] = $db->Quote($values);
+		    }
+		    $inserts[]= '(' . implode(', ', $row) . ')';
+		    $nextOrdering++;
+		}
+		
+		$query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
+		       . implode(", \n", $inserts);
+		       
+		 try {
+		    $db->setQuery($query);
+		
+    	    if (!$db->query()) {
+    	        
+    			 throw new Exception($db->getErrorMsg());
+    		}
+    	    return true;
+    		
+		} catch (Exception $e) {
+            $this->setError($e->getMessage());
+        }
+		
+		return false;
+	}
+	
+	
 
 
     /**
@@ -204,9 +299,14 @@ class JeaModelProperty extends JModelAdmin
      */
     protected function loadFormData()
     {
-        $data = $this->getItem();
+        // Check the session for previously entered form data. See JControllerForm::save()
+		$data = JFactory::getApplication()->getUserState('com_jea.edit.property.data', array());
 
-        return $data;
+		if (empty($data)) {
+			$data = $this->getItem();
+		}
+		
+		return $data;
     }
 
 

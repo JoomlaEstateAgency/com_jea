@@ -86,7 +86,7 @@ class JFormFieldGallery extends JFormField
                 $weight = round($infos->bits/1024,1); // Ko
 
                 $output .= "<li class=\"item-$k\">\n"
-                . "<a href=\"{$url}\" title=\"Zoom\" class=\"imgLink\"><img src=\"{$thumbUrl}\" alt=\"{$image->name}\" /></a>\n"
+                . "<a href=\"{$url}\" title=\"Zoom\" class=\"imgLink modal\" rel=\"{handler: 'image'}\"><img src=\"{$thumbUrl}\" alt=\"{$image->name}\" /></a>\n"
                 . "<div class=\"imgInfos\">\n"
                 . $image->name . "<br />\n"
                 . JText::_('COM_JEA_IMG_WIDTH') . ' : ' . $infos->width . ' px' . "<br />\n"
@@ -107,7 +107,11 @@ class JFormFieldGallery extends JFormField
 
             }
             $output .= "</ul>\n";
+            
             // Add javascript
+            
+            // Load the modal behavior script.
+            JHtml::_('behavior.modal');
 
             JFactory::getDocument()->addScriptDeclaration("
                 window.addEvent('domready', function() {
@@ -157,9 +161,6 @@ class JFormFieldGallery extends JFormField
             );
         }
 
-
-
-         
         return $output;
 
     }

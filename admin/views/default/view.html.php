@@ -28,12 +28,7 @@ class JeaViewDefault extends JView
 	{
 		
 		JeaHelper::addSubmenu('default');
-	    
 	    JToolBarHelper::title( 'Joomla Estate Agency', 'jea.png' );
-		JToolBarHelper::preferences('com_jea');
-		
-		
-		
 		parent::display($tpl);
 	}
 	

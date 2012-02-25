@@ -24,7 +24,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
   <div class="width-60 fltlft">
     <fieldset class="adminform">
       <legend>
-      <?php echo empty($this->item->id) ? JText::_('COM_JEA_NEW_ARTICLE') : JText::sprintf('COM_JEA_EDIT_ARTICLE', $this->item->id) ?>
+      <?php echo empty($this->item->id) ? JText::_('COM_JEA_NEW_PROPERTY') : JText::sprintf('COM_JEA_EDIT_PROPERTY', $this->item->id) ?>
       </legend>
 
       <ul class="adminformlist">
@@ -65,9 +65,9 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
         <div class="clr"></div>
 
         <fieldset class="advantages">
-          <legend><?php echo JText::_('Advantages')?></legend>
+          <legend><?php echo JText::_('Amenities')?></legend>
           <div class="clr"></div>
-          <?php echo $this->form->getInput('advantages') ?>
+          <?php echo $this->form->getInput('amenities') ?>
           <div class="clr"></div>
         </fieldset>
 
@@ -97,6 +97,14 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
     <fieldset class="panelform">
     <?php echo $this->form->getInput('images') ?>
     </fieldset>
+    
+    <?php echo JHtml::_('sliders.panel', JText::_('Notes'), 'note-pane') ?>
+    <fieldset class="panelform">
+        <?php echo $this->form->getLabel('notes') ?>
+        <div class="clr"></div>
+        <?php echo $this->form->getInput('notes') ?>
+    </fieldset>
+    
     <?php echo JHtml::_('sliders.end') ?>
   </div>
 

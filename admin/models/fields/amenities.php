@@ -21,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @since       11.1
  */
 
-class JFormFieldAdvantages extends JFormField
+class JFormFieldAmenities extends JFormField
 {
 	/**
 	 * The form field type.
@@ -30,7 +30,7 @@ class JFormFieldAdvantages extends JFormField
 	 *
 	 * @since  11.1
 	 */
-	protected $type = 'Advantages';
+	protected $type = 'Amenities';
 	
 	/**
 	 * Flag to tell the field to always be in multiple values mode.
@@ -74,7 +74,7 @@ class JFormFieldAdvantages extends JFormField
 	            $title = ' title="'.$row->value.'"';
 	        }
 	        
-	        $output .= '<label class="advantage"'.$title.'">'
+	        $output .= '<label class="amenity"'.$title.'">'
 	                .  '<input type="checkbox" name="'.$this->name. '"'
 	                .  ' value="'. $row->id . '" ' . $checked . ' />' . $label .'</label>' ;
 	    }
@@ -89,7 +89,7 @@ class JFormFieldAdvantages extends JFormField
         $query = $db->getQuery(true);
 
         $query->select('f.id , f.value');
-        $query->from('#__jea_advantages AS f');
+        $query->from('#__jea_amenities AS f');
 
         $query->order('f.value ASC');
         $db->setQuery($query);

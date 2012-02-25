@@ -17,83 +17,49 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::stylesheet('jea.admin.css', 'media/com_jea/css/');
-$rowsCount = count( $this->rows ) ;
-$altrow = 1;
+JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+
+JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
+$altrow=1;
 ?>
 
-<form action="index.php?option=com_jea&controller=features" method="post" name="adminForm" id="adminForm">
 
-<table class="adminheading">
-	<tr>
-		<td width="100%" align="right">
-		<?php echo JText::_('Change table') ?> : 
-		</td>
-		<td nowrap="nowrap">
-			<?php echo $this->selectTableList ?>
-		</td>
-	</tr>
-</table>
+<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties') ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
 <table class="adminlist">
-	<thead>
-		<tr>
-			<th width="1%" class="title">#</th>
-			<th width="2%">
-			<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->rows ) ?>);" />
-			</th>
-			
-			<th nowrap="nowrap" width="100%" ><?php echo JText::_('Value') ?></th>
+  <thead>
+    <tr>
+      <th width="1%">
+        <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+      </th>
+      <th width="60%">
+        <?php echo JText::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?>
+      </th>
+      <th width="39%">
+        <?php echo JText::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?>
+      </th>
+  </thead>
 
-			<th colspan="2" nowrap="nowrap"><?php echo JText::_('Ordering') ?></th>
-			
-			<!--  <th nowrap="nowrap" width="20%" ><?php // echo JText::_('Type') ?></th>-->
-			
-		</tr>
-	</thead>
-
-	<tfoot>
-		<tr>
-			<td colspan="5">
-				<del class="container">
-					<div class="pagination">
-						<div class="limit">
-							<?php echo JText::_('Items per page')?> :&nbsp;&nbsp;
-							<?php echo $this->pagination->getLimitBox() ?>&nbsp;&nbsp;
-						</div>
-						<?php echo $this->pagination->getPagesLinks() ?>
-						<div class="limit"><?php echo $this->pagination->getPagesCounter() ?></div>
-					</div>
-				</del>
-			</td>
-		</tr>
-	</tfoot>
-
-	<tbody>
-
-<?php foreach ( $this->rows as $k => $row ) :?>
-
-<?php $altrow = ( $altrow == 1 )? 0 : 1; ?>
-
-		<tr class="row<?php echo $altrow ?>">
-		    <td><?php echo $k ?></td>
-			<td><?php echo JHTML::_('grid.id', $k, $row->id ) ?></td>
-			<td nowrap="nowrap"><a href="#edit" onclick="return listItemTask('cb<?php echo $k ?>','edit')"><?php echo $this->escape( $row->value ) ?></a></td>
-			<td align="center"><?php echo $this->pagination->orderUpIcon( $k ) ?></td>
-			<td align="center"><?php echo $this->pagination->orderDownIcon( $k, $rowsCount ) ?></td>
-		</tr>
-		
+  <tbody>
+<?php foreach ($this->items as $i => $item) : $altrow = ( $altrow == 1 )? 0 : 1 ?>
+    <tr class="row<?php echo $altrow ?>">
+      <td><?php echo JHtml::_('grid.id', $i, $item); ?></td>
+      <td>
+      <!--<a class="modal" href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&tmpl=component&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">  -->
+      <a href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">
+      <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item}_title")) ?>
+      </a>
+      </td>
+      <td class="center"><input type="file" name="csv[<?php echo $item ?>]" value="" size="20" /></td>
+    </tr>
 <?php endforeach ?>
-
-	</tbody>
-
+  </tbody>
 </table>
 
 <div>
-	<input type="hidden" name="task" value="" /> 
-	<input type="hidden" name="boxchecked" value="0" />
-	<input type="hidden" name="limitstart" value="<?php echo $this->limitstart ?>" />
-	<?php echo JHTML::_( 'form.token' ) ?>
+  <input type="hidden" name="task" value="" />
+  <input type="hidden" name="boxchecked" value="0" />
+  <?php echo JHtml::_('form.token') ?>
 </div>
-
 </form>

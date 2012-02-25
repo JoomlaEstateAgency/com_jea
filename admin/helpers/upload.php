@@ -21,6 +21,14 @@ jimport('joomla.filesystem.file');
 
 class JeaUpload
 {
+    
+    
+    /**
+     * The upload key (ex: $files[0][{picture}] or $files[0][{1}] or $files[0][{picture1}])
+     * @var unknown_type
+     */
+    public $key = '';
+    
     public $name = '';
     public $temp_name = '';
     public $type = '';
@@ -73,26 +81,27 @@ class JeaUpload
 
         if (is_array($rawUploaded['name'])) {
              
-            $keys = array('name', 'type', 'tmp_name', 'error', 'size');
-            $uploaded = array();
-            $count = count($rawUploaded['name']);
-            	
-            for ($i=0; $i < $count; $i++) {
+            $fields = array('name', 'type', 'tmp_name', 'error', 'size');
+            $arrUploaded = array();
+            $keys = array_keys($rawUploaded['name']);
+            
+            foreach ($keys as $key) {
                 $params = array();
-                foreach ($keys as $key) {
-                    if (isset($rawUploaded[$key][$i])) {
-                        $params[$key] = $rawUploaded[$key][$i];
-                    }
+                foreach ($fields as $field) {
+                    $params[$field] = $rawUploaded[$field][$key];
                 }
-
-                $uploaded[] = new JeaUpload($params);
+                
+                $uploaded = new JeaUpload($params);
+                $uploaded->key = $key;
+                $arrUploaded[] = $uploaded;
             }
             	
-            return $uploaded;
+            return $arrUploaded;
 
         } else { // Single post
-             
-            return new JeaUpload($rawUploaded);
+            $uploaded = new JeaUpload($rawUploaded);
+            $uploaded->key = $name;
+            return $uploaded;
              
         }
     }
@@ -140,7 +149,7 @@ class JeaUpload
 
         //Valid extensions check
         if (!$this->_evalValidExtensions()) {
-            return $this->_setError( 'File extension not permitted');
+             $this->_errors[] ='File extension not permitted';
         }
 
         return $this;
