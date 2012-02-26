@@ -1,16 +1,12 @@
 <?php
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
- * 
+ *
  * @version     $Id$
- * @package		Jea.admin
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- * 
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 
@@ -25,41 +21,37 @@ $altrow=1;
 ?>
 
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties') ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties') ?>" method="post"
+      name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-<table class="adminlist">
-  <thead>
-    <tr>
-      <th width="1%">
-        <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
-      </th>
-      <th width="60%">
-        <?php echo JText::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?>
-      </th>
-      <th width="39%">
-        <?php echo JText::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?>
-      </th>
-  </thead>
+  <table class="adminlist">
+    <thead>
+      <tr>
+        <th width="1%">
+          <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" 
+                 onclick="Joomla.checkAll(this)" />
+        </th>
+        <th width="60%"><?php echo JText::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?></th>
+        <th width="39%"><?php echo JText::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?></th>
+    </thead>
 
-  <tbody>
-<?php foreach ($this->items as $i => $item) : $altrow = ( $altrow == 1 )? 0 : 1 ?>
-    <tr class="row<?php echo $altrow ?>">
-      <td><?php echo JHtml::_('grid.id', $i, $item); ?></td>
-      <td>
-      <!--<a class="modal" href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&tmpl=component&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">  -->
-      <a href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">
-      <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item}_title")) ?>
-      </a>
-      </td>
-      <td class="center"><input type="file" name="csv[<?php echo $item ?>]" value="" size="20" /></td>
-    </tr>
-<?php endforeach ?>
-  </tbody>
-</table>
+    <tbody>
+    <?php foreach ($this->items as $i => $item) : $altrow = ( $altrow == 1 )? 0 : 1 ?>
+      <tr class="row<?php echo $altrow ?>">
+        <td><?php echo JHtml::_('grid.id', $i, $item); ?></td>
+        <td>
+          <a class="modal" href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&tmpl=component&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">
+          <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item}_title")) ?></a>
+        </td>
+        <td class="center"><input type="file" name="csv[<?php echo $item ?>]" value="" size="20" /></td>
+      </tr>
+      <?php endforeach ?>
+    </tbody>
+  </table>
 
-<div>
-  <input type="hidden" name="task" value="" />
-  <input type="hidden" name="boxchecked" value="0" />
-  <?php echo JHtml::_('form.token') ?>
-</div>
+  <div>
+    <input type="hidden" name="task" value="" /> 
+    <input type="hidden" name="boxchecked" value="0" />
+    <?php echo JHtml::_('form.token') ?>
+  </div>
 </form>

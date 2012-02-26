@@ -3,14 +3,10 @@
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
  * @version     $Id$
- * @package     Jea.admin
- * @copyright   Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -18,6 +14,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modellist');
 
+/**
+ * Properties model class.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ */
 class JeaModelProperties extends JModelList
 {
 
@@ -25,8 +27,7 @@ class JeaModelProperties extends JModelList
      * Constructor.
      *
      * @param    array    An optional associative array of configuration settings.
-     * @see        JController
-     * @since    1.6
+     * @see      JModelList
      */
     public function __construct($config = array())
     {
@@ -59,14 +60,8 @@ class JeaModelProperties extends JModelList
 
 
 
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @return    void
-     * @since    1.6
+    /* (non-PHPdoc)
+     * @see JModelList::populateState()
      */
     protected function populateState($ordering = null, $direction = null)
     {
@@ -91,13 +86,8 @@ class JeaModelProperties extends JModelList
     }
 
 
-
-
-    /**
-     * Build an SQL query to load the list data.
-     *
-     * @return    JDatabaseQuery
-     * @since    1.6
+    /* (non-PHPdoc)
+     * @see JModelList::getListQuery()
      */
     protected function getListQuery()
     {
@@ -156,7 +146,6 @@ class JeaModelProperties extends JModelList
             $query->where($search);
         }
 
-
         // Add the list ordering clause.
         $orderCol    = $this->state->get('list.ordering');
         $orderDirn    = $this->state->get('list.direction');
@@ -164,11 +153,7 @@ class JeaModelProperties extends JModelList
         $query->order($db->escape($orderCol.' '.$orderDirn));
 
         // echo $query;
-
-
-
         return $query;
-
     }
      
 }

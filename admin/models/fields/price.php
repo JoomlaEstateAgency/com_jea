@@ -1,65 +1,62 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Form Field class for the Joomla Platform.
- * Supports a one line text field.
+ * Form Field class for JEA.
+ * Provides a one line text field with currency symbol
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @link        http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since       11.1
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @see         JFormField
  */
 class JFormFieldPrice extends JFormFieldText
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 *
-	 * @since  11.1
-	 */
-	protected $type = 'Price';
-	
-	
-	/**
-	 * Method to change the label
-	 * @param string $label
-	 */
-	public function setLabel($label='')
-	{
-	    $this->label = $label;
-	}
+    /**
+     * The form field type.
+     *
+     * @var    string
+     */
+    protected $type = 'Price';
 
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
-	 */
-	protected function getInput()
-	{
-		$input = parent::getInput();
-		
-		$params = JComponentHelper::getParams('com_jea');
-		$symbol_place = $params->get('symbol_place', 1);
-		$currency_symbol = $params->get('currency_symbol', '€');
-		$currency_symbol = '<span class="input-suffix">' . $currency_symbol . '</span>';
-		
-		if ($symbol_place == 0) {
-		    return $currency_symbol . ' ' . $input;
-		}
-		
-		return $input . ' ' . $currency_symbol;
-		
-	}
+
+    /**
+     * Method to change the label
+     * @param string $label
+     */
+    public function setLabel($label='')
+    {
+        $this->label = $label;
+    }
+
+    /**
+     * Method to get the field input markup.
+     *
+     * @return  string  The field input markup.
+     */
+    protected function getInput()
+    {
+        $input = parent::getInput();
+
+        $params = JComponentHelper::getParams('com_jea');
+        $symbol_place = $params->get('symbol_place', 1);
+        $currency_symbol = $params->get('currency_symbol', '€');
+        $currency_symbol = '<span class="input-suffix">' . $currency_symbol . '</span>';
+
+        if ($symbol_place == 0) {
+            return $currency_symbol . ' ' . $input;
+        }
+
+        return $input . ' ' . $currency_symbol;
+
+    }
 }

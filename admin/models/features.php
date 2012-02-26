@@ -3,46 +3,32 @@
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
  * @version     $Id$
- * @package     Jea.admin
- * @copyright   Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license     GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
 defined('_JEXEC') or die();
 
-// jimport('joomla.application.component.model');
-jimport('joomla.application.component.modeladmin');
+jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT.DS.'tables'.DS.'features.php';
 require JPATH_COMPONENT.DS.'helpers'.DS.'utility.php';
 
-class JeaModelFeatures extends JModelAdmin
+/**
+ * Features model class.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ */
+class JeaModelFeatures extends JModel
 {
-    
-     /**
-     * Method to get the record form.
-     *
-     * @param	array	$data		Data for the form.
-     * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-     *
-     * @return	mixed	A JForm object on success, false on failure
-     * @since	1.6
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        
-    }
-    
-    
-    
-    public function getTables()
+
+
+    public function getItems()
     {
         $files = JFolder::files(JPATH_COMPONENT.'/models/forms/features/');
 
@@ -57,10 +43,14 @@ class JeaModelFeatures extends JModelAdmin
         return $items;
     }
 
+    /**
+     * Return table data as CSV string
+     * @param string $tableName
+     * @return string
+     */
     public function getCSVData($tableName='')
     {
         $db = JFactory::getDbo();
-        
         $query    = $db->getQuery(true);
         $query->select('*')->from($db->escape($tableName));
         $db->setQuery($query);
@@ -72,7 +62,6 @@ class JeaModelFeatures extends JModelAdmin
         return $csv;
     }
 
-    
 
     /**
      * Import rows from CSV file and return the number of inserted rows
@@ -88,12 +77,10 @@ class JeaModelFeatures extends JModelAdmin
 
         if (($handle = fopen($file, 'r')) !== FALSE) { 
             $db = JFactory::getDbo();
-
             $tableName = $db->escape($tableName);
             $table = new FeaturesFactory($tableName, 'id', $db);
             $cols = array_keys($table->getProperties());
-
-            $query    = $db->getQuery(true);
+            $query = $db->getQuery(true);
             $query->select('*')->from($tableName);
             $db->setQuery($query);
             $ids = $db->loadObjectList('id');
@@ -118,16 +105,15 @@ class JeaModelFeatures extends JModelAdmin
                 }
 
                 try {
-
                     if (isset($bind['id']) && isset($ids[$bind['id']])) {
                        // Load row to update
                        $table->load((int) $bind['id']);
-                       
+
                     } elseif (isset($bind['ordering'])) {
                         $bind['ordering'] = $maxOrdering;
                         $maxOrdering++;
                     }
-                    
+
                     $table->save($bind, '', 'id');
 
                 } catch (Exception $e) {

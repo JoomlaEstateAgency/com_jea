@@ -1,11 +1,14 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 
 defined('JPATH_PLATFORM') or die;
 
@@ -14,16 +17,13 @@ jimport('joomla.image');
 
 
 /**
- * Form Field class for the Joomla Platform.
- * Displays options as a list of input[type="file"].
- * Multiselect may be forced to be true.
+ * Form Field class for JEA.
+ * Provides a complete widget to manage a gallery
  *
- * @package     Joomla.Platform
- * @subpackage  Form
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
  * @see         JFormField
- * @since       11.1
  */
-
 class JFormFieldGallery extends JFormField
 {
     /**
@@ -97,20 +97,16 @@ class JFormFieldGallery extends JFormField
                 . '  <a class="img-move-down" title="'.JText::_('JLIB_HTML_MOVE_DOWN').'"><img src="'. $baseURL . '/media/com_jea/images/sort_desc.png' .'" alt="Move down" /></a>'
                 . '  <a class="delete-img" title="'.JText::_('JACTION_DELETE').'"><img src="'. $baseURL . '/media/com_jea/images/media_trash.png' .'" alt="Delete" /></a>'
                 . "</div>\n"
-                        
                 . "<div class=\"clr\"></div>\n"
                 . '<label for="'. $this->id.$k .'title">'.JText::_('JGLOBAL_TITLE').'</label><input id="'. $this->id.$k .'title" type="text" name="'.$this->name.'['.$k .'][title]" value="'.$image->title.'" size="20"/><br />'
                 . '<label for="'. $this->id.$k .'desc">'.JText::_('JGLOBAL_DESCRIPTION').'</label><input id="'. $this->id.$k .'desc" type="text" name="'. $this->name.'['.$k .'][description]" value="'.$image->description.'" size="40"/>'
                 . '<input type="hidden" name="'. $this->name.'['.$k .'][name]" value="'.$image->name.'" />'
                 . "<div class=\"clr\"></div>\n"
                 . "</li>\n";
-
             }
             $output .= "</ul>\n";
-            
-            // Add javascript
-            
-            // Load the modal behavior script.
+
+            // Add javascript behavior
             JHtml::_('behavior.modal');
 
             JFactory::getDocument()->addScriptDeclaration("
@@ -162,9 +158,7 @@ class JFormFieldGallery extends JFormField
         }
 
         return $output;
-
     }
-
 
 
 }

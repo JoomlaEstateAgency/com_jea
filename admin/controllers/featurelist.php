@@ -2,16 +2,11 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id: properties.php 257 2012-02-05 23:04:04Z ilhooq $
+ * @version     $Id$
  * @package     Joomla.Administrator
  * @subpackage  com_jea
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.txt
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -21,23 +16,17 @@ jimport('joomla.application.component.controlleradmin');
 
 
 /**
- * Featurelist list controller class.
+ * Featurelist controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_jea
- * @since	1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
  */
 class JeaControllerFeaturelist extends JControllerAdmin
 {
-    
 
-    /**
-     * Proxy for getModel.
-     *
-     * @param	string	$name	The name of the model.
-     * @param	string	$prefix	The prefix for the PHP class name.
-     *
-     * @return	JModel
+
+    /* (non-PHPdoc)
+     * @see JController::getModel()
      */
     public function getModel($name = 'Feature', $prefix = 'JeaModel', $config = array())
     {
@@ -46,6 +35,3 @@ class JeaControllerFeaturelist extends JControllerAdmin
     }
 
 }
-
-
-

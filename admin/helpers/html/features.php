@@ -2,36 +2,56 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id: properties.php 237 2011-07-26 21:11:56Z ilhooq $
- * @package		Jea.admin
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_jea
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
  */
 abstract class JHtmlFeatures
 {
 
+    /**
+     * Method to get property types in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
     static public function types($value=0, $name='type_id', $attr='')
     {
-        return self::_getHTMLSelectList($value, $name, 'Property type', $attr, 'types', '', 'f.ordering');
+        return self::getHTMLSelectList($value, $name, 'Property type', $attr, 'types', '', 'f.ordering');
     }
 
+
+    /**
+     * Method to get departments in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
     static public function departments($value=0, $name='department_id', $attr='')
     {
-        return self::_getHTMLSelectList($value, $name, 'Department', $attr, 'departments');
+        return self::getHTMLSelectList($value, $name, 'Department', $attr, 'departments');
     }
 
+
+    /**
+     * Method to get towns in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @param string $department_id  To get the department town list
+     * @return  string  HTML for the select list.
+     */
     static public function towns($value=0, $name='town_id', $attr='', $department_id=null )
     {
         $condition = '';
@@ -45,9 +65,18 @@ abstract class JHtmlFeatures
             }
         }
 
-        return self::_getHTMLSelectList($value, $name, 'Town', $attr, 'towns', $condition );
+        return self::getHTMLSelectList($value, $name, 'Town', $attr, 'towns', $condition );
     }
 
+
+    /**
+     * Method to get areas in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @param string $town_id  To get the town area list
+     * @return  string  HTML for the select list.
+     */
     static public function areas($value=0, $name='area_id', $attr='', $town_id=null)
     {
         $condition = '';
@@ -58,30 +87,73 @@ abstract class JHtmlFeatures
             }
         }
 
-        return self::_getHTMLSelectList($value, $name, 'Area', $attr, 'areas', $condition );
-    }
-    
-    static public function conditions($value=0, $name='condition_id', $attr='')
-    {
-        return self::_getHTMLSelectList($value, $name, 'Condition', $attr, 'conditions');
-    }
-    
-    static public function hotwatertypes($value=0, $name='hot_water_type', $attr='')
-    {
-        return self::_getHTMLSelectList($value, $name, 'Hot water type', $attr, 'hotwatertypes');
-    }
-    
-    static public function heatingtypes($value=0, $name='heating_type', $attr='')
-    {
-        return self::_getHTMLSelectList($value, $name, 'Heating type', $attr, 'heatingtypes');
-    }
-    
-    static public function slogans($value=0, $name='slogan_id', $attr='')
-    {
-        return self::_getHTMLSelectList($value, $name, 'Slogan', $attr, 'slogans');
+        return self::getHTMLSelectList($value, $name, 'Area', $attr, 'areas', $condition );
     }
 
-    static private function _getHTMLSelectList($value=0, $name='', $defaultOptionLabel='- Select -', $attr='', $featureTable='', $conditions=null, $ordering='f.value asc' )
+
+    /**
+     * Method to get conditions in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
+    static public function conditions($value=0, $name='condition_id', $attr='')
+    {
+        return self::getHTMLSelectList($value, $name, 'Condition', $attr, 'conditions');
+    }
+
+
+    /**
+     * Method to get hot water types in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
+    static public function hotwatertypes($value=0, $name='hot_water_type', $attr='')
+    {
+        return self::getHTMLSelectList($value, $name, 'Hot water type', $attr, 'hotwatertypes');
+    }
+
+
+    /**
+     * Method to get heating types in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
+    static public function heatingtypes($value=0, $name='heating_type', $attr='')
+    {
+        return self::getHTMLSelectList($value, $name, 'Heating type', $attr, 'heatingtypes');
+    }
+
+
+    /**
+     * Method to get slogans in a HTML <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param mixed $attr    An array or a string of element attributes
+     * @return  string  HTML for the select list.
+     */
+    static public function slogans($value=0, $name='slogan_id', $attr='')
+    {
+        return self::getHTMLSelectList($value, $name, 'Slogan', $attr, 'slogans');
+    }
+
+    /**
+     * Generic method to get HTML list of feature in a <select> element
+     * @param string $value  The selected value
+     * @param string $name   The element name
+     * @param string $defaultOptionLabel  The first option label
+     * @param mixed $attr    An array or a string of element attributes
+     * @param string $featureTable  The feature table name without the prefix "#__jea_"
+     * @param mixed $conditions  A string or an array of where conditions to filter the database request
+     * @param string $ordering   The list ordering
+     * @return  string  HTML for the select list.
+     */
+    static public function getHTMLSelectList($value=0, $name='', $defaultOptionLabel='- Select -', $attr='', $featureTable='', $conditions=null, $ordering='f.value asc' )
     {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
@@ -110,7 +182,7 @@ abstract class JHtmlFeatures
         foreach ($items as &$item) {
             $options[] = JHtml::_('select.option', $item->id, $item->value);
         }
-        
+
         // Manage attributes
         $idTag = false;
         if (is_array($attr)) {
@@ -122,20 +194,12 @@ abstract class JHtmlFeatures
                 $attr['class'] = 'inputbox';
             }
             $attr['class'] = trim($attr['class']);
-            
+
         } else {
             $attr = 'class="inputbox" size="1" '. $attr;
         }
-        
 
-        return JHTML::_('select.genericlist', 
-                        $options,
-                        $name,
-                        $attr,
-                        'value',
-                        'text',
-                        $value,
-                        $idTag);
+        return JHTML::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);
     }
 
 }

@@ -2,15 +2,11 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id: properties.php 257 2012-02-05 23:04:04Z ilhooq $
- * @package     Jea.admin
- * @copyright   Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -18,14 +14,19 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modellist');
 
+/**
+ * Feature list model class.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ */
 class JeaModelFeaturelist extends JModelList
 {
     /**
      * Constructor.
      *
      * @param    array    An optional associative array of configuration settings.
-     * @see        JController
-     * @since    1.6
+     * @see      JModelList
      */
     public function __construct($config = array())
     {
@@ -46,33 +47,26 @@ class JeaModelFeaturelist extends JModelList
     }
 
 
-
-
-    /**
-     * Method to auto-populate the model state.
-     *
-     * Note. Calling getState in this method will result in recursion.
-     *
-     * @return    void
-     * @since    1.6
+    /* (non-PHPdoc)
+     * @see JModelList::populateState()
      */
     protected function populateState($ordering = null, $direction = null)
     {
         $this->context .= '.featurelist';
-        
+
         $feature = $this->getUserStateFromRequest($this->context.'.feature.name', 'feature');
         $this->setState('feature.name', $feature);
-        
+
         // Retrieve the feature table params
         $xmlPath = JPATH_COMPONENT.'/models/forms/features/';
         $xmlFiles = JFolder::files($xmlPath);
-        
-        foreach($xmlFiles as $filename) {
+
+        foreach ($xmlFiles as $filename) {
             if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
                 if ($feature == $matches[1]) {
                     $form = simplexml_load_file($xmlPath.DS.$filename);
                     $this->setState('feature.table', (string) $form['table']);
-                    
+
                     if (isset($form['filters'])) {
                         $this->setState('feature.filters', (string) $form['filters']);
                     }
@@ -82,7 +76,7 @@ class JeaModelFeaturelist extends JModelList
 
         $search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
         $this->setState('filter.search', $search);
-        
+
         if ($filters = $this->getState('feature.filters')) {
             $filters = explode(',', $filters);
             foreach ($filters as $filter) {
@@ -93,18 +87,12 @@ class JeaModelFeaturelist extends JModelList
             }
         }
 
-
         parent::populateState($ordering, $direction);
     }
 
 
-
-
-    /**
-     * Build an SQL query to load the list data.
-     *
-     * @return    JDatabaseQuery
-     * @since    1.6
+    /* (non-PHPdoc)
+     * @see JModelList::getListQuery()
      */
     protected function getListQuery()
     {
@@ -114,7 +102,7 @@ class JeaModelFeaturelist extends JModelList
 
         $query->select('f.*')->from($db->escape($this->getState('feature.table')).' AS f');
 
-         if ($filters = $this->getState('feature.filters')) {
+        if ($filters = $this->getState('feature.filters')) {
             $filters = explode(',', $filters);
             foreach ($filters as $filter) {
                 $filter = explode(':', $filter);
@@ -136,11 +124,7 @@ class JeaModelFeaturelist extends JModelList
         $orderDirn   = $this->state->get('list.direction');
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
-
         // echo $query;
-
-
-
         return $query;
 
     }

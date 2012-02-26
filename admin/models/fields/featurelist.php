@@ -1,10 +1,12 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Form
+ * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,12 +14,12 @@ defined('JPATH_PLATFORM') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 /**
- * Form Field class for the Joomla Platform.
+ * Form Field class for JEA.
  * Provides a list of features
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.3
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @see         JFormField
  */
 class JFormFieldFeatureList extends JFormField
 {
@@ -25,7 +27,6 @@ class JFormFieldFeatureList extends JFormField
      * The form field type.
      *
      * @var    string
-     * @since  11.3
      */
     public $type = 'featureList';
 
@@ -40,8 +41,8 @@ class JFormFieldFeatureList extends JFormField
         $subtype = $this->element['subtype'];
 
         $params = array(
-		    'id' => $this->id,
-		    'class' => (string) $this->element['class'],
+            'id' => $this->id,
+            'class' => (string) $this->element['class'],
         );
 
         // Verify if some fields have relashionship
@@ -51,7 +52,6 @@ class JFormFieldFeatureList extends JFormField
                     $this->_ajaxUpdateList ('department_id', 'town_id', 'get_towns');
                 }
                 break;
-                 
             case 'towns':
                 if ($this->_hasRelationShip()) {
                     $this->_ajaxUpdateList ('town_id', 'area_id', 'get_areas');
@@ -76,6 +76,12 @@ class JFormFieldFeatureList extends JFormField
         return (bool) $params->get('relationship_dpts_towns_area', 0);
     }
 
+    /**
+     * Add AJAX behavior
+     * @param string $fromId  The Element ID where the event come from
+     * @param string $toId    The target Element ID
+     * @param string $task    The AJAX controller task
+     */
     private function _ajaxUpdateList ($fromId, $toId, $task)
     {
         $fieldTo = $this->form->getField($toId);

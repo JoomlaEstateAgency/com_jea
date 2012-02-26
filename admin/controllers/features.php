@@ -3,14 +3,10 @@
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
  * @version     $Id$
- * @package		Jea.admin
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.txt
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -25,75 +21,79 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'upload.php';
 
 
 /**
- * Features list controller class.
+ * Features controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_jea
- * @since	1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
  */
 class JeaControllerFeatures extends JController
 {
 
+
+    /**
+     * Method to export features tables as CSV
+     */
     public function export()
     {
         $features = JRequest::getVar( 'cid', array(), 'post', 'array' );
 
-        if(!empty($features)) {
-             
+        if (!empty($features)) {
             $config   = JFactory::getConfig();
             $exportPath = $config->getValue('tmp_path').DS.'jea_export';
 
-            if (JFolder::create($exportPath) === false) {                   
-	            $msg= JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE').' : '.$exportPath;
-	            $this->setRedirect('index.php?option=com_jea&view=features', $msg, 'warning');
+            if (JFolder::create($exportPath) === false) {
+                $msg= JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE').' : '.$exportPath;
+                $this->setRedirect('index.php?option=com_jea&view=features', $msg, 'warning');
             } else {
-                 
+
                 $xmlPath = JPATH_COMPONENT.'/models/forms/features/';
                 $xmlFiles = JFolder::files($xmlPath);
                 $model = $this->getModel();
                 $files = array();
-                
-                foreach($xmlFiles as $filename) {
+
+                foreach ($xmlFiles as $filename) {
                     if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
                         $feature = $matches[1];
                         if (in_array($feature, $features)) {
                             $form = simplexml_load_file($xmlPath.DS.$filename);
                             $table = (string) $form['table'];
                             $files[] = array(
-                            	'data' => $model->getCSVData($table), 
-                            	'name' => $table.'.csv'
+                                'data' => $model->getCSVData($table), 
+                                'name' => $table.'.csv'
                             );
                         }
                     }
                 }
-                
+
                 $zipFile = $exportPath.DS.'jea_export_'.uniqid().'.zip';
                 $zip = JArchive::getAdapter('zip');
                 $zip->create($zipFile, $files);
-                
+
                 $document = JFactory::getDocument();
                 $newDocument = JDocument::getInstance('raw');
                 $newDocument->setMimeEncoding('application/zip') ;
                 $document =& $newDocument;
-                
+
                 JResponse::setHeader('Content-Disposition', 'attachment; filename="jea_features.zip"');
                 JResponse::setHeader('Content-Transfer-Encoding', 'binary');
-                
+
                 echo readfile($zipFile);
 
                 // clean tmp files
                 JFile::delete($zipFile);
                 JFolder::delete($exportPath);
             }
-            	
+
         } else {
             $msg= JText::_('JERROR_NO_ITEMS_SELECTED');
-	        $this->setRedirect('index.php?option=com_jea&view=features', $msg);
+            $this->setRedirect('index.php?option=com_jea&view=features', $msg);
         }
     }
 
 
-
+    /**
+     * Method to import data in features tables
+     */
     public function import()
     {
         $application = JFactory::getApplication();
@@ -104,9 +104,9 @@ class JeaControllerFeatures extends JController
         $xmlFiles = JFolder::files($xmlPath);
         $model = $this->getModel();
         $tables = array();
-        
-        // Retrieve the table names 
-        foreach($xmlFiles as $filename) {
+
+        // Retrieve the table names
+        foreach ($xmlFiles as $filename) {
             if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
                 $feature = $matches[1];
                 if (!isset($tables[$feature])) {
@@ -115,7 +115,7 @@ class JeaControllerFeatures extends JController
                 }
             }
         }
-        
+
         foreach ($upload as $file) {
             if ($file->isPosted() && isset($tables[$file->key])) {
                 $file->setValidExtensions($validExtensions);
@@ -142,19 +142,13 @@ class JeaControllerFeatures extends JController
     }
 
 
-    /**
-     * Proxy for getModel.
-     *
-     * @param	string	$name	The name of the model.
-     * @param	string	$prefix	The prefix for the PHP class name.
-     *
-     * @return	JModel
+    /* (non-PHPdoc)
+     * @see JController::getModel()
      */
     public function getModel($name = 'Features', $prefix = 'JeaModel', $config = array())
     {
         $model = parent::getModel($name, $prefix, $config);
         return $model;
     }
-
 
 }

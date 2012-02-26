@@ -3,14 +3,10 @@
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
  * @version     $Id$
- * @package		Jea.admin
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -22,16 +18,17 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'upload.php';
 
+/**
+ * Property model class.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ */
 class JeaModelProperty extends JModelAdmin
 {
-    /**
-     * Method to get the record form.
-     *
-     * @param	array	$data		Data for the form.
-     * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-     *
-     * @return	mixed	A JForm object on success, false on failure
-     * @since	1.6
+
+    /* (non-PHPdoc)
+     * @see JModelForm::getForm()
      */
     public function getForm($data = array(), $loadData = true)
     {
@@ -59,8 +56,7 @@ class JeaModelProperty extends JModelAdmin
         // Modify the form based on Edit State access controls.
         if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jea.property.'.(int) $id))
         || ($id == 0 && !$user->authorise('core.edit.state', 'com_jea'))
-        )
-        {
+        ) {
             // Disable fields for display.
             $form->setFieldAttribute('featured', 'disabled', 'true');
             $form->setFieldAttribute('published', 'disabled', 'true');
@@ -69,30 +65,24 @@ class JeaModelProperty extends JModelAdmin
             // The controller has already verified this is an article you can edit.
             $form->setFieldAttribute('featured', 'filter', 'unset');
             $form->setFieldAttribute('published', 'filter', 'unset');
-
         }
 
         return $form;
     }
 
 
-    /**
-     * Method to save the form data.
-     *
-     * @param	array	The form data.
-     *
-     * @return	boolean	True on success.
-     * @since	1.6
+    /* (non-PHPdoc)
+     * @see JModelAdmin::save()
      */
     public function save($data)
     {
         // Alter the title for save as copy
         if (JRequest::getVar('task') == 'save2copy') {
-            $data['ref']   = JString::increment($data['ref']); 
-		    $data['title'] = JString::increment($data['title']); 
-		    $data['alias'] = JString::increment($data['alias'], 'dash');
+            $data['ref']   = JString::increment($data['ref']);
+            $data['title'] = JString::increment($data['title']);
+            $data['alias'] = JString::increment($data['alias'], 'dash');
         }
-        
+
         if (empty($data['images'])) {
             // Set a default empty json array
             $data['images'] = '[]';
@@ -107,6 +97,10 @@ class JeaModelProperty extends JModelAdmin
     }
 
 
+    /**
+     * Method to manage new uploaded images and
+     * to remove non existing images from the gallery
+     */
     public function processImages()
     {
         $upload = JeaUpload::getUpload('newimages');
@@ -128,17 +122,6 @@ class JeaModelProperty extends JModelAdmin
         }
 
         $uploadDir = $baseUploadDir . DS . $item->id;
-
-        /*
-         $params = JComponentHelper::getParams('com_jea');
-         $maxPreviewWidth = $params->get('max_previews_width', 400) ;
-         $maxPreviewHeight = $params->get('max_previews_height', 400) ;
-         $maxThumbnailWidth = $params->get('max_thumbnails_width', 120);
-         $maxThumbnailHeight = $params->get('max_thumbnails_height', 90);
-         $jpgQuality = $params->get( 'jpg_quality' , 90) ;
-         $cropThumbnails = $params->get( 'crop_thumbnails' , 0) ;
-         */
-
 
         if (is_array($upload)) {
             foreach ($upload as $file) {
@@ -180,11 +163,11 @@ class JeaModelProperty extends JModelAdmin
             // Remove image files
             $list = JFolder::files($uploadDir);
             foreach ($list as $filename) {
-                
+
                 if (strpos($filename, 'thumb') === 0) {
                     continue;
                 }
-                
+
                 if (!isset($imageNames[$filename])) {
                     $removeList = JFolder::files($uploadDir, $filename.'$', false, true);
                     foreach ($removeList as $removeFile) {
@@ -195,14 +178,14 @@ class JeaModelProperty extends JModelAdmin
         }
 
     }
-    
-	/**
+
+
+    /**
      * Method to toggle the featured setting of properties.
      *
      * @param    array    The ids of the items to toggle.
-     * @param    int        The value to toggle to.
-     *
-     * @return    boolean    True on success.
+     * @param    int      The value to toggle to.
+     * @return    boolean  True on success.
      */
     public function featured($pks, $value = 0)
     {
@@ -220,7 +203,67 @@ class JeaModelProperty extends JModelAdmin
             $db->setQuery('UPDATE #__jea_properties' .
                 ' SET featured = '.(int) $value.
                 ' WHERE id IN ('.implode(',', $pks).')'
-            );
+                );
+                if (!$db->query()) {
+                    throw new Exception($db->getErrorMsg());
+                }
+                return true;
+
+        } catch (Exception $e) {
+            $this->setError($e->getMessage());
+        }
+
+        return false;
+    }
+
+
+    /**
+     * Method to copy  a set of properties.
+     *
+     * @param    array    The ids of the items to copy.
+     * @return    boolean  True on success.
+     */
+    public function copy($pks)
+    {
+        // Sanitize the ids.
+        $pks = (array) $pks;
+        JArrayHelper::toInteger($pks);
+
+        $table = $this->getTable();
+        $nextOrdering = $table->getNextOrder();
+
+        //only one request
+        $inserts = array();
+        $fields = $table->getProperties();
+        $db = $this->getDbo();
+
+        unset($fields['id']);
+        unset($fields['checked_out']);
+        unset($fields['checked_out_time']);
+
+        $fields = array_keys($fields);
+        $query = 'SELECT '.implode(', ', $fields).' FROM #__jea_properties WHERE id IN (' .implode(',', $pks). ')';
+        $rows = $this->_getList($query);
+
+        foreach ($rows as $row){
+            $row = (array) $row;
+            $row['ref'] = JString::increment($row['ref']);
+            $row['title'] = JString::increment($row['title']);
+            $row['alias'] = JString::increment($row['alias'], 'dash');
+            $row['ordering'] = $nextOrdering;
+            $row['created']  = date('Y-m-d H:i:s');
+            foreach ($row as $k => $values) {
+                $row[$k] = $db->Quote($values);
+            }
+            $inserts[]= '(' . implode(', ', $row) . ')';
+            $nextOrdering++;
+        }
+
+        $query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
+               . implode(", \n", $inserts);
+         
+        try {
+            $db->setQuery($query);
             if (!$db->query()) {
                 throw new Exception($db->getErrorMsg());
             }
@@ -232,114 +275,42 @@ class JeaModelProperty extends JModelAdmin
 
         return false;
     }
-    
-    public function copy($pks)
-	{
-		// Sanitize the ids.
-        $pks = (array) $pks;
-        JArrayHelper::toInteger($pks);
-
-		$table = $this->getTable();
-		$nextOrdering = $table->getNextOrder();
-		
-		//only one request
-		$inserts = array();
-		$fields = $table->getProperties();
-		$db = $this->getDbo();
-		
-		unset($fields['id']);
-		unset($fields['checked_out']);
-		unset($fields['checked_out_time']);
-		
-		$fields = array_keys($fields);
-		$query = 'SELECT '.implode(', ', $fields).' FROM #__jea_properties WHERE id IN (' .implode(',', $pks). ')';
-		$rows = $this->_getList($query);
-		
-		foreach ($rows as $row){
-		    $row = (array) $row;
-		    $row['ref'] = JString::increment($row['ref']); 
-		    $row['title'] = JString::increment($row['title']); 
-		    $row['alias'] = JString::increment($row['alias'], 'dash');
-		    $row['ordering'] = $nextOrdering;
-		    $row['created']  = date('Y-m-d H:i:s');
-		    foreach($row as $k => $values) {
-		        $row[$k] = $db->Quote($values);
-		    }
-		    $inserts[]= '(' . implode(', ', $row) . ')';
-		    $nextOrdering++;
-		}
-		
-		$query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
-		       . implode(", \n", $inserts);
-		       
-		 try {
-		    $db->setQuery($query);
-		
-    	    if (!$db->query()) {
-    	        
-    			 throw new Exception($db->getErrorMsg());
-    		}
-    	    return true;
-    		
-		} catch (Exception $e) {
-            $this->setError($e->getMessage());
-        }
-		
-		return false;
-	}
-	
-	
 
 
-    /**
-     * Method to get the data that should be injected in the form.
-     *
-     * @return	mixed	The data for the form.
-     * @since	1.6
+    /* (non-PHPdoc)
+     * @see JModelForm::loadFormData()
      */
     protected function loadFormData()
     {
         // Check the session for previously entered form data. See JControllerForm::save()
-		$data = JFactory::getApplication()->getUserState('com_jea.edit.property.data', array());
+        $data = JFactory::getApplication()->getUserState('com_jea.edit.property.data', array());
 
-		if (empty($data)) {
-			$data = $this->getItem();
-		}
-		
-		return $data;
+        if (empty($data)) {
+            $data = $this->getItem();
+        }
+
+        return $data;
     }
 
 
-    /**
-     * A protected method to get a set of ordering conditions.
-     *
-     * @param	object	A record object.
-     *
-     * @return	array	An array of conditions to add to add to ordering queries.
+    /* (non-PHPdoc)
+     * @see JModelAdmin::getReorderConditions()
      */
     protected function getReorderConditions($table)
     {
         $condition = array();
         $condition[] = 'transaction_type = '. $table->transaction_type;
-		return $condition;
-	}
+        return $condition;
+    }
 
-	
-	/**
-	 * Proxy for getTable.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 *
-	 */
-	public function getTable($name = 'properties', $prefix = 'Table', $options = array())
-	{
-		return parent::getTable($name, $prefix, $options);
-	}
-     
+
+    /* (non-PHPdoc)
+     * @see JModel::getTable()
+     */
+    public function getTable($name = 'properties', $prefix = 'Table', $options = array())
+    {
+        return parent::getTable($name, $prefix, $options);
+    }
 }
 
 

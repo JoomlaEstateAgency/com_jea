@@ -2,15 +2,11 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id: Http_File.php 145 2010-03-31 10:03:47Z ilhooq $
- * @package		Jea.library
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- *
+ * @version     $Id$
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -19,16 +15,21 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+/**
+ * Upload class helper.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ */
 class JeaUpload
 {
-    
-    
+
     /**
      * The upload key (ex: $files[0][{picture}] or $files[0][{1}] or $files[0][{picture1}])
      * @var unknown_type
      */
     public $key = '';
-    
+
     public $name = '';
     public $temp_name = '';
     public $type = '';
@@ -84,18 +85,18 @@ class JeaUpload
             $fields = array('name', 'type', 'tmp_name', 'error', 'size');
             $arrUploaded = array();
             $keys = array_keys($rawUploaded['name']);
-            
+
             foreach ($keys as $key) {
                 $params = array();
                 foreach ($fields as $field) {
                     $params[$field] = $rawUploaded[$field][$key];
                 }
-                
+
                 $uploaded = new JeaUpload($params);
                 $uploaded->key = $key;
                 $arrUploaded[] = $uploaded;
             }
-            	
+             
             return $arrUploaded;
 
         } else { // Single post
@@ -149,11 +150,12 @@ class JeaUpload
 
         //Valid extensions check
         if (!$this->_evalValidExtensions()) {
-             $this->_errors[] ='File extension not permitted';
+            $this->_errors[] ='COM_JEA_UPLOAD_FILE_EXTENSION_NOT_PERMITTED';
         }
 
         return $this;
     }
+
 
     /**
      * Get the errors list
@@ -168,7 +170,7 @@ class JeaUpload
     /**
      * Set the file name ...
      * @param string $name
-     * 
+     *
      * @return JeaUpload
      */
     public function setName($name)
@@ -177,7 +179,7 @@ class JeaUpload
         if ($this->_evalValidExtensions()){
             $this->name = $name;
         }
-        
+
         return $this;
     }
 
@@ -192,7 +194,7 @@ class JeaUpload
     public function moveTo($dir='', $overwrite = true)
     {
         $this->check();
-         
+
         if (!JFolder::exists($dir)) {
             $this->_errors[] = 'COM_JEA_UPLOAD_DESTINATION_DIRECTORY_DOESNT_EXISTS';
         }
@@ -223,7 +225,7 @@ class JeaUpload
      * Format file name to be safe
      *
      * @param    int    $maxlen Maximun permited string lenght
-     * @return  JeaUpload 
+     * @return  JeaUpload
      *
      */
     public function nameToSafe($maxlen=250)
@@ -249,6 +251,7 @@ class JeaUpload
         $this->_extensionsMode  = $mode;
         return $this;
     }
+
 
     /**
      * Evaluates the validity of the extensions set by setValidExtensions
