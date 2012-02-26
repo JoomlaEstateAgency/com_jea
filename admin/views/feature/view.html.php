@@ -56,12 +56,13 @@ class JeaViewFeature extends JView
     {
         JRequest::setVar('hidemainmenu', true);
         $isNew = ($this->item->id == 0);
+        $canDo  = JeaHelper::getActions();
 
         $title = $this->item->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->value ) : JText::_( 'New' ) ;
         JToolBarHelper::title( $title , 'jea.png' ) ;
 
         // For new records, check the create permission.
-        if ($this->canDo->get('core.create')) {
+        if ($canDo->get('core.create')) {
             JToolBarHelper::apply('feature.apply');
             JToolBarHelper::save('feature.save');
             JToolBarHelper::save2new('feature.save2new');

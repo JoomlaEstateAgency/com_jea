@@ -16,7 +16,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 JHTML::stylesheet('media/com_jea/css/jea.admin.css');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 $altrow=1;
 ?>
 
@@ -40,7 +39,7 @@ $altrow=1;
       <tr class="row<?php echo $altrow ?>">
         <td><?php echo JHtml::_('grid.id', $i, $item); ?></td>
         <td>
-          <a class="modal" href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&tmpl=component&feature='.$item) ?>" rel="{handler:'iframe',size:{x: 700, y: 500}}">
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&feature='.$item) ?>">
           <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item}_title")) ?></a>
         </td>
         <td class="center"><input type="file" name="csv[<?php echo $item ?>]" value="" size="20" /></td>
