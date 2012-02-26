@@ -11,7 +11,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_jea/helpers/html');
 
 /**
  * Form Field class for JEA.
@@ -38,12 +38,17 @@ class JFormFieldFeatureList extends JFormField
      */
     protected function getInput()
     {
-        $subtype = $this->element['subtype'];
+        $subtype = (string) $this->element['subtype'];
 
         $params = array(
             'id' => $this->id,
             'class' => (string) $this->element['class'],
         );
+        
+        $group = null;
+        if ($this->form->getName() == 'com_menus.item') {
+            $group = 'params';
+        }
 
         // Verify if some fields have relashionship
         switch ($subtype) {
@@ -55,11 +60,11 @@ class JFormFieldFeatureList extends JFormField
             case 'towns':
                 if ($this->_hasRelationShip()) {
                     $this->_ajaxUpdateList ('town_id', 'area_id', 'get_areas');
-                    return JHtml::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id'));
+                    return JHtml::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, 0));
                 }
             case 'areas':
                 if ($this->_hasRelationShip()) {
-                    return JHtml::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id'));
+                    return JHtml::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, 0));
                 }
         }
 
@@ -84,7 +89,11 @@ class JFormFieldFeatureList extends JFormField
      */
     private function _ajaxUpdateList ($fromId, $toId, $task)
     {
-        $fieldTo = $this->form->getField($toId);
+        if ($this->form->getName() == 'com_menus.item') {
+            $fieldTo = $this->form->getField($toId, 'params');
+        } else {
+            $fieldTo = $this->form->getField($toId);
+        }
 
         if (!empty($fieldTo->id)) {
             JFactory::getDocument()->addScriptDeclaration("

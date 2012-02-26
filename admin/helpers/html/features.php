@@ -82,6 +82,7 @@ abstract class JHtmlFeatures
         $condition = '';
 
         if ($town_id !== null) {
+            $condition = 'town_id = -1';
             if ($town_id > 0) {
                 $condition = 'town_id ='. intval($town_id);
             }
