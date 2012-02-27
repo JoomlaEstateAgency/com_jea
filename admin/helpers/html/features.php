@@ -190,7 +190,9 @@ abstract class JHtmlFeatures
             if (isset($attr['id'])) {
                 $idTag = $attr['id'];
             }
-            $attr['size'] = 1;
+            if (empty($attr['size'])) {
+                $attr['size'] = 1;
+            }
             if (empty($attr['class'])) {
                 $attr['class'] = 'inputbox';
             }

@@ -39,12 +39,23 @@ class JFormFieldFeatureList extends JFormField
     protected function getInput()
     {
         $subtype = (string) $this->element['subtype'];
+        
+        $size = (string) $this->element['size'];
+        $multiple = (string) $this->element['multiple'];
 
         $params = array(
             'id' => $this->id,
-            'class' => (string) $this->element['class'],
+            'class' => (string) $this->element['class']
         );
-        
+
+        if (!empty($size)) {
+            $params['size'] = $size;
+        }
+
+        if (!empty($multiple)) {
+            $params['multiple'] = 'multiple';
+        }
+
         $group = null;
         if ($this->form->getName() == 'com_menus.item') {
             $group = 'params';
