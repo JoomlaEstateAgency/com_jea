@@ -71,9 +71,13 @@ class TableProperties extends JTable
     {
         // Bind the images.
         if (isset($array['images']) && is_array($array['images'])) {
-            $array['images'] = json_encode($array['images']);
+            $images = array();
+            foreach ($array['images'] as &$image) {
+                $images[] = (object) $image;
+            }
+            $array['images'] = json_encode($images);
         }
-         
+
         // Bind the rules.
         if (isset($array['rules']) && is_array($array['rules']))
         {
