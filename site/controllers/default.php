@@ -10,17 +10,17 @@
  */
 
 // no direct access
-defined('_JEXEC') or die('Restricted access');
+defined( '_JEXEC' ) or die( 'Restricted access' );
 
-// Include dependancies
 jimport('joomla.application.component.controller');
 
-if (JRequest::getCmd('task') == '') {
-    // In order to execute controllers/default.php as default controller
-    JRequest::setVar('task', 'default.display');
+/**
+ * Default controller class.
+ *
+ * @package     Joomla.Site
+ * @subpackage  com_jea
+ */
+class JeaControllerDefault extends JController
+{
+    protected $default_view = 'properties';
 }
-
-$controller = JController::getInstance('jea');
-$controller->execute(JRequest::getCmd('task'));
-$controller->redirect();
-

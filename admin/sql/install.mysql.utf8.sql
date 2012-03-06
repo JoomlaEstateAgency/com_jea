@@ -134,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `notes` TEXT NOT NULL,
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_jea_ref` (`ref`),
-  KEY `idx_jea_isrenting` (`is_renting`),
+  KEY `idx_jea_transactiontype` (`transaction_type`),
   KEY `idx_jea_typeid` (`type_id`),
   KEY `idx_jea_departmentid` (`department_id`),
   KEY `idx_jea_townid` (`town_id`)

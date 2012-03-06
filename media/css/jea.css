@@ -2,17 +2,82 @@
 	clear: both;
 }
 
-.pagenavigation {
-	text-align: center;
-}
-
 .jea_tools {
-	float: right;	
+	float: right;
 }
 
-.jea_tools img{
-	border:none;
+.jea_tools img {
+	border: none;
 }
+
+
+/*** Search layout ***/
+
+#jea-search-form h2,
+#jea-search-form hr {
+	clear: both;
+}
+
+#jea-search-form hr {
+	 margin: 1em 0;
+}
+
+#jea-search-form select {
+	width: 12em;
+}
+
+#jea-search-form dl {
+	padding: 0.5em 0;
+}
+
+#jea-search-form dl.col-left, 
+#jea-search-form dl.col-right {
+	float: left;
+}
+
+#jea-search-form dl.col-left {
+	margin-right: 3em;
+}
+
+#jea-search-form dt,
+#jea-search-form dd {
+	margin: 0;
+	padding: 0;
+	display: table-cell;
+}
+
+#jea-search-form dt {
+	min-width: 5em;
+}
+
+#jea-search-form ul {
+	overflow: hidden;
+	margin: 1em 0 !important;
+	padding: 0 !important;
+}
+
+#jea-search-form ul.jea-search-other li {
+	list-style: none;
+	margin:0.5em 0 !important;
+	padding:0 !important;
+}
+
+#jea-search-form ul.jea-search-other label  {
+	display: inline-block;
+	min-width: 13em;
+}
+
+
+#jea-search-form .amenities li {
+	width: 17em;
+	margin:0 1.5em 0.5em 0 !important;
+	padding:0 !important;
+	float: left;
+	list-style: none;
+}
+
+
+
 
 /*format list */
 .limitbox {
@@ -20,8 +85,16 @@
 }
 
 dl.jea_item {
-	border-bottom: 1px dashed #b2b4bf;
-	padding-bottom: 1em;
+	border-top: 1px dashed #ccc;
+	padding: 1em 0;
+	margin: 0;
+	overflow: hidden;
+	/* formatting context, prevent overshooting of floating */
+}
+
+dl.jea_item:FIRST-CHILD {
+	border-top: none;
+	padding-top: 0;
 }
 
 dl.jea_item dt.title {
@@ -59,20 +132,21 @@ dl.jea_item span.slogan strong {
 	margin-bottom: 10px;
 }
 
-#jea-gallery-scroll{
-	overflow-x:hidden;
-	overflow-y:auto;
+#jea-gallery-scroll {
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
-#jea-gallery-scroll img{
-	margin-bottom:5px;
+#jea-gallery-scroll img {
+	margin-bottom: 5px;
 }
 
-#jea-gallery-preview, #jea-gallery-scroll {
-	float:left;
+#jea-gallery-preview,#jea-gallery-scroll {
+	float: left;
 }
+
 #jea-gallery-preview {
-	margin-right:15px;
+	margin-right: 15px;
 }
 
 #jea-preview-title {
@@ -96,75 +170,60 @@ dl.jea_item span.slogan strong {
 	margin-bottom: 3em;
 }
 
-#jea_search_form td{
-	padding:0 15px 10px 0;
-}
-#jea_search_form td.jea_label {
-	text-align: right;
-}
-
-#jea_search_form select {
-	width:12em;
-}
-
-label.advantage{
-	display:block;
-	width:150px;
-	margin-right:10px;
-	float:left;
-}
 
 #advantages_list {
 	margin-bottom: 10px;
 }
 
 #jea_property_map {
-	width: 500px; 
+	width: 500px;
 	height: 300px;
 }
 
 /*format tabular list */
-table.jea_listing, table.jea_listing thead, table.jea_listing th, 
-table.jea_listing tbody, table.jea_listing td {border:1px solid #ccc;}
-
-table.jea_listing {
-border-collapse:collapse;
+table.jea_listing,table.jea_listing thead,table.jea_listing th,table.jea_listing tbody,table.jea_listing td
+	{
+	border: 1px solid #ccc;
 }
 
-table.jea_listing th, table.jea_listing td {
-padding:5px;
-text-align:left;
+table.jea_listing {
+	border-collapse: collapse;
+}
+
+table.jea_listing th,table.jea_listing td {
+	padding: 5px;
+	text-align: left;
 }
 
 table.jea_listing tbody th {
-font-weight:bold;
+	font-weight: bold;
 }
 
 table.jea_listing thead {
-font-weight:bold;
-white-space:nowrap;
-text-align:left;
-}
-table.jea_listing tbody tr.row1{
-    background:#F9F9F9;
+	font-weight: bold;
+	white-space: nowrap;
+	text-align: left;
 }
 
-table.jea_listing tbody tr:hover{
-    background:#FFD;
+table.jea_listing tbody tr.row1 {
+	background: #F9F9F9;
+}
+
+table.jea_listing tbody tr:hover {
+	background: #FFD;
 }
 
 table.jea_listing .number {
-text-align:right;
+	text-align: right;
 }
 
 table.jea_listing .published {
-text-align:center;
+	text-align: center;
 }
 
 table.jea_listing .delete {
-text-align:center;
+	text-align: center;
 }
-
 
 #found_properties {
 	white-space: nowrap;
@@ -192,8 +251,8 @@ text-align:center;
 .jea_slider_block h2 {
 	font-size: 12px;
 	font-weight: bold;
-	margin:0 !important;
-	padding:0 !important;
+	margin: 0 !important;
+	padding: 0 !important;
 	text-align: center;
 }
 
@@ -208,4 +267,3 @@ text-align:center;
 .slider_max_value {
 	margin-left: 10px;
 }
-

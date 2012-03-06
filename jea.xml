@@ -25,29 +25,27 @@
 		</sql>
 	</uninstall>
 	
-	<!-- Runs on update -->
+	<!-- Runs on update 
 	<update> 
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
 	</update>
+	-->
 	
 
 	<!-- Frontend -->
 	<files folder="site">
-		<filename>index.html</filename>
-		<filename>jea.php</filename>
-		<filename>view.php</filename>
-		<filename>router.php</filename>
 		<folder>controllers</folder>
+		<folder>helpers</folder>
+		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
+		<filename>index.html</filename>
+		<filename>jea.php</filename>
+		<filename>router.php</filename>
 	</files>
 
-	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_jea.ini</language>
-		<language tag="fr-FR">language/fr-FR.com_jea.ini</language>
-	</languages>
 	
 	<!-- Media files -->
 	<media destination="com_jea" folder="media" >
@@ -61,26 +59,26 @@
 	<administration>
 		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
 		<submenu>
-			<menu img="icon" controller="properties">Properies management</menu>
-			<menu img="icon" controller="features">Properties features</menu>
+			<menu img="icon" view="properties">Properies management</menu>
+			<menu img="icon" view="features">Properties features</menu>
 		</submenu>
 
 		<files folder="admin">
-			<filename>jea.php</filename>
-			<filename>config.xml</filename>
-			<filename>index.html</filename>
-			<filename>jea.class.php</filename>
-			<filename>NEWS.txt</filename>
-			<filename>LICENCE.txt</filename>
 			<folder>controllers</folder>
 			<folder>elements</folder>
+			<folder>helpers</folder>
 			<folder>joomfish</folder>
 			<folder>language</folder>
-			<folder>library</folder>
 			<folder>models</folder>
+			<folder>sql</folder>
 			<folder>tables</folder>
 			<folder>views</folder>
-			<folder>sql</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>index.html</filename>
+			<filename>jea.php</filename>
+			<filename>LICENCE.txt</filename>
+			<filename>NEWS.txt</filename>
 		</files>
 		
 	</administration>
