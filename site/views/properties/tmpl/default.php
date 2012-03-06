@@ -66,9 +66,11 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
     
     <div class="jea-items">
     <?php foreach ($this->items as $k => $row): ?>
+    <?php $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id ?>
+
       <dl class="jea_item">
         <dt class="title">
-          <a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Show detail') ?>"> <strong> 
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('Show detail') ?>"> <strong> 
           <?php if(empty($row->title)): ?>
           <?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
           <?php else : echo $this->escape($row->title) ?> 
@@ -82,7 +84,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
 
         <?php if ($imgUrl = $this->getFirstImageUrl($row)): ?>
         <dt class="image">
-          <a href="<?php echo $this->getViewUrl ( $row->id ) ?>" title="<?php echo JText::_('Detail') ?>"> 
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('Detail') ?>"> 
           <img src="<?php echo $imgUrl ?>" alt="<?php echo JText::_('Detail') ?>" /></a>
         </dt>
         <?php endif ?>
@@ -113,7 +115,9 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
           <?php endif ?>
 
           <br />
-          <a href="<?php echo $this->getViewUrl($row->id)?>"title="<?php echo JText::_('Show detail') ?>"><?php echo JText::_('Detail') ?></a>
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>"title="<?php echo JText::_('Show detail') ?>">
+            <?php echo JText::_('Detail') ?>
+          </a>
         </dd>
       </dl>
       <?php endforeach ?>

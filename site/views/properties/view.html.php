@@ -113,28 +113,6 @@ class JeaViewProperties extends JView
         return $html;
     }
 
-    protected function getViewUrl ( $id='', $extra='', $override_task=false )
-    {
-         
-        if($override_task === false && $task = JRequest::getCmd('task')){
-            $extra .= '&task='.$task ;
-        }
-         
-        if($filter_order = JRequest::getCmd('filter_order')){
-            $extra .= '&filter_order='.$filter_order ;
-        }
-         
-        if($filter_order_Dir = JRequest::getCmd('filter_order_Dir')){
-            $extra .= '&filter_order_Dir='. $filter_order_Dir ;
-        }
-
-        if($id){
-            $id = '&id='.$id;
-        }
-
-         
-        return JRoute::_( 'index.php?view=properties'. $id . $extra);
-    }
 
     /**
      * Format price following the component configuration.
@@ -191,8 +169,6 @@ class JeaViewProperties extends JView
                 . $row->id .'&image='.$image->name;
 
                 return JRoute::_($url);
-            } else {
-                echo $imagePath.DS.'images'.DS.$row->id.DS.$image->name ;
             }
         }
 

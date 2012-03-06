@@ -116,10 +116,11 @@
 
 	<fieldset name="pictures" label="Pictures">
 		<field name="jpg_quality" type="text" size="3" default="90" label="Pictures quality" description="PARAMSPICTUREQUALITY" />
-		<field name="max_thumbnails_width" type="text" size="3" default="120" label="Max thumbnails width" description="PARAMSMAXTHUMBNAILSWIDTH" />
-		<field name="max_thumbnails_height" type="text" size="3" default="90" label="Max thumbnails height" description="PARAMSMAXTHUMBNAILSHEIGHT" />
-		<field name="max_previews_width" type="text" size="3" default="400" label="Max previews width" description="PARAMSMAXPREVIEWSWIDTH" />
-		<field name="max_previews_height" type="text" size="3" default="400" label="Max previews height" description="PARAMSMAXPREVIEWSHEIGHT" />
+		<field name="thumb_min_width" type="text" size="3" default="120" label="Max thumbnails width" description="PARAMSMAXTHUMBNAILSWIDTH" />
+		<field name="thumb_min_height" type="text" size="3" default="90" label="Max thumbnails height" description="PARAMSMAXTHUMBNAILSHEIGHT" />
+		<field name="thumb_medium_width" type="text" size="3" default="400" label="Max previews width" description="PARAMSMAXPREVIEWSWIDTH" />
+		<field name="thumb_medium_height" type="text" size="3" default="400" label="Max previews height" description="PARAMSMAXPREVIEWSHEIGHT" />
+		<field name="thumb_medium_height" type="text" size="3" default="400" label="Max previews height" description="PARAMSMAXPREVIEWSHEIGHT" />
 		<field name="crop_thumbnails" type="radio" default="0" label="Crop thumbnails" description="PARAMSCROPTHUMBNAILS">
 			<option value="0">No</option>
 			<option value="1">Yes</option>

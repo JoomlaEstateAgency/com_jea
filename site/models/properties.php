@@ -144,7 +144,6 @@ class JeaModelProperties extends JModelList
         // Create a new query object.
         $db        = $this->getDbo();
         $query    = $db->getQuery(true);
-        $user    = JFactory::getUser();
 
         $query->select('p.*');
         $query->from('#__jea_properties AS p');
@@ -166,7 +165,7 @@ class JeaModelProperties extends JModelList
         $query->join('LEFT', '#__jea_areas AS area ON area.id = p.area_id');
 
         // Join conditions
-        $query->select('c.value AS conditions');
+        $query->select('c.value AS `condition`');
         $query->join('LEFT', '#__jea_conditions AS c ON c.id = p.condition_id');
 
         // Join users

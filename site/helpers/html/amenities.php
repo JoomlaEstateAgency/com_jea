@@ -42,11 +42,20 @@ abstract class JHtmlAmenities
 
         foreach ($amenities as $row) {
             if (in_array($row->id, $ids)) {
-                $items[] = $row->value;
+                if ($format == 'ul'){
+                    $items[] = "<li>{$row->value}</li>\n";
+                } else {
+                    $items[] = $row->value;
+                }
+                
             }
         }
 
-        $html = implode(', ', $items);
+        if ($format == 'ul'){
+            $html = "<ul>\n" . implode(', ', $items) . "</ul>\n";
+        } else {
+            $html = implode(', ', $items);
+        }
 
         return $html;
 
