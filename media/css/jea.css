@@ -10,16 +10,13 @@
 	border: none;
 }
 
-
-/*** Search layout ***/
-
-#jea-search-form h2,
-#jea-search-form hr {
+/*** Properties Search layout ***/
+#jea-search-form h2,#jea-search-form hr {
 	clear: both;
 }
 
 #jea-search-form hr {
-	 margin: 1em 0;
+	margin: 1em 0;
 }
 
 #jea-search-form select {
@@ -30,8 +27,7 @@
 	padding: 0.5em 0;
 }
 
-#jea-search-form dl.col-left, 
-#jea-search-form dl.col-right {
+#jea-search-form dl.col-left,#jea-search-form dl.col-right {
 	float: left;
 }
 
@@ -39,8 +35,7 @@
 	margin-right: 3em;
 }
 
-#jea-search-form dt,
-#jea-search-form dd {
+#jea-search-form dt,#jea-search-form dd {
 	margin: 0;
 	padding: 0;
 	display: table-cell;
@@ -58,28 +53,24 @@
 
 #jea-search-form ul.jea-search-other li {
 	list-style: none;
-	margin:0.5em 0 !important;
-	padding:0 !important;
+	margin: 0.5em 0 !important;
+	padding: 0 !important;
 }
 
-#jea-search-form ul.jea-search-other label  {
+#jea-search-form ul.jea-search-other label {
 	display: inline-block;
 	min-width: 13em;
 }
 
-
 #jea-search-form .amenities li {
 	width: 17em;
-	margin:0 1.5em 0.5em 0 !important;
-	padding:0 !important;
+	margin: 0 1.5em 0.5em 0 !important;
+	padding: 0 !important;
 	float: left;
 	list-style: none;
 }
 
-
-
-
-/*format list */
+/* Properties Default layout */
 .limitbox {
 	text-align: right;
 }
@@ -123,7 +114,7 @@ dl.jea_item span.slogan strong {
 	color: red;
 }
 
-/*format detail */
+/* Property Default layout */
 .jea_toolbar {
 	float: right;
 }
@@ -170,7 +161,6 @@ dl.jea_item span.slogan strong {
 	margin-bottom: 3em;
 }
 
-
 #advantages_list {
 	margin-bottom: 10px;
 }
@@ -178,6 +168,55 @@ dl.jea_item span.slogan strong {
 #jea_property_map {
 	width: 500px;
 	height: 300px;
+}
+
+/*** SqueezeBox layout ***/
+#jea-squeezeBox-navblock {
+	position: relative;
+	bottom: -15px;
+	text-align: center;
+}
+
+#jea-squeezeBox-infos {
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	text-align: center;
+	background: #000;
+	padding: 10px;
+	opacity:0.8;
+}
+
+#jea-squeezeBox-title {
+	font-weight: bold;
+	color: #fff;
+	font-size: 13px;
+}
+
+#jea-squeezeBox-description {
+	color: #ddd;
+	font-size: 10px;
+}
+
+a#jea-squeezeBox-prev,
+a#jea-squeezeBox-next {
+	color: #fff;
+}
+
+#jea-squeezeBox-prev {
+	margin-right: 10px;
+}
+
+#jea-squeezeBox-next {
+	margin-left: 10px;
+}
+
+a#jea-squeezeBox-prev.inactive,
+a#jea-squeezeBox-next.inactive {
+	color: #ccc;
+	text-decoration: none;
+	background: transparent;
+	cursor: default;
 }
 
 /*format tabular list */

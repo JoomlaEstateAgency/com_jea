@@ -52,7 +52,7 @@ abstract class JHtmlAmenities
         }
 
         if ($format == 'ul'){
-            $html = "<ul>\n" . implode(', ', $items) . "</ul>\n";
+            $html = "<ul>\n" . implode("\n", $items) . "</ul>\n";
         } else {
             $html = implode(', ', $items);
         }

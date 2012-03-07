@@ -54,7 +54,7 @@ class JeaControllerThumbnail extends JController
 
             if ($size == 'medium') {
                 $width  = $params->get('thumb_medium_width', 400);
-                $height = $params->get('thumb_medium_height', 400);
+                $height = $params->get('thumb_medium_height', 300);
             } else {
                 $width  = $params->get('thumb_min_width', 120);
                 $height = $params->get('thumb_min_height', 90);

@@ -32,8 +32,8 @@ JPluginHelper::importPlugin('jea');
 <?php if ($this->params->get('show_print_icon')): ?>
 <div class="jea_tools">
 <?php if ( $this->params->get('show_print_icon') ): ?>
-  <a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a>
-  <?php endif ?>
+  <!-- <a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a> -->
+<?php endif ?>
 </div>
 <?php endif ?>
 
@@ -45,9 +45,9 @@ JPluginHelper::importPlugin('jea');
 </p>
 <?php endif ?>
 
-<?php if(!empty($this->images)): ?>
+<?php if(!empty($this->row->images)): ?>
 <div id="jea-gallery">
-<?php // echo $this->loadTemplate($this->images_layout) ?>
+<?php echo $this->loadTemplate('squeezebox') ?>
 </div>
 <?php endif ?>
 
@@ -77,12 +77,13 @@ JPluginHelper::importPlugin('jea');
   <?php endif  ?>
 
 <table>
+
   <tr>
     <td><?php echo $this->row->transaction_type == 'RENTING' ?  JText::_('Renting price') : JText::_('Selling price') ?></td>
     <td>: <strong><?php echo $this->formatPrice( floatval($this->row->price) , JText::_('Consult us') ) ?></strong></td>
   </tr>
 
-  <?php if ( $this->row->charges ): ?>
+  <?php if ($this->row->charges): ?>
   <tr>
     <td><?php echo JText::_('Charges') ?></td>
     <td>: <strong><?php echo $this->formatPrice( floatval($this->row->charges), JText::_('Consult us') ) ?></strong></td>
@@ -147,14 +148,14 @@ if ($this->row->living_space) {
 </p>
 
 <p>
-<?php if ( $this->row->hot_water_type ): ?>
+<?php if ( $this->row->heating_type_name ): ?>
 <?php echo JText::_('Hot water type') ?>
-  : <strong><?php echo ucfirst($this->escape( $this->row->hot_water )) ?> </strong><br />
+  : <strong><?php echo ucfirst($this->escape( $this->row->heating_type_name )) ?> </strong><br />
   <?php endif  ?>
 
-  <?php if ( $this->row->heating_type ): ?>
+  <?php if ( $this->row->hot_water_type_name ): ?>
   <?php echo JText::_('Heating type') ?>
-  : <strong><?php echo ucfirst($this->escape( $this->row->heating )) ?> </strong>
+  : <strong><?php echo ucfirst($this->escape( $this->row->hot_water_type_name )) ?> </strong>
   <?php endif  ?>
 </p>
 
@@ -174,12 +175,12 @@ if ($this->row->living_space) {
 <?php echo JText::_('Property geolocalization') ?>
   :
 </h3>
-<?php echo $this->showGoogleMap($this->row) ?>
+<?php // echo $this->showGoogleMap($this->row) ?>
 <?php endif ?>
 
 <?php if ( $this->params->get('show_contactform') ): ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&task=sendmail') ?>" method="post" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&task=property.sendmail') ?>" method="post" enctype="application/x-www-form-urlencoded">
 
   <fieldset>
     <legend>

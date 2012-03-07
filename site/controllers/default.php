@@ -23,4 +23,10 @@ jimport('joomla.application.component.controller');
 class JeaControllerDefault extends JController
 {
     protected $default_view = 'properties';
+    
+    
+    public function sendmail()
+    {
+        echo 'Sendmail';
+    }
 }

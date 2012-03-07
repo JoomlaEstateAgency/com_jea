@@ -71,6 +71,14 @@ class JeaModelProperty extends JModel
         // Join conditions
         $query->select('c.value AS `condition`');
         $query->join('LEFT', '#__jea_conditions AS c ON c.id = p.condition_id');
+        
+        // Join heating types
+        $query->select('ht.value AS `heating_type_name`');
+        $query->join('LEFT', '#__jea_heatingtypes AS ht ON ht.id = p.heating_type');
+        
+        // Join hot water types
+        $query->select('hwt.value AS `hot_water_type_name`');
+        $query->join('LEFT', '#__jea_heatingtypes AS hwt ON hwt.id = p.hot_water_type');
 
         // Join users
         $query->select('u.username AS author');
@@ -94,33 +102,43 @@ class JeaModelProperty extends JModel
         $images = json_decode($data->images);
 
         if (!empty($images) && is_array($images)) {
+
             $imagePath = JPATH_ROOT.DS.'images'.DS.'com_jea';
             $baseURL = JURI::root(true);
-            
-            foreach ($images as $image) {
-                
-                // get thumb min URL 
-                if (file_exists($imagePath.DS.'thumb-min'.DS.$data->id.'-'.$image->name)) {
-                    // If the thumbnail already exists, display it directly
-                    $image->minURL = $baseURL.'/images/com_jea/thumb-min/'.$data->id.'-'.$image->name;
 
-                } elseif (file_exists($imagePath.DS.'images'.DS.$data->id.DS.$image->name)) {
-                    // If the thumbnail doesn't exist, generate it and output it on the fly
-                    $image->minURL = 'index.php?option=com_jea&task=thumbnail.create&size=min&id='
-                    . $data->id .'&image='.$image->name;
-                }
+            foreach ($images as $k => $image) {
 
-                // get thumb medium URL 
-                if (file_exists($imagePath.DS.'thumb-medium'.DS.$data->id.'-'.$image->name)) {
-                    // If the thumbnail already exists, display it directly
-                    $image->mediumURL = $baseURL.'/images/com_jea/thumb-medium/'.$data->id.'-'.$image->name;
+                if (file_exists($imagePath.DS.'images'.DS.$data->id.DS.$image->name)) {
 
-                } elseif (file_exists($imagePath.DS.'images'.DS.$data->id.DS.$image->name)) {
-                    // If the thumbnail doesn't exist, generate it and output it on the fly
-                    $image->mediumURL = 'index.php?option=com_jea&task=thumbnail.create&size=medium&id='
-                    . $data->id .'&image='.$image->name;
+                    $image->URL = $baseURL.'/images/com_jea/images/'.$data->id.'/'.$image->name;
+
+                    // get thumb min URL
+                    if (file_exists($imagePath.DS.'thumb-min'.DS.$data->id.'-'.$image->name)) {
+                        // If the thumbnail already exists, display it directly
+                        $image->minURL = $baseURL.'/images/com_jea/thumb-min/'.$data->id.'-'.$image->name;
+
+                    } else {
+                        // If the thumbnail doesn't exist, generate it and output it on the fly
+                        $image->minURL = 'index.php?option=com_jea&task=thumbnail.create&size=min&id='
+                        . $data->id .'&image='.$image->name;
+                    }
+
+                    // get thumb medium URL
+                    if (file_exists($imagePath.DS.'thumb-medium'.DS.$data->id.'-'.$image->name)) {
+                        // If the thumbnail already exists, display it directly
+                        $image->mediumURL = $baseURL.'/images/com_jea/thumb-medium/'.$data->id.'-'.$image->name;
+
+                    } else {
+                        // If the thumbnail doesn't exist, generate it and output it on the fly
+                        $image->mediumURL = 'index.php?option=com_jea&task=thumbnail.create&size=medium&id='
+                        . $data->id .'&image='.$image->name;
+                    }
+
+                } else {
+                    unset($images[$k]);
                 }
             }
+
             $data->images = $images;
         }
 
