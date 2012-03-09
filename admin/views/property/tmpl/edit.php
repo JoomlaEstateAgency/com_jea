@@ -29,6 +29,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
         <li><?php echo $this->form->getLabel('alias') ?> <?php echo $this->form->getInput('alias') ?></li>
         <li><?php echo $this->form->getLabel('transaction_type') ?> <?php echo $this->form->getInput('transaction_type') ?></li>
         <li><?php echo $this->form->getLabel('type_id') ?> <?php echo $this->form->getInput('type_id') ?></li>
+		<li><?php echo $this->form->getLabel('language'); ?><?php echo $this->form->getInput('language'); ?></li>
       </ul>
 
       <div class="clr"></div>

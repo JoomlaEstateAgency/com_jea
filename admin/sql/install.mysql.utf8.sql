@@ -132,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `latitude` varchar(20) NOT NULL default '0',
   `longitude` varchar(20) NOT NULL default '0',
   `notes` TEXT NOT NULL,
+  `language` char(7) NOT NULL COMMENT 'language where property is shown',
   PRIMARY KEY  (`id`),
   UNIQUE KEY `idx_jea_ref` (`ref`),
   KEY `idx_jea_transactiontype` (`transaction_type`),

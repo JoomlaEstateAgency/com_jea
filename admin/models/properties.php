@@ -45,7 +45,8 @@ class JeaModelProperties extends JModelList
                 'created_by', 'p.created_by',
                 'ordering', 'p.ordering',
                 'featured', 'p.emphasis',
-                'hits', 'p.hits'
+                'hits', 'p.hits',
+            	'language', 'p.language'
                 );
         }
 
@@ -81,6 +82,9 @@ class JeaModelProperties extends JModelList
 
         $town_id = $this->getUserStateFromRequest($this->context.'.filter.town_id', 'filter_town_id');
         $this->setState('filter.town_id', $town_id);
+        
+        $language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+        $this->setState('filter.language', $language);
 
         parent::populateState($ordering, $direction);
     }
@@ -98,7 +102,7 @@ class JeaModelProperties extends JModelList
 
         $query->select('p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
         p.featured, p.published, p.ordering, p.checked_out, p.checked_out_time,
-        p.created_by, p.hits ');
+        p.created_by, p.hits, p.language ');
 
         $query->from('#__jea_properties AS p');
 
@@ -117,6 +121,10 @@ class JeaModelProperties extends JModelList
         // Join users
         $query->select('u.username AS `author`');
         $query->join('LEFT', '#__users AS u ON u.id = p.created_by');
+        
+        // Join over the language
+        $query->select('l.title AS language_title');
+        $query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = p.language');
 
         // Filter by transaction type
         if ($transactionType = $this->getState('filter.transaction_type')) {
@@ -145,10 +153,18 @@ class JeaModelProperties extends JModelList
             . 'OR u.username LIKE ' .$search .')';
             $query->where($search);
         }
+        
+        // Filter on the language.
+        if ($language = $this->getState('filter.language')) {
+        	$query->where('p.language = '.$db->quote($language));
+        }
 
         // Add the list ordering clause.
         $orderCol    = $this->state->get('list.ordering');
         $orderDirn    = $this->state->get('list.direction');
+        
+        // If language order selected order by languagetable title 
+        if($orderCol == 'language') $orderCol = 'l.title';
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
 
