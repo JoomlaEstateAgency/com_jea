@@ -34,6 +34,7 @@ class JeaModelFeaturelist extends JModelList
             $config['filter_fields'] = array(
                 'id', 'f.id',
                 'ordering', 'f.ordering',
+            	'language', 'f.language'
             );
         }
 
@@ -86,6 +87,10 @@ class JeaModelFeaturelist extends JModelList
                 $this->setState('filter.'.$filterKey, $filterState);
             }
         }
+        
+        // add language filter
+        $language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+        $this->setState('filter.language', $language);
 
         parent::populateState($ordering, $direction);
     }
@@ -101,6 +106,10 @@ class JeaModelFeaturelist extends JModelList
         $query    = $db->getQuery(true);
 
         $query->select('f.*')->from($db->escape($this->getState('feature.table')).' AS f');
+        
+        // Join over the language
+        $query->select('l.title AS language_title');
+        $query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = f.language');
 
         if ($filters = $this->getState('feature.filters')) {
             $filters = explode(',', $filters);
@@ -118,6 +127,14 @@ class JeaModelFeaturelist extends JModelList
             $search = $db->Quote('%'.$db->escape($search, true).'%');
             $query->where('f.value LIKE '.$search);
         }
+        
+        // Filter on the language.
+        if ($language = $this->getState('filter.language')) {
+        	$query->where('f.language = '.$db->quote($language));
+        }
+        
+        // If language order selected order by languagetable title
+        if($orderCol == 'language') $orderCol = 'l.title';
 
         // Add the list ordering clause.
         $orderCol    = $this->state->get('list.ordering');

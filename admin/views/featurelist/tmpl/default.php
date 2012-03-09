@@ -59,6 +59,10 @@ if (!empty($filters)) {
         echo JHtml::_($filterHtml, $this->state->get('filter.'.$filterKey), $filterKey, 'onchange="document.adminForm.submit();"' );
     }
     ?>
+	  <select name="filter_language" class="inputbox" onchange="this.form.submit()">
+		<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+		<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+	  </select>
     </div>
     <div class="clr"></div>
   </fieldset>
@@ -78,6 +82,9 @@ if (!empty($filters)) {
           <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
           <?php endif; ?>
         </th>
+		<th width="5%">
+			<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
+		</th>
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'f.id', $listDirection , $listOrder ) ?>
         </th>
@@ -86,7 +93,7 @@ if (!empty($filters)) {
 
     <tfoot>
       <tr>
-        <td colspan="4"><?php echo $this->pagination->getListFooter() ?>
+        <td colspan="5"><?php echo $this->pagination->getListFooter() ?>
         </td>
       </tr>
     </tfoot>
@@ -127,7 +134,13 @@ if (!empty($filters)) {
           <?php echo $item->ordering ?> 
         <?php endif ?>
         </td>
-
+		<td class="center">
+			<?php if ($item->language=='*'):?>
+				<?php echo JText::alt('JALL', 'language'); ?>
+			<?php else:?>
+				<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+			<?php endif;?>
+		</td>
         <td class="center"><?php echo $item->id ?></td>
       </tr>
       <?php endforeach ?>
