@@ -11,10 +11,6 @@
 			<option value="RENTING">Renting</option>
 		</field>
 		<field name="type_id" type="featureList" subtype="types" label="Property type" class="inputbox" required="true" />
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_JEA_FIELD_LANGUAGE_DESC" class="inputbox">
-			<option value="*">JALL</option>
-		</field>
 		<field name="amenities" type="amenities" class="amenity" />
 		<field name="images" type="gallery"  />
 		<field name="description" type="editor" class="inputbox" label="JGLOBAL_DESCRIPTION" filter="JComponentHelper::filterText" buttons="true" />
@@ -39,6 +35,10 @@
 		<field name="published" type="list" label="JSTATUS" description="JFIELD_PUBLISHED_DESC" class="inputbox" filter="intval" size="1" default="1">
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
+		</field>
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
+			description="COM_JEA_FIELD_LANGUAGE_DESC" class="inputbox">
+			<option value="*">JALL</option>
 		</field>
 		<field name="featured" type="list" label="JFEATURED" description="COM_JEAT_FIELD_FEATURED_DESC" default="0">
 			<option value="0">JNO</option>
