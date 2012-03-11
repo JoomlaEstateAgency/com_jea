@@ -14,6 +14,8 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modellist');
 
+require JPATH_SITE.DS.'components'.DS.'com_jea'.DS.'helpers'.DS.'language.php';
+
 /**
  * Feature list model class.
  *
@@ -22,6 +24,18 @@ jimport('joomla.application.component.modellist');
  */
 class JeaModelFeaturelist extends JModelList
 {
+	/**
+	 * type of feature
+	 * @var string
+	 */
+	var $_activeFeature = null;
+	
+	/**
+	 * is language enabled for this feature
+	 * @var boolean
+	 */
+	var $_langEnabled = true;
+	
     /**
      * Constructor.
      *
@@ -30,12 +44,23 @@ class JeaModelFeaturelist extends JModelList
      */
     public function __construct($config = array())
     {
+    	$jinput = JFactory::getApplication()->input;
+    	
+    	// Try to get current feature from request
+    	$this->_activeFeature = $jinput->get('feature',null,'string');
+    	
+    	// Check if this feature uses language
+    	$this->_langEnabled = $this->getLangEnabled();
+    	
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
                 'id', 'f.id',
-                'ordering', 'f.ordering',
-                'language', 'f.language'
+                'ordering', 'f.ordering'
                 );
+			// add language filters            
+            if ($this->_langEnabled) {
+            	array_push($config['filter_fields'], 'language', 'f.language');
+            }
         }
 
         // Set the internal state marker to true
@@ -45,6 +70,11 @@ class JeaModelFeaturelist extends JModelList
 
         // Initialize state information and use id as default column ordering
         $this->populateState('f.id', 'desc');
+        
+   		// If current feature isn't in the request try to get it from session
+        if (is_null($this->_activeFeature)) {
+        	$this->_activeFeature = $this->getUserStateFromRequest($this->context.'.feature.name', 'feature');
+        }
     }
 
 
@@ -89,8 +119,10 @@ class JeaModelFeaturelist extends JModelList
         }
 
         // add language filter
-        $language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
-        $this->setState('filter.language', $language);
+        if ($this->_langEnabled) {
+	        $language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+	        $this->setState('filter.language', $language);
+        }
 
         parent::populateState($ordering, $direction);
     }
@@ -108,8 +140,10 @@ class JeaModelFeaturelist extends JModelList
         $query->select('f.*')->from($db->escape($this->getState('feature.table')).' AS f');
 
         // Join over the language
-        $query->select('l.title AS language_title');
-        $query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = f.language');
+        if ($this->_langEnabled) {
+	        $query->select('l.title AS language_title');
+	        $query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = f.language');
+        }
 
         if ($filters = $this->getState('feature.filters')) {
             $filters = explode(',', $filters);
@@ -129,8 +163,10 @@ class JeaModelFeaturelist extends JModelList
         }
 
         // Filter on the language.
-        if ($language = $this->getState('filter.language')) {
-            $query->where('f.language = '.$db->quote($language));
+        if ($this->_langEnabled) {
+	        if ($language = $this->getState('filter.language')) {
+	            $query->where('f.language = '.$db->quote($language));
+	        }
         }
 
         // Add the list ordering clause.
@@ -138,12 +174,21 @@ class JeaModelFeaturelist extends JModelList
         $orderDirn   = $this->state->get('list.direction');
 
         // If language order selected order by languagetable title
-        if ($orderCol == 'language') $orderCol = 'l.title';
+        if ($this->_langEnabled) {
+        	if ($orderCol == 'language') $orderCol = 'l.title';
+        }
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
         // echo $query;
         return $query;
 
+    }
+    
+    /**
+     * Check if the active feature uses language
+     */
+    public function getLangEnabled() {
+    	return JeaHelperLanguage::featureUsesLanguage($this->_activeFeature);
     }
 
 }

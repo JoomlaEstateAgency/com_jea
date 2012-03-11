@@ -24,7 +24,6 @@ CREATE TABLE IF NOT EXISTS `#__jea_areas` (
   `value` varchar(255) NOT NULL default '',
   `town_id` int(11) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  `language` char(7) NOT NULL COMMENT 'language where area is shown',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
@@ -52,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `#__jea_departments` (
   `id` int(11) NOT NULL auto_increment,
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
-  `language` char(7) NOT NULL COMMENT 'language where department is shown',
   PRIMARY KEY  (`id`),
   KEY `name` (`value`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -172,7 +170,6 @@ CREATE TABLE IF NOT EXISTS `#__jea_towns` (
   `value` varchar(255) NOT NULL default '',
   `department_id` int(11) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  `language` char(7) NOT NULL COMMENT 'language where town is shown',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 

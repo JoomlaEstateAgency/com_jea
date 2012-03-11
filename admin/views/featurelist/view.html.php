@@ -36,6 +36,7 @@ class JeaViewFeaturelist extends JView
         $this->items		= $this->get('Items');
         $this->pagination	= $this->get('Pagination');
         $this->state		= $this->get('State');
+        $this->langEnabled	= $this->get('LangEnabled');
 
         $this->addToolbar();
         parent::display($tpl);
