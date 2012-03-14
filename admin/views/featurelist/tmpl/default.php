@@ -59,7 +59,7 @@ if (!empty($filters)) {
         echo JHtml::_($filterHtml, $this->state->get('filter.'.$filterKey), $filterKey, 'onchange="document.adminForm.submit();"' );
     }
     ?>
-    <?php if ($this->langEnabled): ?>
+    <?php if ($this->state->get('language_enabled')): ?>
 	  <select name="filter_language" class="inputbox" onchange="this.form.submit()">
 		<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 		<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
@@ -84,11 +84,11 @@ if (!empty($filters)) {
           <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
           <?php endif; ?>
         </th>
-        <?php if ($this->langEnabled): ?>
-		<th width="5%">
-			<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
-		</th>
-		<?php endif; ?>
+        <?php if ($this->state->get('language_enabled')): ?>
+        <th width="5%">
+          <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
+        </th>
+        <?php endif; ?>
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'f.id', $listDirection , $listOrder ) ?>
         </th>
@@ -97,11 +97,7 @@ if (!empty($filters)) {
 
     <tfoot>
       <tr>
-      	<?php $colspan = 4; ?>
-      	<?php if ($this->langEnabled) {
-      		$colspan++;
-      	}?>
-        <td colspan="<?php echo $colspan; ?>"><?php echo $this->pagination->getListFooter() ?>
+        <td colspan="<?php echo $this->state->get('language_enabled') ?  5: 4 ?>"><?php echo $this->pagination->getListFooter() ?>
         </td>
       </tr>
     </tfoot>
@@ -142,15 +138,15 @@ if (!empty($filters)) {
           <?php echo $item->ordering ?> 
         <?php endif ?>
         </td>
-        <?php if ($this->langEnabled): ?>
-		<td class="center">
-			<?php if ($item->language=='*'):?>
-				<?php echo JText::alt('JALL', 'language'); ?>
-			<?php else:?>
-				<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-			<?php endif;?>
-		</td>
-		<?php endif; ?>
+        <?php if ($this->state->get('language_enabled')): ?>
+        <td class="center">
+        <?php if ($item->language == '*'): ?> 
+          <?php echo JText::alt('JALL', 'language') ?>
+        <?php else: ?> 
+          <?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED') ?>
+        <?php endif ?>
+        </td>
+        <?php endif; ?>
         <td class="center"><?php echo $item->id ?></td>
       </tr>
       <?php endforeach ?>

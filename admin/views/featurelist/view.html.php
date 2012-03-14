@@ -32,11 +32,10 @@ class JeaViewFeaturelist extends JView
 
         JeaHelper::addSubmenu('features');
 
-        $this->user		= JFactory::getUser();
-        $this->items		= $this->get('Items');
-        $this->pagination	= $this->get('Pagination');
-        $this->state		= $this->get('State');
-        $this->langEnabled	= $this->get('LangEnabled');
+        $this->user       = JFactory::getUser();
+        $this->items      = $this->get('Items');
+        $this->pagination = $this->get('Pagination');
+        $this->state      = $this->get('State');
 
         $this->addToolbar();
         parent::display($tpl);
@@ -49,7 +48,7 @@ class JeaViewFeaturelist extends JView
      */
     protected function addToolbar()
     {
-        $canDo	= JeaHelper::getActions();
+        $canDo   = JeaHelper::getActions();
         $feature = $this->state->get('feature.name');
 
         JToolBarHelper::title( JText::_(JString::strtoupper("com_jea_list_of_{$feature}_title")) , 'jea.png' );
