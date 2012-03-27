@@ -70,6 +70,8 @@ class JeaModelProperties extends JModelList
                 'p.living_space',
                 'p.land_space',
                 'p.hits',
+                'p.ref',
+                'type',
                 'departement',
                 'town',
                 'area'
@@ -123,6 +125,8 @@ class JeaModelProperties extends JModelList
             
             $this->setState('filter.'.$name , $state);
         }
+        
+        $this->setState('filter.language', $app->getLanguageFilter());
 
         $this->setState('searchcontext' , $searchContext);
 
@@ -175,7 +179,27 @@ class JeaModelProperties extends JModelList
         // Join slogans
         $query->select('s.value AS slogan');
         $query->join('LEFT', '#__jea_slogans AS s ON s.id = p.slogan_id');
-        
+
+        if ($this->getState('manage') == true) {
+            $lang = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+
+            if ($lang) {
+                $query->where('p.language ='. $db->Quote($db->escape($lang)));
+            }
+            $this->setState('filter.language', $lang);
+
+            $user = JFactory::getUser();
+            $canEdit = $user->authorise('core.edit', 'com_jea');
+            $canEditOwn = $user->authorise('core.edit.own', 'com_jea');
+            if (!$canEdit && $canEditOwn) {
+                // Get only the user properties
+                $query->where('p.created_by =' . (int) $user->get('id'));
+            }
+
+        } elseif ($this->getState('filter.language')) {
+            $query->where('p.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+        }
+
         // Filter by search
         if ($value = $this->getState('filter.search')) {
             $value = $db->Quote('%'.$db->escape($value, true).'%');
@@ -206,6 +230,11 @@ class JeaModelProperties extends JModelList
         // Filter by town
         if ($value = $this->getState('filter.town_id')) {
             $query->where('p.town_id ='.(int) $value);
+        }
+        
+        // Filter by area
+        if ($value = $this->getState('filter.area_id')) {
+            $query->where('p.area_id ='.(int) $value);
         }
 
         // Filter by zip codes
@@ -308,6 +337,18 @@ class JeaModelProperties extends JModelList
         return $query;
     }
 
+
+    /**
+     * Retrieve the list of items which can be managed
+     * 
+     * @return multitype:array|boolean
+     */
+    public function getMyItems()
+	{
+		$this->setState('manage', true);
+		return $this->getItems();
+	}
+
     
     
     /* (non-PHPdoc)
@@ -333,6 +374,26 @@ class JeaModelProperties extends JModelList
         }
 
         return $new_state;
+    }
+
+    public function getFieldLimit($fieldName='', $transaction_type = '')
+    {
+        $db = JFactory::getDbo();
+        $query    = $db->getQuery(true);
+        $col = '`'.$db->escape($fieldName).'`';
+        $query->select("MIN($col) AS min_value, MAX($col) AS max_value");
+        $query->from('#__jea_properties');
+        if ($transaction_type) {
+            $query->where('transaction_type ='. $db->Quote($db->escape($transaction_type)));
+        }
+        $db->setQuery($query);
+        $row = $db->loadObject();
+
+        if (empty($row)) {
+            return array(0,0);
+        }
+        
+        return array((int) $row->min_value, (int)$row->max_value);
     }
 
 }

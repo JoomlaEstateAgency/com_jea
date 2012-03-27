@@ -32,6 +32,10 @@ Events:
 */
 
 var BiSlider = new Class({
+	
+	Implements: [Events, Options],
+	
+	Binds: ['clickedElement', 'draggedKnob', 'scrolledElement'],
 
 	options: {
 		onChange: Class.empty,
@@ -45,10 +49,10 @@ var BiSlider = new Class({
 	},
 
 	initialize: function(el, knobMin, knobMax, options){
-		this.element = $(el);
+		this.element = document.id(el);
 		this.element.setStyle('position', 'relative');
-		this.knobMin = $(knobMin);
-		this.knobMax = $(knobMax);
+		this.knobMin = document.id(knobMin);
+		this.knobMax = document.id(knobMax);
 		this.setOptions(options);
 		this.previousChange = -1;
 		this.previousEnd = -1;
@@ -84,24 +88,26 @@ var BiSlider = new Class({
 		
 		dragMinlim[this.z] = [- this.options.offset, this.max - this.knobMaxWidth - this.options.offset];
 		dragMaxlim[this.z] = [this.KnobMinWidth - this.options.offset, this.max - this.options.offset];
-		
-		this.dragMin = new Drag.Base(this.knobMin, {
+
+		this.dragMin = new Drag(this.knobMin, {
 			limit: dragMinlim,
 			modifiers: mod,
 			snap: 0,
 			onStart: function(){
 				this.draggedKnob('dragMin');
 			}.bind(this),
+
 			onDrag: function(){
 				this.draggedKnob('dragMin');
 			}.bind(this),
+
 			onComplete: function(){
 				this.draggedKnob('dragMin');
 				this.end();
 			}.bind(this)
 		});
-		
-		this.dragMax = new Drag.Base(this.knobMax, {
+
+		this.dragMax = new Drag(this.knobMax, {
 			limit: dragMaxlim,
 			modifiers: mod,
 			snap: 0,
@@ -202,5 +208,3 @@ var BiSlider = new Class({
 
 });
 
-BiSlider.implement(new Events);
-BiSlider.implement(new Options);

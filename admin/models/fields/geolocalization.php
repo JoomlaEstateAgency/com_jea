@@ -128,13 +128,30 @@ class JFormFieldGeolocalization extends JFormField
                 } else {
                     var geocoder = new google.maps.Geocoder();
                     var opts = {'address':request, 'language':'{$lang}', 'region':'{$region}'};
-                    
-                    geocoder.geocode(opts, function(results, status) {
+                    var retry = 0;
+                    var geocodeCallBack = function(results, status) {
                         if (status == google.maps.GeocoderStatus.OK) {
                             var myLatlng = results[0].geometry.location;
                             initMap(myLatlng);
+                        } else if (status == google.maps.GeocoderStatus.ZERO_RESULTS && retry < 3 ) {
+                            if (town && town.get('value') > 0 && retry == 0) {
+                                // retry with town
+                                zoom = 13;
+                                request = town.get('text') + ', {$lang}';
+                            } else if (department && department.get('value') > 0 && retry == 1) {
+                                // retry with department
+                                zoom = 8;
+                                request = department.get('text') + ', {$lang}';
+                            } else {
+                                zoom = 6;
+                                request = '{$lang}';
+                            }
+                            var opts = {'address':request, 'language':'{$lang}', 'region':'{$region}'};
+                            geocoder.geocode(opts, geocodeCallBack);
+                            retry++;
                         }
-                    });
+                    };
+                    geocoder.geocode(opts, geocodeCallBack);
                 }
             }
 

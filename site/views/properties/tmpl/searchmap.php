@@ -16,280 +16,268 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('jea.css', 'media/com_jea/css/');
+JHTML::stylesheet('media/com_jea/css/jea.css');
+JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-$category = $this->params->get('category', 0);
+$transationType = $this->params->get('searchform_transaction_type');
 
-JHTML::script('search.js', 'media/com_jea/js/', true);
-JHTML::script('geoSearch.js', 'media/com_jea/js/');
-JHTML::script('geoxml3.js', 'media/com_jea/js/');
-JHTML::script('biSlider.js', 'media/com_jea/js/');
+$states = array();
+$filters = $this->get('Filters');
 
-$document =& JFactory::getDocument();
-$langs  = explode('-', $document->getLanguage());
+foreach ($filters as $name => $defaultValue) {
+    $states['filter_'.$name] = $this->state->get('filter.'.$name, $defaultValue);
+}
+if(empty($transationType) && empty($states['filter_transaction_type'])) {
+    // Set SELLING as default transaction_type state
+    $states['filter_transaction_type'] = 'SELLING';
+}
 
+$fields = json_encode($states);
+JHTML::script('media/com_jea/js/search.js', true);
+JHTML::script('media/com_jea/js/geoSearch.js');
+JHTML::script('media/com_jea/js/geoxml3.js');
+JHTML::script('media/com_jea/js/biSlider.js');
+
+$langs  = explode('-', $this->document->getLanguage());
 $lang   = $langs[0];
 $region = $langs[1];
 
-$document->addScript('http://maps.google.com/maps/api/js?sensor=false&language=' . $lang
-                                                                . '&region=' . $region );
-                                                                
-$rentingPriceLimit = $this->getFieldLimit('price', 'renting');
-$sellingPriceLimit = $this->getFieldLimit('price', 'selling');
+$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&language=' . $lang
+. '&region=' . $region );
 
-$rentingSpaceLimit = $this->getFieldLimit('living_space', 'renting');
-$sellingSpaceLimit = $this->getFieldLimit('living_space', 'selling');
+$model = $this->getModel();
+/*
+$rentingPriceLimit = json_encode($model->getFieldLimit('price', 'RENTING'));
+$sellingPriceLimit = json_encode($model->getFieldLimit('price', 'SELLING'));
+$rentingSpaceLimit = json_encode($model->getFieldLimit('living_space', 'RENTING'));
+$sellingSpaceLimit = json_encode($model->getFieldLimit('living_space', 'SELLING'));
+*/
 
-$default_area = $this->params->get('default_map_area', $lang);
+$fieldsLimit = json_encode(array(
+    'RENTING' => array(
+        'price'   => $model->getFieldLimit('price', 'RENTING'),
+        'surface' => $model->getFieldLimit('living_space', 'RENTING')
+        ),
+    'SELLING' => array(
+        'price'   => $model->getFieldLimit('price', 'SELLING'),
+        'surface' => $model->getFieldLimit('living_space', 'SELLING')
+     ),
+));
+
+$default_area = $this->params->get('searchform_default_map_area', $lang);
 $currency_symbol = $this->params->get('currency_symbol', '&euro;');
 $surface_measure = $this->params->get( 'surface_measure');
-$map_width  = $this->params->get('map_width', 0);
-$map_height = $this->params->get( 'map_height', 400);
+$map_width  = $this->params->get('searchform_map_width', 0);
+$map_height = $this->params->get( 'searchform_map_height', 400);
 
-                                                                 
 //initialize the form when the page load
-$document->addScriptDeclaration("
+$this->document->addScriptDeclaration("
 
-var rentingMinPrice = {$rentingPriceLimit[0]};
-var rentingMaxPrice = {$rentingPriceLimit[1]};
-var sellingMinPrice = {$sellingPriceLimit[0]};
-var sellingMaxPrice = {$sellingPriceLimit[1]};
+var minPrice = 0;
+var maxPrice = 0;
+var minSpace = 0;
+var maxSpace = 0;
 
-var rentingMinSpace = {$rentingSpaceLimit[0]};
-var rentingMaxSpace = {$rentingSpaceLimit[1]};
-var sellingMinSpace = {$sellingSpaceLimit[0]};
-var sellingMaxSpace = {$sellingSpaceLimit[1]};
-
-var minPrice  = 0;
-var maxPrice  = 0;
-var minSpace  = 0;
-var maxSpace  = 0;
-
-function refreshKml() {
-
-	params = {};
-	params['cat'] = getCurrentCategory();
-	
-	var numericFields = [
-    	'type_id', 
-    	'department_id', 
-    	'town_id', 
-    	'budget_min', 
-    	'budget_max',
-    	'living_space_min',
-    	'living_space_max',
-    	'rooms_min'
-	];
-	
-	numericFields.each(function(field){
-	    if($(field)){
-	        if($(field).value > 0) {
-	            params[field] = $(field).value;
-	        }
-	    }
-	});
-	
-	$$('.advantage').each(function(item){
-          if (item.getElement('input').checked) {
-              params[item.getElement('input').name] = item.getElement('input').value;
-          }
-    });
-			
-	geoSearch.updateMap(params);
-}
-
-function getCurrentCategory() {
-    var cat = ''; 
-    if($('renting') && $('selling')) {
-		cat = $('renting').checked ? 'renting' : 'selling' ;
-	} else {
-		cat = $('cat').value;
-	}
-	return cat;
-}
-
-function updateCategory() {
-    
-    if(!$('budget_min') && !$('living_space_min')) {
-        // no advanced search
+function updateSliders()
+{
+    if(!document.id('price_slider') && !document.id('space_slider')) {
         return;
     }
+    var transaction_type = 'SELLING';
+    var form = document.id('jea-search-form');
 
-	var cat = getCurrentCategory();
-	
-	switch(cat) {
-        case 'renting' :
-            minPrice = rentingMinPrice;
-            maxPrice = rentingMaxPrice;
-            minSpace = rentingMinSpace;
-            maxSpace = rentingMaxSpace;
-            break;
-        case 'selling' :
-            minPrice = sellingMinPrice;
-            maxPrice = sellingMaxPrice;
-            minSpace = sellingMinSpace;
-            maxSpace = sellingMaxSpace;
-            break;
-	}
+    if (typeOf(form.filter_transaction_type) == 'collection') {
+        Array.from(form.filter_transaction_type).each(function(item) {
+            if (item.get('checked')) {
+                transaction_type = item.get('value');
+            }
+        });
 
-	$('budget_min').value = minPrice;
-    $('budget_max').value = maxPrice;
-    $('min_price').setHTML(minPrice + ' $currency_symbol');
-    $('max_price').setHTML(maxPrice + ' $currency_symbol');
-    
-    $('living_space_min').value = minSpace;
-    $('living_space_max').value = maxSpace;
-    $('min_space_value').setHTML(minSpace + ' $surface_measure');
-    $('max_space_value').setHTML(maxSpace + ' $surface_measure');
+    } else if (typeOf(form.filter_transaction_type) == 'element') {
+        transaction_type = form.filter_transaction_type.get('value');
+    }
+
+    var fieldsLimit = $fieldsLimit;
+    minPrice = fieldsLimit[transaction_type].price[0];
+    maxPrice = fieldsLimit[transaction_type].price[1];
+    minSpace = fieldsLimit[transaction_type].surface[0];
+    maxSpace = fieldsLimit[transaction_type].surface[1];
+
+    document.id('budget_min').set('value',minPrice);
+    document.id('budget_max').set('value',maxPrice);
+    document.id('min_price_value').set('text', minPrice + ' $currency_symbol');
+    document.id('max_price_value').set('text', maxPrice + ' $currency_symbol');
+
+    document.id('living_space_min').set('value',minSpace);
+    document.id('living_space_max').set('value',maxSpace);
+    document.id('min_space_value').set('text', minSpace + ' $surface_measure');
+    document.id('max_space_value').set('text', maxSpace + ' $surface_measure');
 }
 
 
 window.addEvent('domready', function() {
-        
-      geoSearch = new JeaGeoSearch('map_canvas', {
-          counterElement : 'properties_count',
-          defaultArea : '{$default_area}'
-      });
-      
-      updateCategory();
-      
-      refreshKml();
-      
-      // refresh AjaxForm
-      refreshForm();
 
-      $$('#type_id', '#department_id', '#town_id', '#selling', '#renting').each(function(item){
-      		item.addEvent('change', function() {
-      		    updateCategory();
-      			updateList(this);
-      			refreshKml();
-      		});
-      });
-      
-      $$('.advantage').each(function(item){
-          item.getElement('input').addEvent('change', refreshKml);
-      });
-      
+    var jeaSearch = new JEASearch('jea-search-form', {fields:$fields, useAJAX:true});
+
+    geoSearch = new JEAGeoSearch('map_canvas', {
+        counterElement : 'properties_count',
+        defaultArea : '{$default_area}',
+        form : 'jea-search-form'
+    });
+
+    updateSliders();
+    geoSearch.refresh();
+    jeaSearch.refresh();
+
+    $$('#filter_type_id', 
+       '#filter_department_id', 
+       '#filter_town_id', 
+       '#filter_area_id', 
+       '#rooms_min',
+       '.amenities input'
+       ).each(function(item) {
+        item.addEvent('change', function() {
+          geoSearch.refresh();
+        });
+    });
+
+    $$('#jea-search-selling', '#jea-search-renting').each(function(item) {
+        item.addEvent('change', function() {
+          updateSliders();
+          geoSearch.refresh();
+        });
+    });
+
       // Sliders init
-      
-      priceSlide = new BiSlider($('price_slider'), $('knob1'), $('knob2'), {
-        	steps: 100,
-        	onChange: function(steps){
-        	    var priceDiff = maxPrice - minPrice;
-        	    
-        	    $('budget_min').value = Math.round(((priceDiff * steps.minimum ) / 100) + minPrice);
-        		$('budget_max').value = Math.round(((priceDiff * steps.maximum ) / 100) + minPrice);
-        	    
-        		$('min_price').setHTML($('budget_min').value + ' $currency_symbol');
-        		$('max_price').setHTML($('budget_max').value + ' $currency_symbol');
-        		
-        	},
-        	onComplete: function(step) {
-        	    refreshKml();
-        	}
-      });
-      
-      spaceSlide = new BiSlider($('space_slider'), $('knob3'), $('knob4'), {
-        	steps: 100,
-        	onChange: function(steps){
-        	    var spaceDiff = maxSpace - minSpace;
-        	    
-        	    $('living_space_min').value = Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace);
-        		$('living_space_max').value = Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace);
+      priceSlide = new BiSlider('price_slider', 'knob1', 'knob2', {
+            steps: 100,
+            onChange: function(steps){
+                var priceDiff = maxPrice - minPrice;
 
-                $('min_space_value').setHTML($('living_space_min').value + ' $surface_measure');
-                $('max_space_value').setHTML($('living_space_max').value + ' $surface_measure');
-        	},
-        	onComplete: function(step) {
-        	    refreshKml();
-        	}
+                document.id('budget_min').set('value', Math.round(((priceDiff * steps.minimum ) / 100) + minPrice));
+                document.id('budget_max').set('value', Math.round(((priceDiff * steps.maximum ) / 100) + minPrice));
+
+                document.id('min_price_value').set('text', document.id('budget_min').get('value') + ' $currency_symbol');
+                document.id('max_price_value').set('text', document.id('budget_max').get('value') + ' $currency_symbol');
+                
+            },
+            onComplete: function(step) {
+                geoSearch.refresh();
+            }
+      });
+
+      spaceSlide = new BiSlider('space_slider', 'knob3', 'knob4', {
+            steps: 100,
+            onChange: function(steps){
+                var spaceDiff = maxSpace - minSpace;
+                
+                document.id('living_space_min').set('value', Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace));
+                document.id('living_space_max').set('value', Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace));
+
+                document.id('min_space_value').set('text',document.id('living_space_min').get('value') + ' $surface_measure');
+                document.id('max_space_value').set('text',document.id('living_space_max').get('value') + ' $surface_measure');
+            },
+            onComplete: function(step) {
+                geoSearch.refresh();
+            }
       });
 
 });");
 ?>
 
 <?php if ( $this->params->get('show_page_title', 0) && $this->params->get('page_title', '') ) : ?>
-<h1><?php echo $this->params->get('page_title') ?></h1>
+<h1>
+<?php echo $this->params->get('page_title') ?>
+</h1>
 <?php endif ?>
 
-<form action="<?php echo JRoute::_('&task=search&layout=default') ?>" method="post" id="jea_search_form" enctype="application/x-www-form-urlencoded" >
+<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties&layout=default') ?>" method="post" id="jea-search-form" enctype="application/x-www-form-urlencoded">
 
-    <?php if($category == 1): ?>
-    <input type="hidden" id="cat" name="cat" value="selling" />
-    <?php elseif($category == 2): ?>
-    <input type="hidden" id="cat" name="cat" value="renting" />
-    <?php else: ?>
-	<p>
-    <input type="radio" name="cat" id="renting" value="renting" checked="checked" />
-    <label for="renting"><?php echo JText::_('Renting') ?></label>
-    <input type="radio" name="cat" id="selling" value="selling" />
-    <label for="selling"><?php echo JText::_('Selling') ?></label>
-    </p>
-    <?php endif ?>
-    
-    <p>
-    <?php if ($this->params->get('show_types', 1) == 1):?>
-    <select id="type_id" name="type_id" class="inputbox"><option value="0"> </option></select>
-    <?php endif ?>
-    <?php if ($this->params->get('show_departments', 1) == 1):?>
-    <select id="department_id"  name="department_id" class="inputbox" ><option value="0"> </option></select>
-    <?php endif ?>
-    <?php if ($this->params->get('show_towns', 1) == 1):?>
-    <select id="town_id" name="town_id"  class="inputbox"><option value="0"> </option></select>
-    <?php endif ?>
-    
-    <span id="found_properties"><?php echo JText::_('Properties found')?> : <span id="properties_count">0</span></span>
-    </p>
-    
-    <div id="map_canvas" style="width: <?php echo $map_width ? $map_width.'px': '100%'?>; height: <?php echo $map_height.'px'?>"></div>
-  	
-  	
-<?php if ( $this->params->get('advanced_search', 0)): ?>
-<div class="clr"></div>
-
-<div class="jea_slider_block"> 
-    <h2><?php echo JText::_('Budget') ?></h2>
-    <div id="price_slider" class="slider_background">
-    	<div id="knob1" class="knob"></div><div id="knob2" class="knob"></div>
-    </div>
-    <div class="slider_infos">
-        <span class="slider_min_value" id="min_price">0</span> <?php echo JText::_('To') ?>    
-        <span class="slider_max_value" id="max_price">0</span>
-    </div>
-    <input id="budget_max" type="hidden" name="budget_max" />
-    <input id="budget_min" type="hidden" name="budget_min" />
-</div>
-
-<div class="jea_slider_block"> 
-    <h2><?php echo JText::_('Living space') ?></h2>
-    <div id="space_slider" class="slider_background">
-    	<div id="knob3" class="knob"></div><div id="knob4" class="knob"></div>
-    </div>
-    <div class="slider_infos">
-        <span class="slider_min_value" id="min_space_value">0</span> <?php echo JText::_('To') ?>    
-        <span class="slider_max_value" id="max_space_value">0</span>
-    </div>
-    <input id="living_space_min" type="hidden" name="living_space_min" />
-    <input id="living_space_max" type="hidden" name="living_space_max" />
-</div>
-
-  	
-  	<p><?php echo JText::_('Minimum number of rooms') ?>  : <input type="text" name="rooms_min" size="1" />
-  	<input type="button" value="<?php echo JText::_('Ok')?>" onclick="refreshKml()">
-  	</p>
-<div class="clr"></div>
- 	
-<div id="advantages_list">
-  	<div class="clr" ></div>
-  	<?php echo $this->getAdvantages('', 'checkbox') ?>
-  	<div class="clr" ></div>
-</div>
-<?php endif ?>
-
-<p>
-<input type="submit" class="button" value="<?php echo JText::_('List properties') ?>" />
-<input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>" />
-<?php echo JHTML::_( 'form.token' ) ?>
-</p>
+  <p>
+  <?php echo JHtml::_('features.types', $this->state->get('filter.type_id', 0), 'filter_type_id') ?>
   
+  <?php if ($transationType == 'RENTING'): ?>
+    <input type="hidden" name="filter_transaction_type" value="RENTING" />
+  <?php elseif($transationType == 'SELLING'): ?>
+    <input type="hidden" name="filter_transaction_type" value="SELLING" />
+  <?php else: ?>
+    <input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING" 
+           <?php if ($states['filter_transaction_type'] == 'SELLING') echo 'checked="checked"' ?> /> 
+    <label for="jea-search-selling"><?php echo JText::_('COM_JEA_SELLING') ?></label>
+
+    <input type="radio" name="filter_transaction_type" id="jea-search-renting" value="RENTING"
+           <?php if ($states['filter_transaction_type'] == 'RENTING') echo 'checked="checked"' ?> />
+    <label for="jea-search-renting"><?php echo JText::_('COM_JEA_RENTING') ?></label>
+  <?php endif ?>
+  </p>
+
+  <p>
+    <?php if ($this->params->get('searchform_show_departments', 1)): ?>
+    <?php echo JHtml::_('features.departments', $states['filter_department_id'], 'filter_department_id' ) ?>
+    <?php endif ?>
+
+    <?php if ($this->params->get('searchform_show_towns', 1)): ?>
+    <?php echo JHtml::_('features.towns', $states['filter_town_id'], 'filter_town_id' ) ?>
+    <?php endif ?>
+
+    <?php if ($this->params->get('searchform_show_areas', 1)): ?>
+    <?php echo JHtml::_('features.areas', $states['filter_area_id'], 'filter_area_id' ) ?>
+    <?php endif ?>
+    <span id="found_properties"><?php echo JText::_('Properties found')?> : <span id="properties_count">0</span></span>
+  </p>
+
+  <div id="map_canvas" style="width: <?php echo $map_width ? $map_width.'px': '100%'?>; height: <?php echo $map_height.'px'?>"></div>
+
+  <div class="clr"></div>
+
+  <div class="jea_slider_block">
+    <h2><?php echo JText::_('COM_JEA_BUDGET') ?></h2>
+    <div id="price_slider" class="slider_background">
+      <div id="knob1" class="knob"></div>
+      <div id="knob2" class="knob"></div>
+    </div>
+    <div class="slider_infos">
+      <span class="slider_min_value" id="min_price_value">0</span>
+      <?php echo JText::_('To') ?>
+      <span class="slider_max_value" id="max_price_value">0</span>
+    </div>
+    <input id="budget_max" type="hidden" name="filter_budget_max" /> 
+    <input id="budget_min" type="hidden" name="filter_budget_min" />
+  </div>
+
+  <div class="jea_slider_block">
+    <h2>
+    <?php echo JText::_('Living space') ?>
+    </h2>
+    <div id="space_slider" class="slider_background">
+      <div id="knob3" class="knob"></div>
+      <div id="knob4" class="knob"></div>
+    </div>
+    <div class="slider_infos">
+      <span class="slider_min_value" id="min_space_value">0</span>
+      <?php echo JText::_('To') ?>
+      <span class="slider_max_value" id="max_space_value">0</span>
+    </div>
+    <input id="living_space_min" type="hidden" name="filter_living_space_min" /> 
+    <input id="living_space_max" type="hidden" name="filter_living_space_max" />
+  </div>
+
+  <p>
+  <?php echo JText::_('Minimum number of rooms') ?>: 
+      <input type="text" id="rooms_min" name="filter_rooms_min" size="1" /> 
+  </p>
+
+  <div class="clr"></div>
+
+  <div class="amenities">
+    <?php echo JHtml::_('amenities.checkboxes', $states['filter_amenities'], 'filter_amenities' ) ?>
+    <?php // In order to prevent nul post for this field ?>
+    <input type="hidden" name="filter_amenities[]" value="0" />
+  </div>
+
+  <p>
+    <input type="submit" class="button" value="<?php echo JText::_('List properties') ?>" /> 
+  </p>
+
 </form>

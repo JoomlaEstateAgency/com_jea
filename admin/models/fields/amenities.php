@@ -66,7 +66,7 @@ class JFormFieldAmenities extends JFormField
                 $title = ' title="'.$row->value.'"';
             }
 
-            $output .= '<label class="amenity"'.$title.'">'
+            $output .= '<label class="amenity"'.$title.'>'
                     .  '<input type="checkbox" name="'.$this->name. '"'
                     .  ' value="'. $row->id . '" ' . $checked . ' />' . $label .'</label>' ;
         }

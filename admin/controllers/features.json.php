@@ -15,12 +15,12 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 jimport('joomla.application.component.controller');
 
 /**
- * Ajax controller class.
+ * Features Ajax controller class.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaControllerAjax extends JController
+class JeaControllerFeatures extends JController
 {
 
     /**

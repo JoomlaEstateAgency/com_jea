@@ -77,30 +77,29 @@ JPluginHelper::importPlugin('jea');
   <?php endif  ?>
 
 <table>
-
   <tr>
     <td><?php echo $this->row->transaction_type == 'RENTING' ?  JText::_('Renting price') : JText::_('Selling price') ?></td>
-    <td>: <strong><?php echo $this->formatPrice( floatval($this->row->price) , JText::_('Consult us') ) ?></strong></td>
+    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->price, JText::_('Consult us')) ?></strong></td>
   </tr>
 
   <?php if ($this->row->charges): ?>
   <tr>
     <td><?php echo JText::_('Charges') ?></td>
-    <td>: <strong><?php echo $this->formatPrice( floatval($this->row->charges), JText::_('Consult us') ) ?></strong></td>
+    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->charges) ?></strong></td>
   </tr>
   <?php endif  ?>
 
   <?php if ( $this->row->is_renting &&  floatval($this->row->deposit) > 0 ): ?>
   <tr>
     <td><?php echo JText::_('Deposit') ?></td>
-    <td>: <strong><?php echo $this->formatPrice( floatval($this->row->deposit), '0' ) ?> </strong></td>
+    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->deposit) ?></strong></td>
   </tr>
   <?php endif  ?>
 
   <?php if ($this->row->fees): ?>
   <tr>
     <td><?php echo JText::_('Fees') ?></td>
-    <td>: <strong><?php echo $this->formatPrice( floatval($this->row->fees), JText::_('Consult us') ) ?></strong></td>
+    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->fees) ?></strong></td>
   </tr>
   <?php endif  ?>
 </table>
@@ -111,40 +110,33 @@ JPluginHelper::importPlugin('jea');
 <?php endif  ?>
 
 <p>
-<?php
-if ($this->row->living_space) {
-    echo  JText::_( 'Living space' ) . ' : <strong>' . $this->row->living_space . ' '
-    . $this->params->get( 'surface_measure' ) . '</strong>' .PHP_EOL ;
-}?>
+  <?php if ($this->row->living_space): ?>
+  <?php echo  JText::_( 'Living space' ) ?> : 
+  <strong><?php echo JHtml::_('utility.formatSurface', (float) $this->row->living_space ) ?></strong>
   <br />
+  <?php endif ?>
 
-  <?php
-  if ($this->row->land_space) {
-      echo  JText::_( 'Land space' ) . ' : <strong>' . $this->row->land_space  .' '
-      . $this->params->get('surface_measure'). '</strong>' .PHP_EOL ;
-  }?>
+  <?php if ($this->row->land_space): ?>
+  <?php echo  JText::_( 'Land space' ) ?> : 
+  <strong><?php echo JHtml::_('utility.formatSurface', (float) $this->row->land_space ) ?></strong>
   <br />
+  <?php endif ?>
 
   <?php if ( $this->row->rooms ): ?>
-  <?php echo JText::_('Number of rooms') ?>
-  : <strong><?php echo $this->row->rooms ?> </strong> <br />
+  <?php echo JText::_('Number of rooms') ?> : <strong><?php echo $this->row->rooms ?> </strong> <br />
   <?php endif  ?>
 
   <?php if ( $this->row->floor ): ?>
-  <?php echo JText::_('Number of floors') ?>
-  : <strong><?php echo $this->row->floor ?> </strong> <br />
+  <?php echo JText::_('Number of floors') ?> : <strong><?php echo $this->row->floor ?> </strong> <br />
   <?php endif  ?>
 
   <?php if ( $this->row->bathrooms ): ?>
-  <?php echo JText::_('Number of bathrooms') ?>
-  : <strong><?php echo $this->row->bathrooms ?> </strong> <br />
+  <?php echo JText::_('Number of bathrooms') ?> : <strong><?php echo $this->row->bathrooms ?> </strong> <br />
   <?php endif  ?>
 
   <?php if ($this->row->toilets): ?>
-  <?php echo JText::_('Number of toilets') ?>
-  : <strong><?php echo $this->row->toilets ?> </strong>
+  <?php echo JText::_('Number of toilets') ?> : <strong><?php echo $this->row->toilets ?> </strong>
   <?php endif  ?>
-
 </p>
 
 <p>

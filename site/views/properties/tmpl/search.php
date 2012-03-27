@@ -39,19 +39,19 @@ foreach ($filters as $name => $defaultValue) {
     $states['filter_'.$name] = $this->state->get('filter.'.$name, $defaultValue);
 }
 
-
-if ($useAjax) {
-    $options = json_encode($states);
-    JHTML::script('media/com_jea/js/search.js', true);
-    $this->document->addScriptDeclaration("
-    window.addEvent('domready', function() {
-        var jeaSearch = new JEASearchAJAX('jea-search-form', $options);
-        jeaSearch.refresh();
-    });");
+if(empty($transationType) && empty($states['filter_transaction_type'])) {
+    // Set SELLING as default transaction_type state
+    $states['filter_transaction_type'] = 'SELLING';
 }
 
-// var_dump($useAjax);
-
+$fields = json_encode($states);
+$ajax = $useAjax? 'true': 'false';
+JHTML::script('media/com_jea/js/search.js', true);
+$this->document->addScriptDeclaration("
+window.addEvent('domready', function() {
+    var jeaSearch = new JEASearch('jea-search-form', {fields:$fields, useAJAX:$ajax});
+    jeaSearch.refresh();
+});");
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -71,6 +71,10 @@ if ($useAjax) {
     <input type="submit" class="button" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT')?>" />
   </p>
   <hr />
+<?php endif ?>
+
+<?php if ($useAjax): ?>
+  <div class="jea-counter"><span class="jea-counter-result">0</span> <?php echo JText::_('COM_JEA_FOUND_PROPERTIES')?></div>
 <?php endif ?>
 
   <p>
@@ -95,22 +99,6 @@ if ($useAjax) {
   <h2><?php echo JText::_('COM_JEA_LOCALIZATION') ?> :</h2>
 
   <p>
-  <?php if ($useAjax): ?>
-
-    <?php if ($this->params->get('searchform_show_departments', 1)): ?>
-    <select name="filter_department_id"><option value="0"> - <?php echo JText::_('Departments')?> - </option></select>
-    <?php endif ?>
-
-    <?php if ($this->params->get('searchform_show_towns', 1)): ?>
-    <select name="filter_town_id"><option value="0"> - <?php echo JText::_('Towns')?> - </option></select>
-    <?php endif ?>
-
-    <?php if ($this->params->get('searchform_show_areas', 1)): ?>
-    <select name="filter_area_id"><option value="0"> - <?php echo JText::_('Areas')?> - </option></select>
-    <?php endif ?>
-
-  <?php else: ?>
-
     <?php if ($this->params->get('searchform_show_departments', 1)): ?>
     <?php echo JHtml::_('features.departments', $states['filter_department_id'], 'filter_department_id' ) ?>
     <?php endif ?>
@@ -122,8 +110,6 @@ if ($useAjax) {
     <?php if ($this->params->get('searchform_show_areas', 1)): ?>
     <?php echo JHtml::_('features.areas', $states['filter_area_id'], 'filter_area_id' ) ?>
     <?php endif ?>
-
-  <?php endif ?>
   </p>
 
   <?php if ($this->params->get('searchform_show_zip_codes', 1)): ?>
@@ -261,9 +247,13 @@ if ($useAjax) {
   </div>
 <?php endif ?>
 
+<?php if ($useAjax): ?>
+  <div class="jea-counter"><span class="jea-counter-result">0</span> <?php echo JText::_('COM_JEA_FOUND_PROPERTIES')?></div>
+<?php endif ?>
+
   <p>
     <input type="reset" class="button" value="<?php echo JText::_('JSEARCH_FILTER_CLEAR') ?>" />
-    <input type="submit" class="button" value="<?php echo JText::_('JSEARCH_FILTER_SUBMIT') ?>" />
+    <input type="submit" class="button" value="<?php echo $useAjax ? JText::_('List properties') : JText::_('JSEARCH_FILTER_SUBMIT')?>" />
   </p>
 
 </form>

@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'features.php';
 
-class JeaViewProperties extends JView 
+class JeaViewProperties extends JView
 {
 
     public function display( $tpl = null )
@@ -26,14 +26,21 @@ class JeaViewProperties extends JView
 
         $this->assignRef('params', $params);
         $this->assignRef('state', $state);
+        $layout = $this->getLayout();
 
-        if ($this->getLayout() == 'default') {
+        if ($layout == 'default' || $layout == 'manage') {
+            if ($layout == 'manage') {
+                $items      = $this->get('MyItems');
+            } else {
+                $items      = $this->get('Items');
+            }
 
-            $items      = $this->get('Items');
             $pagination = $this->get('Pagination');
             $this->assignRef('items', $items);
             $this->assignRef('pagination', $pagination);
+        }
 
+        if ($layout == 'default') {
             $this->prepareSortLinks();
 
             //add alternate feed link
@@ -114,39 +121,7 @@ class JeaViewProperties extends JView
     }
 
 
-    /**
-     * Format price following the component configuration.
-     * If price is empty, it return string default value.
-     *
-     * @param float|int $price
-     * @param string $default
-     * @return unknown
-     */
-    protected function formatPrice ( $price , $default="" )
-    {
-        if (!empty($price)) {
-            $price = (float) $price;
-            $currency_symbol     = $this->params->get('currency_symbol', '&euro;');
-            $decimal_separator   = $this->params->get('decimals_separator', ',');
-            $thousands_separator = $this->params->get('thousands_separator', ' ');
-            $decimals            = (int) $this->params->get('decimals_number', '0');
-            $price = number_format( $price, $decimals, $decimal_separator, $thousands_separator);
-             
-            // Is currency symbol before or after price ?
-            if ($this->params->get('symbol_place', 1)) {
-                 
-                return $this->escape( $price .' '. $currency_symbol );
 
-            } else {
-                 
-                return $this->escape( $currency_symbol .' '. $price );
-            }
-             
-        } else {
-             
-            return $default ;
-        }
-    }
 
     protected function getFirstImageUrl(&$row)
     {
@@ -174,7 +149,7 @@ class JeaViewProperties extends JView
 
         return '';
     }
-    
+
     protected function getFeatureValue($featureId=0, $featureTable='')
     {
         $db = JFactory::getDbo();
@@ -183,5 +158,4 @@ class JeaViewProperties extends JView
         return $table->value ;
     }
 
-     
 }

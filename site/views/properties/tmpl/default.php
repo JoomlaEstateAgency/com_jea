@@ -95,17 +95,17 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
         <?php endif ?>
 
         <?php echo $row->transaction_type == 'RENTING' ? JText::_('Renting price') :  JText::_('Selling price') ?> : 
-        <strong> <?php echo $this->formatPrice( $row->price , JText::_('Consult us') ) ?> </strong>
+        <strong> <?php echo JHtml::_('utility.formatPrice', (float) $row->price , JText::_('Consult us') ) ?> </strong>
 
         <?php if (!empty($row->living_space)): ?>
           <br /><?php echo  JText::_('Living space') ?> : <strong>
-          <?php echo $row->living_space ?> <?php echo $this->escape($this->params->get('surface_measure')) ?>
+          <?php echo JHtml::_('utility.formatSurface', (float) $row->living_space , '-' ) ?>
           </strong>
         <?php endif ?>
 
         <?php if (!empty($row->land_space)): ?>
           <br /><?php echo  JText::_('Land space') ?> : <strong>
-          <?php echo $row->land_space ?> <?php echo $this->escape($this->params->get('surface_measure')) ?>
+          <?php echo JHtml::_('utility.formatSurface', (float) $row->land_space , '-' ) ?>
           </strong>
         <?php endif ?>
 

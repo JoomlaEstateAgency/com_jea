@@ -16,7 +16,6 @@ jimport('joomla.application.component.controllerform');
 
 // TODO: implement access right management
 // TODO: implement publish down date management
-// TODO: implement language management
 /**
  * Property controller class.
  * @package     Joomla.Administrator

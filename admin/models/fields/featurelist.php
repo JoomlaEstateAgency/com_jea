@@ -128,7 +128,7 @@ class JFormFieldFeatureList extends JFormField
                          jSonRequest.get({
                              'option' : 'com_jea',
                              'format' : 'json',
-                             'task' : 'ajax.{$task}',
+                             'task' : 'features.{$task}',
                              {$fromId} : this.value
                          });
                      });

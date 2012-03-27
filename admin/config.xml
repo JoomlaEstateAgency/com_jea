@@ -10,6 +10,7 @@
 		<field name="currency_symbol" type="text" size="5" default="€" label="Currency symbol" description="" />
 		<field name="thousands_separator" type="text" size="1" default=" " label="Thousands separator" description="" />
 		<field name="decimals_separator" type="text" size="1" default="," label="Decimals separator" description="" />
+		<field name="decimals_number" type="text" size="1" default="0" label="Decimals number" description="" />
 
 		<field name="symbol_place" type="radio" default="1" label="Symbol position" description="PARAMSSYMBOLPLACE">
 			<option value="0">Before</option>

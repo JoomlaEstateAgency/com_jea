@@ -75,7 +75,7 @@ abstract class JHtmlAmenities
                     $checked = 'checked="checked"';
                 }
                 
-                $html .= '<li><input name="'. $name.'[]" id="'
+                $html .= '<li><input name="'. $name.'" id="'
                        . $id . '" type="checkbox" value="'
                        . $row->id .'" '.$checked.' /> '
                        . '<label for="'.$id.'">'. $row->value  . '</label></li>' . "\n" ;

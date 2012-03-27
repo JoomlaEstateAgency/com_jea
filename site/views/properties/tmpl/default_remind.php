@@ -53,36 +53,32 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($states['filter_budget_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_BUDGET_MIN') ?> : </strong>
-  <?php echo $this->formatPrice($states['filter_budget_min']) ?>
+  <?php echo JHtml::_('utility.formatPrice', $states['filter_budget_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_budget_max'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_BUDGET_MAX') ?> : </strong>
-  <?php echo $this->formatPrice($states['filter_budget_max']) ?>
+  <?php echo JHtml::_('utility.formatPrice', $states['filter_budget_max']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_living_space_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_LIVING_SPACE_MIN') ?> : </strong>
-  <?php echo $this->escape($states['filter_living_space_min']) ?> 
-  <?php echo $this->params->get( 'surface_measure' ) ?>
+  <?php echo JHtml::_('utility.formatSurface', $states['filter_living_space_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_living_space_max'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_LIVING_SPACE_MAX') ?> : </strong>
-  <?php echo $this->escape($states['filter_living_space_max']) ?> 
-  <?php echo $this->params->get( 'surface_measure' ) ?>
+  <?php echo JHtml::_('utility.formatSurface', $states['filter_living_space_max']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_land_space_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_LAND_SPACE_MIN') ?> : </strong>
-  <?php echo $this->escape($states['filter_land_space_min']) ?> 
-  <?php echo $this->params->get( 'surface_measure' ) ?>
+  <?php echo JHtml::_('utility.formatSurface', $states['filter_land_space_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_land_space_max'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_LAND_SPACE_MAX') ?> : </strong>
-  <?php echo $this->escape($states['filter_land_space_max']) ?> 
-  <?php echo $this->params->get( 'surface_measure' ) ?>
+  <?php echo JHtml::_('utility.formatSurface', $states['filter_land_space_max']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_rooms_min'] > 0): ?>
