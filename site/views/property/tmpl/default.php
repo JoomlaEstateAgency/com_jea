@@ -178,10 +178,9 @@ JPluginHelper::importPlugin('jea');
 
 <?php if ( $this->params->get('show_googlemap') ): ?>
 <h3>
-<?php echo JText::_('COM_JEA_GEOLOCALIZATION') ?>
-  :
+<?php echo JText::_('COM_JEA_GEOLOCALIZATION') ?> :
 </h3>
-<?php // echo $this->showGoogleMap($this->row) // TODO: Google implementation on property detail ?>
+<?php echo $this->loadTemplate('googlemap') ?>
 <?php endif ?>
 
 <?php if ( $this->params->get('show_contactform') ): // TODO: sendmail implementation ?>
