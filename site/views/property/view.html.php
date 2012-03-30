@@ -47,5 +47,45 @@ class JeaViewProperty extends JView
         parent::display($tpl);
     }
 
+    /**
+     * Get the previous and next links relative to the property
+     * @param string $previousPrefix
+     * @param string $nextPrefix
+     * @return string
+     */
+    protected function getPrevNextNavigation($previousPrefix='&lt;&lt; ', $nextPrefix=' &gt;&gt;')
+    {
+        $res = $this->get('previousAndNext');
+        $html = '';
+        $previous = $previousPrefix. JText::_('JPREVIOUS') ;
+        $next     = JText::_('JNEXT') . $nextPrefix ;
+
+        if ( $res['prev_item'] ) {
+
+            $html .= '<a class="previous" href="' . $this->buildPropertyLink($res['prev_item']) . '">' . $previous . '</a>' ;
+        } else {
+            $html .= '<span class="previous">' . $previous . '</span>';
+        }
+
+        if ($res['next_item']) {
+
+            $html .= '<a class="next" href="' . $this->buildPropertyLink($res['next_item']) . '">' . $next . '</a>' ;
+        }  else {
+
+            $html .= '<span class="next">' . $next . '</span>';
+        }
+
+        return $html;
+
+    }
+
+    protected function buildPropertyLink(&$item)
+    {
+        $slug = $item->alias ? ($item->id . ':' . $row->$item) : $item->id;
+        return JRoute::_('index.php?option=com_jea&view=property&id='. $slug);
+    }
+
+
+
 }
 

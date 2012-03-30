@@ -42,8 +42,19 @@ class JeaModelProperty extends JModel
     }
 
 
+    /**
+     * Get the property object
+     * @throws Exception
+     * @return stdClass
+     */
     public function getItem()
     {
+        static $data;
+
+        if ($data != null) {
+            return $data;
+        }
+
         $pk = $this->getState('property.id');
 
         $db        = $this->getDbo();
@@ -144,6 +155,37 @@ class JeaModelProperty extends JModel
 
         return $data;
 
+    }
+    
+    /**
+     * Get the previous and next item relative to the current
+     * @return array
+     */
+    public function getPreviousAndNext()
+    {
+        $item = $this->getItem();
+        $properties = JModel::getInstance('Properties', 'JeaModel');
+
+        // Deactivate pagination
+        $properties->setState('list.start', 0);
+        $properties->setState('list.limit', 0);
+        $items = $properties->getItems();
+
+        $result= array(
+            'prev' => null,
+            'next' => null
+        );
+
+        $currentIndex = 0;
+        foreach($items as $k => $row){
+            if ($row->id == $item->id) {
+                $currentIndex = $k;
+            }
+        }
+        if ( isset($items[$currentIndex-1]) ) $result['prev_item'] = $items[$currentIndex-1] ;
+        if ( isset($items[$currentIndex+1]) ) $result['next_item'] = $items[$currentIndex+1] ;
+
+        return $result;
     }
 
     /**

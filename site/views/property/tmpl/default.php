@@ -25,8 +25,8 @@ $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('jea');
 ?>
 
-<p class="pagenavigation">
-<?php // TODO: echo $this->getPrevNextItems( $this->row->id ) ?>
+<p class="prev-next-navigation">
+<?php echo $this->getPrevNextNavigation() ?>
 </p>
 
 <?php if ($this->params->get('show_print_icon')): ?>
