@@ -29,8 +29,8 @@ abstract class JHtmlContentAdministrator
     {
         // Array of image, task, title, action
         $states = array(
-            0 => array('disabled.png', 'properties.featured', 'UNFEATURED', 'TOGGLE_TO_FEATURE'),
-            1 => array('featured.png', 'properties.unfeatured', 'FEATURED', 'TOGGLE_TO_UNFEATURE'),
+            0 => array('disabled.png', 'properties.featured', 'COM_JEA_UNFEATURED', 'COM_JEA_TOGGLE_TO_FEATURE'),
+            1 => array('featured.png', 'properties.unfeatured', 'COM_JEA_FEATURED', 'COM_JEA_TOGGLE_TO_UNFEATURE'),
         );
         $state = JArrayHelper::getValue($states, (int) $value, $states[1]);
         $html  = JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);

@@ -37,7 +37,7 @@ $user = JFactory::getUser();
 <div class="edit property<?php echo $this->escape($this->params->get('pageclass_sfx')) ?>">
 
 <?php if ($this->item->id): ?>
-<p><a href="javascript:Joomla.submitbutton('property.cancel');"><?php echo JText::_('Return to the list')?></a></p>
+<p><a href="javascript:Joomla.submitbutton('property.cancel');"><?php echo JText::_('COM_JEA_RETURN_TO_THE_LIST')?></a></p>
 <?php endif ?>
 
   <form action="<?php echo JRoute::_('index.php?option=com_jea&id='.(int) $this->item->id) ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
@@ -56,28 +56,28 @@ $user = JFactory::getUser();
       <?php echo $this->form->getInput('description') ?>
 
       <fieldset>
-        <legend><?php echo JText::_('Localization')?></legend>
+        <legend><?php echo JText::_('COM_JEA_LOCALIZATION')?></legend>
         <?php foreach ($this->form->getFieldset('localization') as $field): ?>
           <div class="formelm"><?php echo $field->label . "\n" . $field->input ?></div>
         <?php endforeach ?>
       </fieldset>
 
       <fieldset>
-        <legend><?php echo JText::_('Financial informations')?></legend>
+        <legend><?php echo JText::_('COM_JEA_FINANCIAL_INFORMATIONS')?></legend>
         <?php foreach ($this->form->getFieldset('financial_informations') as $field): ?>
           <div class="formelm"><?php echo $field->label . "\n" . $field->input ?></div>
         <?php endforeach ?>
       </fieldset>
 
       <fieldset>
-        <legend><?php echo JText::_('Details')?></legend>
+        <legend><?php echo JText::_('COM_JEA_DETAILS')?></legend>
         <?php foreach ($this->form->getFieldset('details') as $field): ?>
           <div class="formelm"><?php echo $field->label . "\n" . $field->input ?></div>
         <?php endforeach ?>
         <div class="clr"></div>
 
         <fieldset class="amenities">
-          <legend><?php echo JText::_('Amenities')?></legend>
+          <legend><?php echo JText::_('COM_JEA_AMENITIES')?></legend>
           <div class="clr"></div>
           <?php echo $this->form->getInput('amenities') ?>
           <div class="clr"></div>
@@ -87,7 +87,7 @@ $user = JFactory::getUser();
 
       <?php if ($user->authorise('core.edit.state', 'com_jea')): ?>
       <fieldset>
-        <legend><?php echo JText::_('Publication info')?></legend>
+        <legend><?php echo JText::_('COM_JEA_PUBLICATION_INFO')?></legend>
         <div class="formelm">
         <?php echo $this->form->getLabel('published') ?> <?php echo $this->form->getInput('published') ?>
         </div>
@@ -114,7 +114,7 @@ $user = JFactory::getUser();
       <?php endif ?>
 
       <fieldset>
-      <legend><?php echo JText::_('Pictures')?></legend>
+      <legend><?php echo JText::_('COM_JEA_PICTURES')?></legend>
       <?php echo $this->form->getInput('images') ?>
       </fieldset>
 

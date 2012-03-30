@@ -34,7 +34,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
       <div class="clr"></div>
 
       <fieldset>
-        <legend><?php echo JText::_('Localization')?></legend>
+        <legend><?php echo JText::_('COM_JEA_LOCALIZATION')?></legend>
         <ul class="adminformlist">
         <?php foreach ($this->form->getFieldset('localization') as $field): ?>
           <li><?php echo $field->label . "\n" . $field->input ?></li>
@@ -43,7 +43,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
       </fieldset>
 
       <fieldset>
-        <legend><?php echo JText::_('Financial informations')?></legend>
+        <legend><?php echo JText::_('COM_JEA_FINANCIAL_INFORMATIONS')?></legend>
         <ul class="adminformlist">
         <?php foreach ($this->form->getFieldset('financial_informations') as $field): ?>
           <li><?php echo $field->label . "\n" . $field->input ?></li>
@@ -52,7 +52,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
       </fieldset>
 
       <fieldset>
-        <legend><?php echo JText::_('Details')?></legend>
+        <legend><?php echo JText::_('COM_JEA_DETAILS')?></legend>
         <ul class="adminformlist">
         <?php foreach ($this->form->getFieldset('details') as $field): ?>
           <li><?php echo $field->label . "\n" . $field->input ?></li>
@@ -61,7 +61,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
         <div class="clr"></div>
 
         <fieldset class="advantages">
-          <legend><?php echo JText::_('Amenities')?></legend>
+          <legend><?php echo JText::_('COM_JEA_AMENITIES')?></legend>
           <div class="clr"></div>
           <?php echo $this->form->getInput('amenities') ?>
           <div class="clr"></div>
@@ -80,7 +80,7 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
   <div class="width-40 fltrt">
   <?php echo JHtml::_('sliders.start', 'property-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
 
-  <?php echo JHtml::_('sliders.panel', JText::_('Publication info'), 'params-pane') ?>
+  <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PUBLICATION_INFO'), 'params-pane') ?>
     <fieldset class="panelform">
       <ul class="adminformlist">
       <?php foreach ($this->form->getFieldset('publication') as $field): ?>
@@ -89,12 +89,12 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
       </ul>
     </fieldset>
 
-    <?php echo JHtml::_('sliders.panel', JText::_('Pictures'), 'picture-pane') ?>
+    <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PICTURES'), 'picture-pane') ?>
     <fieldset class="panelform">
     <?php echo $this->form->getInput('images') ?>
     </fieldset>
     
-    <?php echo JHtml::_('sliders.panel', JText::_('Notes'), 'note-pane') ?>
+    <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_NOTES'), 'note-pane') ?>
     <fieldset class="panelform">
         <?php echo $this->form->getLabel('notes') ?>
         <div class="clr"></div>

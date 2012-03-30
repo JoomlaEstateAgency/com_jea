@@ -87,11 +87,11 @@ window.addEvent('domready', function() {
   <?php else: ?>
     <input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING" 
            <?php if ($states['filter_transaction_type'] == 'SELLING') echo 'checked="checked"' ?> /> 
-    <label for="jea-search-selling"><?php echo JText::_('COM_JEA_SELLING') ?></label>
+    <label for="jea-search-selling"><?php echo JText::_('COM_JEA_OPTION_SELLING') ?></label>
 
     <input type="radio" name="filter_transaction_type" id="jea-search-renting" value="RENTING"
            <?php if ($states['filter_transaction_type'] == 'RENTING') echo 'checked="checked"' ?> />
-    <label for="jea-search-renting"><?php echo JText::_('COM_JEA_RENTING') ?></label>
+    <label for="jea-search-renting"><?php echo JText::_('COM_JEA_OPTION_RENTING') ?></label>
   <?php endif ?>
   </p>
 
@@ -138,7 +138,7 @@ window.addEvent('domready', function() {
 <?php endif ?>
   
 <?php if ($this->params->get('searchform_show_living_space', 1)): ?>
-  <h2><?php echo JText::_('COM_JEA_LIVING_SPACE') ?> :</h2>
+  <h2><?php echo JText::_('COM_JEA_FIELD_LIVING_SPACE_LABEL') ?> :</h2>
   <dl class="col-left">
     <dt><label for="jea-search-living-space-min"><?php echo JText::_('COM_JEA_MIN') ?> : </label></dt>
     <dd><input id="jea-search-living-space-min" type="text" name="filter_living_space_min" 
@@ -154,7 +154,7 @@ window.addEvent('domready', function() {
 <?php endif ?>
 
 <?php if ($this->params->get('searchform_show_land_space', 1)): ?>
-  <h2><?php echo JText::_('COM_JEA_LAND_SPACE') ?> :</h2>
+  <h2><?php echo JText::_('COM_JEA_FIELD_LAND_SPACE_LABEL') ?> :</h2>
   <dl class="col-left">
     <dt><label for="jea-search-land-space-min"><?php echo JText::_('COM_JEA_MIN') ?> : </label></dt>
     <dd><input id="jea-search-land-space-min" type="text" name="filter_land_space_min" 
@@ -199,7 +199,7 @@ window.addEvent('domready', function() {
 
     <?php if ($this->params->get('searchform_show_floor', 1)): ?>
     <li>
-      <label for="jea-search-floor"><?php echo JText::_('COM_JEA_FLOOR') ?> : </label>
+      <label for="jea-search-floor"><?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?> : </label>
       <input id="jea-search-floor" type="text" name="filter_floor" size="2" value="<?php echo $states['filter_floor'] ?>" />
       <em><?php echo JText::_('COM_JEA_SEARCH_FLOOR_DESC') ?></em>
     </li>
@@ -221,7 +221,7 @@ window.addEvent('domready', function() {
     <li>
     <?php 
         $options = array(
-            JHTML::_('select.option', '0',  ' - ' . JText::_('COM_JEA_ORIENTATION') . ' - ' ),
+            JHTML::_('select.option', '0',  ' - ' . JText::_('COM_JEA_FIELD_ORIENTATION_LABEL') . ' - ' ),
             JHTML::_('select.option', 'N',  JText::_('COM_JEA_OPTION_NORTH')),
             JHTML::_('select.option', 'NW', JText::_('COM_JEA_OPTION_NORTH_WEST')),
             JHTML::_('select.option', 'NE', JText::_('COM_JEA_OPTION_NORTH_EAST')),
@@ -239,7 +239,7 @@ window.addEvent('domready', function() {
 <?php endif ?>
 
 <?php if ($this->params->get('searchform_show_amenities', 1)): ?>
-  <h2><?php echo JText::_('Amenities') ?> :</h2>
+  <h2><?php echo JText::_('COM_JEA_AMENITIES') ?> :</h2>
   <div class="amenities">
     <?php echo JHtml::_('amenities.checkboxes', $states['filter_amenities'], 'filter_amenities' ) ?>
     <?php // In order to prevent nul post for this field ?>
@@ -253,7 +253,7 @@ window.addEvent('domready', function() {
 
   <p>
     <input type="reset" class="button" value="<?php echo JText::_('JSEARCH_FILTER_CLEAR') ?>" />
-    <input type="submit" class="button" value="<?php echo $useAjax ? JText::_('List properties') : JText::_('JSEARCH_FILTER_SUBMIT')?>" />
+    <input type="submit" class="button" value="<?php echo $useAjax ? JText::_('COM_JEA_LIST_PROPERTIES') : JText::_('JSEARCH_FILTER_SUBMIT')?>" />
   </p>
 
 </form>

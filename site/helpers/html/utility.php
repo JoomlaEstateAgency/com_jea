@@ -37,7 +37,7 @@ abstract class JHtmlUtility
             $price = self::formaNumber($price);
 
             // Is currency symbol before or after price ?
-            if ($params->get('symbol_place', 1)) {
+            if ($params->get('symbol_position', 1)) {
                 $price = $price .' '. $currency_symbol;
             } else {
                 $price = $currency_symbol .' '. $price;

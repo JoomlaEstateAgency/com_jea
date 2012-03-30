@@ -21,33 +21,33 @@ defined('_JEXEC') or die('Restricted access');
 ?>
 
 <?php if ($states['filter_transaction_type'] == 'RENTING'): ?>
-  <strong><?php echo JText::_('COM_JEA_RENTING') ?></strong>
+  <strong><?php echo JText::_('COM_JEA_OPTION_RENTING') ?></strong>
 <?php elseif ($states['filter_transaction_type'] == 'SELLING'): ?>
-  <strong><?php echo JText::_('COM_JEA_SELLING') ?></strong>
+  <strong><?php echo JText::_('COM_JEA_OPTION_SELLING') ?></strong>
 <?php endif ?>
 
 <?php if ($states['filter_type_id'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_PROPERTY_TYPE') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_PROPERTY_TYPE_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_type_id'], 'types') ?>
 <?php endif ?>
 
 <?php if ($states['filter_department_id'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_DEPARTMENT') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_DEPARTMENT_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_department_id'], 'departments') ?>
 <?php endif ?>
 
 <?php if ($states['filter_town_id'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_TOWN') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_TOWN_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_town_id'], 'towns') ?>
 <?php endif ?>
 
 <?php if ($states['filter_area_id'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_AREA') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_AREA_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_area_id'], 'towns') ?>
 <?php endif ?>
 
 <?php if (!empty($states['filter_zip_codes'])): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_SEARCH_ZIP_CODES') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_ZIP_CODE_LABEL') ?> : </strong>
   <?php echo $this->escape($states['filter_zip_codes']) ?>
 <?php endif ?>
 
@@ -97,27 +97,27 @@ defined('_JEXEC') or die('Restricted access');
 <?php endif ?>
 
 <?php if ($states['filter_floor'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_FLOOR') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?> : </strong>
   <?php echo $this->escape($states['filter_floor']) ?> 
 <?php endif ?>
 
 <?php if ($states['filter_hotwatertype'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_HOT_WATER_TYPE') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_HOTWATERTYPE_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_hotwatertype'], 'hotwatertypes') ?>
 <?php endif ?>
 
 <?php if ($states['filter_heatingtype'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_HEATING_TYPE') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_HEATINGTYPE_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_heatingtype'], 'heatingtypes') ?>
 <?php endif ?>
 
 <?php if ($states['filter_condition'] > 0): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_CONDITION') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_CONDITION_LABEL') ?> : </strong>
   <?php echo $this->getFeatureValue($states['filter_condition'], 'conditions') ?>
 <?php endif ?>
 
 <?php if (!empty($states['filter_orientation'])): ?>
-  <br /><strong><?php echo JText::_('COM_JEA_ORIENTATION') ?> : </strong>
+  <br /><strong><?php echo JText::_('COM_JEA_FIELD_ORIENTATION_LABEL') ?> : </strong>
   <?php switch($states['filter_orientation']) {
       case 'N':
           echo JText::_('COM_JEA_OPTION_NORTH');

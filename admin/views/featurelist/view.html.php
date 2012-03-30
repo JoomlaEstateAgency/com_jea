@@ -63,7 +63,7 @@ class JeaViewFeaturelist extends JView
 
         if ($canDo->get('core.delete')) {
             JToolBarHelper::divider();
-            JToolBarHelper::deleteList(JText::_('CONFIRM_DELETE_MSG'), 'featurelist.delete');
+            JToolBarHelper::deleteList(JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'featurelist.delete');
         }
     }
 

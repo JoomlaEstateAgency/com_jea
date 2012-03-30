@@ -74,7 +74,7 @@ abstract class JHtmlAmenities
                 if (in_array($row->id, $values)) {
                     $checked = 'checked="checked"';
                 }
-                
+                // TODO: Solve the problem with the amenities name without []
                 $html .= '<li><input name="'. $name.'" id="'
                        . $id . '" type="checkbox" value="'
                        . $row->id .'" '.$checked.' /> '

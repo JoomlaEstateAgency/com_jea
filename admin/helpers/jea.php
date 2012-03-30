@@ -29,12 +29,12 @@ class JeaHelper
     public static function addSubmenu($viewName)
     {
         JSubMenuHelper::addEntry(
-            JText::_('Properties management'), 
+            JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 
             'index.php?option=com_jea&view=properties',
             $viewName == 'properties'
         );
         JSubMenuHelper::addEntry(
-            JText::_('Features management'), 
+            JText::_('COM_JEA_FEATURES_MANAGEMENT'), 
             'index.php?option=com_jea&view=features',
             $viewName == 'features'
         );

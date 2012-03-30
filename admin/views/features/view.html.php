@@ -44,7 +44,7 @@ class JeaViewFeatures extends JView
     {
         $canDo  = JeaHelper::getActions();
 
-        JToolBarHelper::title( JText::_('FEATURES management'), 'jea.png' );
+        JToolBarHelper::title( JText::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea.png' );
 
         if ($canDo->get('core.manage')) {
             JToolBarHelper::custom('features.import', 'import', '', 'Import', false);

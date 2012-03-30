@@ -46,11 +46,11 @@ class JFormFieldGeolocalization extends JFormField
          
         $ouptut = '<div class="button2-left">'. "\n"
                 . '<div class="blank"><a class="modal" href="#map-box-content" rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">'
-                . JText::_('COM_JEA_OPEN_MAP'). '</a></div>'. "\n"
+                . JText::_('COM_JEA_MAP_OPEN'). '</a></div>'. "\n"
                 . '</div>'. "\n"
                 . '<div id="map-box-content" class="map-box-content" style="display:none">'. "\n"
-                . JText::_('Latitude') . ' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />'
-                . JText::_('Longitude') . ' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />'
+                . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') . ' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />'
+                . JText::_('COM_JEA_FIELD_LONGITUDE_LABEL') . ' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />'
                 . '<div class="map-box-container" style="width: 100%; height: 480px"></div>'. "\n"
                 . '</div>'. "\n";
 
@@ -67,7 +67,7 @@ class JFormFieldGeolocalization extends JFormField
         $fieldAddress = $this->form->getField('address');
         $fieldLongitude = $this->form->getField('longitude');
         $fieldLatitude = $this->form->getField('latitude');
-        $markerLabel = JText::_('Drag and drop the marker to setup your position');
+        $markerLabel = JText::_('COM_JEA_MAP_MARKER_LABEL');
 
         JFactory::getDocument()->addScriptDeclaration("
             function initBoxContent(elementContent) {

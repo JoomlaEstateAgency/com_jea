@@ -48,12 +48,12 @@ $transactionType = $this->state->get('filter.transaction_type');
 
     <div class="filter-select fltrt">
       <select name="filter_transaction_type" class="inputbox" onchange="this.form.submit()">
-        <option value=""> - <?php echo JText::_('Transaction type')?> - </option>
+        <option value=""> - <?php echo JText::_('COM_JEA_FIELD_TRANSACTION_TYPE_LABEL')?> - </option>
         <option value="RENTING"<?php if ($transactionType == 'RENTING') echo ' selected="selected"'?>>
-          <?php echo JText::_('Renting')?>
+          <?php echo JText::_('COM_JEA_OPTION_RENTING')?>
         </option>
         <option value="SELLING"<?php if ($transactionType == 'SELLING') echo ' selected="selected"'?>>
-          <?php echo JText::_('Selling')?>
+          <?php echo JText::_('COM_JEA_OPTION_SELLING')?>
         </option>
         <?php // TODO: call plugin entry to add more transaction types  ?>
       </select>
@@ -81,28 +81,28 @@ $transactionType = $this->state->get('filter.transaction_type');
           <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
         </th>
         <th width="10%">
-          <?php echo JHTML::_('grid.sort', 'Reference', 'p.ref', $listDirection , $listOrder ) ?>
+          <?php echo JHTML::_('grid.sort', 'COM_JEA_FIELD_REF_LABEL', 'p.ref', $listDirection , $listOrder ) ?>
         </th>
         <th>
-          <?php echo JText::_('Property type') ?>
+          <?php echo JText::_('COM_JEA_FIELD_PROPERTY_TYPE_LABEL') ?>
         </th>
         <th width="27%">
-          <?php echo JText::_('Adress') ?>
+          <?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL') ?>
         </th>
         <th width="10%">
-          <?php echo JText::_('Town') ?>
+          <?php echo JText::_('COM_JEA_FIELD_TOWN_LABEL') ?>
         </th>
         <th width="10%">
-          <?php echo JText::_('Department') ?>
+          <?php echo JText::_('COM_JEA_FIELD_DEPARTMENT_LABEL') ?>
         </th>
         <th width="10%">
-          <?php echo JHTML::_('grid.sort', 'Price', 'p.price', $listDirection , $listOrder ) ?>
+          <?php echo JHTML::_('grid.sort', 'COM_JEA_FIELD_PRICE_LABEL', 'p.price', $listDirection , $listOrder ) ?>
         </th>
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JFEATURED', 'p.featured', $listDirection , $listOrder ) ?>
         </th>
         <th width="1%">
-          <?php echo JHTML::_('grid.sort', 'Published', 'p.published', $listDirection , $listOrder ) ?>
+          <?php echo JHTML::_('grid.sort', 'JSTATUS', 'p.published', $listDirection , $listOrder ) ?>
         </th>
         <th width="10%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'p.ordering', $listDirection , $listOrder ) ?>

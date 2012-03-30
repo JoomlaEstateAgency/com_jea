@@ -49,7 +49,7 @@ class JeaModelProperty extends JModelAdmin
             $form->removeField('deposit');
             $form->removeField('rate_frequency');
         } elseif ($item->transaction_type == 'RENTING') {
-            $form->setFieldAttribute('price', 'label', 'Rent');
+            $form->setFieldAttribute('price', 'label', 'COM_JEA_FIELD_PRICE_RENT_LABEL');
         }
 
         // Check for existing article.

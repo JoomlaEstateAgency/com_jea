@@ -95,7 +95,7 @@ class TableProperties extends JTable
     public function check()
     {
         if (empty( $this->type_id)) {
-            $this->setError( JText::_('Select a type of property') );
+            $this->setError( JText::_('COM_JEA_MSG_SELECT_PROPERTY_TYPE') );
             return false;
         }
 

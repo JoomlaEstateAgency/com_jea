@@ -45,23 +45,23 @@ $this->document->addScriptDeclaration($script);
 <?php endif ?>
 
 <?php if ($user->authorise('core.create', 'com_jea')): ?>
-<p class="jea_add_new"><a href="<?php echo JRoute::_('index.php?option=com_jea&task=property.add') ?>"><?php echo JText::_('Add new property' )?></a></p>
+<p class="jea_add_new"><a href="<?php echo JRoute::_('index.php?option=com_jea&task=property.add') ?>"><?php echo JText::_('COM_JEA_ADD_NEW_PROPERTY' )?></a></p>
 <?php endif ?>
 
 <form name="adminForm" id="adminForm" action="<?php echo JRoute::_('') ?>" method="post">
 
 <?php if (!empty($this->items)): ?>  
-  <p class="limitbox"><em><?php echo JText::_('Results per page') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
+  <p class="limitbox"><em><?php echo JText::_('COM_JEA_RESULTS_PER_PAGE') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
 <?php endif ?>
 
   <p>
       <select name="filter_transaction_type" class="inputbox" onchange="this.form.submit()">
-        <option value=""> - <?php echo JText::_('Transaction type')?> - </option>
+        <option value=""> - <?php echo JText::_('COM_JEA_FIELD_TRANSACTION_TYPE_LABEL')?> - </option>
         <option value="RENTING"<?php if ($transactionType == 'RENTING') echo ' selected="selected"'?>>
-          <?php echo JText::_('Renting')?>
+          <?php echo JText::_('COM_JEA_OPTION_RENTING')?>
         </option>
         <option value="SELLING"<?php if ($transactionType == 'SELLING') echo ' selected="selected"'?>>
-          <?php echo JText::_('Selling')?>
+          <?php echo JText::_('COM_JEA_OPTION_SELLING')?>
         </option>
         <?php // TODO: call plugin entry to add more transaction types  ?>
       </select>
@@ -77,15 +77,15 @@ $this->document->addScriptDeclaration($script);
   <table class="jea_listing" >
     <thead>
     <tr>
-      <th><?php echo $this->sort('Ref', 'p.ref', $listDirection , $listOrder) ?></th>
-      <th><?php echo $this->sort('Type', 'type', $listDirection , $listOrder) ?></th>
-      <th><?php echo JText::_('Address' )?></th>
-      <th><?php echo $this->sort('Town', 'town', $listDirection , $listOrder) ?></th>
-      <th class="right"><?php echo $this->sort('Living space', 'living_space', $listDirection , $listOrder) ?></th>
-      <th class="right"><?php echo $this->sort('Price', 'p.price', $listDirection , $listOrder) ?></th>
-      <th class="center"><?php echo JText::_('State' )?></th>
+      <th><?php echo $this->sort('COM_JEA_REF', 'p.ref', $listDirection , $listOrder) ?></th>
+      <th><?php echo $this->sort('COM_JEA_FIELD_PROPERTY_TYPE_LABEL', 'type', $listDirection , $listOrder) ?></th>
+      <th><?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL' )?></th>
+      <th><?php echo $this->sort('COM_JEA_FIELD_TOWN_LABEL', 'town', $listDirection , $listOrder) ?></th>
+      <th class="right"><?php echo $this->sort('COM_JEA_FIELD_LIVING_SPACE_LABEL', 'living_space', $listDirection , $listOrder) ?></th>
+      <th class="right"><?php echo $this->sort('COM_JEA_FIELD_PRICE_RENT_LABEL', 'p.price', $listDirection , $listOrder) ?></th>
+      <th class="center"><?php echo JText::_('JSTATUS' )?></th>
       <?php if ($canDelete): ?>
-      <th class="center"><?php echo JText::_('Delete' )?></th>
+      <th class="center"><?php echo JText::_('JACTION_DELETE' )?></th>
       <?php endif ?>
     </tr>
     </thead>
@@ -103,7 +103,7 @@ $this->document->addScriptDeclaration($script);
     ?>
 
     <tr class="row<?php echo $altrow ?>" >
-      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->slug ) ?>" title="<?php echo JText::_('Edit') ?>" > 
+      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->slug ) ?>" title="<?php echo JText::_('JACTION_EDIT') ?>" > 
       <?php echo $row->ref ?></a></td>
       <td><?php echo $row->type ?></td>
       <td><?php echo $row->address ?></td>
@@ -111,15 +111,14 @@ $this->document->addScriptDeclaration($script);
       <td class="right nowrap"><?php echo JHtml::_('utility.formatSurface', (float) $row->living_space , '-' ) ?></td>
       <td class="right nowrap"><?php echo JHtml::_('utility.formatPrice', (float) $row->price, '-') ?></td>
       <td class="center">
-
       <?php if ($canChange): $task = $row->published ? 'unpublish' : 'publish'; ?>
       <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.'.$task.'&id='.$row->id ) ?>" >
       <?php endif ?>
 
-      <?php if ($row->published): $title = $canChange ? 'COM_JEA_UNPUBLISH_ITEM' : 'COM_JEA_PUBLISHED';  ?>
-          <?php echo JHTML::_('image.site', 'published.png', '/media/com_jea/images/', null, '', JText::_('Published'),  array('title' => JText::_($title))) ?>
-      <?php else: $title = $canChange ? 'COM_JEA_PUBLISH_ITEM' : 'COM_JEA_UNPUBLISHED';?>
-          <?php echo JHTML::_('image.site', 'unpublished.png', '/media/com_jea/images/', null, '', JText::_('Unpublished'),  array('title' => JText::_($title))) ?>
+      <?php if ($row->published): $title = $canChange ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'COM_JEA_PUBLISHED';  ?>
+          <?php echo JHTML::_('image.site', 'published.png', '/media/com_jea/images/', null, '', JText::_('COM_JEA_PUBLISHED'),  array('title' => JText::_($title))) ?>
+      <?php else: $title = $canChange ? 'JLIB_HTML_PUBLISH_ITEM' : 'COM_JEA_UNPUBLISHED';?>
+          <?php echo JHTML::_('image.site', 'unpublished.png', '/media/com_jea/images/', null, '', JText::_('COM_JEA_UNPUBLISHED'),  array('title' => JText::_($title))) ?>
       <?php endif?>
       
       <?php if ($canChange): ?>
@@ -130,8 +129,8 @@ $this->document->addScriptDeclaration($script);
       <?php if ($canDelete): ?>
       <td class="center">
         <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.delete&id='.$row->id ) ?>" 
-           title="<?php echo JText::_('Delete') ?>"
-           onclick="return confirm('<?php echo JText::_('Are you sure you want to delete this item?') ?>')">
+           title="<?php echo JText::_('JACTION_DELETE') ?>"
+           onclick="return confirm('<?php echo JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE') ?>')">
          <?php echo JHTML::_('image.site', 'media_trash.png', '/media/com_jea/images/') ?></a>
       </td>
       <?php endif ?>

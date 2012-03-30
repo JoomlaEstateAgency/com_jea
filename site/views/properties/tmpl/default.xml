@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="Properties Layout">
+	<layout title="COM_JEA_PROPERTIES_DEFAULT_LAYOUT_TITLE">
 		<message>
-			<![CDATA[PROPERTIES LAYOUT DESC]]>
+			<![CDATA[COM_JEA_PROPERTIES_DEFAULT_LAYOUT_DESC]]>
 		</message>
 	</layout>
 
 	<fields name="params">
-		<fieldset name="basic" label="COM_JEA_MENU_PARAMS_LABEL" 
-				addfieldpath="/administrator/components/com_jea/models/fields">
-			<field name="filter_transaction_type" type="list" label="Transaction type" >
-				<option value="0">All</option>
-				<option value="SELLING">Selling</option>
-				<option value="RENTING">Renting</option>
+		<fieldset name="basic" label="COM_JEA_MENU_PARAMS_LABEL" addfieldpath="/administrator/components/com_jea/models/fields">
+			<field name="filter_transaction_type" default="SELLING" type="list" label="COM_JEA_FIELD_TRANSACTION_TYPE_LABEL" >
+				<option value="0">JALL</option>
+				<option value="SELLING">COM_JEA_OPTION_SELLING</option>
+				<option value="RENTING">COM_JEA_OPTION_RENTING</option>
 			</field>
-			<field name="filter_type_id" type="featureList" subtype="types" label="Property type" size="5" multiple="true" />
-			<field name="filter_department_id" type="featureList" subtype="departments" label="Department" filter="intval" description="Filter on department" />
-			<field name="filter_town_id" type="featureList" subtype="towns" label="Town" filter="intval" description="Filter on town" />
-			<field name="filter_area_id" type="featureList" subtype="areas" label="Area" filter="intval" description="Filter on area" />
+			<field name="filter_type_id" type="featureList" subtype="types" label="COM_JEA_FIELD_PROPERTY_TYPES_FILTER_LABEL" size="5" multiple="true" description="COM_JEA_FIELD_PROPERTY_TYPES_FILTER_DESC" />
+			<field name="filter_department_id" type="featureList" subtype="departments" label="COM_JEA_FIELD_DEPARTMENT_LABEL" filter="intval" description="COM_JEA_FIELD_DEPARTMENT_FILTER_DESC" />
+			<field name="filter_town_id" type="featureList" subtype="towns" label="COM_JEA_FIELD_TOWN_LABEL" filter="intval" description="COM_JEA_FIELD_TOWN_FILTER_DESC" />
+			<field name="filter_area_id" type="featureList" subtype="areas" label="COM_JEA_FIELD_AREA_LABEL" filter="intval" description="COM_JEA_FIELD_AREA_FILTER_DESC" />
 
-			<field name="show_creation_date" type="list" default="0" label="Show creation date">
+			<field name="show_creation_date" type="list" default="0" label="COM_JEA_FIELD_SHOW_CREATION_DATE_LABEL">
 				<option value="0">JHide</option>
 				<option value="1">JShow</option>
 			</field>
 
-			<field name="show_feed_link" type="list" default="1" label="Show a feed link" description="PARAMSHOWFEEDLINK">
+			<field name="show_feed_link" type="list" default="1" label="JGLOBAL_SHOW_FEED_LINK_LABEL" description="JGLOBAL_SHOW_FEED_LINK_DESC">
 				<option value="0">JNo</option>
 				<option value="1">JYes</option>
 			</field>

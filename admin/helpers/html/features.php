@@ -27,7 +27,7 @@ abstract class JHtmlFeatures
      */
     static public function types($value=0, $name='type_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Property type', $attr, 'types', '', 'f.ordering');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_PROPERTY_TYPE_LABEL', $attr, 'types', '', 'f.ordering');
     }
 
 
@@ -40,7 +40,7 @@ abstract class JHtmlFeatures
      */
     static public function departments($value=0, $name='department_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Department', $attr, 'departments');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_DEPARTMENT_LABEL', $attr, 'departments');
     }
 
 
@@ -65,7 +65,7 @@ abstract class JHtmlFeatures
             }
         }
 
-        return self::getHTMLSelectList($value, $name, 'Town', $attr, 'towns', $condition );
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_TOWN_LABEL', $attr, 'towns', $condition );
     }
 
 
@@ -88,7 +88,7 @@ abstract class JHtmlFeatures
             }
         }
 
-        return self::getHTMLSelectList($value, $name, 'Area', $attr, 'areas', $condition );
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_AREA_LABEL', $attr, 'areas', $condition );
     }
 
 
@@ -101,7 +101,7 @@ abstract class JHtmlFeatures
      */
     static public function conditions($value=0, $name='condition_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Condition', $attr, 'conditions');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_CONDITION_LABEL', $attr, 'conditions');
     }
 
 
@@ -114,7 +114,7 @@ abstract class JHtmlFeatures
      */
     static public function hotwatertypes($value=0, $name='hot_water_type', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Hot water type', $attr, 'hotwatertypes');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HOTWATERTYPE_LABEL', $attr, 'hotwatertypes');
     }
 
 
@@ -127,7 +127,7 @@ abstract class JHtmlFeatures
      */
     static public function heatingtypes($value=0, $name='heating_type', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Heating type', $attr, 'heatingtypes');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HEATINGTYPE_LABEL', $attr, 'heatingtypes');
     }
 
 
@@ -140,7 +140,7 @@ abstract class JHtmlFeatures
      */
     static public function slogans($value=0, $name='slogan_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'Slogan', $attr, 'slogans');
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_SLOGAN_LABEL', $attr, 'slogans');
     }
 
     /**
@@ -154,7 +154,7 @@ abstract class JHtmlFeatures
      * @param string $ordering   The list ordering
      * @return  string  HTML for the select list.
      */
-    static public function getHTMLSelectList($value=0, $name='', $defaultOptionLabel='- Select -', $attr='', $featureTable='', $conditions=null, $ordering='f.value asc' )
+    static public function getHTMLSelectList($value=0, $name='', $defaultOptionLabel='JOPTION_ANY', $attr='', $featureTable='', $conditions=null, $ordering='f.value asc' )
     {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);

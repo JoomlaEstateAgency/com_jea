@@ -47,12 +47,6 @@ $this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&lang
 . '&region=' . $region );
 
 $model = $this->getModel();
-/*
-$rentingPriceLimit = json_encode($model->getFieldLimit('price', 'RENTING'));
-$sellingPriceLimit = json_encode($model->getFieldLimit('price', 'SELLING'));
-$rentingSpaceLimit = json_encode($model->getFieldLimit('living_space', 'RENTING'));
-$sellingSpaceLimit = json_encode($model->getFieldLimit('living_space', 'SELLING'));
-*/
 
 $fieldsLimit = json_encode(array(
     'RENTING' => array(
@@ -204,11 +198,11 @@ window.addEvent('domready', function() {
   <?php else: ?>
     <input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING" 
            <?php if ($states['filter_transaction_type'] == 'SELLING') echo 'checked="checked"' ?> /> 
-    <label for="jea-search-selling"><?php echo JText::_('COM_JEA_SELLING') ?></label>
+    <label for="jea-search-selling"><?php echo JText::_('COM_JEA_OPTION_SELLING') ?></label>
 
     <input type="radio" name="filter_transaction_type" id="jea-search-renting" value="RENTING"
            <?php if ($states['filter_transaction_type'] == 'RENTING') echo 'checked="checked"' ?> />
-    <label for="jea-search-renting"><?php echo JText::_('COM_JEA_RENTING') ?></label>
+    <label for="jea-search-renting"><?php echo JText::_('COM_JEA_OPTION_RENTING') ?></label>
   <?php endif ?>
   </p>
 
@@ -224,7 +218,7 @@ window.addEvent('domready', function() {
     <?php if ($this->params->get('searchform_show_areas', 1)): ?>
     <?php echo JHtml::_('features.areas', $states['filter_area_id'], 'filter_area_id' ) ?>
     <?php endif ?>
-    <span id="found_properties"><?php echo JText::_('Properties found')?> : <span id="properties_count">0</span></span>
+    <span id="found_properties"><?php echo JText::_('COM_JEA_FOUND_PROPERTIES')?> : <span id="properties_count">0</span></span>
   </p>
 
   <div id="map_canvas" style="width: <?php echo $map_width ? $map_width.'px': '100%'?>; height: <?php echo $map_height.'px'?>"></div>
@@ -239,7 +233,7 @@ window.addEvent('domready', function() {
     </div>
     <div class="slider_infos">
       <span class="slider_min_value" id="min_price_value">0</span>
-      <?php echo JText::_('To') ?>
+      <?php echo JText::_('COM_JEA_TO') ?>
       <span class="slider_max_value" id="max_price_value">0</span>
     </div>
     <input id="budget_max" type="hidden" name="filter_budget_max" /> 
@@ -248,7 +242,7 @@ window.addEvent('domready', function() {
 
   <div class="jea_slider_block">
     <h2>
-    <?php echo JText::_('Living space') ?>
+    <?php echo JText::_('COM_JEA_FIELD_LIVING_SPACE_LABEL') ?>
     </h2>
     <div id="space_slider" class="slider_background">
       <div id="knob3" class="knob"></div>
@@ -256,7 +250,7 @@ window.addEvent('domready', function() {
     </div>
     <div class="slider_infos">
       <span class="slider_min_value" id="min_space_value">0</span>
-      <?php echo JText::_('To') ?>
+      <?php echo JText::_('COM_JEA_TO') ?>
       <span class="slider_max_value" id="max_space_value">0</span>
     </div>
     <input id="living_space_min" type="hidden" name="filter_living_space_min" /> 
@@ -264,7 +258,7 @@ window.addEvent('domready', function() {
   </div>
 
   <p>
-  <?php echo JText::_('Minimum number of rooms') ?>: 
+  <?php echo JText::_('COM_JEA_NUMBER_OF_ROOMS_MIN') ?>: 
       <input type="text" id="rooms_min" name="filter_rooms_min" size="1" /> 
   </p>
 
@@ -277,7 +271,7 @@ window.addEvent('domready', function() {
   </div>
 
   <p>
-    <input type="submit" class="button" value="<?php echo JText::_('List properties') ?>" /> 
+    <input type="submit" class="button" value="<?php echo JText::_('COM_JEA_LIST_PROPERTIES') ?>" /> 
   </p>
 
 </form>

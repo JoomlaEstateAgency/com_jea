@@ -60,7 +60,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
     </p>
 
     <p class="limitbox">
-      <em><?php echo JText::_('Results per page') ?> : </em>
+      <em><?php echo JText::_('COM_JEA_RESULTS_PER_PAGE') ?> : </em>
       <?php echo $this->pagination->getLimitBox() ?>
     </p>
     
@@ -72,9 +72,9 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
         <dt class="title">
           <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('Show detail') ?>"> <strong> 
           <?php if(empty($row->title)): ?>
-          <?php echo ucfirst( JText::sprintf('PROPERTY TYPE IN TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
+          <?php echo ucfirst( JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
           <?php else : echo $this->escape($row->title) ?> 
-          <?php endif ?></strong> ( <?php echo JText::_('Ref' ) . ' : ' . $row->ref ?>)
+          <?php endif ?></strong> ( <?php echo JText::_('COM_JEA_REF' ) . ' : ' . $row->ref ?>)
           </a>
 
           <?php if ( $this->params->get('show_creation_date', 0)): ?>
@@ -84,8 +84,8 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
 
         <?php if ($imgUrl = $this->getFirstImageUrl($row)): ?>
         <dt class="image">
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('Detail') ?>"> 
-          <img src="<?php echo $imgUrl ?>" alt="<?php echo JText::_('Detail') ?>" /></a>
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>"> 
+          <img src="<?php echo $imgUrl ?>" alt="<?php echo JText::_('COM_JEA_DETAIL') ?>" /></a>
         </dt>
         <?php endif ?>
 
@@ -94,29 +94,30 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
           <span class="slogan"><?php echo $this->escape($row->slogan) ?> </span>
         <?php endif ?>
 
-        <?php echo $row->transaction_type == 'RENTING' ? JText::_('Renting price') :  JText::_('Selling price') ?> : 
-        <strong> <?php echo JHtml::_('utility.formatPrice', (float) $row->price , JText::_('Consult us') ) ?> </strong>
+        <?php echo $row->transaction_type == 'RENTING' ? JText::_('COM_JEA_FIELD_PRICE_RENT_LABEL') :  JText::_('COM_JEA_FIELD_PRICE_LABEL') ?> : 
+        <strong> <?php echo JHtml::_('utility.formatPrice', (float) $row->price , JText::_('COM_JEA_CONSULT_US') ) ?> </strong>
+        <?php if ($row->transaction_type == 'RENTING' && (float)$row->price != 0.0) echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $row->rate_frequency) ?>
 
         <?php if (!empty($row->living_space)): ?>
-          <br /><?php echo  JText::_('Living space') ?> : <strong>
+          <br /><?php echo  JText::_('COM_JEA_FIELD_LIVING_SPACE_LABEL') ?> : <strong>
           <?php echo JHtml::_('utility.formatSurface', (float) $row->living_space , '-' ) ?>
           </strong>
         <?php endif ?>
 
         <?php if (!empty($row->land_space)): ?>
-          <br /><?php echo  JText::_('Land space') ?> : <strong>
+          <br /><?php echo  JText::_('COM_JEA_FIELD_LAND_SPACE_LABEL') ?> : <strong>
           <?php echo JHtml::_('utility.formatSurface', (float) $row->land_space , '-' ) ?>
           </strong>
         <?php endif ?>
 
           <?php if (!empty($row->amenities)) : ?>
-            <br /> <strong><?php echo JText::_('Advantages') ?> : </strong>
+            <br /> <strong><?php echo JText::_('COM_JEA_AMENITIES') ?> : </strong>
             <?php echo JHtml::_('amenities.bindList', $row->amenities) ?>
           <?php endif ?>
 
           <br />
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>"title="<?php echo JText::_('Show detail') ?>">
-            <?php echo JText::_('Detail') ?>
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>"title="<?php echo JText::_('COM_JEA_DETAIL') ?>">
+            <?php echo JText::_('COM_JEA_DETAIL') ?>
           </a>
         </dd>
       </dl>

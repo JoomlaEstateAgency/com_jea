@@ -58,7 +58,7 @@ class JeaViewFeature extends JView
         $isNew = ($this->item->id == 0);
         $canDo  = JeaHelper::getActions();
 
-        $title = $this->item->id ? JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->value ) : JText::_( 'New' ) ;
+        $title = $this->item->id ? JText::_( 'JACTION_EDIT' ) . ' ' . $this->escape( $this->item->value ) : JText::_( 'JACTION_CREATE' ) ;
         JToolBarHelper::title( $title , 'jea.png' ) ;
 
         // For new records, check the create permission.

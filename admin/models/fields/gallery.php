@@ -89,8 +89,8 @@ class JFormFieldGallery extends JFormField
                 . "<a href=\"{$url}\" title=\"Zoom\" class=\"imgLink modal\" rel=\"{handler: 'image'}\"><img src=\"{$thumbUrl}\" alt=\"{$image->name}\" /></a>\n"
                 . "<div class=\"imgInfos\">\n"
                 . $image->name . "<br />\n"
-                . JText::_('COM_JEA_IMG_WIDTH') . ' : ' . $infos->width . ' px' . "<br />\n"
-                . JText::_('COM_JEA_IMG_HEIGHT') . ' : ' . $infos->height . ' px' . "<br />\n"
+                . JText::_('COM_JEA_WIDTH') . ' : ' . $infos->width . ' px' . "<br />\n"
+                . JText::_('COM_JEA_HEIGHT') . ' : ' . $infos->height . ' px' . "<br />\n"
                 . "</div>\n"
                 . "<div class=\"imgTools\">\n"
                 . '  <a class="img-move-up" title="'.JText::_('JLIB_HTML_MOVE_UP').'"><img src="'. $baseURL . '/media/com_jea/images/sort_asc.png' .'" alt="Move up" /></a>'

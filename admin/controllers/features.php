@@ -122,7 +122,7 @@ class JeaControllerFeatures extends JController
                 $fileErrors = $file->getErrors();
                 if (!$fileErrors) {
                     $rows = $model->importFromCSV($file->temp_name, $tables[$file->key]);
-                    $msg = JText::sprintf('Num lines imported on table', $rows, $tables[$file->key]);
+                    $msg = JText::sprintf('COM_JEA_NUM_LINES_IMPORTED_ON_TABLE', $rows, $tables[$file->key]);
                     $application->enqueueMessage($msg);
                     $errors = $model->getErrors();
                     if ($errors) {

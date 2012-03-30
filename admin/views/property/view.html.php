@@ -64,7 +64,9 @@ class JeaViewProperty extends JView
         $isNew      = ($this->item->id == 0);
         $checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
-        $title = $isNew ? JText::_( 'New' ) : JText::_( 'Edit' ) . ' ' . $this->escape( $this->item->ref );
+        $title = JText::_('COM_JEA_PROPERTIES_MANAGEMENT') . ' : ';
+        $title .= $isNew ? JText::_( 'JACTION_CREATE' ) : JText::_( 'JACTION_EDIT' );
+        
         JToolBarHelper::title( $title , 'jea.png' ) ;
 
         // Built the actions for new and existing records.

@@ -53,11 +53,11 @@ class JeaViewProperties extends JView
         $canDo  = JeaHelper::getActions();
         $user   = JFactory::getUser();
 
-        JToolBarHelper::title( JText::_('Properties management'), 'jea.png' );
+        JToolBarHelper::title( JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea.png' );
 
         if ($canDo->get('core.create')) {
             JToolBarHelper::addNew('property.add');
-            JToolBarHelper::custom('properties.copy', 'copy.png', 'copy_f2.png', 'Copy');
+            JToolBarHelper::custom('properties.copy', 'copy.png', 'copy_f2.png', 'COM_JEA_COPY');
         }
 
         if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
