@@ -39,6 +39,16 @@ class JeaModelProperty extends JModel
         // Load the parameters.
         $params = $app->getParams();
         $this->setState('params', $params);
+
+        // Load the contact form informations
+        $this->setState('contact.name', $app->getUserStateFromRequest('contact.name', 'name'));
+        $this->setState('contact.email', $app->getUserStateFromRequest('contact.email', 'email'));
+        $this->setState('contact.telephone', $app->getUserStateFromRequest('contact.telephone', 'telephone'));
+        $this->setState('contact.subject', $app->getUserStateFromRequest('contact.subject', 'subject'));
+        $this->setState('contact.message', $app->getUserStateFromRequest('contact.message', 'message'));
+        
+        $propertyURL = $app->input->get('propertyURL', '', 'base64');
+        $this->setState('contact.propertyURL', base64_decode($propertyURL));
     }
 
 
@@ -212,4 +222,100 @@ class JeaModelProperty extends JModel
 
         return true;
     }
+    
+    public function sendContactForm()
+    {
+        jimport('joomla.mail.helper');
+       
+        $app = JFactory::getApplication();
+        // Get a JMail instance
+        $mailer = JFactory::getMailer();
+        $params = $app->getParams();
+
+        $defaultFrom     = $mailer->From;
+        $defaultFromname = $mailer->FromName;
+
+        $data = array(
+            'name'    => JMailHelper::cleanLine($this->getState('contact.name')),
+            'email'   => JMailHelper::cleanAddress($this->getState('contact.email')),
+            'telephone'   => JMailHelper::cleanLine($this->getState('contact.telephone')),
+            'subject' => JMailHelper::cleanSubject($this->getState('contact.subject'))
+                      . ' [' .$defaultFromname . ']',
+            'message' => JMailHelper::cleanText($this->getState('contact.message')),
+            'propertyURL' => $this->getState('contact.propertyURL')
+        );
+
+        $dispatcher = JDispatcher::getInstance();
+        JPluginHelper::importPlugin('jea');
+
+        $result = $dispatcher->trigger('onBeforeSendContactForm', array($data));
+        if (in_array(false, $result, true)) {
+            return false;
+        }
+
+        // Check data
+        if (empty($data['name'])) {
+            $this->setError(JText::_( 'COM_JEA_YOU_MUST_TO_ENTER_YOUR_NAME'));
+        }
+        
+        if (empty($data['message'])) {
+            $this->setError(JText::_( 'COM_JEA_YOU_MUST_TO_ENTER_A_MESSAGE'));
+        }
+
+        if (!JMailHelper::isEmailAddress($data['email'])) {
+             $this->setError(JText::sprintf( 'COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
+        }
+
+        if ($this->getErrors()) {
+            return false;
+        }
+
+        $recipients = array();
+        $defaultMail = $params->get('default_mail');
+        $agentMail = '';
+ 
+        if($params->get('send_form_to_agent') == 1){
+            $item = $this->getItem();
+            $q = 'SELECT `email` FROM `#__users` WHERE `id`=' . (int) $item->created_by;
+            $this->db->setQuery($q);
+            $agentMail = $this->db->loadResult();
+            
+        }
+
+        if (!empty($defaultMail) && !empty($agentMail)) {
+            $recipients[] = $defaultMail;
+            $recipients[] = $agentMail;
+        } elseif (!empty($defaultMail)) {
+            $recipients[] = $defaultMail;
+        } elseif (!empty($agentMail)) {
+            $recipients[] = $agentMail;
+        } else {
+            // Send to the webmaster email
+            $recipients[] = $defaultFrom;
+        }
+
+        $body = $data['message'] . "\n";
+        if (!empty($data['telephone'])) {
+            $body .= "\n" .  JText::_('COM_JEA_TELEPHONE') . ' : ' . $data['telephone'] ;
+        }
+        $body .= "\n" . JText::_('COM_JEA_PROPERTY_URL') . ' : ' . $data['propertyURL'];
+        
+        $mailer->setBody($body);
+        $ret = $mailer->sendMail($data['email'], $data['name'], $recipients, $data['subject'], $body, false);
+
+
+        if ($ret == true) {
+           $app->setUserState('contact.name', '');
+           $app->setUserState('contact.email', '');
+           $app->setUserState('contact.telephone', '');
+           $app->setUserState('contact.subject', '');
+           $app->setUserState('contact.message', '');
+           return true;
+        }
+
+        return false;
+
+    }
+
+
 }

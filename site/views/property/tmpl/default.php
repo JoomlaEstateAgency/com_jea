@@ -177,53 +177,13 @@ JPluginHelper::importPlugin('jea');
 <?php $dispatcher->trigger('onAfterShowDescription', array(&$this->row)) ?>
 
 <?php if ( $this->params->get('show_googlemap') ): ?>
-<h3>
-<?php echo JText::_('COM_JEA_GEOLOCALIZATION') ?> :
-</h3>
+<h3><?php echo JText::_('COM_JEA_GEOLOCALIZATION') ?> :</h3>
 <?php echo $this->loadTemplate('googlemap') ?>
 <?php endif ?>
 
 <?php if ( $this->params->get('show_contactform') ): // TODO: sendmail implementation ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_jea&task=property.sendmail') ?>" method="post" enctype="application/x-www-form-urlencoded">
-
-  <fieldset>
-    <legend>
-    <?php echo JText::_('COM_JEA_CONTACT_FORM_LEGEND') ?>
-    </legend>
-    <p>
-      <label for="name"><?php echo JText::_('COM_JEA_NAME') ?> :</label><br />
-      <input type="text" name="name" id="name" size="40" value="<?php echo $this->escape(JRequest::getVar('name', '')) ?>" />
-    </p>
-
-    <p>
-      <label for="email"><?php echo JText::_('COM_JEA_EMAIL') ?> :</label><br />
-      <input type="text" name="email" id="email" size="40" value="<?php echo $this->escape(JRequest::getVar('email', '')) ?>" />
-    </p>
-
-    <p>
-      <label for="telephone"><?php echo JText::_('COM_JEA_TELEPHONE') ?> :</label><br />
-      <input type="text"name="telephone" id="telephone" size="40" value="<?php echo $this->escape(JRequest::getVar('telephone', '')) ?>" />
-    </p>
-
-    <p>
-      <label for="subject"><?php echo JText::_('COM_JEA_SUBJECT') ?> :</label><br />
-      <input type="text" name="subject" id="subject" value="Ref : <?php echo $this->escape( $this->row->ref ) ?>" size="40" />
-    </p>
-
-    <p>
-      <label for="e_message"><?php echo JText::_('COM_JEA_MESSAGE') ?> :</label><br />
-      <textarea name="e_message" id="e_message" rows="10" cols="40"><?php echo $this->escape(JRequest::getVar('message', '')) ?></textarea>
-    </p>
-    <?php $dispatcher->trigger('onFormCaptchaDisplay'); // TODO: Captcha integration ?>
-    <p>
-      <input type="hidden" name="created_by" value="<?php echo $this->row->created_by ?>" />
-      <?php echo JHTML::_( 'form.token' ) ?>
-      <input type="submit" value="<?php echo JText::_('COM_JEA_SEND') ?>" />
-    </p>
-  </fieldset>
-</form>
-      <?php endif  ?>
+<?php echo $this->loadTemplate('contactform') ?>
+<?php endif  ?>
 
 <p>
   <a href="javascript:window.history.back()" class="jea_return_link"><?php echo JText::_('COM_JEA_RETURN_TO_THE_LIST')?> </a>

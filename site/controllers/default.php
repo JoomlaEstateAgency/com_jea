@@ -23,10 +23,29 @@ jimport('joomla.application.component.controller');
 class JeaControllerDefault extends JController
 {
     protected $default_view = 'properties';
-    
-    
-    public function sendmail()
+
+
+    public function sendContactForm()
     {
-        echo 'Sendmail';
+        // Check for request forgeries
+        if (!JRequest::checkToken()) {
+            return $this->setRedirect($returnURL, JText::_('JINVALID_TOKEN'), 'warning');
+        }
+        
+        $model = $this->getModel('Property', 'JeaModel');
+        $returnURL = $model->getState('contact.propertyURL');
+        
+        if (!$model->sendContactForm()) {
+            $errors = $model->getErrors();
+            $msg = '';
+            foreach ($errors as $error) {
+                $msg .= $error . "\n";
+            }
+            return $this->setRedirect($returnURL, $msg, 'warning');
+        }
+        $msg = JText::_('COM_JEA_CONTACT_FORM_SUCCESSFULLY_SENT');
+
+        $this->setRedirect($returnURL, $msg);
     }
+
 }

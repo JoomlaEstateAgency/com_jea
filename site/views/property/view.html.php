@@ -81,7 +81,7 @@ class JeaViewProperty extends JView
 
     protected function buildPropertyLink(&$item)
     {
-        $slug = $item->alias ? ($item->id . ':' . $row->$item) : $item->id;
+        $slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
         return JRoute::_('index.php?option=com_jea&view=property&id='. $slug);
     }
 
