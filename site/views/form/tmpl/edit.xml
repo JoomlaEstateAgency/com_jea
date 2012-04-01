@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_JEA_PROPERTIES_MANAGE_LAYOUT_TITLE">
+	<layout title="COM_JEA_FORM_EDIT_LAYOUT_TITLE">
 		<message>
-			<![CDATA[COM_JEA_PROPERTIES_MANAGE_LAYOUT_DESC]]>
+			<![CDATA[COM_JEA_FORM_EDIT_LAYOUT_DESC]]>
 		</message>
 	</layout>
+	
+	<fields name="params">
+		<fieldset name="basic" label="COM_JEA_MENU_PARAMS_LABEL">
+			<field name="login_behavior" default="before" type="list" 
+				label="COM_JEA_FIELD_LOGIN_BEHAVIOR_LABEL" description="COM_JEA_FIELD_LOGIN_BEHAVIOR_DESC">
+				<option value="before">COM_JEA_OPTION_LOGIN_BEFORE_SAVE</option>
+				<option value="after">COM_JEA_OPTION_LOGIN_AFTER_SAVE</option>
+			</field>
+		</fieldset>
+	</fields>
 </metadata>

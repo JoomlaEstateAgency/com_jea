@@ -93,8 +93,21 @@ function JeaParseRoute($segments)
                 }
                 break;
         }
+    } elseif ($item->query['view'] == 'form') {
+        $vars['view']  = 'form';
+        $vars['layout']  = 'edit';
+
+        if ($count > 0) {
+            if ($segments[0] == 'edit' && $count == 2) {
+                 $vars['id'] = (int) $segments[1];
+            } elseif ($segments[0] == 'manage') {
+                $vars['view']  = 'properties';
+                $vars['layout']  = 'manage';
+            }
+        }
     }
 
     return $vars;
 }
+
 
