@@ -44,7 +44,8 @@ $uri = JFactory::getURI();
       <label for="message"><?php echo JText::_('COM_JEA_MESSAGE') ?> :</label><br />
       <textarea name="message" id="e_message" rows="10" cols="40"><?php echo $this->escape($this->state->get('contact.message')) ?></textarea>
     </p>
-    <?php // TODO: Captcha integration ?>
+    
+    <?php if ($this->params->get('use_captcha')) echo $this->displayCaptcha() ?>
     <p>
       <input type="hidden" name="id" value="<?php echo $this->row->id ?>" />
       <?php echo JHTML::_( 'form.token' ) ?>

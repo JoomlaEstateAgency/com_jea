@@ -46,7 +46,7 @@ class JeaModelProperty extends JModel
         $this->setState('contact.telephone', $app->getUserStateFromRequest('contact.telephone', 'telephone'));
         $this->setState('contact.subject', $app->getUserStateFromRequest('contact.subject', 'subject'));
         $this->setState('contact.message', $app->getUserStateFromRequest('contact.message', 'message'));
-        
+
         $propertyURL = $app->input->get('propertyURL', '', 'base64');
         $this->setState('contact.propertyURL', base64_decode($propertyURL));
     }
@@ -92,11 +92,11 @@ class JeaModelProperty extends JModel
         // Join conditions
         $query->select('c.value AS `condition`');
         $query->join('LEFT', '#__jea_conditions AS c ON c.id = p.condition_id');
-        
+
         // Join heating types
         $query->select('ht.value AS `heating_type_name`');
         $query->join('LEFT', '#__jea_heatingtypes AS ht ON ht.id = p.heating_type');
-        
+
         // Join hot water types
         $query->select('hwt.value AS `hot_water_type_name`');
         $query->join('LEFT', '#__jea_heatingtypes AS hwt ON hwt.id = p.hot_water_type');
@@ -166,7 +166,7 @@ class JeaModelProperty extends JModel
         return $data;
 
     }
-    
+
     /**
      * Get the previous and next item relative to the current
      * @return array
@@ -222,11 +222,11 @@ class JeaModelProperty extends JModel
 
         return true;
     }
-    
+
     public function sendContactForm()
     {
         jimport('joomla.mail.helper');
-       
+         
         $app = JFactory::getApplication();
         // Get a JMail instance
         $mailer = JFactory::getMailer();
@@ -240,7 +240,7 @@ class JeaModelProperty extends JModel
             'email'   => JMailHelper::cleanAddress($this->getState('contact.email')),
             'telephone'   => JMailHelper::cleanLine($this->getState('contact.telephone')),
             'subject' => JMailHelper::cleanSubject($this->getState('contact.subject'))
-                      . ' [' .$defaultFromname . ']',
+        . ' [' .$defaultFromname . ']',
             'message' => JMailHelper::cleanText($this->getState('contact.message')),
             'propertyURL' => $this->getState('contact.propertyURL')
         );
@@ -253,17 +253,36 @@ class JeaModelProperty extends JModel
             return false;
         }
 
+        if ($params->get('use_captcha')) {
+            $plugin = JFactory::getConfig()->get('captcha');
+            if ($plugin == '0') {
+                $plugin = 'recaptcha';
+            }
+            $captcha = JCaptcha::getInstance($plugin);
+
+            // Test the value.
+            if (!$captcha->checkAnswer(''))
+            {
+                $error = $captcha->getError();
+                if ($error instanceof Exception) {
+                    $this->setError($error->getMessage());
+                } else {
+                    $this->setError($error);
+                }
+            }
+        }
+
         // Check data
         if (empty($data['name'])) {
             $this->setError(JText::_( 'COM_JEA_YOU_MUST_TO_ENTER_YOUR_NAME'));
         }
-        
+
         if (empty($data['message'])) {
             $this->setError(JText::_( 'COM_JEA_YOU_MUST_TO_ENTER_A_MESSAGE'));
         }
 
         if (!JMailHelper::isEmailAddress($data['email'])) {
-             $this->setError(JText::sprintf( 'COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
+            $this->setError(JText::sprintf( 'COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
         }
 
         if ($this->getErrors()) {
@@ -273,13 +292,13 @@ class JeaModelProperty extends JModel
         $recipients = array();
         $defaultMail = $params->get('default_mail');
         $agentMail = '';
- 
+
         if($params->get('send_form_to_agent') == 1){
             $item = $this->getItem();
+            $db        = $this->getDbo();
             $q = 'SELECT `email` FROM `#__users` WHERE `id`=' . (int) $item->created_by;
-            $this->db->setQuery($q);
-            $agentMail = $this->db->loadResult();
-            
+            $db->setQuery($q);
+            $agentMail = $db->loadResult();
         }
 
         if (!empty($defaultMail) && !empty($agentMail)) {
@@ -299,18 +318,17 @@ class JeaModelProperty extends JModel
             $body .= "\n" .  JText::_('COM_JEA_TELEPHONE') . ' : ' . $data['telephone'] ;
         }
         $body .= "\n" . JText::_('COM_JEA_PROPERTY_URL') . ' : ' . $data['propertyURL'];
-        
+
         $mailer->setBody($body);
         $ret = $mailer->sendMail($data['email'], $data['name'], $recipients, $data['subject'], $body, false);
 
-
         if ($ret == true) {
-           $app->setUserState('contact.name', '');
-           $app->setUserState('contact.email', '');
-           $app->setUserState('contact.telephone', '');
-           $app->setUserState('contact.subject', '');
-           $app->setUserState('contact.message', '');
-           return true;
+            $app->setUserState('contact.name', '');
+            $app->setUserState('contact.email', '');
+            $app->setUserState('contact.telephone', '');
+            $app->setUserState('contact.subject', '');
+            $app->setUserState('contact.message', '');
+            return true;
         }
 
         return false;

@@ -85,7 +85,15 @@ class JeaViewProperty extends JView
         return JRoute::_('index.php?option=com_jea&view=property&id='. $slug);
     }
 
-
+    protected function displayCaptcha()
+    {
+        $plugin = JFactory::getConfig()->get('captcha');
+        if ($plugin == '0') {
+            $plugin = 'recaptcha';
+        }
+        $captcha = JCaptcha::getInstance($plugin);
+        return $captcha->display('captcha', 'jea-captcha');
+    }
 
 }
 
