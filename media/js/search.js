@@ -43,6 +43,9 @@ JEASearch = new Class({
 		
 		if (this.options.useAJAX) {
 			for (var fieldName in this.options.fields) {
+				if (fieldName == 'filter_amenities') {
+					fieldName = 'filter_amenities[]';
+				}
 				this.initFieldBehavior(fieldName);
 			}
 		}
@@ -62,7 +65,7 @@ JEASearch = new Class({
 
 			} else if (typeOf(this.form[fieldName]) == 'collection') {
 				that = this; // To avoid copy of this in each items
-				if (fieldName == 'filter_amenities') {
+				if (fieldName == 'filter_amenities[]') {
 					var updateAmenities = function(event) {
 						var index = that.options.fields.filter_amenities.indexOf(this.get('value'));
 						that.forceUpdateLists = true;
@@ -73,7 +76,7 @@ JEASearch = new Class({
 						}
 						that.refresh();
 					};
-					Array.from(this.form.filter_amenities).each(function(item) {
+					Array.from(this.form['filter_amenities[]']).each(function(item) {
 						item.addEvent('change', updateAmenities);
 					});
 				} else if (fieldName == 'filter_transaction_type') {

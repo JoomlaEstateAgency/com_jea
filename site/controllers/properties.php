@@ -22,6 +22,7 @@ jimport('joomla.application.component.controller');
  */
 class JeaControllerProperties extends JController
 {
+    protected $default_view = 'properties';
 
     public function search()
     {

@@ -111,8 +111,8 @@ var JEAGeoSearch = new Class({
 				}
 			});
 
-			if (form.filter_amenities) {
-				Array.from(form.filter_amenities).each(function(item, i) {
+			if (form['filter_amenities[]']) {
+				Array.from(form['filter_amenities[]']).each(function(item, i) {
 					if (item.get('checked')) {
 						filters['filter_amenities[' + i + ']'] = item.get('value');
 					}

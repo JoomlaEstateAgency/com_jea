@@ -82,7 +82,7 @@ $this->document->addScriptDeclaration($script);
       <th><?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL' )?></th>
       <th><?php echo $this->sort('COM_JEA_FIELD_TOWN_LABEL', 'town', $listDirection , $listOrder) ?></th>
       <th class="right"><?php echo $this->sort('COM_JEA_FIELD_LIVING_SPACE_LABEL', 'living_space', $listDirection , $listOrder) ?></th>
-      <th class="right"><?php echo $this->sort('COM_JEA_FIELD_PRICE_RENT_LABEL', 'p.price', $listDirection , $listOrder) ?></th>
+      <th class="right"><?php echo $this->sort('COM_JEA_FIELD_PRICE_LABEL', 'p.price', $listDirection , $listOrder) ?></th>
       <th class="center"><?php echo JText::_('JSTATUS' )?></th>
       <?php if ($canDelete): ?>
       <th class="center"><?php echo JText::_('JACTION_DELETE' )?></th>
@@ -109,7 +109,10 @@ $this->document->addScriptDeclaration($script);
       <td><?php echo $row->address ?></td>
       <td><?php echo $row->town ?></td>
       <td class="right nowrap"><?php echo JHtml::_('utility.formatSurface', (float) $row->living_space , '-' ) ?></td>
-      <td class="right nowrap"><?php echo JHtml::_('utility.formatPrice', (float) $row->price, '-') ?></td>
+      <td class="right nowrap">
+      <?php echo JHtml::_('utility.formatPrice', (float) $row->price, '-') ?> 
+      <?php if ($row->transaction_type == 'RENTING' && (float)$row->price != 0.0) echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $row->rate_frequency) ?>
+      </td>
       <td class="center">
       <?php if ($canChange): $task = $row->published ? 'unpublish' : 'publish'; ?>
       <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.'.$task.'&id='.$row->id ) ?>" >
