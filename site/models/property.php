@@ -192,8 +192,8 @@ class JeaModelProperty extends JModel
                 $currentIndex = $k;
             }
         }
-        if ( isset($items[$currentIndex-1]) ) $result['prev_item'] = $items[$currentIndex-1] ;
-        if ( isset($items[$currentIndex+1]) ) $result['next_item'] = $items[$currentIndex+1] ;
+        if ( isset($items[$currentIndex-1]) ) $result['prev'] = $items[$currentIndex-1] ;
+        if ( isset($items[$currentIndex+1]) ) $result['next'] = $items[$currentIndex+1] ;
 
         return $result;
     }

@@ -62,7 +62,7 @@ window.addEvent('domready', function() {
   <?php endif ?>
 <?php endif ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties&layout=default') ?>" method="post" id="jea-search-form">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&task=properties.search') ?>" method="post" id="jea-search-form">
 
 <?php if ($this->params->get('searchform_show_freesearch')): ?>
   <p>

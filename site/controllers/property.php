@@ -33,7 +33,7 @@ class JeaControllerProperty extends JControllerForm
      *
      * @var    string
      */
-    protected $view_list = 'properties&layout=manage';
+    protected $view_list = 'properties';
 
 
     /* (non-PHPdoc)
@@ -43,23 +43,23 @@ class JeaControllerProperty extends JControllerForm
     {
         $user = JFactory::getUser();
         $assetName = isset($data[$key]) ? 'com_jea.property.' . (int) $data[$key] : 'com_jea';
-        return $user->authorise('core.edit', $assetName) || 
-               $user->authorise('core.edit.own', $assetName);
+        return $user->authorise('core.edit', $assetName) ||
+        $user->authorise('core.edit.own', $assetName);
     }
-    
+
     public function unpublish()
     {
         // TODO: implement
     }
-    
+
     public function publish()
     {
-         // TODO: implement
+        // TODO: implement
     }
-    
+
     public function delete()
     {
-         // TODO: implement
+        // TODO: implement
     }
 
     public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
@@ -67,8 +67,44 @@ class JeaControllerProperty extends JControllerForm
         $model = parent::getModel($name, $prefix, $config);
         return $model;
     }
+
+    /* (non-PHPdoc)
+     * @see JControllerForm::getRedirectToItemAppend()
+     */
+    protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+    {
+        $tmpl = JRequest::getCmd('tmpl');
+        $append = '&layout=edit';
+
+        // Setup redirect info.
+        if ($tmpl)
+        {
+            $append .= '&tmpl=' . $tmpl;
+        }
+
+        if ($recordId)
+        {
+            $append .= '&' . $urlVar . '=' . $recordId;
+        }
+
+        return $append;
+    }
+
+    protected function getRedirectToListAppend()
+    {
+        $tmpl = JRequest::getCmd('tmpl');
+        $append = '&layout=manage';
+
+        // Setup redirect info.
+        if ($tmpl)
+        {
+            $append .= '&tmpl=' . $tmpl;
+        }
+
+        return $append;
+    }
     
-    
+	
 
 }
 

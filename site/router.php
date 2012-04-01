@@ -1,19 +1,13 @@
 <?php
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
- * 
- * @version     $Id: jea.php 145 2010-03-31 10:03:47Z ilhooq $
- * @package		Jea.site
- * @copyright	Copyright (C) 2008 PHILIP Sylvain. All rights reserved.
- * @license		GNU/GPL, see LICENSE.php
- * Joomla Estate Agency is free software. This version may have been modified pursuant to the
- * GNU General Public License, and as distributed it includes or is derivative
- * of works licensed under the GNU General Public License or other free or open
- * source software licenses.
- * 
+ *
+ * @version     $Id$
+ * @package     Joomla.Site
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// TODO : Reimplement the router
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
@@ -21,77 +15,86 @@ defined('_JEXEC') or die('Restricted access');
 function JeaBuildRoute(&$query)
 {
     $segments = array();
-    
+
     if(isset($query['view'])) {
         unset( $query['view'] );
     }
-    
-    if(isset($query['layout'])) {
+
+    if (isset($query['layout'])) {
         $segments[] = $query['layout'];
         unset( $query['layout'] );
     }
-    
+
     if(isset($query['id'])) {
         $segments[] = $query['id'];
         unset( $query['id'] );
     };
-    
+
     return $segments;
 }
 
 function JeaParseRoute($segments)
 {
     $vars = array();
+    // var_dump($segments);
+    // exit();
 
-    if(empty($segments)) {
-        $vars['view'] = 'properties';
+    //Get the active menu item
+    $app  = JFactory::getApplication();
+    $menu = $app->getMenu();
+    $item = $menu->getActive();
+
+    // Count route segments
+    $count = count($segments);
+
+    //Standard routing for property
+    if(!isset($item))
+    {
+        $vars['view']  = 'properties';
+        $vars['id']    = $segments[$count-1];
         return $vars;
     }
 
-	//Get the active menu item
-	$menu =& JSite::getMenu();
-	$item =& $menu->getActive();
+    if ($count == 1 && is_numeric($segments[0])) {
+        // Should be a JEA property id
+        $vars['id'] = $segments[0];
+    }
 
-	// Count route segments
-	$count = count($segments);
+    if ($item->query['view'] == 'properties') {
 
-	//Standard routing for property
-	if(!isset($item))
-	{
-		$vars['view']  = 'properties';
-		$vars['id']    = $segments[$count-1];
-		return $vars;
-	}
-	
-	if ($count == 1 && is_numeric($segments[0])) {
-	    // Should be a JEA item id
-	    $vars['id'] = $segments[0];
-	}
+        $layout = isset($item->query['layout']) ? $item->query['layout'] : 'default';
 
-	//Handle View and Identifier
-	switch($item->query['view']) {
-		case 'properties' :
-			if($count == 1) {
-				$vars['view']  = 'properties';
-				$vars['id'] = $segments[$count-1];
-			}
-            break;
+        switch($layout) {
+            case 'default' :
+                if ($count == 1) {
+                    // if there is only one segment, then it points to a property detail
+                    if (strpos($segments[0], ':') === false) {
+                       $id = (int) $segments[0];
+                    } else {
+                       $exp = explode(':', $segments[0], 2);
+                       $id = (int) $exp[0];
+                    }
 
-		case 'manage'   :
-	        
-		    if($count == 1) {
-				$vars['view']  = 'manage';
-				$vars['layout']  = $segments[$count-1];
-			}
-		    
-		    if($count == 2) {
-				$vars['view']  = 'manage';
-				$vars['layout']  = $segments[$count-2];
-				$vars['id'] = $segments[$count-1];
-			}
-            break;
-	}
+                    $vars['view']  = 'property';
+                    $vars['id'] = $id;
+                }
+                break;
 
-	return $vars;
+            case 'manage' :
+                $vars['view']  = 'properties';
+                $vars['layout']  = 'manage';
+
+                if ($count > 0 && $segments[0] == 'edit') {
+                    $vars['view']  = 'form';
+                    $vars['layout']  = 'edit';
+                    if ($count == 2) {
+                        $vars['id'] = (int) $segments[1];
+                    }
+                }
+                break;
+        }
+    }
+
+    return $vars;
 }
 

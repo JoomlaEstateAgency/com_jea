@@ -186,7 +186,7 @@ window.addEvent('domready', function() {
 </h1>
 <?php endif ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties&layout=default') ?>" method="post" id="jea-search-form" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&task=properties.search') ?>" method="post" id="jea-search-form" enctype="application/x-www-form-urlencoded">
 
   <p>
   <?php echo JHtml::_('features.types', $this->state->get('filter.type_id', 0), 'filter_type_id') ?>

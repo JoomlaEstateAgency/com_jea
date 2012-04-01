@@ -103,7 +103,7 @@ $this->document->addScriptDeclaration($script);
     ?>
 
     <tr class="row<?php echo $altrow ?>" >
-      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->slug ) ?>" title="<?php echo JText::_('JACTION_EDIT') ?>" > 
+      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->id ) ?>" title="<?php echo JText::_('JACTION_EDIT') ?>" > 
       <?php echo $row->ref ?></a></td>
       <td><?php echo $row->type ?></td>
       <td><?php echo $row->address ?></td>

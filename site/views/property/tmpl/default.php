@@ -181,7 +181,7 @@ JPluginHelper::importPlugin('jea');
 <?php echo $this->loadTemplate('googlemap') ?>
 <?php endif ?>
 
-<?php if ( $this->params->get('show_contactform') ): // TODO: sendmail implementation ?>
+<?php if ( $this->params->get('show_contactform') ): ?>
 <?php echo $this->loadTemplate('contactform') ?>
 <?php endif  ?>
 
