@@ -60,16 +60,16 @@ class JeaViewProperty extends JView
         $previous = $previousPrefix. JText::_('JPREVIOUS') ;
         $next     = JText::_('JNEXT') . $nextPrefix ;
 
-        if ( $res['prev_item'] ) {
+        if ($res['prev']) {
 
-            $html .= '<a class="previous" href="' . $this->buildPropertyLink($res['prev_item']) . '">' . $previous . '</a>' ;
+            $html .= '<a class="previous" href="' . $this->buildPropertyLink($res['prev']) . '">' . $previous . '</a>' ;
         } else {
             $html .= '<span class="previous">' . $previous . '</span>';
         }
 
-        if ($res['next_item']) {
+        if ($res['next']) {
 
-            $html .= '<a class="next" href="' . $this->buildPropertyLink($res['next_item']) . '">' . $next . '</a>' ;
+            $html .= '<a class="next" href="' . $this->buildPropertyLink($res['next']) . '">' . $next . '</a>' ;
         }  else {
 
             $html .= '<span class="next">' . $next . '</span>';
