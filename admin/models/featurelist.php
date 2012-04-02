@@ -14,8 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modellist');
 
-require JPATH_SITE.DS.'components'.DS.'com_jea'.DS.'helpers'.DS.'language.php';
-
 /**
  * Feature list model class.
  *

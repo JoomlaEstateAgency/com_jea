@@ -89,7 +89,7 @@ JPluginHelper::importPlugin('jea');
   </tr>
   <?php endif  ?>
 
-  <?php if ( $this->row->is_renting &&  floatval($this->row->deposit) > 0 ): ?>
+  <?php if ($this->row->transaction_type == 'RENTING' &&  (float) $this->row->deposit > 0 ): ?>
   <tr>
     <td><?php echo JText::_('COM_JEA_FIELD_DEPOSIT_LABEL') ?></td>
     <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->deposit) ?></strong></td>

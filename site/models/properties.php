@@ -145,6 +145,10 @@ class JeaModelProperties extends JModelList
      */
     protected function getListQuery()
     {
+        $dispatcher = JDispatcher::getInstance();
+        // Include the jea plugins for the onBeforeSearchQuery event.
+        JPluginHelper::importPlugin('jea');
+        
         // Create a new query object.
         $db        = $this->getDbo();
         $query    = $db->getQuery(true);
@@ -331,6 +335,8 @@ class JeaModelProperties extends JModelList
         $orderDirn    = $this->state->get('list.direction', 'DESC');
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
+        
+        $dispatcher->trigger('onBeforeSearch', array(&$query, &$this->state));
 
         // echo $query;
 

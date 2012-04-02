@@ -28,7 +28,7 @@ class JeaControllerDefault extends JController
     {
         $layout = JFactory::getApplication()->input->get('layout');
 
-        if ($layout == 'manage' || $layout = 'edit') {
+        if ($layout == 'manage' || $layout == 'edit') {
             $user = JFactory::getUser();
             $uri = JFactory::getURI();
             $return = base64_encode($uri);

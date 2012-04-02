@@ -12,6 +12,9 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+$dispatcher = JDispatcher::getInstance();
+JPluginHelper::importPlugin( 'jea' );
+
 JHTML::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
@@ -80,6 +83,8 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
   <div class="width-40 fltrt">
   <?php echo JHtml::_('sliders.start', 'property-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
 
+  <?php $dispatcher->trigger('onAfterStartPanels', array(&$this->item)) ?>
+
   <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PUBLICATION_INFO'), 'params-pane') ?>
     <fieldset class="panelform">
       <ul class="adminformlist">
@@ -100,7 +105,9 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
         <div class="clr"></div>
         <?php echo $this->form->getInput('notes') ?>
     </fieldset>
-    
+
+    <?php $dispatcher->trigger('onBeforeEndPanels', array(&$this->item)) ?>
+
     <?php echo JHtml::_('sliders.end') ?>
   </div>
 

@@ -16,7 +16,6 @@ jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-// TODO: Add plugin entries points
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'upload.php';
 
@@ -28,12 +27,27 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'upload.php';
  */
 class JeaModelProperty extends JModelAdmin
 {
+    /**
+     * The event to trigger after saving the data.
+     * @var string
+     */
+    protected $event_after_save = 'onAfterSaveProperty';
+
+    /**
+     * The event to trigger before saving the data.
+     * @var string
+     */
+    protected $event_before_save = 'onBeforeSaveProperty';
+
 
     /* (non-PHPdoc)
      * @see JModelForm::getForm()
      */
     public function getForm($data = array(), $loadData = true)
     {
+        $dispatcher = JDispatcher::getInstance();
+        // Include the jea plugins for the on after load property form events.
+        JPluginHelper::importPlugin('jea');
 
         $form = $this->loadForm('com_jea.property', 'property', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -69,6 +83,9 @@ class JeaModelProperty extends JModelAdmin
             $form->setFieldAttribute('published', 'filter', 'unset');
         }
 
+        // Trigger the onAfterLoadPropertyForm event.
+        $dispatcher->trigger('onAfterLoadPropertyForm', array(&$form));
+
         return $form;
     }
 
@@ -78,6 +95,9 @@ class JeaModelProperty extends JModelAdmin
      */
     public function save($data)
     {
+        // Include the jea plugins for the on save events.
+        JPluginHelper::importPlugin('jea');
+
         // Alter the title for save as copy
         if (JRequest::getVar('task') == 'save2copy') {
             $data['ref']   = JString::increment($data['ref']);
@@ -262,7 +282,7 @@ class JeaModelProperty extends JModelAdmin
         }
 
         $query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
-               . implode(", \n", $inserts);
+        . implode(", \n", $inserts);
          
         try {
             $db->setQuery($query);
