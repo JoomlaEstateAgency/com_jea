@@ -9,3 +9,5 @@
 -- DROP TABLE IF EXISTS `#__jea_slogans`;
 -- DROP TABLE IF EXISTS `#__jea_towns`;
 -- DROP TABLE IF EXISTS `#__jea_types`;
+
+TRUNCATE TABLE `#__jea_tools`; 

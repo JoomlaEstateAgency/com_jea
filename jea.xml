@@ -57,9 +57,9 @@
 	<administration>
 		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
 		<submenu>
-			<menu img="icon" view="properties">COM_JEA_PROPERTIES_MANAGEMENT</menu>
-			<menu img="icon" view="features">COM_JEA_FEATURES_MANAGEMENT</menu>
-			<menu img="icon" view="tools">COM_JEA_TOOLS</menu>
+			<menu img="icon" view="properties">com_jea_properties</menu>
+			<menu img="icon" view="features">com_jea_features</menu>
+			<menu img="icon" view="tools">com_jea_tools</menu>
 		</submenu>
 
 		<files folder="admin">
