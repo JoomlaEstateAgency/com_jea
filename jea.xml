@@ -32,7 +32,6 @@
 		</schemas>
 	</update>
 	-->
-	
 
 	<!-- Frontend -->
 	<files folder="site">
@@ -46,7 +45,6 @@
 		<filename>router.php</filename>
 	</files>
 
-	
 	<!-- Media files -->
 	<media destination="com_jea" folder="media" >
 	    <filename>index.html</filename>
@@ -54,20 +52,19 @@
 		<folder>images</folder>
 		<folder>js</folder>
 	</media>
-	
+
 	<!-- Backend -->
 	<administration>
 		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
 		<submenu>
-			<menu img="icon" view="properties">Properies management</menu>
-			<menu img="icon" view="features">Properties features</menu>
+			<menu img="icon" view="properties">COM_JEA_PROPERTIES_MANAGEMENT</menu>
+			<menu img="icon" view="features">COM_JEA_FEATURES_MANAGEMENT</menu>
+			<menu img="icon" view="tools">COM_JEA_TOOLS</menu>
 		</submenu>
 
 		<files folder="admin">
 			<folder>controllers</folder>
-			<folder>elements</folder>
 			<folder>helpers</folder>
-			<folder>joomfish</folder>
 			<folder>language</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
