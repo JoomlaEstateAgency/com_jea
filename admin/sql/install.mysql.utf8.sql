@@ -148,6 +148,27 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
 -- --------------------------------------------------------
 
 -- 
+-- Table schema `#__jea_tools`
+-- 
+
+CREATE TABLE IF NOT EXISTS `#__jea_tools` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(255) NOT NULL default '',
+  `link` varchar(255) NOT NULL default '',
+  `icon` varchar(255) NOT NULL default '',
+  `params` TEXT NOT NULL,
+  `access` TEXT NOT NULL,
+  PRIMARY KEY  (`id`)
+) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__jea_tools` (`id` , `title` , `link` , `icon` , `params` , `access`)
+VALUES 
+('1', 'Import from JEA', 'index.php?option=com_jea&view=import&layout=jea', 'com_jea/header/icon-48-import.png', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']'),
+('2', 'Import from CSV', 'index.php?option=com_jea&view=import&layout=csv', 'com_jea/header/icon-48-import.png', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']');
+
+-- --------------------------------------------------------
+
+-- 
 -- Table schema `#__jea_slogans`
 -- 
 

@@ -38,6 +38,12 @@ class JeaHelper
             'index.php?option=com_jea&view=features',
             $viewName == 'features'
         );
+
+        JSubMenuHelper::addEntry(
+            JText::_('COM_JEA_TOOLS'), 
+            'index.php?option=com_jea&view=tools',
+            $viewName == 'tools'
+        );
     }
 
     /**
@@ -72,5 +78,68 @@ class JeaHelper
         }
 
         return $result;
+    }
+    
+    /**
+     * Gets the list of tools icons.
+     *
+     */
+    public static function getToolsIcons()
+    {
+        $db = JFactory::getDbo();
+        
+        $query = $db->getQuery(true);
+        $query->select(array('link', 'title AS text', 'icon AS image', 'access'));
+        $query->from('#__jea_tools');
+        $query->order('id ASC');
+        $db->setQuery($query);
+        $buttons = $db->loadAssocList();
+        
+        foreach ($buttons as &$button) {
+            if (!empty($button['access'])) {
+                $button['access'] = json_decode($button['access']);
+            }
+        }
+        
+        return $buttons;
+
+        /*
+        $buttons = array(
+            array(
+                'link' => JRoute::_('index.php?option=com_jea&view=import&layout=jea'),
+                'image' => 'header/icon-48-config.png',
+                'text' => JText::_('Import from JEA'),
+                'access' => array('core.manage', 'com_jea', 'core.create', 'com_jea')
+            ),
+
+             array(
+                'link' => JRoute::_('index.php?option=com_jea&view=import&layout=csv'),
+                'image' => 'header/icon-48-config.png',
+                'text' => JText::_('Import from CSV'),
+                'access' => array('core.manage', 'com_jea', 'core.create', 'com_jea')
+            ),
+        );
+
+        // Include buttons defined by published jea plugins
+        JPluginHelper::importPlugin('jea');
+        $app = JFactory::getApplication();
+        $result = (array) $app->triggerEvent('onGetToolsIcons');
+
+        foreach ($result as $response) {
+            foreach ($response as $icon) {
+                $default = array(
+                    'link' => null,
+                    'image' => 'header/icon-48-config.png',
+                    'text' => null,
+                    'access' => true
+                );
+                $icon = array_merge($default, $icon);
+                if (!is_null($icon['link']) && !is_null($icon['text'])) {
+                    $buttons[] = $icon;
+                }
+            }
+        }
+        */
+        
     }
 }
