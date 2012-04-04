@@ -104,6 +104,29 @@ class JeaControllerProperties extends JControllerAdmin
 
         $this->setRedirect('index.php?option=com_jea&view=properties');
     }
+    
+    
+    public function import()
+    {
+        $app = JFactory::getApplication();
+
+        $model = $this->getModel('Import');
+        $type = $app->input->get('type');
+
+        $model->setState('import.type', $type);
+        $model->setState('param.jea_version', $app->input->get('jea_version'));
+        $model->setState('param.joomla_path', $app->input->get('joomla_path', '', 'string'));
+        try {
+            $model->import();
+            $app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_FOUND_TOTAL', $model->total));
+            $app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_UPDATED', $model->updated));
+            $app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_CREATED', $model->created));
+        } catch (Exception $e) {
+            $this->setMessage($e->getMessage(), 'warning');
+        }
+
+        $this->setRedirect('index.php?option=com_jea&view=import&layout=' . $type);
+    }
 
 
     /* (non-PHPdoc)
