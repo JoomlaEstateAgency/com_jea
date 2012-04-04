@@ -65,35 +65,35 @@ class JeaViewProperties extends JView
         $direction = $this->state->get('list.direction');
 
         if ($this->params->get('sort_date')) {
-            $sort_links[] = $this->sort('Sort by date', 'p.created', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_DATE', 'p.created', $direction , $order);
         }
 
         if ($this->params->get('sort_price')) {
-            $sort_links[] = $this->sort('Sort by Price', 'p.price', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_PRICE', 'p.price', $direction , $order);
         }
 
         if ($this->params->get('sort_livingspace')) {
-            $sort_links[] = $this->sort('Sort by living space', 'p.living_space', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_LIVING_SPACE', 'p.living_space', $direction , $order);
         }
 
         if ($this->params->get('sort_landspace')) {
-            $sort_links[] = $this->sort('Sort by land space', 'p.land_space', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_LAND_SPACE', 'p.land_space', $direction , $order);
         }
 
         if ($this->params->get('sort_hits')) {
-            $sort_links[] = $this->sort('Sort by popularity', 'p.hits', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_POPULARITY', 'p.hits', $direction , $order);
         }
 
         if ($this->params->get('sort_towns')) {
-            $sort_links[] = $this->sort('Sort by town', 'town', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_TOWN', 'town', $direction , $order);
         }
 
         if ($this->params->get('sort_departements')) {
-            $sort_links[] = $this->sort('Sort by department', 'department', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_DEPARTMENT', 'department', $direction , $order);
         }
 
         if ($this->params->get('sort_areas')) {
-            $sort_links[] = $this->sort('Sort by area', 'area', $direction , $order);
+            $sort_links[] = $this->sort('COM_JEA_SORT_BY_AREA', 'area', $direction , $order);
         }
 
         $this->assign( 'sort_links', $sort_links );
