@@ -76,7 +76,7 @@ if (!empty($filters)) {
           <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
         </th>
         <th width="88%">
-          <?php echo JHTML::_('grid.sort', 'COM_JEA_'.$this->state->get('feature.name'), 'f.value', $listDirection , $listOrder ) ?>
+          <?php echo JHTML::_('grid.sort', 'COM_JEA_FIELD_'.$this->state->get('feature.name').'_LABEL', 'f.value', $listDirection , $listOrder ) ?>
         </th>
         <th width="10%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'f.ordering', $listDirection , $listOrder ) ?>
