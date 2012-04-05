@@ -15,14 +15,14 @@ jimport('joomla.mail.helper');
 require_once JPATH_COMPONENT . '/tables/properties.php';
 
 /**
- * RowInterface model class.
+ * JEAPropertyInterface model class.
  * 
  * This class provides an interface between JEA data and third party bridges
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JEARowInterface extends JObject
+class JEAPropertyInterface extends JObject
 {
 
     // These public members concern the interface
@@ -61,6 +61,7 @@ class JEARowInterface extends JObject
     public $created = 0; // timestamp
     public $modified = 0; // timestamp
     public $images = array();
+    public $language = '*';
 
     // Fields which are not in the standard JEA interface
     protected $_additionnalsFields = array();
@@ -89,12 +90,12 @@ class JEARowInterface extends JObject
         $data = array(
             'ref' => $this->ref,
             'title' => $this->title,
-            'type_id' => JEARowInterface::getFeatureId('types', $this->type),
+            'type_id' => JEAPropertyInterface::getFeatureId('types', $this->type, $this->language),
             'price' => floatval($this->price),
             'address' => $this->address,
-            'department_id' => JEARowInterface::getFeatureId('departments', $this->department),
+            'department_id' => JEAPropertyInterface::getFeatureId('departments', $this->department),
             'zip_code' => $this->zip_code,
-            'condition_id' => JEARowInterface::getFeatureId('conditions', $this->condition),
+            'condition_id' => JEAPropertyInterface::getFeatureId('conditions', $this->condition, $this->language),
             'living_space' => floatval($this->living_space),
             'land_space' => floatval($this->land_space),
             'rooms' => intval($this->rooms),
@@ -102,8 +103,8 @@ class JEARowInterface extends JObject
             'charges' => floatval($this->charges),
             'fees' => floatval($this->fees),
             'deposit' => floatval($this->deposit),
-            'hot_water_type' => JEARowInterface::getFeatureId('hotwatertypes', $this->hot_water_type),
-            'heating_type' => JEARowInterface::getFeatureId('heatingtypes', $this->heating_type),
+            'hot_water_type' => JEAPropertyInterface::getFeatureId('hotwatertypes', $this->hot_water_type, $this->language),
+            'heating_type' => JEAPropertyInterface::getFeatureId('heatingtypes', $this->heating_type, $this->language),
             'bathrooms' => intval($this->bathrooms),
             'toilets' => intval($this->toilets),
             'availability' => $this->_convertTimestampToMysqlDate($this->availability, false),
@@ -113,9 +114,10 @@ class JEARowInterface extends JObject
             'published' => 1,
             'created' => $this->_convertTimestampToMysqlDate($this->created),
             'modified' => $this->_convertTimestampToMysqlDate($this->modified),
-            'created_by' => JEARowInterface::getUserId($this->author_email, $this->author_name),
+            'created_by' => JEAPropertyInterface::getUserId($this->author_email, $this->author_name),
             'latitude' => floatval($this->latitude),
-            'longitude' => floatval($this->longitude)
+            'longitude' => floatval($this->longitude),
+            'language' => $this->language
         );
 
         $this->transaction_type = strtoupper($this->transaction_type);
@@ -125,8 +127,8 @@ class JEARowInterface extends JObject
             $data['transaction_type'] = '0';
         }
 
-        $data['town_id'] = JEARowInterface::getFeatureId('towns', $this->town, $data['department_id']);
-        $data['area_id'] = JEARowInterface::getFeatureId('areas', $this->area, $data['town_id']);
+        $data['town_id'] = JEAPropertyInterface::getFeatureId('towns', $this->town, null, $data['department_id']);
+        $data['area_id'] = JEAPropertyInterface::getFeatureId('areas', $this->area, null, $data['town_id']);
 
         $orientations = array('0', 'N', 'NE', 'NW', 'E', 'W', 'SW', 'SE');
         $orientation = strtoupper($this->orientation);
@@ -139,7 +141,7 @@ class JEARowInterface extends JObject
         if (is_array($this->amenities)) {
             $data['amenities'] = array();
             foreach ($this->amenities as $value) {
-                $data['amenities'][] = JEARowInterface::getFeatureId('amenities', $value);
+                $data['amenities'][] = JEAPropertyInterface::getFeatureId('amenities', $value, $this->language);
             }
         }
 
@@ -268,7 +270,7 @@ class JEARowInterface extends JObject
      * @param int $parentId
      * @return int
      */
-    public static function getFeatureId($tableName='', $fieldValue='', $parentId=0)
+    public static function getFeatureId($tableName='', $fieldValue='', $language=null, $parentId=0)
     {
         $fieldValue = trim($fieldValue);
         $id = 0;
@@ -297,6 +299,10 @@ class JEARowInterface extends JObject
             } elseif ($tableName == 'areas') {
                 $columns[] = 'town_id';
                 $values .= ',' . (int) $parentId;
+            }
+            if ($language != null) {
+                $columns[] = 'language';
+                $values .= ',' . $query->q($language);
             }
 
             $query->columns($columns);

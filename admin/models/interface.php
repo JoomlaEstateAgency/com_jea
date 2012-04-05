@@ -17,7 +17,7 @@ jimport('joomla.application.component.model');
 jimport('joomla.error.log');
 jimport('joomla.utilities.date');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'rowInterface.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'propertyInterface.php';
 
 /**
  * Interface model class.
@@ -27,7 +27,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'rowInterface.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaModelInterface extends JModel
+abstract class JeaModelInterface extends JModel
 {
     public $persistance = false;
 
@@ -97,7 +97,7 @@ class JeaModelInterface extends JModel
                 continue;
             }
 
-            if (isset($properties[$row->ref]) && $properties[$row->ref] instanceof JEARowInterface) {
+            if (isset($properties[$row->ref]) && $properties[$row->ref] instanceof JEAPropertyInterface) {
 
                 if ($this->persistance == true && $this->_propertiesPerStep > 0
                     && $this->updated == $this->_propertiesPerStep) {
@@ -134,7 +134,7 @@ class JeaModelInterface extends JModel
                 break ;
             }
 
-            if ($row instanceof JEARowInterface) {
+            if ($row instanceof JEAPropertyInterface) {
                 if ($row->save($this->_bridge_code)) {
                     $this->created++;
                     $this->_importedProperties[$ref] = true;
@@ -159,7 +159,7 @@ class JeaModelInterface extends JModel
         }
 
         if (empty($properties)) {
-            $msg = JText::sprintf('IMPORT_SUCCESSFULLY_ENDED', ucfirst(strtolower($this->_bridge_code)));
+            $msg = JText::sprintf('COM_JEA_IMPORT_SUCCESSFULLY_ENDED', ucfirst(strtolower($this->_bridge_code)));
             $this->log($msg);
         }
     }

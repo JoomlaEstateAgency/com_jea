@@ -126,7 +126,7 @@ class JeaModelImport extends JeaModelInterface
 
         foreach ($rows as $row) {
 
-            $property = new JEARowInterface();
+            $property = new JEAPropertyInterface();
 
             $property->ref = $row->ref;
             $property->title = $row->title;
