@@ -36,7 +36,7 @@
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 		</field>
-		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_JEA_FIELD_LANGUAGE_DESC" class="inputbox">
+		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL" description="COM_JEA_FIELD_LANGUAGE_DESC" class="inputbox" onchange="updateFeatures(this.value);">
 			<option value="*">JALL</option>
 		</field>
 		<field name="featured" type="list" label="JFEATURED" description="COM_JEA_FIELD_FEATURED_DESC" default="0">

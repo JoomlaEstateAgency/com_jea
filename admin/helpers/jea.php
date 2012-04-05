@@ -142,4 +142,31 @@ class JeaHelper
         */
         
     }
+    
+    public static function getFeatures()
+    {
+    	$xmlPath = JPATH_COMPONENT.'/models/forms/features/';
+    	$xmlFiles = JFolder::files($xmlPath);
+    
+    	$featuresLocalized = array();
+    	foreach ($xmlFiles as $key => $filename) {
+    		if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
+    			$form = simplexml_load_file($xmlPath.DS.$filename);
+    			// generate object
+    			$feature = new stdClass();
+    			$feature->id = $key;
+    			$feature->name = $matches[1];
+    			$feature->table = (string) $form['table'];
+    			$feature->language = false;
+    			// Check if this feature uses language
+    			$lang = $form->xpath("//field[@name='language']");
+    			if (!empty($lang)) {
+    				$feature->language = true;
+    			}
+    			$featuresLocalized[$matches[1]] = $feature;
+    
+    		}
+    	}
+    	return $featuresLocalized;
+    }
 }
