@@ -37,12 +37,12 @@ $altrow=1;
     <tbody>
     <?php foreach ($this->items as $i => $item) : $altrow = ( $altrow == 1 )? 0 : 1 ?>
       <tr class="row<?php echo $altrow ?>">
-        <td><?php echo JHtml::_('grid.id', $i, $item); ?></td>
+        <td><?php echo JHtml::_('grid.id', $i, $item->name); ?></td>
         <td>
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&feature='.$item) ?>">
-          <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item}_title")) ?></a>
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist&feature='.$item->name) ?>">
+          <?php echo JText::_(JString::strtoupper("com_jea_list_of_{$item->name}_title")) ?></a>
         </td>
-        <td class="center"><input type="file" name="csv[<?php echo $item ?>]" value="" size="20" /></td>
+        <td class="center"><input type="file" name="csv[<?php echo $item->name ?>]" value="" size="20" /></td>
       </tr>
       <?php endforeach ?>
     </tbody>

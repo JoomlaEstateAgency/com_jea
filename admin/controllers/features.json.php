@@ -65,4 +65,33 @@ class JeaControllerFeatures extends JController
         echo json_encode($response);
     }
 
+    /**
+     * Get a feature list filterd by language
+     */
+    public function get_list()
+    {
+        $response = false;
+
+        $jinput = JFactory::getApplication()->input;
+        $featName = $jinput->get('feature', null,'alnum');
+        if (!is_null($featName)) {
+            $model = $this->getModel('Features', 'JeaModel');
+            $features = $model->getItems();
+            if (isset($features[$featName])) {
+                if (!$language = $jinput->get('language', '*', 'string')) {
+                    $language = '*';
+                }
+                $db = JFactory::getDbo();
+                $query = $db->getQuery(true);
+                $query->select('f.id , f.value');
+                $query->from($features[$featName]->table.' AS f');
+                $query->where('f.language='. $db->quote($language));
+                $db->setQuery($query);
+                $response = $db->loadObjectList();
+            }
+        }
+
+        echo json_encode($response);
+    }
+
 }

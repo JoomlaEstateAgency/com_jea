@@ -3,6 +3,11 @@ table.adminlist th {
 	white-space: nowrap;
 }
 
+#ajaxupdating {
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #DE7A7B;
+}
 
 select#department_id,
 select#town_id,

@@ -16,100 +16,10 @@ $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
 JHTML::stylesheet('media/com_jea/css/jea.admin.css');
-
-// item language
-$itemLanguage = $this->item->language;
-if (empty($itemLanguage)) {
-	$itemLanguage = '*';
-}
-// item type
-$type_id = $this->item->type_id;
-
-$alertBgColor = '#F8E9E9';
-$alertBorderColor = '#DE7A7B';
-
-$document = & JFactory::getDocument();
-$document->addScriptDeclaration("
-	Element.implement({
-		flash: function(to,from,reps,prop,dur) {
-	
-			//defaults
-			if(!reps) { reps = 1; }
-			if(!prop) { prop = 'background-color'; }
-			if(!dur) { dur = 250; }
-		
-			//create effect
-			var effect = new Fx.Tween(this, {
-				duration: dur,
-				link: 'chain'
-			})
-		
-			//do it!
-			for(x = 1; x <= reps; x++)
-			{
-				effect.start(prop,from,to).start(prop,to,from);
-			}
-		}
-	});
-	
-	// colors
-	var bgColor = '{$alertBgColor}';
-	var borderColor = '{$alertBorderColor}';
-
-	function updateFeatures(language) {
-		// show field alerts
-		document.id('ajaxupdating').setStyle('display','');
-		document.id('ajaxupdating').flash('#fff',bgColor,2,'background-color',500);
-		$('jform_type_id').setStyle('border','1px solid '+borderColor);
-		$('jform_type_id').flash('#fff',bgColor,2,'background-color',500);
-		$('jform_condition_id').setStyle('border','1px solid '+borderColor);
-		$('jform_condition_id').flash('#fff',bgColor,2,'background-color',500);
-		$('jform_heating_type').setStyle('border','1px solid '+borderColor);
-		$('jform_heating_type').flash('#fff',bgColor,2,'background-color',500);
-		$('jform_hot_water_type').setStyle('border','1px solid '+borderColor);
-		$('jform_hot_water_type').flash('#fff',bgColor,2,'background-color',500);
-		$('jform_slogan_id').setStyle('border','1px solid '+borderColor);
-		$('jform_slogan_id').flash('#fff',bgColor,2,'background-color',500);
-		// update dropdowns
-		updateFeature('type','jform_type_id',language);
-		updateFeature('condition','jform_condition_id',language);
-		updateFeature('heatingtype','jform_heating_type',language);
-		updateFeature('hotwatertype','jform_hot_water_type',language);
-		updateFeature('slogan','jform_slogan_id',language);
-	};
-	
-	function updateFeature(name, fieldId, language) {
-		var jSonRequest = new Request.JSON({
-			url: 'index.php',
-			onSuccess: function(response) {
-				var first = document.id(fieldId).getFirst().clone();
-				document.id(fieldId).empty();
-				document.id(fieldId).adopt(first);
-				if (response) {
-					response.each(function(item) {
-						var option  = new Element('option', {'value' : item.id});
-						option.appendText(item.value);
-						document.id(fieldId).adopt(option);
-					});
-				}
-			}
-		});
-		jSonRequest.get({
-			'option' : 'com_jea',
-			'format' : 'json',
-			'task' : 'properties.updateFeature',
-			'feature' : name,
-			'language' : language
-		});
-	};
-	
-	window.addEvent('domready', function() {
-		document.id('ajaxupdating').setStyle('display','none');
-	});
-");
+JHTML::script('media/com_jea/js/property.form.js', true);
 ?>
-<div id="ajaxupdating" style="padding: 5px; border-radius: 5px; border: 1px solid <?php echo $alertBorderColor; ?>; ">
-	<h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
+<div id="ajaxupdating">
+  <h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
 </div>
 
 <form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">

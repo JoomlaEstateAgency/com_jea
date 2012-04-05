@@ -28,18 +28,33 @@ class JeaModelFeatures extends JModel
 {
 
 
+    /**
+     * Get the list of features
+     * @return array of stdClass objects
+     */
     public function getItems()
     {
-        $files = JFolder::files(JPATH_COMPONENT.'/models/forms/features/');
-
+        $xmlPath = JPATH_COMPONENT.'/models/forms/features/';
+        $xmlFiles = JFolder::files($xmlPath);
         $items = array();
-
-        foreach($files as $filename) {
+        foreach ($xmlFiles as $key => $filename) {
             if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
-                $items[] = $matches[1];
+                $form = simplexml_load_file($xmlPath.DS.$filename);
+                // generate object
+                $feature = new stdClass();
+                $feature->id = $key;
+                $feature->name = $matches[1];
+                $feature->table = (string) $form['table'];
+                $feature->language = false;
+                // Check if this feature uses language
+                $lang = $form->xpath("//field[@name='language']");
+                if (!empty($lang)) {
+                    $feature->language = true;
+                }
+                $items[$feature->name] = $feature;
+
             }
         }
-
         return $items;
     }
 
@@ -75,7 +90,7 @@ class JeaModelFeatures extends JModel
     {
         $row=0;
 
-        if (($handle = fopen($file, 'r')) !== FALSE) { 
+        if (($handle = fopen($file, 'r')) !== FALSE) {
             $db = JFactory::getDbo();
             $tableName = $db->escape($tableName);
             $table = new FeaturesFactory($tableName, 'id', $db);
@@ -99,15 +114,15 @@ class JeaModelFeatures extends JModel
                 $bind = array();
 
                 for ($c=0; $c < $num; $c++) {
-                   if (isset($cols[$c])) {
-                       $bind[$cols[$c]] = $data[$c];
-                   }
+                    if (isset($cols[$c])) {
+                        $bind[$cols[$c]] = $data[$c];
+                    }
                 }
 
                 try {
                     if (isset($bind['id']) && isset($ids[$bind['id']])) {
-                       // Load row to update
-                       $table->load((int) $bind['id']);
+                        // Load row to update
+                        $table->load((int) $bind['id']);
 
                     } elseif (isset($bind['ordering'])) {
                         $bind['ordering'] = $maxOrdering;

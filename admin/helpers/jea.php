@@ -74,7 +74,7 @@ class JeaHelper
         );
 
         foreach ($actions as $action) {
-            $result->set($action,	$user->authorise($action, $assetName));
+            $result->set($action, $user->authorise($action, $assetName));
         }
 
         return $result;
@@ -87,86 +87,21 @@ class JeaHelper
     public static function getToolsIcons()
     {
         $db = JFactory::getDbo();
-        
+
         $query = $db->getQuery(true);
         $query->select(array('link', 'title AS text', 'icon AS image', 'access'));
         $query->from('#__jea_tools');
         $query->order('id ASC');
         $db->setQuery($query);
         $buttons = $db->loadAssocList();
-        
+
         foreach ($buttons as &$button) {
             if (!empty($button['access'])) {
                 $button['access'] = json_decode($button['access']);
             }
         }
-        
+
         return $buttons;
-
-        /*
-        $buttons = array(
-            array(
-                'link' => JRoute::_('index.php?option=com_jea&view=import&layout=jea'),
-                'image' => 'header/icon-48-config.png',
-                'text' => JText::_('Import from JEA'),
-                'access' => array('core.manage', 'com_jea', 'core.create', 'com_jea')
-            ),
-
-             array(
-                'link' => JRoute::_('index.php?option=com_jea&view=import&layout=csv'),
-                'image' => 'header/icon-48-config.png',
-                'text' => JText::_('Import from CSV'),
-                'access' => array('core.manage', 'com_jea', 'core.create', 'com_jea')
-            ),
-        );
-
-        // Include buttons defined by published jea plugins
-        JPluginHelper::importPlugin('jea');
-        $app = JFactory::getApplication();
-        $result = (array) $app->triggerEvent('onGetToolsIcons');
-
-        foreach ($result as $response) {
-            foreach ($response as $icon) {
-                $default = array(
-                    'link' => null,
-                    'image' => 'header/icon-48-config.png',
-                    'text' => null,
-                    'access' => true
-                );
-                $icon = array_merge($default, $icon);
-                if (!is_null($icon['link']) && !is_null($icon['text'])) {
-                    $buttons[] = $icon;
-                }
-            }
-        }
-        */
-        
     }
-    
-    public static function getFeatures()
-    {
-    	$xmlPath = JPATH_COMPONENT.'/models/forms/features/';
-    	$xmlFiles = JFolder::files($xmlPath);
-    
-    	$featuresLocalized = array();
-    	foreach ($xmlFiles as $key => $filename) {
-    		if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
-    			$form = simplexml_load_file($xmlPath.DS.$filename);
-    			// generate object
-    			$feature = new stdClass();
-    			$feature->id = $key;
-    			$feature->name = $matches[1];
-    			$feature->table = (string) $form['table'];
-    			$feature->language = false;
-    			// Check if this feature uses language
-    			$lang = $form->xpath("//field[@name='language']");
-    			if (!empty($lang)) {
-    				$feature->language = true;
-    			}
-    			$featuresLocalized[$matches[1]] = $feature;
-    
-    		}
-    	}
-    	return $featuresLocalized;
-    }
+
 }
