@@ -43,8 +43,8 @@ $langs  = explode('-', $this->document->getLanguage());
 $lang   = $langs[0];
 $region = $langs[1];
 
-$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&language=' . $lang
-. '&region=' . $region );
+$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&amp;language=' . $lang
+. '&amp;region=' . $region );
 
 $model = $this->getModel();
 

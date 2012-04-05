@@ -37,7 +37,7 @@ if(!empty($address) && !empty($town)){
     $address = $lang;
 }
 
-$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&language='. $lang . '&region=' . $region );
+$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&amp;language='. $lang . '&amp;region=' . $region );
 
 $script = <<<EOD
 var map = null;
@@ -55,7 +55,7 @@ window.addEvent("domready", function(){
     var longitude  = {$longitude};
     var latitude   = {$latitude};
 
-    if( longitude != 0 && latitude != 0 ) {
+    if ((longitude + latitude) > 0 ) {
         var myLatlng = new google.maps.LatLng(latitude, longitude);
         var options = {
           zoom : 15,

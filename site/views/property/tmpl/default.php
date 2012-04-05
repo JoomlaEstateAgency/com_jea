@@ -117,7 +117,6 @@ JPluginHelper::importPlugin('jea');
 </table>
 
 <h3><?php echo JText::_('COM_JEA_DETAILS') ?> : </h3>
-
 <table class="jea-data" >
   <?php if ($this->row->condition): ?>
   <tr>
@@ -140,21 +139,57 @@ JPluginHelper::importPlugin('jea');
   </tr>
   <?php endif ?>
 
-  <?php if ( $this->row->rooms ): ?>
+  <?php if ($this->row->rooms): ?>
   <tr>
     <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_ROOMS_LABEL') ?></th>
     <td><?php echo $this->row->rooms ?></td>
   </tr>
   <?php endif  ?>
 
-  <?php if ( $this->row->bedrooms ): ?>
+  <?php if ($this->row->bedrooms): ?>
   <tr>
     <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_BEDROOMS_LABEL') ?></th>
     <td><?php echo $this->row->bedrooms ?></td>
   </tr>
   <?php endif  ?>
 
-  <?php if ( $this->row->floor ): ?>
+  <?php if ($this->row->orientation != '0'): ?>
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_ORIENTATION_LABEL') ?></th>
+    <td>
+    <?php
+     switch ($this->row->orientation) {
+         case 'N':
+             echo JText::_('COM_JEA_OPTION_NORTH');
+             break;
+         case 'NW':
+             echo JText::_('COM_JEA_OPTION_NORTH_WEST');
+             break;
+         case 'NE':
+             echo JText::_('COM_JEA_OPTION_NORTH_EAST');
+             break;
+         case 'E':
+             echo JText::_('COM_JEA_OPTION_EAST');
+             break;
+         case 'W':
+             echo JText::_('COM_JEA_OPTION_WEST');
+             break;
+         case 'S':
+             echo JText::_('COM_JEA_OPTION_SOUTH');
+             break;
+         case 'SW':
+             echo JText::_('COM_JEA_OPTION_SOUTH_WEST');
+             break;
+         case 'SE':
+             echo JText::_('COM_JEA_OPTION_SOUTH_EAST');
+             break;
+     }
+    ?>
+     </td>
+  </tr>
+  <?php endif ?>
+
+  <?php if ($this->row->floor): ?>
   <tr>
     <th><?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?></th>
     <td><?php echo $this->row->floor ?></td>

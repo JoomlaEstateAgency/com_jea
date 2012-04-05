@@ -116,7 +116,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
           <?php endif ?>
 
           <br />
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>"title="<?php echo JText::_('COM_JEA_DETAIL') ?>">
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>">
             <?php echo JText::_('COM_JEA_DETAIL') ?>
           </a>
         </dd>
