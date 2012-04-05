@@ -66,7 +66,7 @@ class JeaControllerFeatures extends JController
     }
 
     /**
-     * Get a feature list filterd by language
+     * Get a feature list filtered by language
      */
     public function get_list()
     {
@@ -85,7 +85,7 @@ class JeaControllerFeatures extends JController
                 $query = $db->getQuery(true);
                 $query->select('f.id , f.value');
                 $query->from($features[$featName]->table.' AS f');
-                $query->where('f.language='. $db->quote($language));
+                $query->where('f.language='. $db->quote($language) . 'OR f.language=\'*\'');
                 $db->setQuery($query);
                 $response = $db->loadObjectList();
             }
