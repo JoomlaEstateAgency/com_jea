@@ -14,11 +14,9 @@
 defined('_JEXEC') or die('Restricted access');
 
 if (empty($this->row->id)) {
-    echo JText::_('This property doesn\'t exists anymore');
+    echo JText::_('COM_JEA_PROPERTY_NOT_FOUND');
     return;
 }
-
-
 
 JHTML::stylesheet('media/com_jea/css/jea.css');
 $dispatcher = JDispatcher::getInstance();
@@ -30,8 +28,9 @@ JPluginHelper::importPlugin('jea');
 </p>
 
 <?php if ($this->params->get('show_print_icon')): ?>
-<div class="jea_tools">
-  <!-- <a href="javascript:window.print()" title="<?php echo JText::_('Print') ?>"><?php echo JHTML::_('image.site', 'printButton.png') ?></a> -->
+<div class="jea-tools">
+  <a href="javascript:window.print()" title="<?php echo JText::_('JGLOBAL_PRINT') ?>">
+  <?php echo JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true) ?></a>
 </div>
 <?php endif ?>
 
@@ -39,138 +38,168 @@ JPluginHelper::importPlugin('jea');
 
 <?php if ( $this->params->get('show_creation_date', 0) ) : ?>
 <p>
-  <span class="date"> <?php echo JHTML::_('date',  $this->row->created, JText::_('DATE_FORMAT_LC3') ); ?></span>
+  <span class="date"><?php echo JHTML::_('date',  $this->row->created, JText::_('DATE_FORMAT_LC3') ) ?></span>
 </p>
 <?php endif ?>
 
 <?php if(!empty($this->row->images)): ?>
 <div id="jea-gallery">
-<?php echo $this->loadTemplate('squeezebox') ?>
+<?php echo $this->loadTemplate($this->params->get('images_layout', 'squeezebox')) ?>
 </div>
 <?php endif ?>
 
-<h2><?php echo JText::_('COM_JEA_REF')?> : <?php echo $this->escape($this->row->ref) ?></h2>
+<h2 class="clr"><?php echo JText::_('COM_JEA_REF')?> : <?php echo $this->escape($this->row->ref) ?></h2>
 
-<div class="clr">&nbsp;</div>
 
-<div class="item_second_column">
-  <h3><?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL') ?>:</h3>
-  <strong> <?php if($this->row->address) echo $this->escape( $this->row->address ).", <br /> \n" ?>
-  <?php if ($this->row->zip_code) echo $this->escape( $this->row->zip_code ) ?> 
-  <?php if ($this->row->town) echo strtoupper( $this->escape($this->row->town) )."<br /> \n" ?>
-  </strong>
-  <?php if ($this->row->area)
-  echo JText::_('COM_JEA_FIELD_AREA_LABEL') . ' : <strong>'   .$this->escape( $this->row->area ). "</strong>\n" ?>
+<div class="jea-col-right">
+  <?php if ($this->row->address || $this->row->zip_code || $this->row->town ): ?>
+  <h3><?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL') ?> :</h3>
+  <address>
+  <?php if ($this->row->address):?> 
+  <?php echo $this->escape($this->row->address ) ?><br />
+  <?php endif ?>
+  <?php if ($this->row->zip_code) echo $this->escape($this->row->zip_code ) ?> 
+  <?php if ($this->row->town) echo $this->escape($this->row->town ) ?>
+  </address>
+  <?php endif ?>
 
-  <?php if (!empty($this->row->amenities)) : ?>
-  <h3><?php echo JText::_('COM_JEA_AMENITIES')?></h3>
-  <?php echo JHtml::_('amenities.bindList', $this->row->amenities, 'ul') ?>
+  <?php if ($this->row->area) :?>
+  <p><?php echo JText::_('COM_JEA_FIELD_AREA_LABEL') ?> : 
+  <strong> <?php echo$this->escape( $this->row->area ) ?></strong></p>
   <?php endif  ?>
+
+  <?php if (!empty($this->row->amenities)): ?>
+  <h3><?php echo JText::_('COM_JEA_AMENITIES')?> :</h3>
+  <?php echo JHtml::_('amenities.bindList', $this->row->amenities, 'ul') ?>
+  <?php endif ?>
 </div>
 
-  <?php if (intval($this->row->availability)): ?>
-<p>
-  <em><?php echo JText::_('COM_JEA_FIELD_PROPERTY_AVAILABILITY_LABEL') ?> : <?php echo $this->row->availability ?> </em>
+<?php if (intval($this->row->availability)): ?>
+<p class="availability">
+<?php echo JText::_('COM_JEA_FIELD_PROPERTY_AVAILABILITY_LABEL') ?> : 
+<?php echo JHTML::_('date',  $this->row->availability, JText::_('DATE_FORMAT_LC3') ) ?>
 </p>
-  <?php endif  ?>
+<?php endif  ?>
 
-<table>
+<h3><?php echo JText::_('COM_JEA_FINANCIAL_INFORMATIONS') ?> : </h3>
+
+<table class="jea-data" >
   <tr>
-    <td><?php echo $this->row->transaction_type == 'RENTING' ? JText::_('COM_JEA_FIELD_PRICE_RENT_LABEL') :  JText::_('COM_JEA_FIELD_PRICE_LABEL') ?></td>
-    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->price, JText::_('Consult us')) ?></strong>
-    <?php if ($this->row->transaction_type == 'RENTING' && (float)$this->row->price != 0.0) echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $this->row->rate_frequency) ?>
+    <th><?php echo $this->row->transaction_type == 'RENTING' ? JText::_('COM_JEA_FIELD_PRICE_RENT_LABEL') :  JText::_('COM_JEA_FIELD_PRICE_LABEL') ?></th>
+    <td class="right">
+      <?php echo JHtml::_('utility.formatPrice', (float) $this->row->price, JText::_('COM_JEA_CONSULT_US')) ?>
+      <?php if ($this->row->transaction_type == 'RENTING' && (float)$this->row->price != 0.0): ?>
+      <span class="rate_frequency"><?php echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $this->row->rate_frequency) ?></span>
+      <?php endif ?>
     </td>
   </tr>
 
-  <?php if ($this->row->charges): ?>
+  <?php if ((float)$this->row->charges > 0): ?>
   <tr>
-    <td><?php echo JText::_('COM_JEA_FIELD_CHARGES_LABEL') ?></td>
-    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->charges) ?></strong></td>
+    <th><?php echo JText::_('COM_JEA_FIELD_CHARGES_LABEL') ?></th>
+    <td class="right"><?php echo JHtml::_('utility.formatPrice', (float) $this->row->charges) ?></td>
   </tr>
   <?php endif  ?>
 
   <?php if ($this->row->transaction_type == 'RENTING' &&  (float) $this->row->deposit > 0 ): ?>
   <tr>
-    <td><?php echo JText::_('COM_JEA_FIELD_DEPOSIT_LABEL') ?></td>
-    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->deposit) ?></strong></td>
+    <th><?php echo JText::_('COM_JEA_FIELD_DEPOSIT_LABEL') ?></th>
+    <td class="right"><?php echo JHtml::_('utility.formatPrice', (float) $this->row->deposit) ?></td>
   </tr>
   <?php endif  ?>
 
-  <?php if ($this->row->fees): ?>
+  <?php if ((float)$this->row->fees > 0): ?>
   <tr>
-    <td><?php echo JText::_('COM_JEA_FIELD_FEES_LABEL') ?></td>
-    <td>: <strong><?php echo JHtml::_('utility.formatPrice', (float) $this->row->fees) ?></strong></td>
+    <th><?php echo JText::_('COM_JEA_FIELD_FEES_LABEL') ?></th>
+    <td class="right"><?php echo JHtml::_('utility.formatPrice', (float) $this->row->fees) ?></td>
   </tr>
   <?php endif  ?>
 </table>
 
 <h3><?php echo JText::_('COM_JEA_DETAILS') ?> : </h3>
-<?php if ($this->row->condition): ?>
-<p><strong><?php echo ucfirst($this->escape($this->row->condition)) ?> </strong></p>
-<?php endif  ?>
 
-<p>
+<table class="jea-data" >
+  <?php if ($this->row->condition): ?>
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_CONDITION_LABEL') ?></th>
+    <td><?php echo $this->escape($this->row->condition) ?></td>
+  </tr>
+  <?php endif  ?>
+
   <?php if ($this->row->living_space): ?>
-  <?php echo  JText::_( 'COM_JEA_FIELD_LIVING_SPACE_LABEL' ) ?> : 
-  <strong><?php echo JHtml::_('utility.formatSurface', (float) $this->row->living_space ) ?></strong>
-  <br />
+  <tr>
+    <th><?php echo  JText::_( 'COM_JEA_FIELD_LIVING_SPACE_LABEL' ) ?></th>
+    <td><?php echo JHtml::_('utility.formatSurface', (float) $this->row->living_space ) ?></td>
+  </tr>
   <?php endif ?>
 
   <?php if ($this->row->land_space): ?>
-  <?php echo  JText::_( 'COM_JEA_FIELD_LAND_SPACE_LABEL' ) ?> : 
-  <strong><?php echo JHtml::_('utility.formatSurface', (float) $this->row->land_space ) ?></strong>
-  <br />
+  <tr>
+    <th><?php echo  JText::_( 'COM_JEA_FIELD_LAND_SPACE_LABEL' ) ?></th>
+    <td><?php echo JHtml::_('utility.formatSurface', (float) $this->row->land_space ) ?></td>
+  </tr>
   <?php endif ?>
 
   <?php if ( $this->row->rooms ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_ROOMS_LABEL') ?> : 
-  <strong><?php echo $this->row->rooms ?> </strong> <br />
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_ROOMS_LABEL') ?></th>
+    <td><?php echo $this->row->rooms ?></td>
+  </tr>
   <?php endif  ?>
-  
+
   <?php if ( $this->row->bedrooms ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_BEDROOMS_LABEL') ?> : 
-  <strong><?php echo $this->row->bedrooms ?> </strong> <br />
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_BEDROOMS_LABEL') ?></th>
+    <td><?php echo $this->row->bedrooms ?></td>
+  </tr>
   <?php endif  ?>
 
   <?php if ( $this->row->floor ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?> : 
-  <strong><?php echo $this->row->floor ?> </strong> <br />
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?></th>
+    <td><?php echo $this->row->floor ?></td>
+  </tr>
   <?php endif  ?>
-  
+
   <?php if ( $this->row->floors_number ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_FLOORS_NUMBER_LABEL') ?> : 
-  <strong><?php echo $this->row->floors_number ?> </strong> <br />
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_FLOORS_NUMBER_LABEL') ?></th>
+    <td><?php echo $this->row->floors_number ?></td>
+  </tr>
   <?php endif  ?>
 
   <?php if ( $this->row->bathrooms ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_BATHROOMS_LABEL') ?> : 
-  <strong><?php echo $this->row->bathrooms ?> </strong> <br />
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_BATHROOMS_LABEL') ?></th>
+    <td><?php echo $this->row->bathrooms ?></td>
+  </tr>
   <?php endif  ?>
 
   <?php if ($this->row->toilets): ?>
-  <?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_TOILETS_LABEL') ?> : 
-  <strong><?php echo $this->row->toilets ?> </strong>
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_NUMBER_OF_TOILETS_LABEL') ?></th>
+    <td><?php echo $this->row->toilets ?></td>
+  </tr>
   <?php endif  ?>
-</p>
 
-<p>
-<?php if ( $this->row->heating_type_name ): ?>
-<?php echo JText::_('COM_JEA_FIELD_HEATINGTYPE_LABEL') ?>
-  : <strong><?php echo ucfirst($this->escape( $this->row->heating_type_name )) ?> </strong><br />
+  <?php if ( $this->row->heating_type_name ): ?>
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_HEATINGTYPE_LABEL') ?></th>
+    <td><?php echo $this->escape( $this->row->heating_type_name) ?></td>
+  </tr>
   <?php endif  ?>
 
   <?php if ( $this->row->hot_water_type_name ): ?>
-  <?php echo JText::_('COM_JEA_FIELD_HOTWATERTYPE_LABEL') ?>
-  : <strong><?php echo ucfirst($this->escape( $this->row->hot_water_type_name )) ?> </strong>
+  <tr>
+    <th><?php echo JText::_('COM_JEA_FIELD_HOTWATERTYPE_LABEL') ?></th>
+    <td><?php echo $this->escape( $this->row->hot_water_type_name) ?></td>
+  </tr>
   <?php endif  ?>
-</p>
+</table>
 
+<?php $dispatcher->trigger('onBeforeShowDescription', array(&$this->row)) ?>
 
-<div class="clr">&nbsp;</div>
-
-  <?php $dispatcher->trigger('onBeforeShowDescription', array(&$this->row)) ?>
-
-<div class="item_description">
+<div class="property-description clr">
 <?php echo $this->row->description ?>
 </div>
 
@@ -186,5 +215,5 @@ JPluginHelper::importPlugin('jea');
 <?php endif  ?>
 
 <p>
-  <a href="javascript:window.history.back()" class="jea_return_link"><?php echo JText::_('COM_JEA_RETURN_TO_THE_LIST')?> </a>
+  <a href="<?php echo JRoute::_('index.php?option=com_jea&view=properties')?>"><?php echo JText::_('COM_JEA_RETURN_TO_THE_LIST')?> </a>
 </p>

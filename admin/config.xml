@@ -83,7 +83,7 @@
 	</fieldset>
 
 	<fieldset name="property" label="COM_JEA_CONFIG_PROPERTY">
-		<field name="images_layout" type="list" default="gallery" label="COM_JEA_FIELD_IMAGES_LAYOUT_LABEL" description="COM_JEA_FIELD_IMAGES_LAYOUT_DESC">
+		<field name="images_layout" type="list" default="squeezebox" label="COM_JEA_FIELD_IMAGES_LAYOUT_LABEL" description="COM_JEA_FIELD_IMAGES_LAYOUT_DESC">
 			<option value="gallery">Classical</option>
 			<option value="squeezebox">SqueezeBox</option>
 			<option value="slimbox">Slimbox (soon)</option>

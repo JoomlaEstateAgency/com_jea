@@ -12,20 +12,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-$this->initGallery($this->row->id);
-array_unshift($this->secondaries_images, $this->main_image);
+if (!is_array($this->row->images)) {
+    return ;
+}
+
+$mainImage = $this->row->images[0];
 
 $script=<<<EOB
 function updatePreviewInfos(){
-	var imgTitle       = $('jea-preview-img').getProperty('alt');
-	var imgDescription = $('jea-preview-img').getProperty('title');
-	$('jea-preview-title').empty();
-	$('jea-preview-description').empty();
-	if(imgTitle) {
-		$('jea-preview-title').appendText(imgTitle);
+	var imgTitle       = document.id('jea-preview-img').getProperty('alt');
+	var imgDescription = document.id('jea-preview-img').getProperty('title');
+	document.id('jea-preview-title').empty();
+	document.id('jea-preview-description').empty();
+	if (imgTitle) {
+		document.id('jea-preview-title').set('text', imgTitle);
     }
     if(imgDescription) {
-		$('jea-preview-description').appendText(imgDescription);
+		document.id('jea-preview-description').set('text', imgDescription);
     }
 };
 
@@ -33,12 +36,11 @@ window.addEvent('domready', function() {
 	$$('a.jea-thumbnails').each(function(el) {
 		el.addEvent('click', function(e) {
     		new Event(e).stop();
-
-    		if($('jea-preview-img')){
-    			$('jea-preview-img').setProperties({
+    		if(document.id('jea-preview-img')){
+    			document.id('jea-preview-img').set({
     				'alt'  : this.getElement('img').getProperty('alt'),
     				'title': this.getElement('img').getProperty('title'),
-    				'src' : this.getProperty('href')
+    				'src'  :  this.getProperty('href')
     			});
 				updatePreviewInfos();
 			}
@@ -48,31 +50,28 @@ window.addEvent('domready', function() {
 EOB;
 
 JHTML::_('behavior.mootools');
-$document=& JFactory::getDocument();
-$document->addScriptDeclaration($script);
-
+$this->document->addScriptDeclaration($script);
 ?>
 
 <div class="clr" ></div>
 
-<?php if(!empty($this->main_image['preview_url'])) : ?>
 <div id="jea-gallery-preview" >
-	<img src="<?php echo $this->main_image['preview_url'] ?>" 
-      	 id="jea-preview-img"
-         alt="<?php echo $this->main_image['title'] ?>" 
-         title="<?php echo $this->main_image['description'] ?>" />
-    <div id="jea-preview-title"><?php echo $this->main_image['title'] ?></div>
-	<div id="jea-preview-description"><?php echo $this->main_image['description'] ?></div>
+<a href="<?php echo $mainImage->URL ?>" >
+      <img src="<?php echo $mainImage->mediumURL ?>" 
+      	   id="jea-preview-img"
+           alt="<?php echo $mainImage->title ?>" 
+           title="<?php echo $mainImage->description ?>" /></a>
+  <div id="jea-preview-title"><?php echo $mainImage->title ?></div>
+  <div id="jea-preview-description"><?php echo $mainImage->description ?></div>
 </div>
-<?php endif ?>
 
-<?php if( !empty($this->secondaries_images)): ?>
+<?php if( !empty($this->row->images)): ?>
 <div id="jea-gallery-scroll" >
-	<?php foreach($this->secondaries_images as $image) : ?>
-	  <a class="jea-thumbnails" href="<?php echo $image['preview_url'] ?>" >
-      <img src="<?php echo $image['min_url'] ?>" 
-           alt="<?php echo $image['title'] ?>" 
-           title="<?php echo $image['description'] ?>" /></a><br />
+	<?php foreach($this->row->images as $image) : ?>
+	  <a class="jea-thumbnails" href="<?php echo $image->mediumURL?>" >
+      <img src="<?php echo $image->minURL ?>" 
+           alt="<?php echo $image->title ?>" 
+           title="<?php echo $image->description  ?>" /></a><br />
     <?php endforeach ?>
 </div>
 <?php endif ?>

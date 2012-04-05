@@ -2,17 +2,13 @@
 	clear: both;
 }
 
-.jea_tools {
-	float: right;
-}
-
-.jea_tools img {
-	border: none;
-}
-
-.numberbox{
+.numberbox {
 	text-align:right;
 	padding-right:2px;
+}
+
+.right {
+	text-align: right;
 }
 
 /*** Properties Search layout ***/
@@ -128,13 +124,18 @@ dl.jea_item span.slogan strong {
 }
 
 /* Property Default layout */
+
 .prev-next-navigation  .previous {
 	display: inline-block;
 	margin-right: 20px;
 }
 
-.jea_toolbar {
+.jea-tools {
 	float: right;
+}
+
+.jea-tools img {
+	border: none;
 }
 
 #jea-gallery {
@@ -166,7 +167,26 @@ dl.jea_item span.slogan strong {
 	font-style: italic;
 }
 
-.item_second_column {
+span.rate_frequency {
+	font-size: 0.9em;
+	font-weight: normal;
+}
+
+table.jea-data th,
+table.jea-data td {
+	padding: 0.4em;
+}
+
+table.jea-data th {
+	font-weight: normal;
+}
+
+table.jea-data td {
+	font-weight: bold;
+}
+
+
+.jea-col-right {
 	float: right;
 	width: 300px;
 	margin-left: 2em;
@@ -174,9 +194,8 @@ dl.jea_item span.slogan strong {
 	border-left: 1px dashed #b2b4bf;
 }
 
-.item_description {
-	margin-top: 2em;
-	margin-bottom: 3em;
+.property-description {
+	margin: 2em 0;
 }
 
 #advantages_list {
@@ -186,6 +205,7 @@ dl.jea_item span.slogan strong {
 #jea_property_map {
 	width: 500px;
 	height: 300px;
+	margin-bottom: 1.5em;
 }
 
 /*** SqueezeBox layout ***/
@@ -236,6 +256,27 @@ a#jea-squeezeBox-next.inactive {
 	background: transparent;
 	cursor: default;
 }
+
+form#jea-contact-form legend {
+  font-weight: bold;
+}
+
+form#jea-contact-form fieldset dt {
+  clear: both;
+  float: none;
+  padding: 3px 0;
+  margin: 0;
+  width: auto;
+}
+
+form#jea-contact-form fieldset dd {
+  clear: both;
+  float: none;
+  padding: 3px 0;
+  margin: 0 0 0.3em 0;
+  width: auto;
+}
+
 
 /*format tabular list */
 table.jea_listing,table.jea_listing thead,table.jea_listing th,table.jea_listing tbody,table.jea_listing td
