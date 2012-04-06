@@ -22,6 +22,9 @@ Element.implement({
 });
 
 function updateFeature(name, fieldId, language) {
+	//active option selected
+	var activeValue = document.id(fieldId).value;
+	//ajax request
 	var jSonRequest = new Request.JSON({
 		url: 'index.php',
 		onSuccess: function(response) {
@@ -31,6 +34,10 @@ function updateFeature(name, fieldId, language) {
 			if (response) {
 				response.each(function(item) {
 					var option  = new Element('option', {'value' : item.id});
+					// keep selected value if active value is found as a result
+					if (activeValue == item.id) {
+						option.setProperty('selected','selected');
+					}
 					option.appendText(item.value);
 					document.id(fieldId).adopt(option);
 				});
@@ -45,6 +52,17 @@ function updateFeature(name, fieldId, language) {
 		'language' : language
 	});
 };
+
+function updateFeatures() {
+	//language selected
+	var language = document.id('jform_language').get('value');
+	//update
+	updateFeature('type','jform_type_id',language);
+	updateFeature('condition','jform_condition_id',language);
+	updateFeature('heatingtype','jform_heating_type',language);
+	updateFeature('hotwatertype','jform_hot_water_type',language);
+	updateFeature('slogan','jform_slogan_id',language);
+}
 
 window.addEvent('domready', function() {
 	// colors
@@ -67,11 +85,9 @@ window.addEvent('domready', function() {
 		document.id('jform_hot_water_type').flash('#fff',bgColor,2,'background-color',500);
 		document.id('jform_slogan_id').setStyle('border','1px solid '+borderColor);
 		document.id('jform_slogan_id').flash('#fff',bgColor,2,'background-color',500);
-		// update dropdowns
-		updateFeature('type','jform_type_id',language);
-		updateFeature('condition','jform_condition_id',language);
-		updateFeature('heatingtype','jform_heating_type',language);
-		updateFeature('hotwatertype','jform_hot_water_type',language);
-		updateFeature('slogan','jform_slogan_id',language);
+		// update dropdowns	
+		updateFeatures();
 	});
+	//onload update dropdowns
+	updateFeatures();
 });
