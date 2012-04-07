@@ -109,12 +109,16 @@ ul#amenities {
 	overflow : hidden; /* clearfix */
 }
 ul#amenities li {
-	float: left;
 	margin: 0 0 5px 5px;
 	border-radius: 5px;
 	padding: 2px 5px;
 	color: #ffffff;
 	background-color: #990000;
+	display: inline-block;
+}
+ul#amenities li label, 
+ul#amenities li input {
+	float: none; 
 }
 ul#amenities li.active {
 	background-color: #009900;
