@@ -14,7 +14,7 @@
 		</field>
 
 		<field name="thousands_separator" type="text" size="1" default=" " label="COM_JEA_FIELD_THOUSANDS_SEPARATOR_LABEL" description="COM_JEA_FIELD_THOUSANDS_SEPARATOR_DESC" />
-		<field name="decimals_separator" type="text" size="1" default="," label="COM_JEA_FIELD_DECIMALS_SEPARATOR_LABEL" description="COM_JEA_FIELD_DECIMALS_SEPARATOR_LABEL" />
+		<field name="decimals_separator" type="text" size="1" default="," label="COM_JEA_FIELD_DECIMALS_SEPARATOR_LABEL" description="COM_JEA_FIELD_DECIMALS_SEPARATOR_DESC" />
 		<field name="decimals_number" type="text" size="1" default="0" label="COM_JEA_FIELD_DECIMALS_NUMBER_LABEL" description="COM_JEA_FIELD_DECIMALS_NUMBER_DESC" />
 		
 
