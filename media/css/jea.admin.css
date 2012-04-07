@@ -102,3 +102,27 @@ div.file_reader{
 	background: #fff;
 }
 
+/* property form - amenities */
+form#item-form div#amenities {
+	margin: 0 -17px;
+	padding: 5px 5px 0 5px;
+}
+form#item-form div#amenities div.amenity {
+	float: left;
+	margin: 0 0 5px 5px;
+	border-radius: 5px;
+	padding: 2px 5px;
+	color: #ffffff;
+	background-color: #990000;
+}
+form#item-form div#amenities div.amenity.active {
+	background-color: #009900;
+}
+form#item-form div#amenities div.amenity.active label{
+	background: url(../images/checked.png) no-repeat scroll 100% 50% transparent;
+}
+form#item-form div#amenities div.amenity label{
+	background: url(../images/unchecked.png) no-repeat scroll 100% 50% transparent;
+	min-width: 75px;
+	padding: 0 20px 0 0;
+}
