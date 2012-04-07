@@ -86,6 +86,7 @@ class JeaControllerFeatures extends JController
                 $query->select('f.id , f.value');
                 $query->from($features[$featName]->table.' AS f');
                 $query->where('f.language='. $db->quote($language) . 'OR f.language=\'*\'');
+                $query->order('f.value ASC');
                 $db->setQuery($query);
                 $response = $db->loadObjectList();
             }
