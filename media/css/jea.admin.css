@@ -103,11 +103,12 @@ div.file_reader{
 }
 
 /* property form - amenities */
-form#item-form div#amenities {
+ul#amenities {
 	margin: 0 -17px;
 	padding: 5px 5px 0 5px;
+	overflow : hidden; /* clearfix */
 }
-form#item-form div#amenities div.amenity {
+ul#amenities li {
 	float: left;
 	margin: 0 0 5px 5px;
 	border-radius: 5px;
@@ -115,13 +116,13 @@ form#item-form div#amenities div.amenity {
 	color: #ffffff;
 	background-color: #990000;
 }
-form#item-form div#amenities div.amenity.active {
+ul#amenities li.active {
 	background-color: #009900;
 }
-form#item-form div#amenities div.amenity.active label{
+ul#amenities li.active label{
 	background: url(../images/checked.png) no-repeat scroll 100% 50% transparent;
 }
-form#item-form div#amenities div.amenity label{
+ul#amenities li label{
 	background: url(../images/unchecked.png) no-repeat scroll 100% 50% transparent;
 	min-width: 75px;
 	padding: 0 20px 0 0;

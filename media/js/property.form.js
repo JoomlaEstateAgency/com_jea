@@ -53,15 +53,14 @@ function updateFeature(name, fieldId, language) {
 	});
 };
 
-function updateAmenities(name, fieldId, language) {
+function updateAmenities(language) {
 	//active option selected
-	var fieldSelector = '.'+fieldId;
-	var labels = document.getElements(fieldSelector);
+	var labels = document.getElements('.amenity');
 	var checkedLabels = Array();
 	//store active amenities & clear labels
 	labels.each(function(label){
 		var input = label.getElement('input');
-		if (input.checked) {
+		if (input.get('checked')) {
 			checkedLabels.push(input.get('value'));
 		} 
     });
@@ -72,47 +71,45 @@ function updateAmenities(name, fieldId, language) {
 		url: 'index.php',
 		onSuccess: function(response) {
 			if (response) {
-				response.each(function(item) {
-					//amenity div container
-					var div = new Element('div.amenity');
+				response.each(function(item, idx) {
+					//amenity li container
+					var li = new Element('li.amenity');
 					//generate the label
 					var label = new Element('label', { 
 						'text' : item.value,
-						'for' : 'jform[amenities][]'
+						'for' : 'jform_amenities' + idx
 					});
 					//generate the input checkbox
 					var checkbox  = new Element('input', {
 						'name' : 'jform[amenities][]',
 						'value' : item.id, 
 						'type' : 'checkbox',
-						'class' : 'am-input'
+						'class' : 'am-input',
+						'id' : 'jform_amenities' + idx
 					});
 					//hide checkbox. It will be enabled/disabled by clicking on parent div
 					checkbox.setStyle('display','none');
 					// keep selected value if it's found as a result
 					if (checkedLabels.contains(item.id)) {
 						checkbox.checked = 'checked';
-						div.addClass('active');
+						li.addClass('active');
 					}
 					//div click => toggle checkbox status
-					div.addEvent('click', function(event) {
+					li.addEvent('click', function(event) {
 						if (checkbox.checked) {
-							div.removeClass('active');
-							checkbox.checked = false;
+							li.removeClass('active');
+							checkbox.set('checked', false);
 						}
 						else {
-							div.addClass('active');
-							checkbox.checked = true;
+							li.addClass('active');
+							checkbox.set('checked', true);
 						}
 					});
 					//add the content to the amenity div
-					div.adopt(label);
-					div.adopt(checkbox);
-					document.id('amenities').adopt(div);
+					li.adopt(label);
+					li.adopt(checkbox);
+					document.id('amenities').adopt(li);
 				});
-				// add a cleardiv after amenities
-				var cleardiv = new Element('div.clr');
-				document.id('amenities').adopt(cleardiv);
 			}
 		}
 	});
@@ -120,7 +117,7 @@ function updateAmenities(name, fieldId, language) {
 		'option' : 'com_jea',
 		'format' : 'json',
 		'task' : 'features.get_list',
-		'feature' : name,
+		'feature' : 'amenity',
 		'language' : language
 	});
 }
@@ -134,7 +131,7 @@ function updateFeatures() {
 	updateFeature('heatingtype','jform_heating_type',language);
 	updateFeature('hotwatertype','jform_hot_water_type',language);
 	updateFeature('slogan','jform_slogan_id',language);
-	updateAmenities('amenity','amenity',language);
+	updateAmenities(language);
 }
 
 window.addEvent('domready', function() {

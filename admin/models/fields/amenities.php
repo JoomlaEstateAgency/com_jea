@@ -43,7 +43,7 @@ class JFormFieldAmenities extends JFormField
     protected function getInput()
     {
         $options = $this->getOptions();
-        $output = '<div id="amenities">';
+        $output = '<ul id="amenities">';
 
         if (!empty( $this->value)) {
             //preformat data if comes from db
@@ -54,14 +54,14 @@ class JFormFieldAmenities extends JFormField
             $this->value = array();
         }
 
-        foreach ( $options as $row ) {
+        foreach ($options as $k => $row) {
 
             $checked = '';
-            $class = "";
+            $class = '';
 
             if ( in_array($row->id, $this->value) ) {
                 $checked = 'checked="checked"' ;
-                $class = "active";
+                $class = 'active';
             }
 
             $title = '';
@@ -71,18 +71,16 @@ class JFormFieldAmenities extends JFormField
                 $title = ' title="'.$row->value.'"';
             }
             
-            $output .= '<div class="amenity '.$class.'">';
+            $output .= '<li class="amenity '.$class.'">';
             
-            $output .= '<label class="am-title" for="'.$this->name. '" '.$title.'>' . $label .'</label>'
+            $output .= '<label class="am-title" for="'.$this->id . $k . '" '.$title.'>' . $label .'</label>'
                     . '<input class="am-input" type="checkbox" name="'.$this->name. '"'
-                    .  ' value="'. $row->id . '" ' . $checked . ' />';
+                    . ' id="' . $this->id . $k . '"' . ' value="'. $row->id . '" ' . $checked . ' />';
             
-            $output .= '</div>';
+            $output .= '</li>';
         }
         
-        $output .= '<div class="clr"></div>';
-        
-        $output .= '</div>';
+        $output .= '</ul>';
          
         return $output;
 
