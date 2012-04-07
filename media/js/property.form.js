@@ -71,7 +71,6 @@ window.addEvent('domready', function() {
 
 	document.id('ajaxupdating').setStyle('display','none');
 	document.id('jform_language').addEvent('change', function(event) {
-		var language = this.get('value');
 		// show field alerts
 		document.id('ajaxupdating').setStyle('display','');
 		document.id('ajaxupdating').flash('#fff',bgColor,2,'background-color',500);
