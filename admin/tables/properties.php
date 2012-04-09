@@ -27,10 +27,7 @@ class TableProperties extends JTable
      */
     public function __construct(&$db)
     {
-        $dispatcher = JDispatcher::getInstance();
-        JPluginHelper::importPlugin( 'jea' );
         parent::__construct('#__jea_properties', 'id', $db);
-        $dispatcher->trigger('onInitTableProperty', array($this));
     }
 
 
@@ -127,15 +124,12 @@ class TableProperties extends JTable
         //For new insertion
         if (empty($this->id)) {
             $user = JFactory::getUser();
-            //Save ordering at the end
-            $where =  'is_renting=' . (int) $this->is_renting ;
-            $this->ordering = $this->getNextOrder( $where );
+            $this->ordering = $this->getNextOrder();
             $this->created = date('Y-m-d H:i:s');
             $this->created_by = $user->get('id');
         } else {
             $this->modified = date('Y-m-d H:i:s');
         }
-
         return true;
     }
 
@@ -154,7 +148,5 @@ class TableProperties extends JTable
 
         return parent::delete($pk);
     }
-
-
 
 }
