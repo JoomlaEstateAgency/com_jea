@@ -34,7 +34,7 @@ JHTML::_('behavior.tooltip');
       <div class="clr"></div>
       <p>
       <input type="hidden" name="type" value="jea" />
-      <input type="submit" value="Start importation" />
+      <input type="submit" value="<?php echo JText::_('COM_JEA_START_IMPORT') ?>" />
       </p>
 
     </fieldset>

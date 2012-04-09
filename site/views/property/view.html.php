@@ -29,7 +29,7 @@ class JeaViewProperty extends JView
         $this->assignRef('row', $item);
 
         if (empty($item->title)) {
-            $pageTitle = ucfirst( JText::sprintf('COM_JEA_PROPERTY TYPE IN TOWN',
+            $pageTitle = ucfirst( JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN',
             $this->escape($item->type), $this->escape($item->town)));
         } else {
             $pageTitle = $this->escape($item->title) ;

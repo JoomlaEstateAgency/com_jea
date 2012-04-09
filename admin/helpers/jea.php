@@ -96,6 +96,7 @@ class JeaHelper
         $buttons = $db->loadAssocList();
 
         foreach ($buttons as &$button) {
+            $button['text'] = JText::_($button['text']);
             if (!empty($button['access'])) {
                 $button['access'] = json_decode($button['access']);
             }
