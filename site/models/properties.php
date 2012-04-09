@@ -44,7 +44,7 @@ class JeaModelProperties extends JModelList
         'rooms_min' => 0,
         'bedrooms_min' => 0,
         'bathrooms_min' => 0,
-        'floor' => 0,
+        'floor' => '',
         'hotwatertype' => 0,
         'heatingtype' => 0,
         'condition' => 0,
@@ -102,30 +102,30 @@ class JeaModelProperties extends JModelList
 
         foreach ($this->filters as $name => $defaultValue) {
             $state = $this->getUserStateFromRequest(
-                     $this->context.'.filter.'.$name, 'filter_'. $name, $defaultValue);
+            $this->context.'.filter.'.$name, 'filter_'. $name, $defaultValue);
 
             if (!$searchContext && !empty($state)) {
-                // This flag indiquate that some filters are set by an user, 
-                // so the context is a search. 
+                // This flag indiquate that some filters are set by an user,
+                // so the context is a search.
                 // It will be usefull in the view to retrieve this flag.
                 $searchContext = true;
+            } else {
+                // Get component menuitem parameters
+                $state2 = $params->get('filter_'. $name, $defaultValue);
+                if (!empty($state2)) {
+                    $state = $state2;
+                }
             }
-            
-            // Priority to the component menuitem parameters
-            $state2 = $params->get('filter_'. $name, $defaultValue);
-            if (!empty($state2)) {
-               $state = $state2;
-            }
-            
+
             // If the state is an array, check if it not contains only a zero value
             if (is_array($state) && in_array(0, $state)) {
                 $key = array_search(0, $state);
                 unset($state[$key]);
             }
-            
+
             $this->setState('filter.'.$name , $state);
         }
-        
+
         $this->setState('filter.language', $app->getLanguageFilter());
 
         $this->setState('searchcontext' , $searchContext);
@@ -148,7 +148,7 @@ class JeaModelProperties extends JModelList
         $dispatcher = JDispatcher::getInstance();
         // Include the jea plugins for the onBeforeSearchQuery event.
         JPluginHelper::importPlugin('jea');
-        
+
         // Create a new query object.
         $db        = $this->getDbo();
         $query    = $db->getQuery(true);
@@ -235,7 +235,7 @@ class JeaModelProperties extends JModelList
         if ($value = $this->getState('filter.town_id')) {
             $query->where('p.town_id ='.(int) $value);
         }
-        
+
         // Filter by area
         if ($value = $this->getState('filter.area_id')) {
             $query->where('p.area_id ='.(int) $value);
@@ -250,84 +250,87 @@ class JeaModelProperties extends JModelList
 
             $query->where('p.zip_code IN('.implode(',', $zip_codes).')');
         }
-        
+
         // Filter by budget min
         if ($value = $this->getState('filter.budget_min')) {
             $query->where('p.price >=' . (int) $value );
         }
-        
+
         // Filter by budget max
         if ($value = $this->getState('filter.budget_max')) {
             $query->where('p.price <=' . (int) $value );
         }
-        
+
         // Filter by living space min
         if ($value = $this->getState('filter.living_space_min')) {
             $query->where('p.living_space >=' . (int) $value );
         }
-        
+
         // Filter by living space max
         if ($value = $this->getState('filter.living_space_max')) {
             $query->where('p.living_space <=' . (int) $value );
         }
-        
+
         // Filter by land space min
         if ($value = $this->getState('filter.land_space_min')) {
             $query->where('p.land_space >=' . (int) $value );
         }
-        
+
         // Filter by land space max
         if ($value = $this->getState('filter.land_space_max')) {
             $query->where('p.land_space <=' . (int) $value );
         }
-        
+
         // Filter by rooms min
         if ($value = $this->getState('filter.rooms_min')) {
             $query->where('p.rooms >=' . (int) $value );
         }
-        
+
         // Filter by bedrooms
         if ($value = $this->getState('filter.bedrooms_min')) {
             $query->where('p.bedrooms >=' . (int) $value );
         }
-        
+
         // Filter by bathrooms
         if ($value = $this->getState('filter.bathrooms_min')) {
             $query->where('p.bathrooms >=' . (int) $value );
         }
-        
+
         // Filter by floor
-        if ($value = $this->getState('filter.floor')) {
+        // 0 is a valid value as it corresponds to ground floor
+        if ($value = $this->getState('filter.floor') != '') {
             $query->where('p.floor =' . (int) $value );
         }
-        
+
         // Filter by hot water type
         if ($value = $this->getState('filter.hotwatertype')) {
             $query->where('p.hot_water_type =' . (int) $value );
         }
-        
+
         // Filter by heating type condition
         if ($value = $this->getState('filter.heatingtype')) {
             $query->where('p.heating_type =' . (int) $value );
         }
-        
+
         // Filter by condition
         if ($value = $this->getState('filter.condition')) {
             $query->where('p.condition_id =' . (int) $value );
         }
-        
+
         // Filter by orientation
         if ($value = $this->getState('filter.orientation')) {
             $query->where('p.orientation =' . (int) $value );
         }
-        
+
         // Filter by amenities
         if ($value = $this->getState('filter.amenities')) {
             $amenities = (array) $value;
             JArrayHelper::toInteger($amenities);
             foreach($amenities as $id) {
-        		$query->where("p.amenities LIKE '%-{$id}-%'");
-        	}
+                if ($id > 0) {
+                    $query->where("p.amenities LIKE '%-{$id}-%'");
+                }
+            }
         }
 
         // Add the list ordering clause.
@@ -335,7 +338,7 @@ class JeaModelProperties extends JModelList
         $orderDirn    = $this->state->get('list.direction', 'DESC');
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
-        
+
         $dispatcher->trigger('onBeforeSearch', array(&$query, &$this->state));
 
         // echo $query;
@@ -346,17 +349,17 @@ class JeaModelProperties extends JModelList
 
     /**
      * Retrieve the list of items which can be managed
-     * 
+     *
      * @return multitype:array|boolean
      */
     public function getMyItems()
-	{
-		$this->setState('manage', true);
-		return $this->getItems();
-	}
+    {
+        $this->setState('manage', true);
+        return $this->getItems();
+    }
 
-    
-    
+
+
     /* (non-PHPdoc)
      * @see JModelList::getUserStateFromRequest()
      * Reimplement the parent method because there is a bug with resetPage
@@ -373,7 +376,7 @@ class JeaModelProperties extends JModelList
             $app->setUserState($key, $new_state);
             if ($resetPage) {
                 JRequest::setVar('limitstart', 0);
-                
+
             }
         } else {
             $new_state = $cur_state;
@@ -398,7 +401,7 @@ class JeaModelProperties extends JModelList
         if (empty($row)) {
             return array(0,0);
         }
-        
+
         return array((int) $row->min_value, (int)$row->max_value);
     }
 

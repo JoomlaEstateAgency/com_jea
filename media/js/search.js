@@ -18,7 +18,7 @@ JEASearch = new Class({
 			filter_budget_min : 0,
 			filter_condition : 0,
 			filter_department_id : 0,
-			filter_floor : 0,
+			filter_floor : '',
 			filter_heatingtype : 0,
 			filter_hotwatertype : 0,
 			filter_land_space_max : 0,
@@ -64,31 +64,29 @@ JEASearch = new Class({
 				}.bind(this));
 
 			} else if (typeOf(this.form[fieldName]) == 'collection') {
-				that = this; // To avoid copy of this in each items
 				if (fieldName == 'filter_amenities[]') {
-					var updateAmenities = function(event) {
-						var index = that.options.fields.filter_amenities.indexOf(this.get('value'));
-						that.forceUpdateLists = true;
-						if (this.get('checked') && index == -1) {
-							that.options.fields.filter_amenities.push(this.get('value'));
-						} else if (!this.get('checked') && index > -1){
-							that.options.fields.filter_amenities.splice(index, 1);
-						}
-						that.refresh();
-					};
 					Array.from(this.form['filter_amenities[]']).each(function(item) {
-						item.addEvent('change', updateAmenities);
-					});
+						item.addEvent('change', function(event) {
+							var index = this.options.fields.filter_amenities.indexOf(item.get('value'));
+							this.forceUpdateLists = true;
+							if (item.get('checked') && index == -1) {
+								this.options.fields.filter_amenities.push(item.get('value'));
+							} else if (!item.get('checked') && index > -1){
+								this.options.fields.filter_amenities.splice(index, 1);
+							}
+							this.refresh();
+						}.bind(this));
+					}.bind(this));
 				} else if (fieldName == 'filter_transaction_type') {
 					Array.from(this.form.filter_transaction_type).each(function(item) {
 						item.addEvent('change', function(event) {
-							that.forceUpdateLists = true;
-							if (this.get('checked')) {
-								that.options.fields.filter_transaction_type = this.get('value');
+							this.forceUpdateLists = true;
+							if (item.get('checked')) {
+								this.options.fields.filter_transaction_type = item.get('value');
 							}
-							that.refresh();
-						});
-					});
+							this.refresh();
+						}.bind(this));
+					}.bind(this));
 				}
 			}
 		}
@@ -103,7 +101,7 @@ JEASearch = new Class({
 					this.appendList('filter_department_id', response.departments);
 					this.appendList('filter_town_id',response.towns);
 					this.appendList('filter_area_id', response.areas);
-					$$('.jea-counter-result').each(function(item){
+					this.form.getElements('.jea-counter-result').each(function(item){
 						item.set('text', response.total);
 					});
 				}.bind(this)

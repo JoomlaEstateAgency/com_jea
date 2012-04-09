@@ -61,7 +61,7 @@ abstract class JHtmlAmenities
 
     }
 
-    static public function checkboxes($values=array(), $name='amenities')
+    static public function checkboxes($values=array(), $name='amenities', $idSuffix='')
     {
         $amenities = self::getAmenities();
         $values = (array) $values;
@@ -70,7 +70,7 @@ abstract class JHtmlAmenities
             $html .= "<ul>\n";
             foreach ($amenities as $row) {
                 $checked = '';
-                $id = 'amenity'. $row->id ;
+                $id = 'amenity'. $row->id .$idSuffix;
                 if (in_array($row->id, $values)) {
                     $checked = 'checked="checked"';
                 }
