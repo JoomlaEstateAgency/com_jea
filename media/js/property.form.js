@@ -44,7 +44,7 @@ function updateFeature(name, fieldId, language) {
 			}
 		}
 	});
-	jSonRequest.get({
+	jSonRequest.post({
 		'option' : 'com_jea',
 		'format' : 'json',
 		'task' : 'features.get_list',
@@ -113,7 +113,7 @@ function updateAmenities(language) {
 			}
 		}
 	});
-	jSonRequest.get({
+	jSonRequest.post({
 		'option' : 'com_jea',
 		'format' : 'json',
 		'task' : 'features.get_list',
