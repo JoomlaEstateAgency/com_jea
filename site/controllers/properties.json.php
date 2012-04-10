@@ -30,6 +30,9 @@ class JeaControllerProperties extends JController
         // Deactivate pagination
         $model->setState('list.start', 0);
         $model->setState('list.limit', 0);
+        
+        // Set language state
+        $model->setState('filter.language', $app->getLanguageFilter());
 
         $items = $model->getItems();
 

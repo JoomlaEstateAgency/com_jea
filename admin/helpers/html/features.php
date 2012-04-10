@@ -27,7 +27,8 @@ abstract class JHtmlFeatures
      */
     static public function types($value=0, $name='type_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_PROPERTY_TYPE_LABEL', $attr, 'types', '', 'f.ordering');
+        $cond = self::getLanguageCondition();
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_PROPERTY_TYPE_LABEL', $attr, 'types', $cond, 'f.ordering');
     }
 
 
@@ -58,10 +59,10 @@ abstract class JHtmlFeatures
 
         if ($department_id !== null) {
             // Potentially Too much results so this will give en empty result
-            $condition = 'department_id = -1';
+            $condition = 'f.department_id = -1';
 
             if ($department_id > 0) {
-                $condition = 'department_id ='. intval($department_id);
+                $condition = 'f.department_id ='. intval($department_id);
             }
         }
 
@@ -82,9 +83,9 @@ abstract class JHtmlFeatures
         $condition = '';
 
         if ($town_id !== null) {
-            $condition = 'town_id = -1';
+            $condition = 'f.town_id = -1';
             if ($town_id > 0) {
-                $condition = 'town_id ='. intval($town_id);
+                $condition = 'f.town_id ='. intval($town_id);
             }
         }
 
@@ -101,7 +102,8 @@ abstract class JHtmlFeatures
      */
     static public function conditions($value=0, $name='condition_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_CONDITION_LABEL', $attr, 'conditions');
+        $cond = self::getLanguageCondition();
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_CONDITION_LABEL', $attr, 'conditions', $cond);
     }
 
 
@@ -114,7 +116,8 @@ abstract class JHtmlFeatures
      */
     static public function hotwatertypes($value=0, $name='hot_water_type', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HOTWATERTYPE_LABEL', $attr, 'hotwatertypes');
+        $cond = self::getLanguageCondition();
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HOTWATERTYPE_LABEL', $attr, 'hotwatertypes', $cond);
     }
 
 
@@ -127,7 +130,8 @@ abstract class JHtmlFeatures
      */
     static public function heatingtypes($value=0, $name='heating_type', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HEATINGTYPE_LABEL', $attr, 'heatingtypes');
+        $cond = self::getLanguageCondition();
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_HEATINGTYPE_LABEL', $attr, 'heatingtypes', $cond);
     }
 
 
@@ -140,7 +144,8 @@ abstract class JHtmlFeatures
      */
     static public function slogans($value=0, $name='slogan_id', $attr='')
     {
-        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_SLOGAN_LABEL', $attr, 'slogans');
+        $cond = self::getLanguageCondition();
+        return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_SLOGAN_LABEL', $attr, 'slogans', $cond);
     }
 
     /**
@@ -203,6 +208,16 @@ abstract class JHtmlFeatures
         }
 
         return JHTML::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);
+    }
+
+    protected static function getLanguageCondition()
+    {
+        $condition = '';
+        if (JFactory::getApplication()->isSite()) {
+            $db = JFactory::getDbo();
+            $condition = 'f.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')';
+        }
+        return $condition;
     }
 
 }

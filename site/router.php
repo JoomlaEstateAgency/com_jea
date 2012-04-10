@@ -50,7 +50,7 @@ function JeaParseRoute($segments)
     //Standard routing for property
     if(!isset($item))
     {
-        $vars['view']  = 'properties';
+        $vars['view']  = 'property';
         $vars['id']    = $segments[$count-1];
         return $vars;
     }

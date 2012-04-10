@@ -34,8 +34,10 @@ class JeaControllerProperties extends JController
         // Deactivate pagination
         $model->setState('list.start', 0);
         $model->setState('list.limit', 0);
-        
-        
+
+        // Set language state
+        $model->setState('filter.language', $app->getLanguageFilter());
+
         $items = $model->getItems();
 
         $doc = new DomDocument();
@@ -58,10 +60,10 @@ class JeaControllerProperties extends JController
                 
                 $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-                $url = JRoute::_( 'index.php?index.php?option=com_jea&view=properties&id='.$row->slug);
+                $url = JRoute::_('index.php?option=com_jea&view=property&id='.$row->slug);
 
                 if (empty($row->title)) {
-                    $name = ucfirst(JText::sprintf('PROPERTY TYPE IN TOWN', $row->type, $row->town));
+                    $name = ucfirst(JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $row->type, $row->town));
                 } else {
                     $name = $row->title;
                 }
@@ -78,7 +80,7 @@ class JeaControllerProperties extends JController
 
     		    $description .= substr(strip_tags($row->description), 0, 255) . ' ...'
                 . '<p><a href="'.$url.'">'
-                . JText::_('READMORE') . '</a></p>'
+                . JText::_('COM_JEA_DETAIL') . '</a></p>'
                 . '<div style="clear:both"></div>';
 
                 

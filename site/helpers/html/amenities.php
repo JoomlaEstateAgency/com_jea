@@ -92,6 +92,7 @@ abstract class JHtmlAmenities
             $query = $db->getQuery(true);
             $query->select('a.id , a.value');
             $query->from('#__jea_amenities AS a');
+            $query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
             $query->order('a.ordering');
             $db->setQuery($query);
             self::$amenities = $db->loadObjectList();
