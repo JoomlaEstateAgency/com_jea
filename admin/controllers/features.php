@@ -69,19 +69,17 @@ class JeaControllerFeatures extends JController
                 $zip = JArchive::getAdapter('zip');
                 $zip->create($zipFile, $files);
 
-                $document = JFactory::getDocument();
-                $newDocument = JDocument::getInstance('raw');
-                $newDocument->setMimeEncoding('application/zip') ;
-                $document =& $newDocument;
-
+                JResponse::setHeader('Content-Type', 'application/zip');
                 JResponse::setHeader('Content-Disposition', 'attachment; filename="jea_features.zip"');
                 JResponse::setHeader('Content-Transfer-Encoding', 'binary');
-
-                echo readfile($zipFile);
+                JResponse::setBody(readfile($zipFile));
+                echo JResponse::toString();
 
                 // clean tmp files
                 JFile::delete($zipFile);
                 JFolder::delete($exportPath);
+
+                Jexit();
             }
 
         } else {
