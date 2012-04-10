@@ -73,9 +73,9 @@ class JFormFieldAmenities extends JFormField
             
             $output .= '<li class="amenity '.$class.'">';
             
-            $output .= '<label class="am-title" for="'.$this->id . $k . '" '.$title.'>' . $label .'</label>'
-                    . '<input class="am-input" type="checkbox" name="'.$this->name. '"'
-                    . ' id="' . $this->id . $k . '"' . ' value="'. $row->id . '" ' . $checked . ' />';
+            $output .= '<input class="am-input" type="checkbox" name="'.$this->name. '"'
+                    . ' id="' . $this->id . $k . '"' . ' value="'. $row->id . '" ' . $checked . ' />'
+                    . '<label class="am-title" for="'.$this->id . $k . '" '.$title.'>' . $label .'</label>';
             
             $output .= '</li>';
         }
@@ -93,6 +93,10 @@ class JFormFieldAmenities extends JFormField
 
         $query->select('f.id , f.value');
         $query->from('#__jea_amenities AS f');
+        
+        if (JFactory::getApplication()->isSite()) {
+            $query->where('f.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+        }
 
         $query->order('f.value ASC');
         $db->setQuery($query);

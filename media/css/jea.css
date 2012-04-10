@@ -328,18 +328,26 @@ table.jea_listing .nowrap {
 }
 
 /*** Property form layout ***/
-fieldset.amenities label{
-	display:inline-block;
+ul#amenities {
+	list-style: none !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	overflow: hidden;
+}
+
+ul#amenities li {
 	width:200px;
-	margin-right:15px;
-	padding: 0;
-	clear: none;
+	margin: 0 15px 10px 0 !important;
+	padding: 0 !important;
 	float:left;
+}
+
+ul#amenities li label {
 	font-size: 12px;
 	line-height: 13px;
 }
 
-fieldset.amenities label input {
+ul#amenities li input {
 	float:none;
 	margin: 0 8px 0 0;
 }

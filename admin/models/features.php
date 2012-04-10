@@ -15,8 +15,8 @@ defined('_JEXEC') or die();
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT.DS.'tables'.DS.'features.php';
-require JPATH_COMPONENT.DS.'helpers'.DS.'utility.php';
+require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
+require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
 
 /**
  * Features model class.
@@ -27,14 +27,13 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'utility.php';
 class JeaModelFeatures extends JModel
 {
 
-
     /**
      * Get the list of features
      * @return array of stdClass objects
      */
     public function getItems()
     {
-        $xmlPath = JPATH_COMPONENT.'/models/forms/features/';
+        $xmlPath = JPATH_COMPONENT_ADMINISTRATOR.'/models/forms/features';
         $xmlFiles = JFolder::files($xmlPath);
         $items = array();
         foreach ($xmlFiles as $key => $filename) {
