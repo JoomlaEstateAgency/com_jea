@@ -111,8 +111,8 @@
 		</field>
 		
 		<field name="use_captcha" type="radio" default="1" label="COM_JEA_FIELD_USE_CAPTCHA_LABEL" description="COM_JEA_FIELD_USE_CAPTCHA_DESC">
-			<option value="0">JYES</option>
-			<option value="1">JNO</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 
