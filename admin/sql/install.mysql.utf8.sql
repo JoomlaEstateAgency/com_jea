@@ -138,7 +138,6 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `notes` TEXT NOT NULL,
   `language` char(7) NOT NULL COMMENT 'language where property is shown',
   PRIMARY KEY  (`id`),
-  UNIQUE KEY `idx_jea_ref` (`ref`),
   KEY `idx_jea_transactiontype` (`transaction_type`),
   KEY `idx_jea_typeid` (`type_id`),
   KEY `idx_jea_departmentid` (`department_id`),
