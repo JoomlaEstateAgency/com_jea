@@ -172,6 +172,10 @@ span.rate_frequency {
 	font-weight: normal;
 }
 
+table.jea-data {
+	width: auto;
+}
+
 table.jea-data th,
 table.jea-data td {
 	padding: 0.4em;
