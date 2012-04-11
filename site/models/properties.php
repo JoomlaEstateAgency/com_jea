@@ -202,6 +202,9 @@ class JeaModelProperties extends JModelList
 
         } elseif ($this->getState('filter.language')) {
             $query->where('p.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+            $query->where('p.published=1');
+        } else {
+            $query->where('p.published=1');
         }
 
         // Filter by search
