@@ -96,6 +96,11 @@ class TableProperties extends JTable
             return false;
         }
 
+        // Auto Generate a reference if empty
+        if (empty($this->ref)) {
+            $this->ref = uniqid();
+        }
+
         // Alias cleanup
         if (empty($this->alias)) {
             $this->alias = $this->title;

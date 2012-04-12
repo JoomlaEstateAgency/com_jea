@@ -194,6 +194,7 @@ abstract class JHtmlFeatures
         if (is_array($attr)) {
             if (isset($attr['id'])) {
                 $idTag = $attr['id'];
+                unset($attr['id']);
             }
             if (empty($attr['size'])) {
                 $attr['size'] = 1;

@@ -70,7 +70,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
 
       <dl class="jea_item">
         <dt class="title">
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('Show detail') ?>"> <strong> 
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>"> <strong> 
           <?php if(empty($row->title)): ?>
           <?php echo ucfirst( JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
           <?php else : echo $this->escape($row->title) ?> 

@@ -24,4 +24,14 @@ jimport('joomla.application.component.controllerform');
 class JeaControllerProperty extends JControllerForm
 {
 
+    /* (non-PHPdoc)
+     * @see JControllerForm::allowEdit()
+     */
+    protected function allowEdit($data = array(), $key = 'id')
+    {
+        $user = JFactory::getUser();
+        $assetName = isset($data[$key]) ? 'com_jea.property.' . (int) $data[$key] : 'com_jea';
+        return $user->authorise('core.edit', $assetName) ||
+               $user->authorise('core.edit.own', $assetName);
+    }
 }
