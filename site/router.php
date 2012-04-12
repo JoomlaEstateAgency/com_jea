@@ -37,7 +37,6 @@ function JeaParseRoute($segments)
 {
     $vars = array();
     // var_dump($segments);
-    // exit();
 
     //Get the active menu item
     $app  = JFactory::getApplication();
@@ -66,6 +65,8 @@ function JeaParseRoute($segments)
 
         switch($layout) {
             case 'default' :
+            case 'search':
+            case 'searchmap':
                 if ($count == 1) {
                     // if there is only one segment, then it points to a property detail
                     if (strpos($segments[0], ':') === false) {
