@@ -44,7 +44,7 @@ $pane = JPane::getInstance('tabs');
 
   <p>
   <?php echo JText::_('COM_JEA_MAIN_DEVELOPER') ?> : <a href="http://www.sphilip.com" target="_blank">Sylvain Philip</a><br />
-  <?php echo JText::_('COM_JEA_CREDITS') ?> : Roberto Segura
+  <?php echo JText::_('COM_JEA_CREDITS') ?> : <a href="https://twitter.com/#!/phproberto" target="_blank">Roberto Segura</a>
   </p>
   
 
