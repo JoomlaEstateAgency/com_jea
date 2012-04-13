@@ -55,8 +55,16 @@ function JeaParseRoute($segments)
     }
 
     if ($count == 1 && is_numeric($segments[0])) {
-        // Should be a JEA property id
-        $vars['id'] = $segments[0];
+        // If there is only one numeric segment, then it points to a property detail
+        if (strpos($segments[0], ':') === false) {
+           $id = (int) $segments[0];
+        } else {
+           $exp = explode(':', $segments[0], 2);
+           $id = (int) $exp[0];
+        }
+
+        $vars['view']  = 'property';
+        $vars['id'] = $id;
     }
 
     if ($item->query['view'] == 'properties') {
@@ -67,17 +75,19 @@ function JeaParseRoute($segments)
             case 'default' :
             case 'search':
             case 'searchmap':
-                if ($count == 1) {
-                    // if there is only one segment, then it points to a property detail
-                    if (strpos($segments[0], ':') === false) {
-                       $id = (int) $segments[0];
-                    } else {
-                       $exp = explode(':', $segments[0], 2);
-                       $id = (int) $exp[0];
-                    }
+                $vars['view']  = 'properties';
+                $vars['layout']  = $layout;
 
-                    $vars['view']  = 'property';
-                    $vars['id'] = $id;
+                if ($count == 1) {
+                    // If there is only one, then it points to a property detail
+                    if (is_numeric($segments[0])) {
+                        $vars['view']  = 'property';
+                        $vars['id']    = (int) $segments[0];
+                    } elseif (strpos($segments[0], ':') !== false) {
+                       $exp = explode(':', $segments[0], 2);
+                       $vars['id'] = (int) $exp[0];
+                       $vars['view']  = 'property';
+                    }
                 }
                 break;
 
