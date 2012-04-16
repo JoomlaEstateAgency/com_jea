@@ -55,6 +55,12 @@ class JFormFieldGallery extends JFormField
         }
 
         $output .= "\n";
+        
+        //alert & return if GD library for PHP is not enabled
+        if (!extension_loaded('gd')) {
+            $output .= '<strong>WARNING: </strong>The <a href="http://php.net/manual/en/book.image.php" target="_blank">GD library for PHP</a> was not found. Ensure to install it';
+            return $output;
+        }
 
         $images = (array) json_decode($this->value);
         $propertyId  = $this->form->getValue('id');
