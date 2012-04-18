@@ -78,7 +78,7 @@ JEASearch = new Class({
 						}.bind(this));
 					}.bind(this));
 				} else if (fieldName == 'filter_transaction_type') {
-					Array.from(this.form.['filter_transaction_type']).each(function(item) {
+					Array.from(this.form['filter_transaction_type']).each(function(item) {
 						item.addEvent('change', function(event) {
 							this.forceUpdateLists = true;
 							if (item.get('checked')) {
