@@ -60,7 +60,7 @@ $fieldsLimit = json_encode(array(
 ));
 
 $default_area = $this->params->get('searchform_default_map_area', $lang);
-$currency_symbol = $this->params->get('currency_symbol', '&euro;');
+$currency_symbol = $this->params->get('currency_symbol', '€');
 $surface_measure = $this->params->get( 'surface_measure');
 $map_width  = $this->params->get('searchform_map_width', 0);
 $map_height = $this->params->get( 'searchform_map_height', 400);
@@ -124,10 +124,10 @@ window.addEvent('domready', function() {
     geoSearch.refresh();
     jeaSearch.refresh();
 
-    $$('#filter_type_id', 
-       '#filter_department_id', 
-       '#filter_town_id', 
-       '#filter_area_id', 
+    $$('#filter_type_id',
+       '#filter_department_id',
+       '#filter_town_id',
+       '#filter_area_id',
        '#rooms_min',
        '.amenities input'
        ).each(function(item) {
@@ -154,7 +154,7 @@ window.addEvent('domready', function() {
 
                 document.id('min_price_value').set('text', document.id('budget_min').get('value') + ' $currency_symbol');
                 document.id('max_price_value').set('text', document.id('budget_max').get('value') + ' $currency_symbol');
-                
+
             },
             onComplete: function(step) {
                 geoSearch.refresh();
@@ -165,7 +165,7 @@ window.addEvent('domready', function() {
             steps: 100,
             onChange: function(steps){
                 var spaceDiff = maxSpace - minSpace;
-                
+
                 document.id('living_space_min').set('value', Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace));
                 document.id('living_space_max').set('value', Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace));
 
@@ -190,14 +190,14 @@ window.addEvent('domready', function() {
 
   <p>
   <?php echo JHtml::_('features.types', $this->state->get('filter.type_id', 0), 'filter_type_id') ?>
-  
+
   <?php if ($transationType == 'RENTING'): ?>
     <input type="hidden" name="filter_transaction_type" value="RENTING" />
   <?php elseif($transationType == 'SELLING'): ?>
     <input type="hidden" name="filter_transaction_type" value="SELLING" />
   <?php else: ?>
-    <input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING" 
-           <?php if ($states['filter_transaction_type'] == 'SELLING') echo 'checked="checked"' ?> /> 
+    <input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING"
+           <?php if ($states['filter_transaction_type'] == 'SELLING') echo 'checked="checked"' ?> />
     <label for="jea-search-selling"><?php echo JText::_('COM_JEA_OPTION_SELLING') ?></label>
 
     <input type="radio" name="filter_transaction_type" id="jea-search-renting" value="RENTING"
@@ -236,7 +236,7 @@ window.addEvent('domready', function() {
       <?php echo JText::_('COM_JEA_TO') ?>
       <span class="slider_max_value" id="max_price_value">0</span>
     </div>
-    <input id="budget_max" type="hidden" name="filter_budget_max" /> 
+    <input id="budget_max" type="hidden" name="filter_budget_max" />
     <input id="budget_min" type="hidden" name="filter_budget_min" />
   </div>
 
@@ -253,13 +253,13 @@ window.addEvent('domready', function() {
       <?php echo JText::_('COM_JEA_TO') ?>
       <span class="slider_max_value" id="max_space_value">0</span>
     </div>
-    <input id="living_space_min" type="hidden" name="filter_living_space_min" /> 
+    <input id="living_space_min" type="hidden" name="filter_living_space_min" />
     <input id="living_space_max" type="hidden" name="filter_living_space_max" />
   </div>
 
   <p>
-  <?php echo JText::_('COM_JEA_NUMBER_OF_ROOMS_MIN') ?>: 
-      <input type="text" id="rooms_min" name="filter_rooms_min" size="1" /> 
+  <?php echo JText::_('COM_JEA_NUMBER_OF_ROOMS_MIN') ?>:
+      <input type="text" id="rooms_min" name="filter_rooms_min" size="1" />
   </p>
 
   <div class="clr"></div>
@@ -271,7 +271,7 @@ window.addEvent('domready', function() {
   </div>
 
   <p>
-    <input type="submit" class="button" value="<?php echo JText::_('COM_JEA_LIST_PROPERTIES') ?>" /> 
+    <input type="submit" class="button" value="<?php echo JText::_('COM_JEA_LIST_PROPERTIES') ?>" />
   </p>
 
 </form>
