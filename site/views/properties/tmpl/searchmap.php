@@ -263,12 +263,14 @@ window.addEvent('domready', function() {
   </p>
 
   <div class="clr"></div>
-
+  
+  <?php if ($this->params->get('searchform_show_amenities', 1)): ?>
   <div class="amenities">
     <?php echo JHtml::_('amenities.checkboxes', $states['filter_amenities'], 'filter_amenities' ) ?>
     <?php // In order to prevent nul post for this field ?>
     <input type="hidden" name="filter_amenities[]" value="0" />
   </div>
+  <?php endif; ?>
 
   <p>
     <input type="submit" class="button" value="<?php echo JText::_('COM_JEA_LIST_PROPERTIES') ?>" />
