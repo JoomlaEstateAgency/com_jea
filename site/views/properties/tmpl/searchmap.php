@@ -257,10 +257,12 @@ window.addEvent('domready', function() {
     <input id="living_space_max" type="hidden" name="filter_living_space_max" />
   </div>
 
+  <?php if ($this->params->get('searchform_show_number_of_rooms', 1)): ?>
   <p>
   <?php echo JText::_('COM_JEA_NUMBER_OF_ROOMS_MIN') ?>:
       <input type="text" id="rooms_min" name="filter_rooms_min" size="1" />
   </p>
+  <?php endif; ?>
 
   <div class="clr"></div>
   
