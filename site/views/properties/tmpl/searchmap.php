@@ -98,15 +98,19 @@ function updateSliders()
     minSpace = fieldsLimit[transaction_type].surface[0];
     maxSpace = fieldsLimit[transaction_type].surface[1];
 
-    document.id('budget_min').set('value',minPrice);
-    document.id('budget_max').set('value',maxPrice);
-    document.id('min_price_value').set('text', minPrice + ' $currency_symbol');
-    document.id('max_price_value').set('text', maxPrice + ' $currency_symbol');
+    if (document.id('budget_min') && document.id('budget_max')) {
+        document.id('budget_min').set('value',minPrice);
+        document.id('budget_max').set('value',maxPrice);
+        document.id('min_price_value').set('text', minPrice + ' $currency_symbol');
+        document.id('max_price_value').set('text', maxPrice + ' $currency_symbol');
+    }
 
-    document.id('living_space_min').set('value',minSpace);
-    document.id('living_space_max').set('value',maxSpace);
-    document.id('min_space_value').set('text', minSpace + ' $surface_measure');
-    document.id('max_space_value').set('text', maxSpace + ' $surface_measure');
+    if (document.id('living_space_min') && document.id('living_space_max')) {
+        document.id('living_space_min').set('value',minSpace);
+        document.id('living_space_max').set('value',maxSpace);
+        document.id('min_space_value').set('text', minSpace + ' $surface_measure');
+        document.id('max_space_value').set('text', maxSpace + ' $surface_measure');
+    }
 }
 
 
@@ -143,41 +147,56 @@ window.addEvent('domready', function() {
         });
     });
 
-      // Sliders init
-      priceSlide = new BiSlider('price_slider', 'knob1', 'knob2', {
-            steps: 100,
-            onChange: function(steps){
-                var priceDiff = maxPrice - minPrice;
-
-                document.id('budget_min').set('value', Math.round(((priceDiff * steps.minimum ) / 100) + minPrice));
-                document.id('budget_max').set('value', Math.round(((priceDiff * steps.maximum ) / 100) + minPrice));
-
-                document.id('min_price_value').set('text', document.id('budget_min').get('value') + ' $currency_symbol');
-                document.id('max_price_value').set('text', document.id('budget_max').get('value') + ' $currency_symbol');
-
-            },
-            onComplete: function(step) {
-                geoSearch.refresh();
-            }
-      });
-
-      spaceSlide = new BiSlider('space_slider', 'knob3', 'knob4', {
-            steps: 100,
-            onChange: function(steps){
-                var spaceDiff = maxSpace - minSpace;
-
-                document.id('living_space_min').set('value', Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace));
-                document.id('living_space_max').set('value', Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace));
-
-                document.id('min_space_value').set('text',document.id('living_space_min').get('value') + ' $surface_measure');
-                document.id('max_space_value').set('text',document.id('living_space_max').get('value') + ' $surface_measure');
-            },
-            onComplete: function(step) {
-                geoSearch.refresh();
-            }
-      });
-
 });");
+
+// budget slider js
+if ($this->params->get('searchform_show_budget', 1)) {
+    $this->document->addScriptDeclaration("
+            window.addEvent('domready', function() {
+                // price slider init
+                priceSlide = new BiSlider('price_slider', 'knob1', 'knob2', {
+                    steps: 100,
+                    onChange: function(steps){
+                        var priceDiff = maxPrice - minPrice;
+                
+                        document.id('budget_min').set('value', Math.round(((priceDiff * steps.minimum ) / 100) + minPrice));
+                        document.id('budget_max').set('value', Math.round(((priceDiff * steps.maximum ) / 100) + minPrice));
+                
+                        document.id('min_price_value').set('text', document.id('budget_min').get('value') + ' $currency_symbol');
+                        document.id('max_price_value').set('text', document.id('budget_max').get('value') + ' $currency_symbol');
+                
+                    },
+                    onComplete: function(step) {
+                        geoSearch.refresh();
+                    }
+                });
+            });
+    ");
+}
+
+// living space slider js
+if ($this->params->get('searchform_show_living_space', 1)) {
+    $this->document->addScriptDeclaration("
+            window.addEvent('domready', function() {
+                // price slider init
+                spaceSlide = new BiSlider('space_slider', 'knob3', 'knob4', {
+                    steps: 100,
+                    onChange: function(steps){
+                        var spaceDiff = maxSpace - minSpace;
+                
+                        document.id('living_space_min').set('value', Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace));
+                        document.id('living_space_max').set('value', Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace));
+                
+                        document.id('min_space_value').set('text',document.id('living_space_min').get('value') + ' $surface_measure');
+                        document.id('max_space_value').set('text',document.id('living_space_max').get('value') + ' $surface_measure');
+                    },
+                    onComplete: function(step) {
+                        geoSearch.refresh();
+                    }
+                });
+            });
+    ");
+}
 ?>
 
 <?php if ( $this->params->get('show_page_title', 0) && $this->params->get('page_title', '') ) : ?>
@@ -225,6 +244,7 @@ window.addEvent('domready', function() {
 
   <div class="clr"></div>
 
+  <?php if ($this->params->get('searchform_show_budget', 1)): ?>
   <div class="jea_slider_block">
     <h2><?php echo JText::_('COM_JEA_BUDGET') ?></h2>
     <div id="price_slider" class="slider_background">
@@ -239,7 +259,9 @@ window.addEvent('domready', function() {
     <input id="budget_max" type="hidden" name="filter_budget_max" />
     <input id="budget_min" type="hidden" name="filter_budget_min" />
   </div>
-
+  <?php endif; ?>
+    
+  <?php if ($this->params->get('searchform_show_living_space', 1)): ?>
   <div class="jea_slider_block">
     <h2>
     <?php echo JText::_('COM_JEA_FIELD_LIVING_SPACE_LABEL') ?>
@@ -256,6 +278,7 @@ window.addEvent('domready', function() {
     <input id="living_space_min" type="hidden" name="filter_living_space_min" />
     <input id="living_space_max" type="hidden" name="filter_living_space_max" />
   </div>
+  <?php endif; ?>
 
   <?php if ($this->params->get('searchform_show_number_of_rooms', 1)): ?>
   <p>
@@ -265,7 +288,7 @@ window.addEvent('domready', function() {
   <?php endif; ?>
 
   <div class="clr"></div>
-  
+
   <?php if ($this->params->get('searchform_show_amenities', 1)): ?>
   <div class="amenities">
     <?php echo JHtml::_('amenities.checkboxes', $states['filter_amenities'], 'filter_amenities' ) ?>
