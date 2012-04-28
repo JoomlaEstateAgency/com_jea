@@ -43,7 +43,7 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($states['filter_area_id'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_FIELD_AREA_LABEL') ?> : </strong>
-  <?php echo $this->getFeatureValue($states['filter_area_id'], 'towns') ?>
+  <?php echo $this->getFeatureValue($states['filter_area_id'], 'areas') ?>
 <?php endif ?>
 
 <?php if (!empty($states['filter_zip_codes'])): ?>
