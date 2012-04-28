@@ -13,11 +13,6 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-if (empty($this->row->id)) {
-    echo JText::_('COM_JEA_PROPERTY_NOT_FOUND');
-    return;
-}
-
 JHTML::stylesheet('media/com_jea/css/jea.css');
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('jea');

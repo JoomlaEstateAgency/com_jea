@@ -24,6 +24,11 @@ class JeaViewProperty extends JView
         $item   = $this->get('Item');
         $params = &$state->params;
 
+        if (!$item) {
+            JError::raiseError(404, JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
+            return false;
+        }
+
         $this->assignRef('params', $params);
         $this->assignRef('state', $state);
         $this->assignRef('row', $item);

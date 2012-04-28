@@ -110,6 +110,7 @@ class JeaModelProperty extends JModel
         $query->join('LEFT', '#__jea_slogans AS s ON s.id = p.slogan_id');
 
         $query->where('p.id ='.(int) $pk);
+        $query->where('p.published = 1');
 
         $db->setQuery($query);
 
@@ -117,6 +118,10 @@ class JeaModelProperty extends JModel
 
         if ($error = $db->getErrorMsg()) {
             throw new Exception($error);
+        }
+
+        if ($data == null) {
+            return false;
         }
 
         // convert images field
