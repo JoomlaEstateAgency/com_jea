@@ -253,11 +253,6 @@ class JeaModelProperty extends JModel
         $dispatcher = JDispatcher::getInstance();
         JPluginHelper::importPlugin('jea');
 
-        $result = $dispatcher->trigger('onBeforeSendContactForm', array($data));
-        if (in_array(false, $result, true)) {
-            return false;
-        }
-
         if ($params->get('use_captcha')) {
             $plugin = JFactory::getConfig()->get('captcha');
             if ($plugin == '0') {
@@ -291,6 +286,11 @@ class JeaModelProperty extends JModel
         }
 
         if ($this->getErrors()) {
+            return false;
+        }
+
+        $result = $dispatcher->trigger('onBeforeSendContactForm', array($data));
+        if (in_array(false, $result, true)) {
             return false;
         }
 
