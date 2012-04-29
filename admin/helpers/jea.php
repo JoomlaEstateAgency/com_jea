@@ -28,22 +28,34 @@ class JeaHelper
      */
     public static function addSubmenu($viewName)
     {
-        JSubMenuHelper::addEntry(
-            JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 
-            'index.php?option=com_jea&view=properties',
-            $viewName == 'properties'
-        );
-        JSubMenuHelper::addEntry(
-            JText::_('COM_JEA_FEATURES_MANAGEMENT'), 
-            'index.php?option=com_jea&view=features',
-            $viewName == 'features'
-        );
+        $menu = JToolBar::getInstance('submenu');
 
-        JSubMenuHelper::addEntry(
-            JText::_('COM_JEA_TOOLS'), 
-            'index.php?option=com_jea&view=tools',
-            $viewName == 'tools'
-        );
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->select('m.*')
+              ->from('#__menu AS m')
+              ->innerJoin('#__menu AS m2 ON m.parent_id = m2.id')
+              ->where("m2.link='index.php?option=com_jea'")
+              ->order('id ASC');
+
+        $db->setQuery($query);
+        $items = $db->loadObjectList();
+
+        foreach ($items as $item) {
+            $active = false;
+            switch ($item->title) {
+                case 'com_jea_properties' :
+                    $item->title = 'COM_JEA_PROPERTIES_MANAGEMENT';
+                    break;
+                case 'com_jea_features' :
+                    $item->title = 'COM_JEA_FEATURES_MANAGEMENT';
+                    break;
+            }
+            if (preg_match('#&view=([a-z]+)#', $item->link, $matches)) {
+               $active = $matches[1] == $viewName;
+            }
+            $menu->appendButton(JText::_($item->title), $item->link, $active);
+        }
     }
 
     /**
