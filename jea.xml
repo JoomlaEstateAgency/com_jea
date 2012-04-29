@@ -77,6 +77,11 @@
 			<filename>LICENCE.txt</filename>
 			<filename>NEWS.txt</filename>
 		</files>
-		
 	</administration>
+
+	<!-- Updateserver definition -->
+	<updateservers>
+		<!-- Note: No spaces or linebreaks allowed between the server tags -->
+		<server type="extension" priority="1" name="JEA Update Site">http://jea.sphilip.com/update/com_jea.xml</server>
+	</updateservers>
 </extension>
