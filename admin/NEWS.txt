@@ -1,6 +1,26 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 2.0 / 04-2012=
+
+NOTE : This release works only with Joomla! 2.5.x
+What's change :
+
+⋅ Global code rewritting
+⋅ Joomfish support removed and using native Joomla language management
+⋅ Add new columns in property table : rate_frequency, transaction_type, bedrooms, floors_number, orientation, modified
+. More optimized property gallery management : the thumbnails are generated on the fly
+⋅ Add third party bridge import interface
+⋅ Using native Joomla captcha support
+⋅ Keep the user search in session
+⋅ Remove plugin entry "onInitTableProperty" because table columns are now automatically loaded
+⋅ Rename plugin entry "onBeforeEndPane" to "onBeforeEndPanels"
+⋅ Rename plugin entry "onAfterStartPane" to "onAfterStartPanels"
+⋅ Rename plugin entry "onBeforeSearchQuery" to "onBeforeSearch"
+⋅ Add plugin entry "onBeforeSendContactForm"
+⋅ Add plugin entry "onAfterLoadPropertyForm"
+
+
 =RELEASE 1.1 / 07-2011=
 
 # Fix published state & datetime at new property creation
