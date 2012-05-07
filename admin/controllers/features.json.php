@@ -37,6 +37,7 @@ class JeaControllerFeatures extends JController
             $query->select('f.id , f.value');
             $query->from('#__jea_areas AS f');
             $query->where('town_id='. $town_id);
+            $query->order('f.value ASC');
             $db->setQuery($query);
             $response = $db->loadObjectList();
         }
@@ -58,6 +59,7 @@ class JeaControllerFeatures extends JController
             $query->select('f.id , f.value');
             $query->from('#__jea_towns AS f');
             $query->where('department_id='. $department_id);
+            $query->order('f.value ASC');
             $db->setQuery($query);
             $response = $db->loadObjectList();
         }
