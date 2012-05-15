@@ -24,7 +24,8 @@ $showLocalization = $this->params->get('searchform_show_departments')
                   || $this->params->get('searchform_show_areas')
                   || $this->params->get('searchform_show_zip_codes');
 
-$showOtherFilters = $this->params->get('searchform_show_number_of_bedrooms')
+$showOtherFilters = $this->params->get('searchform_show_number_of_rooms')
+                  || $this->params->get('searchform_show_number_of_bedrooms')
                   || $this->params->get('searchform_show_number_of_bathrooms')
                   || $this->params->get('searchform_show_floor')
                   || $this->params->get('searchform_show_hotwatertypes')
