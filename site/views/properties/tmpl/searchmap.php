@@ -81,16 +81,12 @@ function updateSliders()
     var transaction_type = 'SELLING';
     var form = document.id('jea-search-form');
 
-    if (typeOf(form.filter_transaction_type) == 'collection') {
-        Array.from(form.filter_transaction_type).each(function(item) {
-            if (item.get('checked')) {
-                transaction_type = item.get('value');
-            }
-        });
-
-    } else if (typeOf(form.filter_transaction_type) == 'element') {
-        transaction_type = form.filter_transaction_type.get('value');
-    }
+	var transTypes = document.getElements('[name=filter_transaction_type]');
+	transTypes.each(function(item) {
+		if (item.get('checked')) {
+			transaction_type = item.get('value');
+		}
+	});
 
     var fieldsLimit = $fieldsLimit;
     minPrice = fieldsLimit[transaction_type].price[0];

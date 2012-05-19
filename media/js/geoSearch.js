@@ -92,22 +92,10 @@ var JEAGeoSearch = new Class({
 
 		if (form) {
 
-			if (typeOf(form.filter_transaction_type) == 'collection') {
-				Array.from(form.filter_transaction_type).each(function(item) {
-					if (item.get('checked')) {
-						filters['filter_transaction_type'] = item.get('value');
-					}
-				});
-
-			} else if (typeOf(form.filter_transaction_type) == 'element') {
-				filters['filter_transaction_type'] = form.filter_transaction_type.get('value');
-			}
-	
-			fields.each(function(field) {
-				if (form[field]) {
-					if (document.id(form[field]).get('value') > 0) {
-						filters[field] = document.id(form[field]).get('value');
-					}
+			var transTypes = document.getElements('[name=filter_transaction_type]');
+			transTypes.each(function(item) {
+				if (item.get('checked')) {
+					filters['filter_transaction_type'] = item.get('value');
 				}
 			});
 
