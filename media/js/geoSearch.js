@@ -99,8 +99,18 @@ var JEAGeoSearch = new Class({
 				}
 			});
 
+			fields.each(function(field) {
+				var inputfield = document.getElement('[name='+field+']');
+				if (inputfield) {
+					if (inputfield.get('value') > 0) {
+						filters[field] = inputfield.get('value');
+					}
+				}
+			});
+
 			if (form['filter_amenities[]']) {
-				Array.from(form['filter_amenities[]']).each(function(item, i) {
+				var amenities = document.getElements('[name=filter_amenities[]]');
+				amenities.each(function(item, i) {
 					if (item.get('checked')) {
 						filters['filter_amenities[' + i + ']'] = item.get('value');
 					}
