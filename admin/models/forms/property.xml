@@ -24,8 +24,8 @@
 		<field name="department_id" type="featureList" subtype="departments" label="COM_JEA_FIELD_DEPARTMENT_LABEL" class="inputbox" filter="intval" />
 		<field name="town_id" type="featureList" subtype="towns" label="COM_JEA_FIELD_TOWN_LABEL" class="inputbox" filter="intval" />
 		<field name="area_id" type="featureList" subtype="areas" label="COM_JEA_FIELD_AREA_LABEL" class="inputbox" filter="intval" />
-		<field name="latitude"  type="text" label="COM_JEA_FIELD_LONGITUDE_LABEL" class="numberbox" size="25" />
-		<field name="longitude" type="text" label="COM_JEA_FIELD_LATITUDE_LABEL" class="numberbox" size="25" />
+		<field name="latitude"  type="text" label="COM_JEA_FIELD_LATITUDE_LABEL" class="numberbox" size="25" />
+		<field name="longitude" type="text" label="COM_JEA_FIELD_LONGITUDE_LABEL" class="numberbox" size="25" />
 		<field name="geolocalization" type="geolocalization" label="COM_JEA_FIELD_GEOLOCALIZATION_LABEL"  />
 	</fieldset>
 
