@@ -84,7 +84,7 @@ var onOpenSqueezebox = function(content) {
 		var previousLink = new Element('a', {
 			'href' : '#',
 			'id' : 'jea-squeezeBox-prev',
-			'text' : '< ' + previousLabel,
+			'text' : '< ' + previousLabel
 		});
 
 		previousLink.addEvent('click', function(e) {
@@ -116,7 +116,7 @@ var onOpenSqueezebox = function(content) {
 		var nextLink = new Element('a', {
 			'href' : '#',
 			'id' : 'jea-squeezeBox-next',
-			'text' : nextLabel+' >',
+			'text' : nextLabel+' >'
 		});
 
 		nextLink.addEvent('click', function(e) {
