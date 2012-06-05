@@ -99,7 +99,7 @@ class JeaModelProperty extends JModel
 
         // Join hot water types
         $query->select('hwt.value AS `hot_water_type_name`');
-        $query->join('LEFT', '#__jea_heatingtypes AS hwt ON hwt.id = p.hot_water_type');
+        $query->join('LEFT', '#__jea_hotwatertypes AS hwt ON hwt.id = p.hot_water_type');
 
         // Join users
         $query->select('u.username AS author');
