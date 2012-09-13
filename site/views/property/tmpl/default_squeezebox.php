@@ -20,8 +20,8 @@ $mainImage = array_shift($this->row->images);
 
 
 
-$previousLabel = JText::_('Previous');
-$nextLabel     = JText::_('Next');
+$previousLabel = JText::_('JPREVIOUS');
+$nextLabel     = JText::_('JNEXT');
 
 $script=<<<EOB
 	var previousLabel = '$previousLabel';
