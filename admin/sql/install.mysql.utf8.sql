@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `availability` date NOT NULL default '0000-00-00',
   `floor` int(11) NOT NULL default '0',
   `floors_number` int(11) NOT NULL default '0',
-  `orientation` ENUM('0', 'N', 'NE', 'NW', 'E', 'W', 'SW', 'SE') NOT NULL default '0',
+  `orientation` ENUM('0', 'N', 'NE', 'NW', 'E', 'W', 'S', 'SW', 'SE') NOT NULL default '0',
   `amenities` varchar(255) NOT NULL default '' COMMENT 'amenities list',
   `description` text NOT NULL,
   `slogan_id` int(11) NOT NULL default '0',

@@ -7,12 +7,12 @@
 	<authorUrl>www.sphilip.com</authorUrl>
 	<copyright>Copyright (C) PHILIP Sylvain. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
-	<version>2.0</version>
+	<version>2.1</version>
 	<description>Easy real estate Ads management</description>
 
 	<!-- Runs on install/uninstall/update -->
 	<scriptfile>script.php</scriptfile>
-	
+
 	<!-- Install / Uninstall Database Section -->
 	<install>
 		<sql>
@@ -24,14 +24,13 @@
 			<file charset="utf8" driver="mysql">sql/uninstall.mysql.utf8.sql</file>
 		</sql>
 	</uninstall>
-	
-	<!-- Runs on update 
+
+	<!-- Runs on update-->
 	<update> 
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
 	</update>
-	-->
 
 	<!-- Frontend -->
 	<files folder="site">
@@ -47,7 +46,7 @@
 
 	<!-- Media files -->
 	<media destination="com_jea" folder="media" >
-	    <filename>index.html</filename>
+		<filename>index.html</filename>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
