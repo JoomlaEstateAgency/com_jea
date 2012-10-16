@@ -1,6 +1,18 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 2.1 / 10-2012=
+# Fix issue on preselected transaction type in search forms
+# Fix Next & Prev not translated in Squeezebox
+# Fix missing south orientation and add update schema to the component
+# Fix missing hot water type in property model
+# Fix IE7 bug with the squeezebox
+# Fix inversion in latitude / longitude label in tthe property form
+# Fix missing translations
+# Fix missing room parameter in search forms
+# Fix Towns not fetched in order
+
+
 =RELEASE 2.0 / 04-2012=
 
 NOTE : This release works only with Joomla! 2.5.x

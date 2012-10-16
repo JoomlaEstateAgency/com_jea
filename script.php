@@ -62,7 +62,7 @@ class com_jeaInstallerScript
 
         // Fix the missing schema upddate in the previous JEA 2.0 version
         if ($type == 'update' && $manifest->version == '2.1') {
-            
+
             $row = JTable::getInstance('extension');
             $eid = $row->find(array('element' => 'com_jea', 'type' => 'component'));
 
@@ -75,9 +75,10 @@ class com_jeaInstallerScript
             $result = $db->loadResult();
             if (!$result) {
                 $query->insert('#__schemas');
-                $query->columns('extension_id', 'version_id');
-                $query->values(array($eid, '2.0'));
+                $query->columns('extension_id, version_id');
+                $query->values("$eid, '2.0'");
                 $db->setQuery($query);
+                $db->query();
             }
         }
     }
