@@ -28,9 +28,11 @@ $filters = $this->get('Filters');
 foreach ($filters as $name => $defaultValue) {
     $states['filter_'.$name] = $this->state->get('filter.'.$name, $defaultValue);
 }
-if(empty($transationType) && empty($states['filter_transaction_type'])) {
+if (empty($transationType) && empty($states['filter_transaction_type'])) {
     // Set SELLING as default transaction_type state
     $states['filter_transaction_type'] = 'SELLING';
+} elseif (!empty($transationType) && empty($states['filter_transaction_type'])) {
+    $states['filter_transaction_type'] = $transationType;
 }
 
 $fields = json_encode($states);
