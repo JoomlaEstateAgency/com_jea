@@ -322,7 +322,7 @@ class JeaModelProperties extends JModelList
 
         // Filter by orientation
         if ($value = $this->getState('filter.orientation')) {
-            $query->where('p.orientation =' . (int) $value );
+            $query->where('p.orientation =' . $db->Quote($db->escape($value)));
         }
 
         // Filter by amenities
