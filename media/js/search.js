@@ -122,7 +122,7 @@ JEASearch = new Class({
 			filter_budget_min : 0,
 			filter_condition : 0,
 			filter_department_id : 0,
-			filter_floor : 0,
+			filter_floor : '',
 			filter_heatingtype : 0,
 			filter_hotwatertype : 0,
 			filter_land_space_max : 0,
@@ -133,7 +133,8 @@ JEASearch = new Class({
 			filter_rooms_min : 0,
 			filter_search : "",
 			filter_town_id : 0,
-			filter_transaction_type : '',
+			// Keep selected transaction type
+			filter_transaction_type : this.options.fields.filter_transaction_type,
 			filter_type_id : 0,
 			filter_zip_codes : ""
 		};
