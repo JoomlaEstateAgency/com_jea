@@ -55,7 +55,7 @@ window.addEvent("domready", function(){
     var longitude  = {$longitude};
     var latitude   = {$latitude};
 
-    if ((longitude + latitude) > 0 ) {
+    if (longitude && latitude) {
         var myLatlng = new google.maps.LatLng(latitude, longitude);
         var options = {
           zoom : 15,
