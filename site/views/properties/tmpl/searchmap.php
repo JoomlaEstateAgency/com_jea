@@ -36,6 +36,8 @@ if (empty($transationType) && empty($states['filter_transaction_type'])) {
 }
 
 $fields = json_encode($states);
+// Load the Mootools More framework if not already inclued
+JHtml::_('behavior.framework', true);
 JHTML::script('media/com_jea/js/search.js', true);
 JHTML::script('media/com_jea/js/geoSearch.js');
 JHTML::script('media/com_jea/js/geoxml3.js');
