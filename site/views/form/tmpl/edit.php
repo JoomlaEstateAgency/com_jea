@@ -22,6 +22,7 @@ JHTML::stylesheet('media/com_jea/css/jea.css');
 $this->form->setFieldAttribute('description', 'buttons', 'false');
 
 $user = JFactory::getUser();
+$uri =JFactory::getURI();
 ?>
 <script type="text/javascript">
   Joomla.submitbutton = function(task) {
@@ -40,7 +41,7 @@ $user = JFactory::getUser();
 <p><a href="javascript:Joomla.submitbutton('property.cancel');"><?php echo JText::_('COM_JEA_RETURN_TO_THE_LIST')?></a></p>
 <?php endif ?>
 
-  <form action="<?php echo JRoute::_('index.php?option=com_jea&id='.(int) $this->item->id) ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
+  <form action="<?php echo (string) $uri ?>" method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
     <fieldset>
       <legend>

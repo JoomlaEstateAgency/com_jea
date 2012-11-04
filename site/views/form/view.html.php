@@ -26,8 +26,24 @@ class JeaViewForm extends JView
         $this->state  = $this->get('State');
         $this->params = $app->getParams();
 
+        $authorised = false;
+
         if (empty($this->item->id)) {
-            $authorised = $user->authorise('core.create', 'com_jea');
+
+            if (!$user->get('id')) {
+                // When user is not authenticated
+                if ($this->params->get('login_behavior') == 'before') {
+                    $return = base64_encode(JFactory::getURI());
+                    $message = JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST');
+                    $redirect = JRoute::_('index.php?option=com_users&view=login&return='. $return, false);
+                    $app->redirect($redirect, $message);
+                } else {
+                    // The user should be redirected on the login form after the form submission.
+                    $authorised = true;
+                }
+            } else {
+                $authorised = $user->authorise('core.create', 'com_jea');
+            }
         } else {
             $asset    = 'com_jea.property.'.$this->item->id;
             // Check general edit permission first.
