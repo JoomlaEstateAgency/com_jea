@@ -199,10 +199,12 @@ if ($this->params->get('searchform_show_living_space', 1)) {
 }
 ?>
 
-<?php if ( $this->params->get('show_page_title', 0) && $this->params->get('page_title', '') ) : ?>
-<h1>
-<?php echo $this->params->get('page_title') ?>
-</h1>
+<?php if ($this->params->get('show_page_heading', 1)) : ?>
+  <?php if ($this->params->get('page_heading')) : ?>
+  <h1><?php echo $this->escape($this->params->get('page_heading')) ?></h1>
+  <?php else: ?>
+  <h1><?php echo $this->escape($this->params->get('page_title')) ?></h1>
+  <?php endif ?>
 <?php endif ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_jea&task=properties.search') ?>" method="post" id="jea-search-form" enctype="application/x-www-form-urlencoded">
