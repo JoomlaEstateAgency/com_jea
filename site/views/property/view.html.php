@@ -29,6 +29,9 @@ class JeaViewProperty extends JView
             return false;
         }
 
+        // Increment the hit counter of the property
+        $this->getModel()->hit();
+
         $this->assignRef('params', $params);
         $this->assignRef('state', $state);
         $this->assignRef('row', $item);
@@ -41,7 +44,7 @@ class JeaViewProperty extends JView
         }
 
         $this->assign( 'page_title', $pageTitle );
-         
+
         $app = JFactory::getApplication();
         $pathway = $app->getPathway();
         $pathway->addItem($pageTitle);
