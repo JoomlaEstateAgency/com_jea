@@ -178,13 +178,30 @@ class JeaModelProperty extends JModel
      */
     public function getPreviousAndNext()
     {
-        $item = $this->getItem();
-        $properties = JModel::getInstance('Properties', 'JeaModel');
+        $app = JFactory::getApplication();
 
-        // Deactivate pagination
-        $properties->setState('list.start', 0);
-        $properties->setState('list.limit', 0);
+        $item = $this->getItem();
+
+        $context = 'com_jea.properties';
+        $itemId = JRequest::getInt('Itemid');
+        if ($itemId > 0) {
+           $context .= '.menuitem'.$itemId ;
+        }
+
+        // Backup pagination
+        $limit = $app->getUserState('global.list.limit');
+        $limitstart = $app->getUserState($context.'.limitstart');
+
+        // Reset pagination
+        JRequest::setVar('limit', 0);
+        JRequest::setVar('limitstart', 0);
+
+        $properties = JModel::getInstance('Properties', 'JeaModel');
         $items = $properties->getItems();
+
+        // Restore pagination
+        $app->setUserState('global.list.limit', $limit);
+        $app->setUserState($context.'.limitstart', $limitstart);
 
         $result= array(
             'prev' => null,
