@@ -131,6 +131,11 @@ class JeaModelProperties extends JModelList
         $this->setState('searchcontext' , $searchContext);
 
         parent::populateState($ordering, $direction);
+
+        // As parent::populateState method assign list limit based on the Joomla global 
+        // configuration, we assign now the list limit based on the JEA configuration.
+        $limit = $this->getUserStateFromRequest($this->context.'.limit', 'limit', $params->get('list_limit', 10), 'uint');
+        $this->setState('list.limit', $limit);
     }
 
 
