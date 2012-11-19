@@ -254,8 +254,6 @@ class JeaModelProperty extends JModelAdmin
         $table = $this->getTable();
         $nextOrdering = $table->getNextOrder();
 
-        //only one request
-        $inserts = array();
         $fields = $table->getProperties();
         $db = $this->getDbo();
 
@@ -267,35 +265,25 @@ class JeaModelProperty extends JModelAdmin
         $query = 'SELECT '.implode(', ', $fields).' FROM #__jea_properties WHERE id IN (' .implode(',', $pks). ')';
         $rows = $this->_getList($query);
 
-        foreach ($rows as $row){
+        foreach ($rows as $row) {
             $row = (array) $row;
             $row['ref'] = JString::increment($row['ref']);
             $row['title'] = JString::increment($row['title']);
             $row['alias'] = JString::increment($row['alias'], 'dash');
             $row['ordering'] = $nextOrdering;
             $row['created']  = date('Y-m-d H:i:s');
-            foreach ($row as $k => $values) {
-                $row[$k] = $db->Quote($values);
+
+            $table->bind($row);
+            try {
+                $table->store();
+            } catch (Exception $e) {
+                $this->setError($e->getMessage());
+                return false;
             }
-            $inserts[]= '(' . implode(', ', $row) . ')';
             $nextOrdering++;
         }
 
-        $query = 'INSERT INTO #__jea_properties ('.implode(', ', $fields).') VALUES' . "\n"
-        . implode(", \n", $inserts);
-         
-        try {
-            $db->setQuery($query);
-            if (!$db->query()) {
-                throw new Exception($db->getErrorMsg());
-            }
-            return true;
-
-        } catch (Exception $e) {
-            $this->setError($e->getMessage());
-        }
-
-        return false;
+        return true;
     }
 
 
