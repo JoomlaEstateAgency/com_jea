@@ -62,19 +62,20 @@ class JFormFieldFeatureList extends JFormField
         }
 
         // Verify if some fields have relashionship
+        $hasRelationShip = $this->_hasRelationShip();
         switch ($subtype) {
             case 'departments':
-                if ($this->_hasRelationShip()) {
+                if ($hasRelationShip) {
                     $this->_ajaxUpdateList ('department_id', 'town_id', 'get_towns');
                 }
                 break;
             case 'towns':
-                if ($this->_hasRelationShip()) {
+                if ($hasRelationShip) {
                     $this->_ajaxUpdateList ('town_id', 'area_id', 'get_areas');
                     return JHtml::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, null));
                 }
             case 'areas':
-                if ($this->_hasRelationShip()) {
+                if ($hasRelationShip) {
                     return JHtml::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, null));
                 }
         }
@@ -89,7 +90,7 @@ class JFormFieldFeatureList extends JFormField
     private function _hasRelationShip()
     {
         $params = JComponentHelper::getParams('com_jea');
-        return (bool) $params->get('relationship_dpts_towns_area', 0);
+        return (bool) $params->get('relationship_dpts_towns_area', 1);
     }
 
     /**
