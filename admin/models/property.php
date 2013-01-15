@@ -111,8 +111,7 @@ class JeaModelProperty extends JModelAdmin
         }
 
         if (parent::save($data)) {
-            $this->processImages();
-            return true;
+            return $this->processImages();
         }
 
         return false;
@@ -122,6 +121,7 @@ class JeaModelProperty extends JModelAdmin
     /**
      * Method to manage new uploaded images and
      * to remove non existing images from the gallery
+     * @return true on success otherwise false
      */
     public function processImages()
     {
@@ -149,7 +149,7 @@ class JeaModelProperty extends JModelAdmin
             foreach ($upload as $file) {
                 if ($file->isPosted()) {
                     $file->setValidExtensions($validExtensions)->nameToSafe();
-                     
+
                     if (!JFolder::exists($uploadDir)) {
                         JFolder::create($uploadDir);
                     }
@@ -169,8 +169,9 @@ class JeaModelProperty extends JModelAdmin
                     } else {
                         $errors = $file->getErrors();
                         foreach ($errors as $error) {
-                            $this->setError($error);
+                            $this->setError(JText::_($error));
                         }
+                        return false;
                     }
                 }
             }
@@ -198,7 +199,7 @@ class JeaModelProperty extends JModelAdmin
                 }
             }
         }
-
+        return true;
     }
 
 

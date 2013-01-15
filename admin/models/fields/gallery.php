@@ -62,7 +62,16 @@ class JFormFieldGallery extends JFormField
             return $output;
         }
 
-        $images = (array) json_decode($this->value);
+        if (is_string($this->value)) {
+            $images = (array) json_decode($this->value);
+        } else {
+            $images = (array) $this->value;
+            foreach ($images as $k => $image) {
+                $images[$k] = (object) $image;
+            }
+        }
+
+
         $propertyId  = $this->form->getValue('id');
 
         $baseURL = JURI::root(true);
