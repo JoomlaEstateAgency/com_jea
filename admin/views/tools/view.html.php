@@ -30,6 +30,12 @@ class JeaViewTools extends JView
         JeaHelper::addSubmenu('tools');
         JToolBarHelper::title( JText::_('COM_JEA_TOOLS'), 'jea.png' );
         parent::display($tpl);
+
+        $canDo  = JeaHelper::getActions();
+
+        if ($canDo->get('core.admin')) {
+            JToolBarHelper::preferences('com_jea');
+        }
     }
 
     protected function getIcons()

@@ -51,6 +51,11 @@ class JeaViewFeatures extends JView
         }
 
         JToolBarHelper::custom('features.export', 'export', '', 'Export', false);
+
+        if ($canDo->get('core.admin')) {
+            JToolBarHelper::divider();
+            JToolBarHelper::preferences('com_jea');
+        }
     }
 
 }
