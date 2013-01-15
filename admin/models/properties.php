@@ -44,7 +44,7 @@ class JeaModelProperties extends JModelList
                 'created', 'p.created',
                 'created_by', 'p.created_by',
                 'ordering', 'p.ordering',
-                'featured', 'p.emphasis',
+                'featured', 'p.featured',
                 'hits', 'p.hits',
             	'language', 'p.language'
                 );
