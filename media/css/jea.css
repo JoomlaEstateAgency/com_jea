@@ -142,18 +142,37 @@ dl.jea_item span.slogan strong {
 	margin-bottom: 10px;
 }
 
-#jea-gallery-scroll {
+#jea-gallery-preview.vertical , #jea-gallery-scroll.vertical {
+	float: left;
+}
+
+#jea-gallery-scroll.vertical {
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
-#jea-gallery-scroll img {
+#jea-gallery-scroll.vertical img {
 	margin-bottom: 5px;
 }
 
-#jea-gallery-preview,#jea-gallery-scroll {
-	float: left;
+#jea-gallery-scroll.horizontal {
+	clear: both;
+	margin-top: 5px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	white-space: nowrap;
+	width: 400px;
+	float: none;
 }
+
+#jea-gallery-scroll.horizontal img{
+	margin-bottom: 0;
+}
+
+#jea-gallery-scroll.horizontal br {
+	display: none;
+}
+
 
 #jea-gallery-preview {
 	margin-right: 15px;

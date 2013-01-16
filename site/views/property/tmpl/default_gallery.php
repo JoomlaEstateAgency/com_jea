@@ -51,14 +51,17 @@ EOB;
 
 JHTML::_('behavior.mootools');
 $this->document->addScriptDeclaration($script);
+$gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
+$img_width = $this->params->get('thumb_medium_width', 400);
+$img_height = $this->params->get('thumb_medium_height', 400);
 ?>
 
 <div class="clr" ></div>
 
-<div id="jea-gallery-preview" >
+<div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
 <a href="<?php echo $mainImage->URL ?>" >
       <img src="<?php echo $mainImage->mediumURL ?>" 
-      	   id="jea-preview-img"
+           id="jea-preview-img"
            alt="<?php echo $mainImage->title ?>" 
            title="<?php echo $mainImage->description ?>" /></a>
   <div id="jea-preview-title"><?php echo $mainImage->title ?></div>
@@ -66,10 +69,12 @@ $this->document->addScriptDeclaration($script);
 </div>
 
 <?php if( !empty($this->row->images)): ?>
-<div id="jea-gallery-scroll" >
-	<?php foreach($this->row->images as $image) : ?>
-	  <a class="jea-thumbnails" href="<?php echo $image->mediumURL?>" >
-      <img src="<?php echo $image->minURL ?>" 
+<div id="jea-gallery-scroll" 
+     class="<?php echo $gallery_orientation ?>"
+     style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'height:'.$img_height.'px' ?>">
+     <?php foreach($this->row->images as $image) : ?>
+     <a class="jea-thumbnails" href="<?php echo $image->mediumURL?>" >
+     <img src="<?php echo $image->minURL ?>" 
            alt="<?php echo $image->title ?>" 
            title="<?php echo $image->description  ?>" /></a><br />
     <?php endforeach ?>

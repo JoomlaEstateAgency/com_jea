@@ -89,6 +89,11 @@
 			<option value="slimbox">Slimbox (soon)</option>
 		</field>
 
+		<field name="gallery_orientation" type="list" default="vertical" label="COM_JEA_FIELD_GALLERY_ORIENTATION_LABEL" description="COM_JEA_FIELD_GALLERY_ORIENTATION_DESC">
+			<option value="horizontal">Horizontal</option>
+			<option value="vertical">Vertical</option>
+		</field>
+
 		<field name="show_print_icon" type="radio" default="1" label="COM_JEA_FIELD_PRINT_ICON_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
