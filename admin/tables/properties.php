@@ -96,6 +96,12 @@ class TableProperties extends JTable
             return false;
         }
 
+        // Check the publish down date is not earlier than publish up.
+        if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+            $this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+            return false;
+        }
+
         // Auto Generate a reference if empty
         if (empty($this->ref)) {
             $this->ref = uniqid();

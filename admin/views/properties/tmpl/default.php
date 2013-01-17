@@ -172,7 +172,7 @@ $transactionType = $this->state->get('filter.transaction_type');
           <?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange) ?>
         </td>
         <td class="center">
-          <?php echo JHtml::_('jgrid.published', $item->published, $i, 'properties.', $canChange, 'cb') ?>
+          <?php echo JHtml::_('jgrid.published', $item->published, $i, 'properties.', $canChange, 'cb', $item->publish_up, $item->publish_down) ?>
         </td>
 
         <td class="order">

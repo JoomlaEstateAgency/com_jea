@@ -212,6 +212,13 @@ class JeaModelProperties extends JModelList
             $query->where('p.published=1');
         }
 
+        // Filter by start and end dates.
+        $nullDate = $db->Quote($db->getNullDate());
+        $nowDate  = $db->Quote(JFactory::getDate()->toSql());
+
+        $query->where('(p.publish_up = '.$nullDate.' OR p.publish_up <= '.$nowDate.')');
+        $query->where('(p.publish_down = '.$nullDate.' OR p.publish_down >= '.$nowDate.')');
+
         // Filter by search
         if ($value = $this->getState('filter.search')) {
             $value = $db->Quote('%'.$db->escape($value, true).'%');

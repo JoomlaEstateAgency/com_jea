@@ -111,6 +111,15 @@ $uri =JFactory::getURI();
         <div class="formelm">
         <?php echo $this->form->getLabel('modified') ?> <?php echo $this->form->getInput('modified') ?>
         </div>
+
+        <div class="formelm">
+        <?php echo $this->form->getLabel('publish_up') ?> <?php echo $this->form->getInput('publish_up') ?>
+        </div>
+
+        <div class="formelm">
+        <?php echo $this->form->getLabel('publish_down') ?> <?php echo $this->form->getInput('publish_down') ?>
+        </div>
+
       </fieldset>
       <?php endif ?>
 

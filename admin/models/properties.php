@@ -101,7 +101,7 @@ class JeaModelProperties extends JModelList
         $user    = JFactory::getUser();
 
         $query->select('p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
-        p.featured, p.published, p.ordering, p.checked_out, p.checked_out_time,
+        p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
         p.created_by, p.hits, p.language ');
 
         $query->from('#__jea_properties AS p');
