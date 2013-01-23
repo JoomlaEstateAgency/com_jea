@@ -112,6 +112,18 @@ class JeaModelProperty extends JModel
         $query->where('p.id ='.(int) $pk);
         $query->where('p.published = 1');
 
+        // Filter by access level
+        $user = JFactory::getUser();
+        $groups = implode(',', $user->getAuthorisedViewLevels());
+        $query->where('p.access IN ('.$groups.')');
+
+        // Filter by start and end dates.
+        $nullDate = $db->Quote($db->getNullDate());
+        $nowDate  = $db->Quote(JFactory::getDate()->toSql());
+
+        $query->where('(p.publish_up = '.$nullDate.' OR p.publish_up <= '.$nowDate.')');
+        $query->where('(p.publish_down = '.$nullDate.' OR p.publish_down >= '.$nowDate.')');
+
         $db->setQuery($query);
 
         $data = $db->loadObject();

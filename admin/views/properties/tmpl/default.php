@@ -23,9 +23,9 @@ JHtml::_('behavior.multiselect');
 $rowsCount = count($this->items) ;
 $altrow = 1;
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirection	= $this->escape($this->state->get('list.direction'));
-$saveOrder	= $listOrder == 'p.ordering';
+$listOrder     = $this->escape($this->state->get('list.ordering'));
+$listDirection = $this->escape($this->state->get('list.direction'));
+$saveOrder     = $listOrder == 'p.ordering';
 
 $transactionType = $this->state->get('filter.transaction_type');
 ?>
@@ -66,10 +66,10 @@ $transactionType = $this->state->get('filter.transaction_type');
       <?php else: ?>
       <?php echo JHtml::_('features.towns', $this->state->get('filter.town_id'), 'filter_town_id', 'onchange="document.adminForm.submit();"' ) ?>
       <?php endif ?>
-	  <select name="filter_language" class="inputbox" onchange="this.form.submit()">
-		<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-		<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
-	  </select>
+      <select name="filter_language" class="inputbox" onchange="this.form.submit()">
+        <option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+        <?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+      </select>
     </div>
     <div class="clr"></div>
   </fieldset>
@@ -104,7 +104,10 @@ $transactionType = $this->state->get('filter.transaction_type');
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JSTATUS', 'p.published', $listDirection , $listOrder ) ?>
         </th>
-        <th width="10%">
+        <th width="5%">
+          <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirection, $listOrder); ?>
+        </th>
+        <th width="5%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'p.ordering', $listDirection , $listOrder ) ?>
           <?php if ($saveOrder) :?> 
           <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
@@ -119,9 +122,9 @@ $transactionType = $this->state->get('filter.transaction_type');
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'p.hits', $listDirection , $listOrder ) ?>
         </th>
-		<th width="5%">
-			<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
-		</th>
+        <th width="5%">
+            <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
+        </th>
         <th width="1%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $listDirection , $listOrder ) ?>
         </th>
@@ -130,7 +133,7 @@ $transactionType = $this->state->get('filter.transaction_type');
 
     <tfoot>
       <tr>
-        <td colspan="15"><?php echo $this->pagination->getListFooter() ?></td>
+        <td colspan="16"><?php echo $this->pagination->getListFooter() ?></td>
       </tr>
     </tfoot>
 
@@ -174,7 +177,9 @@ $transactionType = $this->state->get('filter.transaction_type');
         <td class="center">
           <?php echo JHtml::_('jgrid.published', $item->published, $i, 'properties.', $canChange, 'cb', $item->publish_up, $item->publish_down) ?>
         </td>
-
+        <td class="center">
+          <?php echo $this->escape($item->access_level); ?>
+        </td>
         <td class="order">
         <?php if ($canChange) : ?> 
           <?php if ($saveOrder) :?> 
@@ -202,13 +207,13 @@ $transactionType = $this->state->get('filter.transaction_type');
           <?php echo JHTML::_('date',  $item->created, JText::_('DATE_FORMAT_LC4') ) ?>
         </td>
         <td class="center"><?php echo $item->hits ?></td>
-		<td class="center">
-			<?php if ($item->language=='*'):?>
-				<?php echo JText::alt('JALL', 'language'); ?>
-			<?php else:?>
-				<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-			<?php endif;?>
-		</td>
+        <td class="center">
+            <?php if ($item->language=='*'):?>
+                <?php echo JText::alt('JALL', 'language'); ?>
+            <?php else:?>
+                <?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+            <?php endif;?>
+        </td>
         <td class="center"><?php echo $item->id ?></td>
       </tr>
       <?php endforeach ?>

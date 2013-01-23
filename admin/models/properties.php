@@ -41,6 +41,7 @@ class JeaModelProperties extends JModelList
                 'checked_out', 'p.checked_out',
                 'checked_out_time', 'p.checked_out_time',
                 'published', 'p.published',
+                'access', 'access_level',
                 'created', 'p.created',
                 'created_by', 'p.created_by',
                 'ordering', 'p.ordering',
@@ -105,6 +106,10 @@ class JeaModelProperties extends JModelList
         p.created_by, p.hits, p.language ');
 
         $query->from('#__jea_properties AS p');
+
+        // Join viewlevels
+        $query->select('al.title AS access_level');
+        $query->join('LEFT', '#__viewlevels AS al ON al.id = p.access');
 
         // Join departments
         $query->select('d.value AS `department`');
