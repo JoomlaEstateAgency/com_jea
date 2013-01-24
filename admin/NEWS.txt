@@ -1,13 +1,35 @@
 Joomla Estate Agency          News
 ==================================
 
+=RELEASE 2.2 / 01-2013=
++ Add access right management for each property
++ Add a published start / end date for each property
++ Add new parameter "Gallery orientation" to choose between horizontal or vertical layout in property detail.
+^ Change JEA logo
+^ Backend : add the configuration button in each tab
+# Backend : Fix sort by featured properties
+# Fix upload errors not displayed when saving a property
+^ Activate relationship between departements/towns/area by default
+# Fix assets issue when we duplicate properties
+# Fix missing and misspelling translations
+# Assign the list limit based on the JEA configuration.
+# Fix property hit increment
+# Fix issue on list limit with previous and next links in property model.
+# Fix page title wrong parameter
+^ Add redirect behavior when user is not connected on property form
+# Load the Mootools More framework if not already inclued
+# Fix issue Google Map not showing with negative values in latitude / longitude
+# Fix issue with search reset
+# Fix search issue on orientation filter
+
+
 =RELEASE 2.1 / 10-2012=
 # Fix issue on preselected transaction type in search forms
 # Fix Next & Prev not translated in Squeezebox
 # Fix missing south orientation and add update schema to the component
 # Fix missing hot water type in property model
 # Fix IE7 bug with the squeezebox
-# Fix inversion in latitude / longitude label in tthe property form
+# Fix inversion in latitude / longitude label in the property form
 # Fix missing translations
 # Fix missing room parameter in search forms
 # Fix Towns not fetched in order
