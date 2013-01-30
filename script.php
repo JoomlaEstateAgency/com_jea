@@ -61,7 +61,7 @@ class com_jeaInstallerScript
         $manifest = $parent->getParent()->getManifest();
 
         // Fix the missing schema upddate in the previous JEA 2.0 version
-        if ($type == 'update' && $manifest->version == '2.1') {
+        if ($type == 'update') {
 
             $row = JTable::getInstance('extension');
             $eid = $row->find(array('element' => 'com_jea', 'type' => 'component'));
