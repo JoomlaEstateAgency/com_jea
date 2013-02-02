@@ -357,8 +357,13 @@ class JeaModelProperties extends JModelList
 
         // Add the list ordering clause.
         $params = $this->state->get('params');
-        $orderCol  = $this->state->get('list.ordering', $params->get('orderby', 'p.id'));
-        $orderDirn = $this->state->get('list.direction', $params->get('orderby_direction', 'DESC'));
+        if ($params != null) {
+            $orderCol  = $this->state->get('list.ordering', $params->get('orderby', 'p.id'));
+            $orderDirn = $this->state->get('list.direction', $params->get('orderby_direction', 'DESC'));
+        } else {
+            $orderCol  = $this->state->get('list.ordering', 'p.id');
+            $orderDirn = $this->state->get('list.direction', 'DESC');
+        }
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
 
