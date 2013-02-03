@@ -1,5 +1,9 @@
 Joomla Estate Agency          News
 ==================================
+RELEASE 2.21 / 01-2013=
+# Fix issue on property list default order set in params
+# Fix the upgrade process if the component version is 2.0
+# Fix pagination bug on list limit
 
 =RELEASE 2.2 / 01-2013=
 + Add access right management for each property
