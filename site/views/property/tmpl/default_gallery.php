@@ -71,7 +71,7 @@ $img_height = $this->params->get('thumb_medium_height', 400);
 <?php if( !empty($this->row->images)): ?>
 <div id="jea-gallery-scroll" 
      class="<?php echo $gallery_orientation ?>"
-     style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'height:'.$img_height.'px' ?>">
+     style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'max-height:'.$img_height.'px' ?>">
      <?php foreach($this->row->images as $image) : ?>
      <a class="jea-thumbnails" href="<?php echo $image->mediumURL?>" >
      <img src="<?php echo $image->minURL ?>" 
