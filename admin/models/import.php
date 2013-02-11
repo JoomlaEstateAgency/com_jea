@@ -181,6 +181,11 @@ class JeaModelImport extends JeaModelInterface
             // pictures
             $property->images = $this->getJeaPictures($row, $path .'/images/com_jea/images');
 
+            // Add the alias :
+            if ($version >= 1.1) {
+                $property->addAdditionalField('alias', $row->alias);
+            }
+
             $properties[$row->ref] = $property;
         }
 
