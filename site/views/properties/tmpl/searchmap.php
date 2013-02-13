@@ -21,6 +21,7 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 $transationType = $this->params->get('searchform_transaction_type');
+$Itemid = JFactory::getApplication()->input->getInt('Itemid', 0);
 
 $states = array();
 $filters = $this->get('Filters');
@@ -121,7 +122,8 @@ window.addEvent('domready', function() {
     geoSearch = new JEAGeoSearch('map_canvas', {
         counterElement : 'properties_count',
         defaultArea : '{$default_area}',
-        form : 'jea-search-form'
+        form : 'jea-search-form',
+        Itemid : {$Itemid}
     });
 
     updateSliders();

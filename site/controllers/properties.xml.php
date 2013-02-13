@@ -44,7 +44,7 @@ class JeaControllerProperties extends JController
         $kmlNode = $doc->createElement('kml');
         $kmlNode->setAttribute('xmlns', 'http://www.opengis.net/kml/2.2');
         $documentNode = $doc->createElement('Document');
-        
+
         foreach($items as $row) {
             if(abs($row->latitude) > 0 && abs($row->longitude) > 0) {
 
@@ -57,7 +57,7 @@ class JeaControllerProperties extends JController
                 // (longitude, latitude, and optional altitude)
                 $coordinates = $row->longitude.',' .  $row->latitude . ',0.000000';
                 $coordsNode    = $doc->createElement('coordinates', $coordinates);
-                
+
                 $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
                 $url = JRoute::_('index.php?option=com_jea&view=property&id='.$row->slug);
@@ -68,17 +68,35 @@ class JeaControllerProperties extends JController
                     $name = $row->title;
                 }
 
-                $name = '<a href="'.$url.'">' . $name 
-                      . ' (' . JText::_('Ref' ) . ' : ' . $row->ref. ')</a>' ;
-
                 $description = '<div style="clear:both"></div>';
 
-                if ( is_file( JPATH_ROOT.DS.'images'.DS.'com_jea'.DS.'images'.DS.$row->id.DS.'min.jpg' ) ) {
-                     $description .= '<img src="'.JURI::root().'images/com_jea/images/'
-                      .$row->id.'/min.jpg" alt="min.jpg" style="float:left;margin-right:10px" />';
+                $images = json_decode($row->images);
+                $image  = null;
+
+                if (!empty($images) && is_array($images)) {
+
+                    $image = array_shift($images);
+                    $imagePath = JPATH_ROOT.DS.'images'.DS.'com_jea';
+                    $imageUrl='';
+
+                    if (file_exists($imagePath.DS.'thumb-min'.DS.$row->id.'-'.$image->name)) {
+                        // If the thumbnail already exists, display it directly
+                        $baseURL = JURI::root(true);
+                        $imageUrl = $baseURL.'/images/com_jea/thumb-min/'.$row->id.'-'.$image->name;
+
+                    } elseif (file_exists($imagePath.DS.'images'.DS.$row->id.DS.$image->name)) {
+                        // If the thumbnail doesn't exist, generate it and output it on the fly
+                        $url = 'index.php?option=com_jea&task=thumbnail.create&size=min&id='
+                             . $row->id .'&image='.$image->name;
+
+                        $imageUrl = JRoute::_($url);
+                    }
+
+                    $description .= '<img src="'.$imageUrl.'" alt="'.$image->name.'.jpg" style="float:left;margin-right:10px" />';
                 }
 
-    		    $description .= substr(strip_tags($row->description), 0, 255) . ' ...'
+
+                $description .= substr(strip_tags($row->description), 0, 255) . ' ...'
                 . '<p><a href="'.$url.'">'
                 . JText::_('COM_JEA_DETAIL') . '</a></p>'
                 . '<div style="clear:both"></div>';

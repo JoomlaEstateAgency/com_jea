@@ -10,7 +10,8 @@ var JEAGeoSearch = new Class({
 		waitImage : 'media/com_jea/images/spinner.gif',
 		opacity : 0.5,
 		counterElement : '',
-		defaultArea : ''
+		defaultArea : '',
+		Itemid : 0
 	},
 
 	initialize : function(content, options) {
@@ -29,6 +30,7 @@ var JEAGeoSearch = new Class({
 		for (key in params) {
 			kml += '&' + key + '=' + params[key];
 		}
+		kml += '&Itemid=' + this.options.Itemid;
 
 		var mapOptions = {
 			mapTypeId : google.maps.MapTypeId.ROADMAP
