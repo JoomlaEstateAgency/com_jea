@@ -24,6 +24,7 @@ class JeaControllerProperties extends JController
     public function kml()
     {
         $app = JFactory::getApplication();
+        $Itemid = $app->input->getInt('Itemid', 0);
         $model = $this->getModel('Properties', 'JeaModel', array('ignore_request' => true));
 
         $filters = $model->getFilters();
@@ -60,7 +61,7 @@ class JeaControllerProperties extends JController
 
                 $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-                $url = JRoute::_('index.php?option=com_jea&view=property&id='.$row->slug);
+                $url = JRoute::_('index.php?option=com_jea&view=property&id='.$row->slug.'&Itemid='.$Itemid);
 
                 if (empty($row->title)) {
                     $name = ucfirst(JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $row->type, $row->town));
