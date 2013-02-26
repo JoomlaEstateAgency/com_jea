@@ -66,7 +66,7 @@ JEASearch = new Class({
 			} else if (typeOf(this.form[fieldName]) == 'collection') {
 				if (fieldName == 'filter_amenities[]') {
 					Array.from(this.form['filter_amenities[]']).each(function(item) {
-						if (Browser.ie || Browser.version > 9){
+						if (Browser.ie && Browser.version < 9){
 							item = document.id(item);
 						}
 						item.addEvent('change', function(event) {
