@@ -65,6 +65,10 @@ class JeaModelProperty extends JModel
             return $data;
         }
 
+        $dispatcher = JDispatcher::getInstance();
+        // Include the jea plugins for the onBeforeLoadProperty event.
+        JPluginHelper::importPlugin('jea');
+
         $pk = $this->getState('property.id');
 
         $db        = $this->getDbo();
@@ -123,6 +127,8 @@ class JeaModelProperty extends JModel
 
         $query->where('(p.publish_up = '.$nullDate.' OR p.publish_up <= '.$nowDate.')');
         $query->where('(p.publish_down = '.$nullDate.' OR p.publish_down >= '.$nowDate.')');
+
+        $dispatcher->trigger('onBeforeLoadProperty', array(&$query, &$this->state));
 
         $db->setQuery($query);
 
