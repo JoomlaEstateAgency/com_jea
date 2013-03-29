@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `town_id` int(11) NOT NULL default '0',
   `area_id` int(11) NOT NULL default '0',
   `zip_code` varchar(10) NOT NULL default '',
-  `department_id` tinyint(3) NOT NULL default '0',
+  `department_id` int(11) NOT NULL default '0',
   `condition_id` int(11) NOT NULL default '0',
   `living_space` int(11) NOT NULL default '0',
   `land_space` int(11) NOT NULL default '0',
