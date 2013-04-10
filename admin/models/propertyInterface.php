@@ -201,6 +201,10 @@ class JEAPropertyInterface extends JObject
 
         $jeaPropertiesTable->bind($data);
         $jeaPropertiesTable->check();
+        // Check override created_by
+        if (!empty($data['created_by'])) {
+            $jeaPropertiesTable->created_by = $data['created_by'];
+        }
         $jeaPropertiesTable->store();
 
         $errors = $jeaPropertiesTable->getErrors();
@@ -384,6 +388,7 @@ class JEAPropertyInterface extends JObject
             $id = self::_createUser($email, $name);
             if ($id != false) {
                 self::$_users[$email] = $id;
+                return $id;
             }
         }
 
