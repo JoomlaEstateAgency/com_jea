@@ -110,6 +110,7 @@ class JEAPropertyInterface extends JObject
             'availability' => $this->_convertTimestampToMysqlDate($this->availability, false),
             'floor' => intval($this->floor),
             'floors_number' => (int) $this->floors_number,
+            'orientation' => $this->orientation,
             'description' => $this->description,
             'published' => 1,
             'created' => $this->_convertTimestampToMysqlDate($this->created),
