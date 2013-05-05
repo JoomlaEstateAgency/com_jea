@@ -1,7 +1,7 @@
 Joomla Estate Agency          News
 ==================================
 
-RELEASE 2.3 / 05-2013=
+RELEASE 2.30 / 05-2013=
 # Fix vertical gallery height
 # Fix missing alias in import model
 # Fix missing Itemid and properties thumbnails in geolocalized map
