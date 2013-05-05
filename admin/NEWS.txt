@@ -1,5 +1,21 @@
 Joomla Estate Agency          News
 ==================================
+
+RELEASE 2.3 / 05-2013=
+# Fix vertical gallery height
+# Fix missing alias in import model
+# Fix missing Itemid and properties thumbnails in geolocalized map
+# Fix missing Itemid in geolocalized map when SEF is activated in global configuration
+# Fix french translation
+# Fix javascript bug in  IE versions < 9  in search.js
+# Fix wrong parameter in slider module
+^ Add new event onBeforeLoadProperty
++ Add Joomfish plugin
+# Fix Wrong integer type used for department_id in #__jea_properties table
+# Fix two bugs in propertyInterface.php and add orientation
+^ Update JEA slider module and slideitmoo.js to have a continuous slide effect
+# Fix toggle publish / unpublish state in administrator properties view
+
 RELEASE 2.21 / 01-2013=
 # Fix issue on property list default order set in params
 # Fix the upgrade process if the component version is 2.0
