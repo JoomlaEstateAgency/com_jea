@@ -66,8 +66,8 @@ class JeaViewProperties extends JView
 
         if ($canDo->get('core.edit.state')) {
             JToolBarHelper::divider();
-            JToolBarHelper::publish('property.publish', 'JTOOLBAR_PUBLISH', true);
-            JToolBarHelper::unpublish('property.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+            JToolBarHelper::publish('properties.publish', 'JTOOLBAR_PUBLISH', true);
+            JToolBarHelper::unpublish('properties.unpublish', 'JTOOLBAR_UNPUBLISH', true);
             JToolBarHelper::custom('properties.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
         }
 
