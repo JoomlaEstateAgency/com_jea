@@ -154,8 +154,10 @@ class JeaModelProperties extends JModelList
         // Filter by search
         if ($search = $this->getState('filter.search')) {
             $search = $db->Quote('%'.$db->escape($search, true).'%');
-            $search = '(p.ref LIKE '.$search.' OR p.title LIKE '.$search
-            . 'OR u.username LIKE ' .$search .')';
+            $search = '(p.ref LIKE ' . $search
+                    . ' OR p.title LIKE ' . $search
+                    . ' OR p.id LIKE ' . $search
+                    . ' OR u.username LIKE ' .$search .')';
             $query->where($search);
         }
         
