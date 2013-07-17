@@ -136,10 +136,10 @@ class TableProperties extends JTable
         if (empty($this->id)) {
             $user = JFactory::getUser();
             $this->ordering = $this->getNextOrder();
-            $this->created = date('Y-m-d H:i:s');
-            $this->created_by = $user->get('id');
+            $this->created = $this->created ? $this->created : date('Y-m-d H:i:s');
+            $this->created_by = $this->created_by ? $this->created_by : $user->get('id');
         } else {
-            $this->modified = date('Y-m-d H:i:s');
+            $this->modified = $this->modified ? $this->modified : date('Y-m-d H:i:s');
         }
         return true;
     }
