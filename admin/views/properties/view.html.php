@@ -23,8 +23,10 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewProperties extends JView
+class JeaViewProperties extends JViewLegacy
 {
+
+    protected $sidebar = '';
 
     function display( $tpl = null )
     {
@@ -37,6 +39,10 @@ class JeaViewProperties extends JView
         $this->items       = $this->get('Items');
         $this->pagination  = $this->get('Pagination');
         $this->state       = $this->get('State');
+
+        if ((float) JVERSION > 3) {
+            $this->sidebar = JHtmlSidebar::render();
+        }
 
         $this->addToolbar();
 

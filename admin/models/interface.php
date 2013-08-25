@@ -27,7 +27,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'models'.DS.'propertyInterface.php
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-abstract class JeaModelInterface extends JModel
+abstract class JeaModelInterface extends JModelLegacy
 {
     public $persistance = false;
 
@@ -265,7 +265,7 @@ abstract class JeaModelInterface extends JModel
             return false;
         }
 
-        $model = JModel::getInstance('Property', 'JeaModel');
+        $model = JModelLegacy::getInstance('Property', 'JeaModel');
 
         $flip = array_flip($ids);
         $model->delete($ids);

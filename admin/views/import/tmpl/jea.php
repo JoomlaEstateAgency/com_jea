@@ -17,9 +17,16 @@ JHTML::stylesheet('media/com_jea/css/jea.admin.css');
 JHTML::_('behavior.tooltip');
 ?>
 
+<?php if (!empty( $this->sidebar)) : ?>
+<div id="j-sidebar-container" class="span2">
+  <?php echo $this->sidebar ?>
+</div>
+<?php endif ?>
+
+<div id="j-main-container" class="span10">
 <p><?php echo JText::_('COM_JEA_IMPORT_FROM_JEA_DESC')?></p>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&task=properties.import') ?>" method="post" name="adminForm" id="item-form" enctype="application/x-www-form-urlencoded">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&task=properties.import') ?>" method="post" name="adminForm" id="adminForm" enctype="application/x-www-form-urlencoded">
   <div class="width-100">
     <fieldset class="adminform">
       <legend>
@@ -40,3 +47,4 @@ JHTML::_('behavior.tooltip');
     </fieldset>
   </div>
 </form>
+</div>

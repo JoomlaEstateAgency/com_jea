@@ -14,6 +14,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
+jimport( 'joomla.filesystem.folder' );
 
 require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
@@ -24,7 +25,7 @@ require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaModelFeatures extends JModel
+class JeaModelFeatures extends JModelLegacy
 {
 
     /**

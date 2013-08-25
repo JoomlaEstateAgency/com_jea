@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controller');
 
-class JeaControllerProperties extends JController
+class JeaControllerProperties extends JControllerLegacy
 {
 
     public function search()

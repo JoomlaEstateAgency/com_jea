@@ -14,7 +14,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.model');
 
-class JeaModelProperty extends JModel
+class JeaModelProperty extends JModelLegacy
 {
 
     /**
@@ -214,7 +214,7 @@ class JeaModelProperty extends JModel
         JRequest::setVar('limit', 0);
         JRequest::setVar('limitstart', 0);
 
-        $properties = JModel::getInstance('Properties', 'JeaModel');
+        $properties = JModelLegacy::getInstance('Properties', 'JeaModel');
         $items = $properties->getItems();
 
         // Restore pagination

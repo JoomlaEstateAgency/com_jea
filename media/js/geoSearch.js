@@ -7,7 +7,6 @@ var JEAGeoSearch = new Class({
 	map : null,
 
 	options : {
-		waitImage : 'media/com_jea/images/spinner.gif',
 		opacity : 0.5,
 		counterElement : '',
 		defaultArea : '',
@@ -126,12 +125,11 @@ var JEAGeoSearch = new Class({
 
 	applyMask : function() {
 		this.mask = new Element('div');
+		this.mask.set('class', 'google-map-mask')
 		this.mask.setStyles({
 			'position' : 'absolute',
 			'width' : this.content.getStyle('width'),
 			'height' : this.content.getStyle('height'),
-			'background' : '#000 url(' + this.options.waitImage
-					+ ') center center no-repeat',
 			'z-index' : '9999'
 		});
 

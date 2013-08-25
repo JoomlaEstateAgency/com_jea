@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'tables'.DS.'features.php';
 
-class JeaViewProperties extends JView
+class JeaViewProperties extends JViewLegacy
 {
 
     public function display( $tpl = null )
@@ -114,7 +114,7 @@ class JeaViewProperties extends JView
         $html = '<a href="javascript:changeOrdering(\''.$order.'\',\''.$direction.'\');" >';
         $html .= JText::_( $title );
         if ($order == $selected ) {
-            $html .= JHTML::_('image.site', '/media/com_jea/images/'.$images[$index], NULL, NULL);
+            $html .= '<img src="' . $this->baseurl . '/media/com_jea/images/' . $images[$index] . '" alt="" />';
         }
         $html .= '</a>';
         return $html;
@@ -135,8 +135,7 @@ class JeaViewProperties extends JView
 
             if (file_exists($imagePath.DS.'thumb-min'.DS.$row->id.'-'.$image->name)) {
                 // If the thumbnail already exists, display it directly
-                $baseURL = JURI::root(true);
-                return $baseURL.'/images/com_jea/thumb-min/'.$row->id.'-'.$image->name;
+                return  $this->baseurl.'/images/com_jea/thumb-min/'.$row->id.'-'.$image->name;
 
             } elseif (file_exists($imagePath.DS.'images'.DS.$row->id.DS.$image->name)) {
                 // If the thumbnail doesn't exist, generate it and output it on the fly

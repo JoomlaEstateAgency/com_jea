@@ -39,6 +39,7 @@ if (!empty($filters)) {
 <form action="<?php echo JRoute::_('index.php?option=com_jea&view=featurelist') ?>" method="post"
       name="adminForm" id="adminForm">
 
+<?php if ((float) JVERSION < 3): ?>
   <fieldset id="filter-bar">
     <div class="clr"></div>
     <div class="filter-search fltlft">
@@ -60,16 +61,67 @@ if (!empty($filters)) {
     }
     ?>
     <?php if ($this->state->get('language_enabled')): ?>
-	  <select name="filter_language" class="inputbox" onchange="this.form.submit()">
-		<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
-		<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
-	  </select>
-	<?php endif; ?>
+      <select name="filter_language" class="inputbox" onchange="this.form.submit()">
+        <option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+        <?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+      </select>
+    <?php endif; ?>
     </div>
     <div class="clr"></div>
   </fieldset>
+<?php endif ?>
 
-  <table class="adminlist">
+  <?php if (!empty( $this->sidebar)) : ?>
+  <div id="j-sidebar-container" class="span2">
+    <?php echo $this->sidebar ?>
+    <hr class="hr-condensed" />
+    <?php
+    foreach ($filters as $filter) {
+        $filter = explode(':', $filter);
+        $filterKey = $filter[0];
+        $filterHtml = $filter[1];
+        echo JHtml::_($filterHtml, $this->state->get('filter.'.$filterKey), $filterKey, 'onchange="document.adminForm.submit();"' );
+    }
+    ?>
+    <?php if ($this->state->get('language_enabled')): ?>
+    <select name="filter_language" class="inputbox span12 small" onchange="this.form.submit()">
+      <option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
+      <?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+    </select>
+    <?php endif ?>
+  </div>
+  <?php endif ?>
+
+  <div id="j-main-container" class="span10">
+  <?php if ((float) JVERSION > 3): ?>
+    <div id="filter-bar" class="btn-toolbar">
+      <div class="filter-search btn-group pull-left">
+        <label for="filter_search" class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL') ?></label>
+        <input type="text" name="filter_search"
+          placeholder="<?php echo JText::_('COM_JEA_PROPERTIES_SEARCH_FILTER_DESC'); ?>"
+          id="filter_search"
+          value="<?php echo $this->escape($this->state->get('filter.search')); ?>"
+          title="<?php echo JText::_('COM_JEA_PROPERTIES_SEARCH_FILTER_DESC'); ?>" />
+      </div>
+      <div class="btn-group pull-left hidden-phone">
+        <button class="btn tip hasTooltip" type="submit"
+          title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
+          <i class="icon-search"></i>
+        </button>
+        <button class="btn tip hasTooltip" type="button"
+          onclick="document.id('filter_search').value='';this.form.submit();"
+          title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>">
+          <i class="icon-remove"></i>
+        </button>
+      </div>
+      <div class="btn-group pull-right hidden-phone">
+        <label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC') ?></label>
+        <?php echo $this->pagination->getLimitBox() ?>
+      </div>
+    </div>
+    <?php endif ?>
+
+  <table class="adminlist table table-striped">
     <thead>
       <tr>
         <th width="1%">
@@ -152,6 +204,7 @@ if (!empty($filters)) {
       <?php endforeach ?>
     </tbody>
   </table>
+  </div>
 
   <div>
     <input type="hidden" name="task" value="" /> 

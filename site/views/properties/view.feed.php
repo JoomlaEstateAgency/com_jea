@@ -15,7 +15,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-class JeaViewProperties extends JView
+class JeaViewProperties extends JViewLegacy
 {
 
     function display($tpl = null)

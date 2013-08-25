@@ -19,11 +19,18 @@ JHtml::_('behavior.multiselect');
 $altrow=1;
 ?>
 
-
 <form action="<?php echo JRoute::_('index.php?option=com_jea&view=properties') ?>" method="post"
       name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-  <table class="adminlist">
+<?php if (!empty( $this->sidebar)) : ?>
+    <div id="j-sidebar-container" class="span2">
+      <?php echo $this->sidebar; ?>
+    </div>
+<?php endif ?>
+
+<div id="j-main-container" <?php if (!empty( $this->sidebar)) echo 'class="span10"' ?>>
+
+  <table class="adminlist table table-striped">
     <thead>
       <tr>
         <th width="1%">
@@ -31,7 +38,7 @@ $altrow=1;
                  onclick="Joomla.checkAll(this)" />
         </th>
         <th width="60%"><?php echo JText::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?></th>
-        <th width="39%"><?php echo JText::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?></th>
+        <th width="39%" class="center"><?php echo JText::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?></th>
     </thead>
 
     <tbody>
@@ -53,4 +60,8 @@ $altrow=1;
     <input type="hidden" name="boxchecked" value="0" />
     <?php echo JHtml::_('form.token') ?>
   </div>
+
+</div>
 </form>
+
+

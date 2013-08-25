@@ -23,7 +23,7 @@ jimport('joomla.image');
  * @package     Joomla.Site
  * @subpackage  com_jea
  */
-class JeaControllerThumbnail extends JController
+class JeaControllerThumbnail extends JControllerLegacy
 {
 
     public function create()

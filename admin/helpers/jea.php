@@ -54,7 +54,11 @@ class JeaHelper
             if (preg_match('#&view=([a-z]+)#', $item->link, $matches)) {
                $active = $matches[1] == $viewName;
             }
-            $menu->appendButton(JText::_($item->title), $item->link, $active);
+            if ((float) JVERSION > 3)  {
+                JHtmlSidebar::addEntry(JText::_($item->title),$item->link, $active);
+            } else {
+                $menu->appendButton(JText::_($item->title), $item->link, $active);
+            }
         }
     }
 
@@ -109,6 +113,11 @@ class JeaHelper
 
         foreach ($buttons as &$button) {
             $button['text'] = JText::_($button['text']);
+
+            if ((float) JVERSION > 3) {
+                $button['image'] = str_replace(array('.png', 'icon-'), '', basename($button['image']));
+            }
+
             if (!empty($button['access'])) {
                 $button['access'] = json_decode($button['access']);
             }

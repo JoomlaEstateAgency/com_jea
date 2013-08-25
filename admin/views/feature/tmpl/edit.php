@@ -18,7 +18,7 @@ JHtml::_('behavior.tooltip');
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>"
-      method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
+      method="post" name="adminForm" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
   <fieldset class="adminform">
     <ul class="adminformlist">

@@ -15,7 +15,14 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JHTML::stylesheet('media/com_jea/css/jea.admin.css');
 
-
 ?>
 
-<div class="cpanel"><?php echo $this->getIcons()?></div>
+<?php if (!empty( $this->sidebar)) : ?>
+<div id="j-sidebar-container" class="span2">
+  <?php echo $this->sidebar ?>
+</div>
+<?php endif ?>
+
+<div id="j-main-container" class="span10">
+  <div class="cpanel"><?php echo $this->getIcons()?></div>
+</div>

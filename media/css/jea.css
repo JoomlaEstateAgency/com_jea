@@ -12,6 +12,14 @@
 }
 
 /*** Properties Search layout ***/
+#jea-search-form label {
+	display: inline !important;
+}
+
+#jea-search-form input {
+	width: auto !important;
+}
+
 #jea-search-form .jea-counter {
 	float: right;
 }
@@ -229,6 +237,10 @@ table.jea-data td {
 	width: 500px;
 	height: 300px;
 	margin-bottom: 1.5em;
+}
+
+.google-map-mask {
+	background: #000 url(../images/spinner.gif) center center no-repeat;
 }
 
 /*** SqueezeBox layout ***/
@@ -456,3 +468,17 @@ ul.gallery label {
 .slider_max_value {
 	margin-left: 10px;
 }
+
+/* property form */
+
+#adminForm label {
+	display: inline-block !important;
+    vertical-align: top;
+    width: 13em;
+}
+
+#adminForm input {
+	width: auto !important;
+}
+
+

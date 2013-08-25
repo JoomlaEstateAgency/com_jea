@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @package     Joomla.Site
  * @subpackage  com_jea
  */
-class JeaControllerProperties extends JController
+class JeaControllerProperties extends JControllerLegacy
 {
     protected $default_view = 'properties';
 

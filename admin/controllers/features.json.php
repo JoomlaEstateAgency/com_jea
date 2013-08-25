@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaControllerFeatures extends JController
+class JeaControllerFeatures extends JControllerLegacy
 {
 
     /**

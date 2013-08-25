@@ -12,6 +12,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
+if ((float) JVERSION > 3) {
+    // require dirname(__FILE__) . '/edit-J3.x.php' ;
+    // return;
+}
+
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
@@ -22,9 +27,9 @@ JHTML::script('media/com_jea/js/property.form.js', true);
   <h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
 </div>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>" method="post" name="adminForm" id="item-form" class="form-validate" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>" method="post" id="adminForm" class="form-validate" enctype="multipart/form-data">
 
-  <div class="width-60 fltlft">
+  <div class="width-60 fltlft span8 form-horizontal">
     <fieldset class="adminform">
       <legend>
       <?php echo empty($this->item->id) ? JText::_('COM_JEA_NEW_PROPERTY') : JText::sprintf('COM_JEA_EDIT_PROPERTY', $this->item->id) ?>
@@ -39,8 +44,12 @@ JHTML::script('media/com_jea/js/property.form.js', true);
       </ul>
 
       <div class="clr"></div>
+      <?php echo $this->form->getLabel('description') ?>
+      <div class="clr"></div>
+      <?php echo $this->form->getInput('description') ?>
+      <div class="clr"></div>
 
-      <fieldset>
+      <fieldset style="margin-top:15px">
         <legend><?php echo JText::_('COM_JEA_LOCALIZATION')?></legend>
         <ul class="adminformlist">
         <?php foreach ($this->form->getFieldset('localization') as $field): ?>
@@ -76,15 +85,10 @@ JHTML::script('media/com_jea/js/property.form.js', true);
 
       </fieldset>
 
-      <div class="clr"></div>
-      <?php echo $this->form->getLabel('description') ?>
-      <div class="clr"></div>
-      <?php echo $this->form->getInput('description') ?>
-
     </fieldset>
   </div>
 
-  <div class="width-40 fltrt">
+  <div class="width-40 fltrt span4">
   <?php echo JHtml::_('sliders.start', 'property-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
 
   <?php $dispatcher->trigger('onAfterStartPanels', array(&$this->item)) ?>
@@ -118,7 +122,7 @@ JHTML::script('media/com_jea/js/property.form.js', true);
   <div class="clr"></div>
 
   <?php if ($this->canDo->get('core.admin')): ?>
-  <div class="width-100 fltlft">
+  <div class="width-100 fltlft span8" style="margin-top: 20px">
   <?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
 
   <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_FIELDSET_RULES'), 'access-rules') ?>

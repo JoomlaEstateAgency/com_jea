@@ -26,7 +26,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'upload.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaControllerFeatures extends JController
+class JeaControllerFeatures extends JControllerLegacy
 {
 
 
@@ -39,7 +39,7 @@ class JeaControllerFeatures extends JController
 
         if (!empty($features)) {
             $config   = JFactory::getConfig();
-            $exportPath = $config->getValue('tmp_path').DS.'jea_export';
+            $exportPath = $config->get('tmp_path').DS.'jea_export';
 
             if (JFolder::create($exportPath) === false) {
                 $msg= JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE').' : '.$exportPath;

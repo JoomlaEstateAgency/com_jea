@@ -123,9 +123,9 @@ $this->document->addScriptDeclaration($script);
       <?php endif ?>
 
       <?php if ($row->published): $title = $canChange ? 'JLIB_HTML_UNPUBLISH_ITEM' : 'COM_JEA_PUBLISHED';  ?>
-          <?php echo JHTML::_('image.site', 'published.png', '/media/com_jea/images/', null, '', JText::_('COM_JEA_PUBLISHED'),  array('title' => JText::_($title))) ?>
+          <img src="<?php echo $this->baseurl.'/media/com_jea/images/published.png' ?>" alt="<?php echo JText::_('COM_JEA_PUBLISHED') ?>" title="<?php echo JText::_($title) ?>" />
       <?php else: $title = $canChange ? 'JLIB_HTML_PUBLISH_ITEM' : 'COM_JEA_UNPUBLISHED';?>
-          <?php echo JHTML::_('image.site', 'unpublished.png', '/media/com_jea/images/', null, '', JText::_('COM_JEA_UNPUBLISHED'),  array('title' => JText::_($title))) ?>
+          <img src="<?php echo $this->baseurl.'/media/com_jea/images/unpublished.png' ?>" alt="<?php echo JText::_('COM_JEA_UNPUBLISHED') ?>" title="<?php echo JText::_($title) ?>" />
       <?php endif?>
       
       <?php if ($canChange): ?>
@@ -138,7 +138,9 @@ $this->document->addScriptDeclaration($script);
         <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.delete&id='.$row->id ) ?>" 
            title="<?php echo JText::_('JACTION_DELETE') ?>"
            onclick="return confirm('<?php echo JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE') ?>')">
-         <?php echo JHTML::_('image.site', 'media_trash.png', '/media/com_jea/images/') ?></a>
+         <img src="<?php echo $this->baseurl.'/media/com_jea/images/media_trash.png' ?>" alt="" />
+         </a>
+         
       </td>
       <?php endif ?>
     </tr>

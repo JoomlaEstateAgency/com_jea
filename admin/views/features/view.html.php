@@ -23,14 +23,21 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewFeatures extends JView
+class JeaViewFeatures extends JViewLegacy
 {
     function display( $tpl = null )
     {
-        JeaHelper::addSubmenu('features');
+
         $this->items = $this->get('Items');
+        $this->pagination	= $this->get('Pagination');
+        $this->state		= $this->get('State');
+
+        JeaHelper::addSubmenu('features');
 
         $this->addToolbar();
+        if ((float) JVERSION > 3) {
+            $this->sidebar = JHtmlSidebar::render();
+        }
 
         parent::display($tpl);
     }
@@ -47,10 +54,10 @@ class JeaViewFeatures extends JView
         JToolBarHelper::title( JText::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea.png' );
 
         if ($canDo->get('core.manage')) {
-            JToolBarHelper::custom('features.import', 'import', '', 'Import', false);
+            JToolBarHelper::custom('features.import', 'database', '', 'Import', false);
         }
 
-        JToolBarHelper::custom('features.export', 'export', '', 'Export', false);
+        JToolBarHelper::custom('features.export', 'download', '', 'Export', false);
 
         if ($canDo->get('core.admin')) {
             JToolBarHelper::divider();

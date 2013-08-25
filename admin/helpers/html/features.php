@@ -205,7 +205,11 @@ abstract class JHtmlFeatures
             $attr['class'] = trim($attr['class']);
 
         } else {
-            $attr = 'class="inputbox" size="1" '. $attr;
+            if ((float) JVERSION > 3 && JFactory::getApplication()->isAdmin()) {
+                $attr = 'class="inputbox span12 small" size="1" '. $attr;
+            } else {
+                $attr = 'class="inputbox" size="1" '. $attr;
+            }
         }
 
         return JHTML::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);

@@ -16,7 +16,7 @@ jimport('joomla.application.component.view');
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-class JeaViewProperty extends JView
+class JeaViewProperty extends JViewLegacy
 {
     public function display( $tpl = null )
     {

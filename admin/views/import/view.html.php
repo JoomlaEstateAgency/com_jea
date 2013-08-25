@@ -23,7 +23,7 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewImport extends JView
+class JeaViewImport extends JViewLegacy
 {
 
     function display( $tpl = null )
@@ -36,9 +36,12 @@ class JeaViewImport extends JView
         $this->user        = JFactory::getUser();
         $this->form        = $this->get('Form');
         $this->state       = $this->get('State');
- 
 
         $this->addToolbar();
+
+        if ((float) JVERSION > 3) {
+            $this->sidebar = JHtmlSidebar::render();
+        }
 
         parent::display($tpl);
     }

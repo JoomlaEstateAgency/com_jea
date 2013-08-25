@@ -14,7 +14,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-class JeaViewForm extends JView
+class JeaViewForm extends JViewLegacy
 {
     public function display( $tpl = null )
     {

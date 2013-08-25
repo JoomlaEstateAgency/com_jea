@@ -83,11 +83,11 @@ ul.gallery .imgTools a.delete-img {
 	background-image:url(../images/header/icon-48-jea.png);
 }
 
-.icon-32-export {
+.icon-32-download {
 	background: url(../images/export.png);
 }
 
-.icon-32-import {
+.icon-32-database {
 	background: url(../images/import.png);
 }
 
@@ -131,3 +131,160 @@ ul#amenities li label{
 	min-width: 75px;
 	padding: 0 20px 0 0;
 }
+
+/*** Specific to Joomla 3.x */
+
+
+body.com_jea h1.page-title {
+	background:url(../images/header/icon-36-jea.png) left center no-repeat;
+	padding-left: 45px;
+}
+
+.admin .clr {
+	clear: both;
+	height: 0;
+	overflow: hidden;
+}
+
+.admin dl.tabs {
+	float: left;
+	margin: 10px 0 -1px;
+	z-index: 50;
+}
+
+.admin dl.tabs dt {
+	background: none repeat scroll 0 0 #E9E9E9;
+	border: 1px solid #CCCCCC;
+	color: #666666;
+	float: left;
+	margin-left: 3px;
+	padding: 4px 10px;
+}
+
+.admin dl.tabs dt.open {
+	background: none repeat scroll 0 0 #F9F9F9;
+	border-bottom: 1px solid #F9F9F9;
+	color: #000000;
+	z-index: 100;
+}
+
+.admin div.current {
+	border: 1px solid #CCCCCC;
+	clear: both;
+	padding: 10px;
+}
+
+.admin dl.tabs dt h3 {
+	font-size: 14px ;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+.admin dl.tabs dt h3 a:link {
+	color: #333333;
+	outline: medium none;
+	text-decoration: none;
+}
+
+.admin input.text-area-order {
+	width: auto;
+}
+
+.admin td.order span {
+	display: none;
+}
+
+.admin fieldset ul {
+	margin: 0;
+	padding: 0;
+}
+
+.admin ul.adminformlist, .admin ul.adminformlist li,
+.admin ul.gallery, .admin ul.gallery li {
+	list-style: none outside none;
+	margin: 0;
+	padding: 0;
+}
+
+.admin ul.adminformlist label {
+	min-width: 135px;
+	padding: 0 5px 0 0;
+	clear: left;
+	display: block;
+	float: left;
+	margin: 5px 0;
+}
+
+.admin ul.adminformlist input, 
+.admin ul.adminformlist textarea, 
+.admin ul.adminformlist select, 
+.admin ul.adminformlist img, 
+.admin ul.adminformlist button {
+	float: left;
+	margin: 5px 5px 5px 0;
+	width: auto;
+}
+
+.admin ul.adminformlist input, .admin ul.adminformlist select {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid silver;
+	font-size: 0.909em;
+}
+
+.admin .input-append, .admin .input-prepend {
+	font-size: inherit;
+	white-space: nowrap;
+	display: block !important;
+	margin-bottom: 5px;
+	vertical-align: middle;
+}
+
+.admin .pane-sliders .panel {
+	border: 1px solid #CCCCCC;
+	margin-bottom: 3px;
+}
+
+.pane-sliders .panel h3 {
+	background: none repeat scroll 0 0 #FAFAFA;
+}
+
+.pane-sliders .title {
+	cursor: pointer;
+	margin: 0;
+	padding: 2px 2px 2px 5px;
+}
+
+.pane-toggler-down {
+	border-bottom: 1px solid #CCCCCC;
+}
+
+fieldset.panelform {
+	clear: both;
+	overflow: hidden;
+	padding: 5px 17px 17px;
+}
+
+.admin .adminformlist li {
+	overflow: hidden;
+}
+
+/* Tools view */
+
+i.icon-48-import {
+	display: inline-block;
+	background: url("../images/header/icon-48-import.png") left center no-repeat;
+	height: 48px;
+	width: 48px;
+	vertical-align: middle;
+}
+
+.cpanel .span12 {
+	display: table-cell !important;
+	margin-bottom: 10px;
+}
+
+.cpanel .span12 a {
+	vertical-align: middle;
+}
+

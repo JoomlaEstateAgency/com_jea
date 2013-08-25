@@ -12,15 +12,23 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
+if (!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
+
 // Include dependancies
 jimport('joomla.application.component.controller');
 
-if (JRequest::getCmd('task') == '') {
+$input = JFactory::getApplication()->input;
+
+if ($input->getCmd('task') == '') {
     // In order to execute controllers/default.php as default controller
-    JRequest::setVar('task', 'default.display');
+    // and display as default method
+    $input->set('task', 'default.display');
 }
 
-$controller = JController::getInstance('jea');
-$controller->execute(JRequest::getCmd('task'));
+$controller = JControllerLegacy::getInstance('jea');
+if ((float) JVERSION > 3) {
+    $controller->authorise($input->getCmd('task'));
+}
+$controller->execute($input->getCmd('task'));
 $controller->redirect();
 

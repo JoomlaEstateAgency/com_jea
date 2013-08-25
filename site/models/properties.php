@@ -204,6 +204,9 @@ class JeaModelProperties extends JModelList
                 // Get only the user properties
                 $query->where('p.created_by =' . (int) $user->get('id'));
             }
+            if (!$canEditOwn) {
+                throw new JException(JText::_('JERROR_ALERTNOAUTHOR'));
+            }
 
         } else {
 

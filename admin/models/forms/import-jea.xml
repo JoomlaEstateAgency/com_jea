@@ -2,9 +2,9 @@
 
 <form>
 	<fieldset name="params">
-		<field name="jea_version" type="radio" default="1.1" label="COM_JEA_FIELD_JEA_VERSION_LABEL" description="COM_JEA_FIELD_JEA_VERSION_DESC" >
-			<option value="1.1">1.1</option>
-			<option value="2.0">2.0</option>
+		<field name="jea_version" type="list" default="1.x" label="COM_JEA_FIELD_JEA_VERSION_LABEL" description="COM_JEA_FIELD_JEA_VERSION_DESC" >
+			<option value="1.x">1.x</option>
+			<option value="2.x">2.x</option>
 		</field>
 
 		<field name="joomla_path" type="text" default="" label="COM_JEA_FIELD_JOOMLA_PATH_LABEL" description="COM_JEA_FIELD_JOOMLA_PATH_DESC" class="inputbox" size="60" />

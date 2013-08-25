@@ -23,7 +23,7 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewFeature extends JView
+class JeaViewFeature extends JViewLegacy
 {
 
     protected $form;

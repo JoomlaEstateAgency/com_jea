@@ -23,19 +23,22 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewTools extends JView
+class JeaViewTools extends JViewLegacy
 {
     public function display( $tpl = null )
     {
         JeaHelper::addSubmenu('tools');
         JToolBarHelper::title( JText::_('COM_JEA_TOOLS'), 'jea.png' );
-        parent::display($tpl);
 
         $canDo  = JeaHelper::getActions();
 
         if ($canDo->get('core.admin')) {
             JToolBarHelper::preferences('com_jea');
         }
+        if ((float) JVERSION > 3) {
+            $this->sidebar = JHtmlSidebar::render();
+        }
+        parent::display($tpl);
     }
 
     protected function getIcons()

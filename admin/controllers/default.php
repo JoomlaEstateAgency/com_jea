@@ -20,7 +20,7 @@ jimport('joomla.application.component.controller');
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaControllerDefault extends JController
+class JeaControllerDefault extends JControllerLegacy
 {
     protected $default_view = 'default';
 }

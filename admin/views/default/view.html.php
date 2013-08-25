@@ -15,7 +15,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
+require JPATH_COMPONENT.'/helpers/jea.php';
 
 /**
  * JEA default view.
@@ -23,8 +23,9 @@ require JPATH_COMPONENT.DS.'helpers'.DS.'jea.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  */
-class JeaViewDefault extends JView
+class JeaViewDefault extends JViewLegacy
 {
+    protected $sidebar = '';
 
     public function display( $tpl = null )
     {
@@ -36,6 +37,11 @@ class JeaViewDefault extends JView
         if ($canDo->get('core.admin')) {
             JToolBarHelper::preferences('com_jea');
         }
+
+        if ((float) JVERSION > 3) {
+            $this->sidebar = JHtmlSidebar::render();
+        }
+
         parent::display($tpl);
     }
 
@@ -45,8 +51,8 @@ class JeaViewDefault extends JView
      */
     protected function getVersion()
     {
-        if (is_file(JPATH_COMPONENT . DS . 'jea.xml')) {
-            $xml = JFactory::getXML(JPATH_COMPONENT . DS . 'jea.xml');
+        if (is_file(JPATH_COMPONENT . '/jea.xml')) {
+            $xml = JFactory::getXML(JPATH_COMPONENT . '/jea.xml');
             return $xml->version;
         }
          

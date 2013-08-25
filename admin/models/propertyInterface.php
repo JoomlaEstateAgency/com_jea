@@ -11,6 +11,7 @@
 
 jimport('joomla.user.user');
 jimport('joomla.mail.helper');
+jimport( 'joomla.filesystem.folder' );
 
 require_once JPATH_COMPONENT . '/tables/properties.php';
 

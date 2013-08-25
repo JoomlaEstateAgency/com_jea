@@ -13,6 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modellist');
+jimport( 'joomla.filesystem.folder' );
 
 /**
  * Feature list model class.

@@ -13,6 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.modeladmin');
+jimport( 'joomla.filesystem.folder' );
 
 require_once JPATH_COMPONENT.DS.'tables'.DS.'features.php';
 
