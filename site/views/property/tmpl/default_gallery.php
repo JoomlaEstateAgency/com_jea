@@ -51,7 +51,7 @@ window.addEvent('domready', function() {
 });
 EOB;
 
-JHTML::_('behavior.mootools');
+JHtml::_('behavior.framework');
 $this->document->addScriptDeclaration($script);
 $gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
 $img_width = $this->params->get('thumb_medium_width', 400);

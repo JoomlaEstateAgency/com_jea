@@ -13,7 +13,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 
-JHTML::_('behavior.mootools');
+JHtml::_('behavior.framework');
 
 $langs  = explode('-', $this->document->getLanguage());
 
