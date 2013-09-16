@@ -94,11 +94,15 @@ var JEAGeoSearch = new Class({
 		if (form) {
 
 			var transTypes = document.getElements('[name=filter_transaction_type]');
-			transTypes.each(function(item) {
-				if (item.get('checked')) {
-					filters['filter_transaction_type'] = item.get('value');
-				}
-			});
+			if (transTypes.length > 1) {
+				transTypes.each(function(item) {
+					if (item.get('checked')) {
+						filters['filter_transaction_type'] = item.get('value');
+					}
+				});
+			} else if (transTypes.length == 1) {
+				filters['filter_transaction_type'] = transTypes[0].get('value');
+			}
 
 			fields.each(function(field) {
 				var inputfield = document.getElement('[name='+field+']');
