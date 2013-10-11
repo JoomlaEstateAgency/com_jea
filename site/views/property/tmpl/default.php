@@ -13,7 +13,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('media/com_jea/css/jea.css');
+JHtml::stylesheet('media/com_jea/css/jea.css');
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('jea');
 ?>
@@ -33,7 +33,7 @@ JPluginHelper::importPlugin('jea');
 
 <?php if ( $this->params->get('show_creation_date', 0) ) : ?>
 <p>
-  <span class="date"><?php echo JHTML::_('date',  $this->row->created, JText::_('DATE_FORMAT_LC3') ) ?></span>
+  <span class="date"><?php echo JHtml::_('date',  $this->row->created, JText::_('DATE_FORMAT_LC3') ) ?></span>
 </p>
 <?php endif ?>
 

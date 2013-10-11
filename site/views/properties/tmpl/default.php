@@ -12,7 +12,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('media/com_jea/css/jea.css');
+JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 $rowsCount = count( $this->items );
@@ -78,7 +78,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
           </a>
 
           <?php if ( $this->params->get('show_creation_date', 0)): ?>
-          <span class="date"><?php echo JHTML::_('date',  $row->created, JText::_('DATE_FORMAT_LC3')) ?></span>
+          <span class="date"><?php echo JHtml::_('date',  $row->created, JText::_('DATE_FORMAT_LC3')) ?></span>
           <?php endif ?>
         </dt>
 

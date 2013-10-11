@@ -20,8 +20,8 @@ if ((float) JVERSION > 3) {
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
-JHTML::script('media/com_jea/js/property.form.js', true);
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::script('media/com_jea/js/property.form.js', true);
 ?>
 <div id="ajaxupdating">
   <h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>

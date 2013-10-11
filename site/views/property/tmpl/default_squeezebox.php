@@ -32,7 +32,7 @@ EOB;
 $this->document->addScriptDeclaration($script)
                ->addScript(JURI::root(true).'/media/com_jea/js/jea-squeezebox.js');
 
-JHTML::_('behavior.modal', 'a.jea_modal', array('onOpen' => '\onOpenSqueezebox'));
+JHtml::_('behavior.modal', 'a.jea_modal', array('onOpen' => '\onOpenSqueezebox'));
 
 $gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
 $img_width = $this->params->get('thumb_medium_width', 400);

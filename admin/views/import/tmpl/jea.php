@@ -13,8 +13,8 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
-JHTML::_('behavior.tooltip');
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::_('behavior.tooltip');
 ?>
 
 <?php if (!empty( $this->sidebar)) : ?>

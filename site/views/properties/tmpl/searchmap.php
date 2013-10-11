@@ -16,7 +16,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('media/com_jea/css/jea.css');
+JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
@@ -39,10 +39,10 @@ if (empty($transationType) && empty($states['filter_transaction_type'])) {
 $fields = json_encode($states);
 // Load the Mootools More framework if not already inclued
 JHtml::_('behavior.framework', true);
-JHTML::script('media/com_jea/js/search.js', true);
-JHTML::script('media/com_jea/js/geoSearch.js');
-JHTML::script('media/com_jea/js/geoxml3.js');
-JHTML::script('media/com_jea/js/biSlider.js');
+JHtml::script('media/com_jea/js/search.js', true);
+JHtml::script('media/com_jea/js/geoSearch.js');
+JHtml::script('media/com_jea/js/geoxml3.js');
+JHtml::script('media/com_jea/js/biSlider.js');
 
 $langs  = explode('-', $this->document->getLanguage());
 $lang   = $langs[0];

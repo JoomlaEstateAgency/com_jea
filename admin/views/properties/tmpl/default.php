@@ -15,7 +15,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
@@ -150,7 +150,7 @@ $transactionType = $this->state->get('filter.transaction_type');
           <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
         </th>
         <th width="10%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'COM_JEA_FIELD_REF_LABEL', 'p.ref', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'COM_JEA_FIELD_REF_LABEL', 'p.ref', $listDirection , $listOrder ) ?>
         </th>
         <th class="nowrap">
           <?php echo JText::_('COM_JEA_FIELD_PROPERTY_TYPE_LABEL') ?>
@@ -165,13 +165,13 @@ $transactionType = $this->state->get('filter.transaction_type');
           <?php echo JText::_('COM_JEA_FIELD_DEPARTMENT_LABEL') ?>
         </th>
         <th width="10%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'COM_JEA_FIELD_PRICE_LABEL', 'p.price', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'COM_JEA_FIELD_PRICE_LABEL', 'p.price', $listDirection , $listOrder ) ?>
         </th>
         <th width="1%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JFEATURED', 'p.featured', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JFEATURED', 'p.featured', $listDirection , $listOrder ) ?>
         </th>
         <th width="1%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JSTATUS', 'p.published', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JSTATUS', 'p.published', $listDirection , $listOrder ) ?>
         </th>
         <th width="5%" class="nowrap">
           <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirection, $listOrder); ?>
@@ -183,19 +183,19 @@ $transactionType = $this->state->get('filter.transaction_type');
           <?php endif; ?>
         </th>
         <th width="10%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'author', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'author', $listDirection , $listOrder ) ?>
         </th>
         <th width="5%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JDATE', 'p.created', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JDATE', 'p.created', $listDirection , $listOrder ) ?>
         </th>
         <th width="1%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JGLOBAL_HITS', 'p.hits', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'p.hits', $listDirection , $listOrder ) ?>
         </th>
         <th width="5%" class="nowrap">
             <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirection, $listOrder); ?>
         </th>
         <th width="1%" class="nowrap">
-          <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $listDirection , $listOrder ) ?>
+          <?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'p.id', $listDirection , $listOrder ) ?>
         </th>
       </tr>
     </thead>
@@ -273,7 +273,7 @@ $transactionType = $this->state->get('filter.transaction_type');
         <?php endif ?>
         </td>
         <td class="center">
-          <?php echo JHTML::_('date',  $item->created, JText::_('DATE_FORMAT_LC4') ) ?>
+          <?php echo JHtml::_('date',  $item->created, JText::_('DATE_FORMAT_LC4') ) ?>
         </td>
         <td class="center"><?php echo $item->hits ?></td>
         <td class="center">

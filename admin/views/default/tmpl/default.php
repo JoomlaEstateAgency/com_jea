@@ -13,7 +13,7 @@
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.html.html.tabs' );
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
 ?>
 

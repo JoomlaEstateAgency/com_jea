@@ -11,7 +11,7 @@
 // no direct access
 defined('_JEXEC') or die('Restricted access');
 
-JHTML::stylesheet('media/com_jea/css/jea.css');
+JHtml::stylesheet('media/com_jea/css/jea.css');
 
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR.'/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');

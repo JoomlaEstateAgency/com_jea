@@ -15,7 +15,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');

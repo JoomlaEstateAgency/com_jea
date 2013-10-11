@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
 if (!is_array($this->row->images)) {
     return ;
 }
-JHTML::_('behavior.modal');
+JHtml::_('behavior.modal');
 
 $mainImage = $this->row->images[0];
 

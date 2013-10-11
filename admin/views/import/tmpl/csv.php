@@ -13,7 +13,7 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-JHTML::stylesheet('media/com_jea/css/jea.admin.css');
+JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
 <?php if (!empty( $this->sidebar)) : ?>
