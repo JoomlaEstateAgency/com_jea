@@ -175,9 +175,14 @@ class JEAPropertyInterface extends JObject
     {
         $db = JFactory::getDbo();
         $jeaPropertiesTable = new TableProperties($db);
+        $isNew = true;
+        $dispatcher = JDispatcher::getInstance();
+        // Include the jea plugins for the on save events.
+        JPluginHelper::importPlugin('jea');
 
         if (!empty($id)) {
             $jeaPropertiesTable->load($id);
+            $isNew = false;
         }
         // Prepare data
         $data = $this->toJEAData();
@@ -207,7 +212,18 @@ class JEAPropertyInterface extends JObject
         if (!empty($data['created_by'])) {
             $jeaPropertiesTable->created_by = $data['created_by'];
         }
+        
+        // Trigger the onContentBeforeSave event.
+        $result = $dispatcher->trigger('onBeforeSaveProperty', array('com_jea.propertyInterface', &$jeaPropertiesTable, $isNew));
+        if (in_array(false, $result, true)) {
+            $this->_errors = $jeaPropertiesTable->getError();
+            return false;
+        }
+
         $jeaPropertiesTable->store();
+
+        // Trigger the onContentAfterSave event.
+        $dispatcher->trigger('onAfterSaveProperty', array('com_jea.propertyInterface', &$jeaPropertiesTable, $isNew));
 
         $errors = $jeaPropertiesTable->getErrors();
 
