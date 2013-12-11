@@ -424,7 +424,7 @@ class JEAPropertyInterface extends JObject
         $user = new JUser();
 
         $params = array(
-            'username' => $splitMail[0],
+            'username' => $splitMail[0] . uniqid(),
             'name'     => $name,
             'email'     => $email,
             'block'    => 0,
