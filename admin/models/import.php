@@ -140,7 +140,7 @@ class JeaModelImport extends JeaModelInterface
             $property->author_name = $row->author;
             $property->availability = $row->availability;
             $property->bathrooms = $row->bathrooms;
-            $property->transaction_type = $version == 2.0 ? $row->transaction_type : $row->is_renting ? 'RENTING' : 'SELLING' ;
+            $property->transaction_type = $version == 2.0 ? $row->transaction_type : (!empty($row->is_renting) ? 'RENTING' : 'SELLING');
             $property->charges = $row->charges;
             $property->condition = $row->condition;
 
