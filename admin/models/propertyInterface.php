@@ -132,7 +132,7 @@ class JEAPropertyInterface extends JObject
         $data['town_id'] = JEAPropertyInterface::getFeatureId('towns', $this->town, null, $data['department_id']);
         $data['area_id'] = JEAPropertyInterface::getFeatureId('areas', $this->area, null, $data['town_id']);
 
-        $orientations = array('0', 'N', 'NE', 'NW', 'E', 'W', 'SW', 'SE');
+        $orientations = array('0', 'N', 'NE', 'NW', 'NS', 'E', 'EW', 'W', 'SW', 'SE');
         $orientation = strtoupper($this->orientation);
         if (in_array($orientation, $orientations)) {
             $data['orientation'] = $orientation;
