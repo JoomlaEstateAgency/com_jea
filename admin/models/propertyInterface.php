@@ -246,7 +246,9 @@ class JEAPropertyInterface extends JObject
                 $basename = basename($image);
                 if (in_array(JFile::getExt($basename), $validExtensions)) {
                     if (substr($image, 0, 7) == 'http://') {
-                        $this->downloadImage($image, $imgDir.'/'.$basename);
+                        if (!JFile::exists($imgDir.'/'.$basename)) {
+                            $this->downloadImage($image, $imgDir.'/'.$basename);
+                        }
                     } else {
                         JFile::copy($image, $imgDir.'/'.$basename);
                     }
