@@ -59,7 +59,7 @@ class JeaModelImport extends JeaModelInterface
     protected function &importFromJEA()
     {
         $properties = array();
-         
+
         $version = (float) $this->getState('param.jea_version', '1.1');
         $path = $this->getState('param.joomla_path');
         $path = rtrim($path, '/');
@@ -119,8 +119,12 @@ class JeaModelImport extends JeaModelInterface
         $query->join('LEFT', '#__jea_slogans AS s ON s.id = p.slogan_id');
         $db->setQuery($query);
         $rows = $db->loadObjectList();
+        if ($version > 1.1) {
+            $db->setQuery('SELECT * FROM #__jea_amenities');
+        } else {
+            $db->setQuery('SELECT * FROM #__jea_advantages');
+        }
 
-        $db->setQuery('SELECT * FROM #__jea_advantages');
         $amenities = $db->loadObjectList('id');
 
 
