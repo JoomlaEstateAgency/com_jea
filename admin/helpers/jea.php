@@ -116,6 +116,13 @@ class JeaHelper
 
             if ((float) JVERSION > 3) {
                 $button['image'] = str_replace(array('.png', 'icon-'), '', basename($button['image']));
+                parse_str($button['link'], $output);
+                if(!empty($output['view'])) {
+                    $button['image'] = '48-'.$output['view'];
+                    $button['name'] = $output['view'];
+                } else {
+                    $button['name'] = '';
+                }
             }
 
             if (!empty($button['access'])) {
