@@ -197,23 +197,21 @@ class JeaModelImport extends JeaModelInterface
     {
         $pictures = array();
 
-        if (isset($row->images)) {
-            // a JEA 2.x row
-            $list = JFolder::files($path.'/'.$row->id);
+        if (JFolder::exists($path.'/'.$row->id)) {
 
-            foreach ($list as $filename) {
-                if (strpos($filename, 'thumb') === 0) {
-                    continue;
+            if (isset($row->images)) {
+                // a JEA 2.x row
+                $list = JFolder::files($path.'/'.$row->id, null, false, true, array(), array('thumb'));
+                if (is_array($list)) {
+                    return $list;
                 }
-                $pictures[] = $filename;
-            }
 
-        } else {
-             
-            if (JFolder::exists($path.'/'.$row->id)) {
+            } else {
+
                 if (JFile::exists($path.'/'.$row->id . '/main.jpg')) {
                     $pictures[] = $path.'/'.$row->id . '/main.jpg';
                 }
+
                 if (JFolder::exists($path.'/'.$row->id .'/secondary')) {
                     $secondaries = JFolder::files($path.'/'.$row->id .'/secondary', null, false, true);
                     foreach($secondaries as $picture) {
@@ -222,7 +220,7 @@ class JeaModelImport extends JeaModelInterface
                 }
             }
         }
-         
+
         return $pictures;
     }
 
