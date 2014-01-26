@@ -128,6 +128,9 @@ defined('_JEXEC') or die('Restricted access');
       case 'NE':
           echo JText::_('COM_JEA_OPTION_NORTH_EAST');
           break;
+      case 'NS':
+          echo JText::_('COM_JEA_OPTION_NORTH_SOUTH');
+          break;
       case 'W':
           echo JText::_('COM_JEA_OPTION_WEST');
           break;
@@ -139,6 +142,12 @@ defined('_JEXEC') or die('Restricted access');
           break;
       case 'SE':
           echo JText::_('COM_JEA_OPTION_SOUTH_EAST');
+          break;
+      case 'E':
+          echo JText::_('COM_JEA_OPTION_EAST');
+          break;
+      case 'EW':
+          echo JText::_('COM_JEA_OPTION_EAST_WEST');
           break;
       
   }?>

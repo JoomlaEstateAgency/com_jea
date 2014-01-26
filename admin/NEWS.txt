@@ -1,6 +1,16 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 3.1 / 13-2013=
+^ Adding Joomla 3.x compatibility
+^ Add search by ID in administrator
+# Fix TableProperties for bridge compatibility
+# Sort property types in AJAX response
+# Fix JS issue with filter on transaction type in geoSearch.js
+^ Add two plugin events : onBeforeSaveProperty and onAfterSaveProperty
+^ Add a geolocalization plugin
+^ Add two orientation options : East-West and North-South
+
 RELEASE 2.30 / 05-2013=
 # Fix vertical gallery height
 # Fix missing alias in import model

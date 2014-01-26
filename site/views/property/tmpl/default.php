@@ -163,8 +163,14 @@ JPluginHelper::importPlugin('jea');
          case 'NE':
              echo JText::_('COM_JEA_OPTION_NORTH_EAST');
              break;
+         case 'NS':
+             echo JText::_('COM_JEA_OPTION_NORTH_SOUTH');
+             break;
          case 'E':
              echo JText::_('COM_JEA_OPTION_EAST');
+             break;
+         case 'EW':
+             echo JText::_('COM_JEA_OPTION_EAST_WEST');
              break;
          case 'W':
              echo JText::_('COM_JEA_OPTION_WEST');

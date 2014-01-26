@@ -74,7 +74,9 @@
 			<option value="N">COM_JEA_OPTION_NORTH</option>
 			<option value="NW">COM_JEA_OPTION_NORTH_WEST</option>
 			<option value="NE">COM_JEA_OPTION_NORTH_EAST</option>
+			<option value="NS">COM_JEA_OPTION_NORTH_SOUTH</option>
 			<option value="E">COM_JEA_OPTION_EAST</option>
+			<option value="EW">COM_JEA_OPTION_EAST_WEST</option>
 			<option value="W">COM_JEA_OPTION_WEST</option>
 			<option value="S">COM_JEA_OPTION_SOUTH</option>
 			<option value="SW">COM_JEA_OPTION_SOUTH_WEST</option>
