@@ -287,6 +287,21 @@ class JeaModelProperty extends JModelAdmin
         return true;
     }
 
+    /* (non-PHPdoc)
+     * @see JModelAdmin::delete()
+    */
+    public function delete(&$pks)
+    {
+        if (parent::delete($pks)) {
+            // Remove images folder
+            foreach ($pks as $id) {
+                if (JFolder::exists(JPATH_ROOT.'/images/com_jea/images/'.$id)) {
+                    JFolder::delete(JPATH_ROOT.'/images/com_jea/images/'.$id);
+                }
+            }
+        }
+    }
+
 
     /* (non-PHPdoc)
      * @see JModelForm::loadFormData()
