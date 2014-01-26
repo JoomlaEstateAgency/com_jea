@@ -23,9 +23,9 @@ JHtml::_('behavior.multiselect');
 $rowsCount = count($this->items) ;
 $altrow = 1;
 
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirection	= $this->escape($this->state->get('list.direction'));
-$saveOrder	= $listOrder == 'p.ordering';
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirection = $this->escape($this->state->get('list.direction'));
+$saveOrder = $listOrder == 'f.ordering';
 
 $filters = $this->state->get('feature.filters', '');
 if (!empty($filters)) {
@@ -133,7 +133,7 @@ if (!empty($filters)) {
         <th width="10%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'f.ordering', $listDirection , $listOrder ) ?>
           <?php if ($saveOrder) :?> 
-          <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
+          <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'featurelist.saveorder'); ?>
           <?php endif; ?>
         </th>
         <?php if ($this->state->get('language_enabled')): ?>

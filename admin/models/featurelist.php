@@ -34,6 +34,7 @@ class JeaModelFeaturelist extends JModelList
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = array(
                 'id', 'f.id',
+                'value', 'f.value',
                 'ordering', 'f.ordering'
                 );
         }

@@ -10,6 +10,8 @@ RELEASE 3.1 / 13-2013=
 ^ Add two plugin events : onBeforeSaveProperty and onAfterSaveProperty
 ^ Add a geolocalization plugin
 ^ Add two orientation options : East-West and North-South
+# Fix some issues in import process
+# Fix ordering issues
 
 RELEASE 2.30 / 05-2013=
 # Fix vertical gallery height
