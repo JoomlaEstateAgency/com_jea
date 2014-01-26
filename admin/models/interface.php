@@ -301,26 +301,41 @@ abstract class JeaModelInterface extends JModelLegacy
      *
      * @param string $message
      */
-    public function log($message, $status='') {
+    public function log($message, $status='')
+    {
+        jimport('joomla.log.log');
+        // A category name
+        $cat = strtolower($this->_bridge_code);
 
-        if ($this->_logger === false) {
-            // Logger is not active
-            return;
-        }
-
-        if ($this->_logger === null){
-            $this->_logger = JLog::getInstance($this->_log_file);
-        }
+        JLog::addLogger(
+            array(
+                //Sets file name
+                'text_file' => $this->_log_file
+            ),
+            //Sets all JLog messages to be set to the file
+            JLog::ALL,
+            //Chooses a category name
+            $cat
+        );
         $status = strtoupper($status);
-        $levels = array('EMERG','ALERT','CRIT','ERR','WARN','NOTICE','INFO','DEBUG');
-         
-        if(!in_array($status, $levels)) {
-            $status = 'INFO';
+        $levels = array(
+            'EMERG'  => JLog::EMERGENCY,
+            'ALERT'  => JLog::ALERT,
+            'CRIT'   => JLog::CRITICAL,
+            'ERR'    => JLog::ERROR,
+            'WARN'   => JLog::WARNING,
+            'NOTICE' => JLog::NOTICE,
+            'INFO'   => JLog::INFO,
+            'DEBUG'  => JLog::DEBUG
+        );
+
+        if (isset($levels[$status])) {
+            $status = $levels[$status];
+        } else {
+            $status = JLog::INFO;
         }
-         
-        $entry['status'] = $status;
-        $entry['comment'] = $message;
-        $this->_logger->addEntry($entry);
+
+        JLog::add($message, $status, $cat);
     }
 
     /**
