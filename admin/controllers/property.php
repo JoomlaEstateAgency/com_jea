@@ -14,8 +14,6 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport('joomla.application.component.controllerform');
 
-// TODO: implement access right management
-
 /**
  * Property controller class.
  * @package     Joomla.Administrator
