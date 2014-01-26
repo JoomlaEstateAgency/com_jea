@@ -324,8 +324,9 @@ class JeaModelProperty extends JModelAdmin
      */
     protected function getReorderConditions($table)
     {
+        $db = $table->getDbo();
         $condition = array();
-        $condition[] = 'transaction_type = '. $table->transaction_type;
+        $condition[] = 'transaction_type = '. $db->quote($table->transaction_type);
         return $condition;
     }
 
