@@ -55,7 +55,7 @@ class JFormFieldGallery extends JFormField
         }
 
         $output .= "\n";
-        
+
         //alert & return if GD library for PHP is not enabled
         if (!extension_loaded('gd')) {
             $output .= '<strong>WARNING: </strong>The <a href="http://php.net/manual/en/book.image.php" target="_blank">GD library for PHP</a> was not found. Ensure to install it';
@@ -84,17 +84,42 @@ class JFormFieldGallery extends JFormField
                 $imgPath = $imgBasePath.DS.$image->name;
                 try {
                     $infos = JImage::getImageFileProperties($imgPath);
-                    $JImage = new JImage($imgPath);
                 } catch (Exception $e) {
+                    $output .= "<li>Recorded Image ".$image->name." cannot be accessed</li>\n";
                     continue;
                 }
 
                 $thumbName = 'thumb-admin-'. $image->name;
                 // Create the thumbnail
                 if (!file_exists($imgBasePath.DS.$thumbName)) {
-                    $thumb = $JImage->resize(150, 90);
-                    $thumb->crop(150, 90, 0, 0);
-                    $thumb->toFile($imgBasePath.DS.$thumbName);
+                    try {
+                        // This is where the JImage will be used, so only create it here
+                        $JImage = new JImage($imgPath);
+                        $thumb = $JImage->resize(150, 90);
+                        $thumb->crop(150, 90, 0, 0);
+                        $thumb->toFile($imgBasePath.DS.$thumbName);
+                        // To avoid memory overconsumption, destroy the JImage now that we don't need it anymore
+                        if (method_exists( $JImage , 'destroy')) {
+                            $JImage->destroy();
+                            $thumb->destroy();
+                        } else {
+                            // There is no destroy method on Jplatform < 12.3 (Joomla 2.5) and the handle property is protected.
+                            // We have to hack the JImage class to destroy the image resource
+                            $prop = new ReflectionProperty('JImage', 'handle');
+                            $prop->setAccessible(true);
+                            $JImageHandle = $prop->getValue($JImage);
+                            $thumbHandle = $prop->getValue($thumb);
+                            if (is_resource($JImageHandle) ) {
+                                imagedestroy($JImageHandle);
+                            }
+                            if (is_resource($thumbHandle) ) {
+                                imagedestroy($thumbHandle);
+                            }
+                        }
+                    } catch (Exception $e) {
+                        $output .= "<li>Thumbnail for ".$image->name." cannot be generated</li>\n";
+                        continue;
+                    }
                 }
                 $thumbUrl = $imgBaseURL .'/'. $thumbName;
                 $url    = $imgBaseURL .'/'. $image->name;
@@ -167,7 +192,7 @@ class JFormFieldGallery extends JFormField
                             }
                         });
                     });
-                    
+
                 })"
             );
         }
