@@ -130,19 +130,13 @@ window.addEvent('domready', function() {
     geoSearch.refresh();
     jeaSearch.refresh();
 
-    $$('#filter_type_id',
-       '#filter_department_id',
-       '#filter_town_id',
-       '#filter_area_id',
-       '#rooms_min',
-       '.amenities input'
-       ).each(function(item) {
+    $$('#filter_type_id, #filter_department_id, #filter_town_id, #filter_area_id, #rooms_min, .amenities input').each(function(item) {
         item.addEvent('change', function() {
           geoSearch.refresh();
         });
     });
 
-    $$('#jea-search-selling', '#jea-search-renting').each(function(item) {
+    $$('#jea-search-selling, #jea-search-renting').each(function(item) {
         item.addEvent('change', function() {
           updateSliders();
           geoSearch.refresh();
@@ -160,13 +154,13 @@ if ($this->params->get('searchform_show_budget', 1)) {
                     steps: 100,
                     onChange: function(steps){
                         var priceDiff = maxPrice - minPrice;
-                
+
                         document.id('budget_min').set('value', Math.round(((priceDiff * steps.minimum ) / 100) + minPrice));
                         document.id('budget_max').set('value', Math.round(((priceDiff * steps.maximum ) / 100) + minPrice));
-                
+
                         document.id('min_price_value').set('text', document.id('budget_min').get('value') + ' $currency_symbol');
                         document.id('max_price_value').set('text', document.id('budget_max').get('value') + ' $currency_symbol');
-                
+
                     },
                     onComplete: function(step) {
                         geoSearch.refresh();
@@ -185,10 +179,10 @@ if ($this->params->get('searchform_show_living_space', 1)) {
                     steps: 100,
                     onChange: function(steps){
                         var spaceDiff = maxSpace - minSpace;
-                
+
                         document.id('living_space_min').set('value', Math.round(((spaceDiff * steps.minimum ) / 100) + minSpace));
                         document.id('living_space_max').set('value', Math.round(((spaceDiff * steps.maximum ) / 100) + minSpace));
-                
+
                         document.id('min_space_value').set('text',document.id('living_space_min').get('value') + ' $surface_measure');
                         document.id('max_space_value').set('text',document.id('living_space_max').get('value') + ' $surface_measure');
                     },
