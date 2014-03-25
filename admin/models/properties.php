@@ -19,7 +19,7 @@ jimport('joomla.application.component.modellist');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
- */
+*/
 class JeaModelProperties extends JModelList
 {
 
@@ -47,8 +47,8 @@ class JeaModelProperties extends JModelList
                 'ordering', 'p.ordering',
                 'featured', 'p.featured',
                 'hits', 'p.hits',
-            	'language', 'p.language'
-                );
+                'language', 'p.language'
+            );
         }
 
         // Set the internal state marker to true
@@ -61,10 +61,9 @@ class JeaModelProperties extends JModelList
     }
 
 
-
     /* (non-PHPdoc)
      * @see JModelList::populateState()
-     */
+    */
     protected function populateState($ordering = null, $direction = null)
     {
         $this->context .= '.properties';
@@ -83,7 +82,7 @@ class JeaModelProperties extends JModelList
 
         $town_id = $this->getUserStateFromRequest($this->context.'.filter.town_id', 'filter_town_id');
         $this->setState('filter.town_id', $town_id);
-        
+
         $language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
         $this->setState('filter.language', $language);
 
@@ -93,7 +92,7 @@ class JeaModelProperties extends JModelList
 
     /* (non-PHPdoc)
      * @see JModelList::getListQuery()
-     */
+    */
     protected function getListQuery()
     {
         // Create a new query object.
@@ -101,9 +100,13 @@ class JeaModelProperties extends JModelList
         $query    = $db->getQuery(true);
         $user    = JFactory::getUser();
 
+        $dispatcher = JDispatcher::getInstance();
+        // Include the jea plugins for the onBeforeSearchQuery event.
+        JPluginHelper::importPlugin('jea');
+
         $query->select('p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
-        p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
-        p.created_by, p.hits, p.language ');
+                p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
+                p.created_by, p.hits, p.language ');
 
         $query->from('#__jea_properties AS p');
 
@@ -126,7 +129,7 @@ class JeaModelProperties extends JModelList
         // Join users
         $query->select('u.username AS `author`');
         $query->join('LEFT', '#__users AS u ON u.id = p.created_by');
-        
+
         // Join over the language
         $query->select('l.title AS language_title');
         $query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = p.language');
@@ -155,25 +158,27 @@ class JeaModelProperties extends JModelList
         if ($search = $this->getState('filter.search')) {
             $search = $db->Quote('%'.$db->escape($search, true).'%');
             $search = '(p.ref LIKE ' . $search
-                    . ' OR p.title LIKE ' . $search
-                    . ' OR p.id LIKE ' . $search
-                    . ' OR u.username LIKE ' .$search .')';
+            . ' OR p.title LIKE ' . $search
+            . ' OR p.id LIKE ' . $search
+            . ' OR u.username LIKE ' .$search .')';
             $query->where($search);
         }
-        
+
         // Filter on the language.
         if ($language = $this->getState('filter.language')) {
-        	$query->where('p.language = '.$db->quote($language));
+            $query->where('p.language = '.$db->quote($language));
         }
 
         // Add the list ordering clause.
         $orderCol    = $this->state->get('list.ordering');
         $orderDirn    = $this->state->get('list.direction');
-        
-        // If language order selected order by languagetable title 
+
+        // If language order selected order by languagetable title
         if($orderCol == 'language') $orderCol = 'l.title';
 
         $query->order($db->escape($orderCol.' '.$orderDirn));
+
+        $dispatcher->trigger('onBeforeSearch', array(&$query, &$this->state));
 
         // echo $query;
         return $query;
