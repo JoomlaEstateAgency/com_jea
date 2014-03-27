@@ -67,7 +67,7 @@ class JFormFieldGeolocalization extends JFormField
         $fieldAddress = $this->form->getField('address');
         $fieldLongitude = $this->form->getField('longitude');
         $fieldLatitude = $this->form->getField('latitude');
-        $markerLabel = JText::_('COM_JEA_MAP_MARKER_LABEL');
+        $markerLabel = addslashes(JText::_('COM_JEA_MAP_MARKER_LABEL'));
 
         JFactory::getDocument()->addScriptDeclaration("
             function initBoxContent(elementContent) {
