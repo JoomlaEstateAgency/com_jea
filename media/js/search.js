@@ -57,6 +57,7 @@ JEASearch = new Class({
 		if (this.form[fieldName]) {
 			if (typeOf(this.form[fieldName]) == 'element') {
 				var field = document.id(this.form[fieldName]);
+				this.options.fields[fieldName] = field.get('value');
 				field.addEvent('change', function(event) {
 					this.forceUpdateLists = false;
 					this.options.fields[fieldName] = field.get('value');
