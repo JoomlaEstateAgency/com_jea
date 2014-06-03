@@ -175,7 +175,7 @@ abstract class JeaModelInterface extends JModelLegacy
         return $properties;
     }
 
-    protected function hasPersistentProperties()
+    public function hasPersistentProperties()
     {
         $cache = JFactory::getCache('jea_interface', 'output', 'file');
         $cache->setCaching(true);
@@ -186,7 +186,7 @@ abstract class JeaModelInterface extends JModelLegacy
         return false;
     }
 
-    protected function getPersistentProperties()
+    public function getPersistentProperties()
     {
         $cache = JFactory::getCache('jea_interface', 'output', 'file');
         $cache->setCaching(true);
@@ -205,7 +205,7 @@ abstract class JeaModelInterface extends JModelLegacy
         return unserialize($properties);
     }
 
-    protected function setPersistentProperties($properties=array())
+    public function setPersistentProperties($properties=array())
     {
         $cache = JFactory::getCache('jea_interface', 'output', 'file');
         $cache->setCaching(true);
@@ -239,7 +239,7 @@ abstract class JeaModelInterface extends JModelLegacy
         $this->imported = $infos->imported;
     }
 
-    protected function cleanPersistentProperties()
+    public function cleanPersistentProperties()
     {
         $cache = JFactory::getCache('jea_interface', 'output', 'file');
         $cache->setCaching(true);
@@ -259,7 +259,7 @@ abstract class JeaModelInterface extends JModelLegacy
         $cache->clean();
     }
 
-    protected function removeProperties($ids = array())
+    public function removeProperties($ids = array())
     {
         if (empty($ids)) {
             return false;
