@@ -83,8 +83,33 @@ $uri =JFactory::getURI();
           <?php echo $this->form->getInput('amenities') ?>
           <div class="clr"></div>
         </fieldset>
-
       </fieldset>
+
+      <?php if (JPluginHelper::isEnabled('jea', 'dpe')): ?>
+      <fieldset>
+         <?php 
+         if ($this->item->dpe_energy === null) {
+            $this->item->dpe_energy = '-1';
+         }
+         if ($this->item->dpe_ges === null) {
+            $this->item->dpe_ges = '-1';
+         }
+         $energyLabel = JText::_('PLG_JEA_DPE_ENERGY_CONSUMPTION');
+         $energyDesc  = $energyLabel .'::'. JText::_('PLG_JEA_DPE_ENERGY_CONSUMPTION_DESC');
+         $gesLabel = JText::_('PLG_JEA_DPE_EMISSIONS_GES');
+         $gesDesc  = $gesLabel .'::'. JText::_('PLG_JEA_DPE_EMISSIONS_GES_DESC');
+         ?>
+        <legend><?php echo JText::_('PLG_JEA_DPE')?></legend>
+        <div class="formelm">
+          <label for="dpe_energy" class="hasTip" title="<?php echo  $energyDesc ?>"><?php echo $energyLabel ?> : </label>
+          <input type="text" name="dpe_energy" id="dpe_energy" value="<?php echo $this->item->dpe_energy ?>" class="numberbox" size="5" />
+        </div>
+        <div class="formelm">
+          <label for="dpe_ges" class="hasTip" title="<?php echo $gesDesc ?>"><?php echo $gesLabel ?> : </label>
+          <input type="text" name="dpe_ges" id="dpe_ges" value="<?php echo $this->item->dpe_ges ?>" class="numberbox" size="5" />
+        </div>
+      </fieldset>
+      <?php endif ?>
 
       <?php if ($user->authorise('core.edit.state', 'com_jea')): ?>
       <fieldset>
