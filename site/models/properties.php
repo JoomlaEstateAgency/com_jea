@@ -400,14 +400,13 @@ class JeaModelProperties extends JModelList
         $app = JFactory::getApplication();
         $old_state = $app->getUserState($key);
         $cur_state = (!is_null($old_state)) ? $old_state : $default;
-        $new_state = JRequest::getVar($request, null, 'default', $type);
+        $new_state = $app->input->get($request, null, $type);
 
         // Save the new value only if it is set in this request.
-        if ($new_state !== null) {
+        if ($new_state !== null && $cur_state != $new_state) {
             $app->setUserState($key, $new_state);
             if ($resetPage) {
-                JRequest::setVar('limitstart', 0);
-
+                $app->input->set('limitstart', 0);
             }
         } else {
             $new_state = $cur_state;
