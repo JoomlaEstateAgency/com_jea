@@ -183,7 +183,7 @@ abstract class JHtmlFeatures
 
         // Assemble the list options.
         $options = array();
-        $options[] = JHTML::_('select.option', '0', '- ' . JText::_( $defaultOptionLabel ).' -' );
+        $options[] = JHTML::_('select.option', '0', '- ' . JText::_( $defaultOptionLabel ).' -&nbsp;');
 
         foreach ($items as &$item) {
             $options[] = JHtml::_('select.option', $item->id, $item->value);
