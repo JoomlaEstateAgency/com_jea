@@ -1,5 +1,14 @@
 Joomla Estate Agency          News
 ==================================
+RELEASE 3.2 / 08-2014=
+# Avoid that Joomla 3.x remove the end hyphen in html select lists
+# Fix bug in getUserStateFromRequest method when GET method is used in search form
+^ Add the DPE in the frontend edit form
+# Fix default option values in search.js
+# Add slashes to Google Map marker's label
+^ Add the onBeforeSearch event in the backend
+# Fix js bug in searchmap : Since MooTools 1.3 the function $$ does not accept multiple collections or multiple strings as arguments.
+# Fix memory overconsumption with thumbnails generation [#33258]
 
 RELEASE 3.1 / 01-2014=
 ^ Adding Joomla 3.x compatibility
