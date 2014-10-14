@@ -129,13 +129,14 @@ class JeaModelProperties extends JModelList
         $this->setState('filter.language', $app->getLanguageFilter());
 
         $this->setState('searchcontext' , $searchContext);
+        
+        // List state information
+        $value = $app->input->get('limit', $params->get('list_limit', 0), 'uint');
+        $this->setState('list.limit', $value);
+        
+        $value = $app->input->get('limitstart', 0, 'uint');
+        $this->setState('list.start', $value);
 
-        $limit = $this->getUserStateFromRequest($this->context.'.limit', 'limit', $params->get('list_limit', 10), 'uint');
-        // Important : set the list limit in the input and 
-        // let parent::populateState() do the correct calculation for the list start
-        $app->input->set('limit',$limit);
-
-        parent::populateState($ordering, $direction);
     }
 
 
@@ -387,32 +388,6 @@ class JeaModelProperties extends JModelList
     {
         $this->setState('manage', true);
         return $this->getItems();
-    }
-
-
-
-    /* (non-PHPdoc)
-     * @see JModelList::getUserStateFromRequest()
-     * Reimplement the parent method because there is a bug with resetPage
-     */
-    public function getUserStateFromRequest($key, $request, $default = null, $type = 'none', $resetPage = true)
-    {
-        $app = JFactory::getApplication();
-        $old_state = $app->getUserState($key);
-        $cur_state = (!is_null($old_state)) ? $old_state : $default;
-        $new_state = $app->input->get($request, null, $type);
-
-        // Save the new value only if it is set in this request.
-        if ($new_state !== null && $cur_state != $new_state) {
-            $app->setUserState($key, $new_state);
-            if ($resetPage) {
-                $app->input->set('limitstart', 0);
-            }
-        } else {
-            $new_state = $cur_state;
-        }
-
-        return $new_state;
     }
 
     public function getFieldLimit($fieldName='', $transaction_type = '')
