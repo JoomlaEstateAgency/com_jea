@@ -102,7 +102,7 @@ class JeaModelProperties extends JModelList
 
         foreach ($this->filters as $name => $defaultValue) {
             $state = $this->getUserStateFromRequest(
-            $this->context.'.filter.'.$name, 'filter_'. $name, $defaultValue);
+            $this->context.'.filter.'.$name, 'filter_'. $name, $defaultValue, 'none', false);
 
             if (!$searchContext && !empty($state)) {
                 // This flag indiquate that some filters are set by an user,
