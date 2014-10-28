@@ -129,11 +129,11 @@ class JeaModelProperties extends JModelList
         $this->setState('filter.language', $app->getLanguageFilter());
 
         $this->setState('searchcontext' , $searchContext);
-        
+
         // List state information
-        $value = $app->input->get('limit', $params->get('list_limit', 0), 'uint');
+        $value = $this->getUserStateFromRequest($this->context.'.filter.limit', 'limit', $params->get('list_limit', 10), 'uint', false);
         $this->setState('list.limit', $value);
-        
+
         $value = $app->input->get('limitstart', 0, 'uint');
         $this->setState('list.start', $value);
 
