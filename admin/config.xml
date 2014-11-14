@@ -127,6 +127,16 @@
 		<field name="thumb_min_height" type="text" size="3" default="90" label="COM_JEA_FIELD_THUMB_MIN_HEIGHT_LABEL" description="COM_JEA_FIELD_THUMB_MIN_HEIGHT_DESC" />
 		<field name="thumb_medium_width" type="text" size="3" default="400" label="COM_JEA_FIELD_THUMB_MEDIUM_WIDTH_LABEL" description="COM_JEA_FIELD_THUMB_MEDIUM_WIDTH_DESC" />
 		<field name="thumb_medium_height" type="text" size="3" default="400" label="COM_JEA_FIELD_THUMB_MEDIUM_HEIGHT_LABEL" description="COM_JEA_FIELD_THUMB_MEDIUM_HEIGHT_DESC" />
+		<field name="resize_img" type="radio" default="0" label="COM_JEA_FIELD_RESIZE_IMG_LABEL" description="COM_JEA_FIELD_RESIZE_IMG_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="resize_width" type="list" default="1600" label="COM_JEA_FIELD_RESIZE_WIDTH_LABEL" description="COM_JEA_FIELD_RESIZE_WIDTH_DESC">
+			<option value="800">800</option>
+			<option value="1024">1024</option>
+			<option value="1600">1600</option>
+			<option value="1920">1920</option>
+		</field>
 		<field name="crop_thumbnails" type="radio" default="0" label="COM_JEA_FIELD_CROP_THUMBNAILS_LABEL" description="COM_JEA_FIELD_CROP_THUMBNAILS_DESC">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
