@@ -156,7 +156,7 @@ class JeaModelProperty extends JModelAdmin
 
                     if ($file->moveTo($uploadDir)) {
                     	
-                    	$this->resizePicture($uploadDir . DS . $file->name)
+                    	$this->resizePicture($uploadDir . DS . $file->name);
 
                         if (!isset($imageNames[$file->name])) {
                             $image = new stdClass();
