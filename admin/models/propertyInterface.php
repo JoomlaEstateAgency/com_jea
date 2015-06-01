@@ -64,6 +64,13 @@ class JEAPropertyInterface extends JObject
     public $images = array();
     public $language = '*';
 
+    /**
+     * @var callback A callback which replace the default implementation
+     * to save images. This should be a function or a method but not a closure
+     * because this object needs to be serialised and closures can't be serialized
+     */
+    public $saveImagesCallback = null;
+
     // Fields which are not in the standard JEA interface
     protected $_additionnalsFields = array();
 
@@ -233,7 +240,7 @@ class JEAPropertyInterface extends JObject
         }
 
         // Save images
-        if (!empty($this->images)) {
+        if (!empty($this->images) && $this->saveImagesCallback === null) {
             $imgDir = JPATH_ROOT.'/images/com_jea/images/'.$jeaPropertiesTable->id;
     
             if (!JFolder::exists($imgDir)) {
@@ -255,8 +262,11 @@ class JEAPropertyInterface extends JObject
                 }
             }
         }
-        return true;
+        elseif (!empty($this->images) && is_callable($this->saveImagesCallback)) {
+            call_user_func_array($this->saveImagesCallback, array($this->images, $jeaPropertiesTable));
+        }
 
+        return true;
     }
 
 
