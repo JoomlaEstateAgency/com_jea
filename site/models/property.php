@@ -320,12 +320,12 @@ class JeaModelProperty extends JModelLegacy
             $this->setError(JText::sprintf( 'COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
         }
 
-        if ($this->getErrors()) {
+        $result = $dispatcher->trigger('onBeforeSendContactForm', array($data, &$this));
+        if (in_array(false, $result, true)) {
             return false;
         }
 
-        $result = $dispatcher->trigger('onBeforeSendContactForm', array($data));
-        if (in_array(false, $result, true)) {
+        if ($this->getErrors()) {
             return false;
         }
 
