@@ -66,7 +66,7 @@ class JeaUpload
         $this->name      = isset($params['name']) ? $params['name'] : '' ;
         $this->temp_name = isset($params['tmp_name']) ? $params['tmp_name'] : '';
         $this->type      = isset($params['type']) ? $params['type'] : '' ;
-        $this->error     = isset($params['error']) ? $params['error'] : UPLOAD_ERR_NO_FILE ;
+        $this->error     = isset($params['error']) ? (int) $params['error'] : UPLOAD_ERR_NO_FILE ;
     }
 
 
