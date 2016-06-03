@@ -1,5 +1,13 @@
 Joomla Estate Agency          News
 ==================================
+
+RELEASE 3.3 / 06-2016=
+# Fix pagination bug
+^ Add a callback to save images
+^ Modify how onBeforeSendContactForm is triggered
+# Fix upload error on Joomla 3.5
+# Fix search order and order direction
+
 RELEASE 3.2 / 08-2014=
 # Avoid that Joomla 3.x remove the end hyphen in html select lists
 # Fix bug in getUserStateFromRequest method when GET method is used in search form
