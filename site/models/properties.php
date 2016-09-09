@@ -131,9 +131,8 @@ class JeaModelProperties extends JModelList
         $this->setState('searchcontext' , $searchContext);
 
         // List state information
-        $limit = $this->getUserStateFromRequest($this->context.'.filter.limit', 'limit', $params->get('list_limit', 10), 'uint', false);
-        if ($limit)
-            $this->setState('list.limit', $limit);
+        $limit = $this->getUserStateFromRequest($this->context.'.filter.limit', 'limit', $params->get('list_limit', 10), 'uint');
+        $this->setState('list.limit', $limit);
 
         $orderCol = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
         if ($orderCol)

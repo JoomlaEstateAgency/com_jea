@@ -206,20 +206,11 @@ class JeaModelProperty extends JModelLegacy
            $context .= '.menuitem'.$itemId ;
         }
 
-        // Backup pagination
-        $limit = $app->getUserState('global.list.limit');
-        $limitstart = $app->getUserState($context.'.limitstart');
-
-        // Reset pagination
-        JRequest::setVar('limit', 0);
-        JRequest::setVar('limitstart', 0);
-
         $properties = JModelLegacy::getInstance('Properties', 'JeaModel');
+        $state = $properties->getState();
+        $state->set('list.limit', 0);
+        $state->set('list.start', 0);
         $items = $properties->getItems();
-
-        // Restore pagination
-        $app->setUserState('global.list.limit', $limit);
-        $app->setUserState($context.'.limitstart', $limitstart);
 
         $result= array(
             'prev' => null,
@@ -232,6 +223,7 @@ class JeaModelProperty extends JModelLegacy
                 $currentIndex = $k;
             }
         }
+
         if ( isset($items[$currentIndex-1]) ) $result['prev'] = $items[$currentIndex-1] ;
         if ( isset($items[$currentIndex+1]) ) $result['next'] = $items[$currentIndex+1] ;
 
