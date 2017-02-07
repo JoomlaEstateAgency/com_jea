@@ -155,6 +155,8 @@ class JeaModelProperty extends JModelAdmin
                     }
 
                     if ($file->moveTo($uploadDir)) {
+                    	
+                    	$this->resizePicture($uploadDir . DS . $file->name);
 
                         if (!isset($imageNames[$file->name])) {
                             $image = new stdClass();
@@ -201,7 +203,51 @@ class JeaModelProperty extends JModelAdmin
         }
         return true;
     }
-
+    
+    /**
+     * Method to resize picture when uploading if configured
+     *
+     */
+    public function resizePicture($imagePath){
+    
+    	$params = JComponentHelper::getParams('com_jea');
+    
+    	//si resize_img est configurer sur non on ne fait rien
+    	if ($params->get('resize_img','0') == 0) {
+    		return;
+    	}
+    
+    	$image = new JImage($imagePath);
+    
+    	$resizeWidth = (int) $params->get('resize_width','1600');
+    	$quality = (int) $params->get('jpg_quality' , 90) ;
+    	$width = $image->getWidth();
+    	$height = $image->getHeight();
+    	$ratio = $width / $height;
+    
+    
+    	if ($ratio >= 1){
+    		//image en mode paysage
+    		if ($width <= $resizeWidth){
+    			//pas besoin de redimensionner car déja plus petite
+    			return;
+    		}
+    		$image->resize($resizeWidth, $resizeWidth / $ratio,false,JIMAGE::SCALE_INSIDE);
+    		$image->toFile($imagePath,IMAGETYPE_JPEG, array('quality'=> $quality));
+    		$image->destroy();
+    
+    	}
+    	else{
+    		//image en mode portrait
+    		if ($height <= $resizeWidth){
+    			//pas besoin de redimensionner car déja plus petite
+    			return;
+    		}
+    		$image->resize($resizeWidth * $ratio, $resizeWidth ,false,JIMAGE::SCALE_INSIDE);
+    		$image->toFile($imagePath,IMAGETYPE_JPEG, array('quality'=> $quality));
+    		$image->destroy();
+    	}
+    }
 
     /**
      * Method to toggle the featured setting of properties.

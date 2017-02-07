@@ -159,7 +159,7 @@ abstract class JHtmlFeatures
      * @param string $ordering   The list ordering
      * @return  string  HTML for the select list.
      */
-    static public function getHTMLSelectList($value=0, $name='', $defaultOptionLabel='JOPTION_ANY', $attr='', $featureTable='', $conditions=null, $ordering='f.value asc' )
+    static public function getHTMLSelectList($value=0, $name='', $defaultOptionLabel='JOPTION_ANY', $attr='', $featureTable='', $conditions=null, $ordering='f.ordering asc' )
     {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
