@@ -51,10 +51,15 @@ jQuery(document).ready(function($) {
 
     $(this).on('gatewayActionDone', function(e) {
         $('#console').append(new Element('br'))
-        dispatcher.nextAction();
+        if (dispatcher.queue.length == 0) {
+            $('#ajax-launch').toggleClass('active');
+        } else {
+            dispatcher.nextAction();
+        }
     });
-    
+
     $('#ajax-launch').on('click', function(e) {
+        $(this).toggleClass('active');
         $('#console').empty();
         $(document).trigger('registerGatewayAction', [$('#console').console(), dispatcher]);
         dispatcher.nextAction();
@@ -66,7 +71,8 @@ $document = JFactory::getDocument();
 $document->addScriptDeclaration($script);
 ?>
 
-<button id="ajax-launch" class="btn btn-success">
+<button id="ajax-launch" class="btn btn-success has-spinner">
+<span class="spinner"><i class="jea-icon-spin icon-refresh"></i></span>
 <?php echo JText::_('COM_JEA_'. strtoupper($action) . '_LAUNCH')?>
 </button>
 
