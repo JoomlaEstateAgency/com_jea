@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form>
+	<fields name="params">
+		<field name="export_directory" type="text" default="tmp" label="Export directory" description="Export directory" size="60" />
+		<field name="export_images" type="list" label="Export images as" description="" default="url" class="chzn-color">
+			<option value="url">URL</option>
+			<option value="file">File</option>
+		</field>
+		<field name="zip_name" type="text" default="jea_export_{{date}}.zip" label="Zip name" description="Zip name" size="60" />
+		<field name="send_by_ftp" type="radio" label="Send by FTP" description="" default="0" class="btn-group">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="ftp_host" type="text" default="" label="FTP host" description="" class="inputbox" size="60" />
+		<field name="ftp_username" type="text" default="" label="FTP username" description="" class="inputbox" size="60" />
+		<field name="ftp_password" type="text" default="" label="FTP password" description="" class="inputbox" size="60" />
+	</fields>
+</form>

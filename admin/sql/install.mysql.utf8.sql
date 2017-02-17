@@ -165,8 +165,8 @@ CREATE TABLE IF NOT EXISTS `#__jea_tools` (
 
 INSERT INTO `#__jea_tools` (`id` , `title` , `link` , `icon` , `params` , `access`)
 VALUES 
-('1', 'com_jea_import_from_jea', 'index.php?option=com_jea&view=import&layout=jea', 'com_jea/header/icon-48-import.png', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']'),
-('2', 'com_jea_import_from_csv', 'index.php?option=com_jea&view=import&layout=csv', 'com_jea/header/icon-48-import.png', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']');
+('1', 'com_jea_import', 'index.php?option=com_jea&view=gateways&layout=import', 'download', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']'),
+('2', 'com_jea_export', 'index.php?option=com_jea&view=gateways&layout=export', 'upload', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']');
 
 -- --------------------------------------------------------
 
@@ -207,6 +207,23 @@ CREATE TABLE IF NOT EXISTS `#__jea_types` (
   `value` varchar(255) NOT NULL default '',
   `ordering` int(11) NOT NULL default '0',
   `language` char(7) NOT NULL COMMENT 'language where type is shown',
+  PRIMARY KEY  (`id`)
+) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- 
+-- Table schema `#__jea_gateways`
+-- 
+
+CREATE TABLE IF NOT EXISTS `#__jea_gateways` (
+  `id` int(11) NOT NULL auto_increment,
+  `type` varchar(50) NOT NULL default '',
+  `provider` varchar(50) NOT NULL default '',
+  `title` varchar(255) NOT NULL default '',
+  `published` tinyint(1) NOT NULL default '0',
+  `ordering` int(11) NOT NULL default '0',
+  `params` TEXT NOT NULL,
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 

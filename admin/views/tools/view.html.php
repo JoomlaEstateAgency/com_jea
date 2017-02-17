@@ -44,13 +44,12 @@ class JeaViewTools extends JViewLegacy
     protected function getIcons()
     {
         $buttons = JeaHelper::getToolsIcons();
-        if ((float) JVERSION > 3) {
-            foreach ($buttons as $button) {
-                if (!empty($button['name'])) {
-                    $styleSheet = 'media/com_jea/'. $button['name'].'/styles.css';
-                    if (file_exists(JPATH_ROOT . '/' .$styleSheet)) {
-                        JHtml::stylesheet($styleSheet);
-                    }
+
+        foreach ($buttons as $button) {
+            if (!empty($button['name'])) {
+                $styleSheet = 'media/com_jea/'. $button['name'].'/styles.css';
+                if (file_exists(JPATH_ROOT . '/' .$styleSheet)) {
+                    JHtml::stylesheet($styleSheet);
                 }
             }
         }

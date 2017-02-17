@@ -191,10 +191,6 @@ body.com_jea h1.page-title {
 	width: auto;
 }
 
-.admin td.order span {
-	display: none;
-}
-
 .admin fieldset ul {
 	margin: 0;
 	padding: 0;
@@ -287,4 +283,102 @@ i.icon-48-import {
 .cpanel .span12 a {
 	vertical-align: middle;
 }
+
+/* Console */
+
+.console {
+	background: #000;
+	color: #fff;
+	font-size: 11px;
+	font-family: monospace;
+	padding: 5px;
+	min-height: 250px;
+	margin: 10px 0;
+}
+
+.console p {
+	margin: 0 0 5px 0;
+	border: none !important;
+	background: none !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	font-family: monospace !important;
+	padding: 0 !important;
+}
+
+.console p.error {
+	color: red !important;
+}
+
+.console p.warning {
+	color: orange !important;
+}
+
+.console a {
+	color: #a2cff6;
+}
+
+/* logs */
+
+pre#logs {
+	font-size: 11px;
+	font-family: "Courier New", Courier, monospace;
+	background: #fff;
+	padding: 1em;
+	border: 1px solid #ccc;
+	margin: 1em;
+	min-height: 200px;
+	max-height: 300px;
+	overflow: auto;
+}
+
+/* Spinner */
+@-ms-keyframes spin {
+	from { -ms-transform: rotate(0deg); }
+	to { -ms-transform: rotate(360deg); }
+}
+
+@-moz-keyframes spin {
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
+}
+
+@-webkit-keyframes spin {
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+	from { transform:rotate(0deg); }
+	to { transform:rotate(360deg); }
+}
+
+.jea-icon-spin {
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	-webkit-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+	display: inline-block;
+}
+
+.spinner {
+	display: inline-block;
+	opacity: 0;
+	max-width: 0;
+	
+	-webkit-transition: opacity 0.25s, max-width 0.45s; 
+	-moz-transition: opacity 0.25s, max-width 0.45s;
+	-o-transition: opacity 0.25s, max-width 0.45s;
+	transition: opacity 0.25s, max-width 0.45s;
+}
+
+.has-spinner.active {
+	cursor:progress;
+}
+
+.has-spinner.active .spinner {
+	opacity: 1;
+	max-width: 50px;
+}
+
 

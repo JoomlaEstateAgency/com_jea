@@ -178,7 +178,7 @@ class JEAPropertyInterface extends JObject
     }
 
 
-    public function save($bridge_code='', $id=0, $forceUTF8=false)
+    public function save($provider='', $id=0, $forceUTF8=false)
     {
         $db = JFactory::getDbo();
         $jeaPropertiesTable = new TableProperties($db);
@@ -198,8 +198,8 @@ class JEAPropertyInterface extends JObject
             $data[$fieldName] = $value;
         }
 
-        if (!empty($bridge_code)) {
-            $data['bridge_code'] = $bridge_code ;
+        if (!empty($provider)) {
+            $data['provider'] = $provider ;
         }
 
         if ($forceUTF8) {

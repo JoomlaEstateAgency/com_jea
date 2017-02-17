@@ -114,7 +114,7 @@ class JeaHelper
         foreach ($buttons as &$button) {
             $button['text'] = JText::_($button['text']);
 
-            if ((float) JVERSION > 3) {
+            /*if ((float) JVERSION > 3) {
                 $button['image'] = str_replace(array('.png', 'icon-'), '', basename($button['image']));
                 parse_str($button['link'], $output);
                 if(!empty($output['view'])) {
@@ -123,7 +123,7 @@ class JeaHelper
                 } else {
                     $button['name'] = '';
                 }
-            }
+            }*/
 
             if (!empty($button['access'])) {
                 $button['access'] = json_decode($button['access']);
