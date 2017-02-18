@@ -39,14 +39,12 @@
 		<folder>language</folder>
 		<folder>models</folder>
 		<folder>views</folder>
-		<filename>index.html</filename>
 		<filename>jea.php</filename>
 		<filename>router.php</filename>
 	</files>
 
 	<!-- Media files -->
 	<media destination="com_jea" folder="media" >
-		<filename>index.html</filename>
 		<folder>css</folder>
 		<folder>images</folder>
 		<folder>js</folder>
@@ -74,7 +72,6 @@
 			<folder>views</folder>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>index.html</filename>
 			<filename>jea.php</filename>
 			<filename>LICENCE.txt</filename>
 			<filename>NEWS.txt</filename>
