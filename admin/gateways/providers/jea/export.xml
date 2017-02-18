@@ -2,18 +2,18 @@
 
 <form>
 	<fields name="params">
-		<field name="export_directory" type="text" default="tmp" label="Export directory" description="Export directory" size="60" />
-		<field name="export_images" type="list" label="Export images as" description="" default="url" class="chzn-color">
-			<option value="url">URL</option>
-			<option value="file">File</option>
+		<field name="export_directory" type="text" default="tmp" label="COM_JEA_FIELD_EXPORT_DIRECTORY_LABEL" description="COM_JEA_FIELD_EXPORT_DIRECTORY_DESC" size="60" />
+		<field name="export_images" type="list" label="COM_JEA_FIELD_EXPORT_IMAGE_AS_LABEL" description="COM_JEA_FIELD_EXPORT_IMAGE_AS_DESC" default="url" class="chzn-color">
+			<option value="url">COM_JEA_OPTION_URL</option>
+			<option value="file">COM_JEA_OPTION_FILE</option>
 		</field>
-		<field name="zip_name" type="text" default="jea_export_{{date}}.zip" label="Zip name" description="Zip name" size="60" />
-		<field name="send_by_ftp" type="radio" label="Send by FTP" description="" default="0" class="btn-group">
+		<field name="zip_name" type="text" default="jea_export_{{date}}.zip" label="COM_JEA_FIELD_ZIP_NAME_LABEL" description="COM_JEA_FIELD_ZIP_NAME_DESC" size="60" />
+		<field name="send_by_ftp" type="radio" label="COM_JEA_FIELD_SEND_OVER_FTP_LABEL" description="COM_JEA_FIELD_SEND_OVER_FTP_DESC" default="0" class="btn-group">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="ftp_host" type="text" default="" label="FTP host" description="" class="inputbox" size="60" />
-		<field name="ftp_username" type="text" default="" label="FTP username" description="" class="inputbox" size="60" />
-		<field name="ftp_password" type="text" default="" label="FTP password" description="" class="inputbox" size="60" />
+		<field name="ftp_host" type="text" default="" label="COM_JEA_FIELD_FTP_HOST_LABEL" description="COM_JEA_FIELD_FTP_HOST_DESC" class="inputbox" size="60" />
+		<field name="ftp_username" type="text" default="" label="COM_JEA_FIELD_FTP_USERNAME_LABEL" description="COM_JEA_FIELD_FTP_USERNAME_DESC" class="inputbox" size="60" />
+		<field name="ftp_password" type="text" default="" label="COM_JEA_FIELD_FTP_PASSWORD_LABEL" description="COM_JEA_FIELD_FTP_PASSWORD_DESC" class="inputbox" size="60" />
 	</fields>
 </form>

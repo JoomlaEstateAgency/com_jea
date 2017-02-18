@@ -159,7 +159,7 @@ abstract class JeaModelInterface extends JModelLegacy
         }
 
         if (empty($properties)) {
-            $msg = JText::sprintf('COM_JEA_IMPORT_SUCCESSFULLY_ENDED', ucfirst(strtolower($this->_bridge_code)));
+            $msg = JText::sprintf('COM_JEA_IMPORT_END_MESSAGE', ucfirst(strtolower($this->_bridge_code)));
             $this->log($msg);
         }
     }

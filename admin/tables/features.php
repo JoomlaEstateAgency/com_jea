@@ -34,21 +34,6 @@ class FeaturesFactory extends JTable
     }
 
     /* (non-PHPdoc)
-     * @see JTable::getFields()
-     */
-    public function getFields()
-    {
-        $fields = $this->_db->getTableColumns($this->_tbl, false);
-        if (empty($fields))
-        {
-            $this->setError(JText::_('JLIB_DATABASE_ERROR_COLUMNS_NOT_FOUND'));
-            return false;
-        }
-
-        return $fields;
-    }
-
-    /* (non-PHPdoc)
      * @see JTable::check()
      */
     public function check()

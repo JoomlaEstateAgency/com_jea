@@ -3,16 +3,16 @@
 <form>
 	<fields name="params">
 		<field name="import_directory" type="text" size="50" default=""
-			label="COM_JEA_FIELD_IMPORT_DIRECTORY_LABEL" description="COM_JEA_FIELD_IMPORT_FOLDER_DESC" />
+			label="COM_JEA_FIELD_IMPORT_DIRECTORY_LABEL" description="COM_JEA_FIELD_IMPORT_DIRECTORY_DESC" />
 
 		<field name="auto_deletion" type="radio" default="0" class="btn-group"
-			label="COM_JEA_FIELD_DELETE_PROPERTIES_LABEL" description="COM_JEA_FIELD_DELETE_PROPERTIES_DESC">
+			label="COM_JEA_FIELD_AUTO_DELETE_PROPERTIES_LABEL" description="COM_JEA_FIELD_AUTO_DELETE_PROPERTIES_DESC">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="cli_user" type="user" label="COM_JEA_FIELD_CLI_USER_LABEL"
-			description="COM_JEA_FIELD_CLI_USER_DESC" />
+		<field name="import_user" type="user" label="COM_JEA_FIELD_IMPORT_USER_LABEL"
+			description="COM_JEA_FIELD_IMPORT_USER_DESC" />
 
 		<field name="properties_per_step" type="text" size="4" default="5"
 			label="COM_JEA_FIELD_PROPERTIES_PER_STEP_LABEL" description="COM_JEA_FIELD_PROPERTIES_PER_STEP_DESC" />

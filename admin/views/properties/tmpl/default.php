@@ -267,7 +267,7 @@ $transactionType = $this->state->get('filter.transaction_type');
         </td>
         <td>
         <?php if ( $this->user->authorise( 'com_users', 'manage' ) ): ?> 
-          <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=user.edit&id='. $item->created_by )  ?>" title="<?php echo JText::_( 'Edit User' ) ?> ">
+          <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=user.edit&id='. $item->created_by )  ?>" title="<?php echo JText::_('COM_JEA_EDIT_USER') ?> ">
           <?php echo $this->escape( $item->author ) ?></a> 
         <?php else : echo $this->escape( $item->author ) ?> 
         <?php endif ?>
