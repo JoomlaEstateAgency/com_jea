@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="2.5" method="upgrade">
+<extension type="component" version="3.5" method="upgrade">
 	<name>jea</name>
 	<author>Sylvain Philip</author>
 	<creationDate>January 2013</creationDate>
@@ -62,9 +62,12 @@
 		</submenu>
 
 		<files folder="admin">
+			<folder>cli</folder>
 			<folder>controllers</folder>
+			<folder>gateways</folder>
 			<folder>helpers</folder>
 			<folder>language</folder>
+			<folder>layouts</folder>
 			<folder>models</folder>
 			<folder>sql</folder>
 			<folder>tables</folder>
