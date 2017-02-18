@@ -21,4 +21,4 @@ CREATE TABLE IF NOT EXISTS `#__jea_gateways` (
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
-ALTER TABLE #__jea_properties ADD `provider` varchar(255) NOT NULL default '';
+ALTER TABLE #__jea_properties ADD `provider` varchar(50) NOT NULL default '' COMMENT 'A gateway provider name';
