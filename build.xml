@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="jea" default="release" basedir=".">
+	<xmlproperty file="jea.xml" keepRoot="false" />
+	
+	<target name="release">
+		<zip destfile="dist/com_jea-${version}.zip" basedir="${basedir}" includes="admin/**,media/**,site/**,jea.xml,README.md,script.php" />
+	</target>
+	
+	<target name="standard" description="Generate codestyle report using PHP_CodeSniffer">
+		<property name="phpcs-ignore-admin" value="${basedir}/admin/views/*/tmpl/*" />
+		<property name="phpcs-ignore-site" value="${basedir}/site/views/*/tmpl/*" />
+		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcs">
+			<arg line="-p" />
+			<arg line="-w" />
+			<arg value="--report=full"/>
+			<arg value="--extensions=php"/>
+			<arg value="--standard=${basedir}/.deps/coding-standards/Joomla/ruleset.xml"/>
+			<arg value="--ignore=${phpcs-ignore-admin}"/>
+			<arg value="--ignore=${phpcs-ignore-site}"/>
+			<arg value="--ignore=${basedir}/vendor"/>
+			<arg path="${basedir}"/>
+		</exec>
+	</target>
+
+</project>

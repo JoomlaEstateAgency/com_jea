@@ -1,0 +1,3 @@
+[submodule ".deps/coding-standards/Joomla"]
+	path = .deps/coding-standards/Joomla
+	url = https://github.com/joomla/coding-standards.git
