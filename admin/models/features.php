@@ -2,19 +2,18 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die();
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-jimport( 'joomla.filesystem.folder' );
+jimport('joomla.filesystem.folder');
 
 require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
@@ -24,125 +23,150 @@ require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
+ *
+ * @see         JModelLegacy
+ *
+ * @since       2.0
  */
 class JeaModelFeatures extends JModelLegacy
 {
+	/**
+	 * Get the list of features
+	 *
+	 * @return  array of stdClass objects
+	 */
+	public function getItems()
+	{
+		$xmlPath = JPATH_COMPONENT_ADMINISTRATOR . '/models/forms/features';
+		$xmlFiles = JFolder::files($xmlPath);
+		$items = array();
 
-    /**
-     * Get the list of features
-     * @return array of stdClass objects
-     */
-    public function getItems()
-    {
-        $xmlPath = JPATH_COMPONENT_ADMINISTRATOR.'/models/forms/features';
-        $xmlFiles = JFolder::files($xmlPath);
-        $items = array();
-        foreach ($xmlFiles as $key => $filename) {
-            if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
-                $form = simplexml_load_file($xmlPath.DS.$filename);
-                // generate object
-                $feature = new stdClass();
-                $feature->id = $key;
-                $feature->name = $matches[1];
-                $feature->table = (string) $form['table'];
-                $feature->language = false;
-                // Check if this feature uses language
-                $lang = $form->xpath("//field[@name='language']");
-                if (!empty($lang)) {
-                    $feature->language = true;
-                }
-                $items[$feature->name] = $feature;
+		foreach ($xmlFiles as $key => $filename)
+		{
+			if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches))
+			{
+				$form = simplexml_load_file($xmlPath . DS . $filename);
 
-            }
-        }
-        return $items;
-    }
+				// Generate object
+				$feature = new stdClass;
+				$feature->id = $key;
+				$feature->name = $matches[1];
+				$feature->table = (string) $form['table'];
+				$feature->language = false;
 
-    /**
-     * Return table data as CSV string
-     * @param string $tableName
-     * @return string
-     */
-    public function getCSVData($tableName='')
-    {
-        $db = JFactory::getDbo();
-        $query    = $db->getQuery(true);
-        $query->select('*')->from($db->escape($tableName));
-        $db->setQuery($query);
-        $rows = $db->loadRowList();
-        $csv = '';
-        foreach ($rows as $row) {
-            $csv .= JeaHelperUtility::arrayToCSV($row);
-        }
-        return $csv;
-    }
+				// Check if this feature uses language
+				$lang = $form->xpath("//field[@name='language']");
 
+				if (! empty($lang))
+				{
+					$feature->language = true;
+				}
 
-    /**
-     * Import rows from CSV file and return the number of inserted rows
-     *
-     * @param string $file
-     * @param string $tableName
-     * @return int
-     */
+				$items[$feature->name] = $feature;
+			}
+		}
 
-    function importFromCSV($file='', $tableName='')
-    {
-        $row=0;
+		return $items;
+	}
 
-        if (($handle = fopen($file, 'r')) !== FALSE) {
-            $db = JFactory::getDbo();
-            $tableName = $db->escape($tableName);
-            $table = new FeaturesFactory($tableName, 'id', $db);
-            $cols = array_keys($table->getProperties());
-            $query = $db->getQuery(true);
-            $query->select('*')->from($tableName);
-            $db->setQuery($query);
-            $ids = $db->loadObjectList('id');
+	/**
+	 * Return table data as CSV string
+	 *
+	 * @param   string  $tableName  The name of the feature table
+	 *
+	 * @return  string  CSV formatted
+	 */
+	public function getCSVData($tableName = '')
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')->from($db->escape($tableName));
+		$db->setQuery($query);
+		$rows = $db->loadRowList();
+		$csv = '';
 
-            $query->select('ordering')->from($tableName)->order('ordering DESC');
-            $db->setQuery($query);
-            $maxOrdering = $db->loadResult();
+		foreach ($rows as $row)
+		{
+			$csv .= JeaHelperUtility::arrayToCSV($row);
+		}
 
-            if ($maxOrdering == null) {
-                $maxOrdering = 1;
-            }
+		return $csv;
+	}
 
-            while (($data = fgetcsv($handle, 1000, ';', '"')) !== FALSE) {
+	/**
+	 * Import rows from CSV file and return the number of inserted rows
+	 *
+	 * @param   string  $file       The file path
+	 * @param   string  $tableName  The feature table name to insert csv data
+	 *
+	 * @return  integer  The number of inserted rows
+	 */
+	public function importFromCSV($file = '', $tableName = '')
+	{
+		$row = 0;
 
-                $num = count($data);
-                $bind = array();
+		if (($handle = fopen($file, 'r')) !== false)
+		{
+			$db = JFactory::getDbo();
+			$tableName = $db->escape($tableName);
+			$table = new FeaturesFactory($tableName, 'id', $db);
+			$cols = array_keys($table->getProperties());
+			$query = $db->getQuery(true);
+			$query->select('*')->from($tableName);
+			$db->setQuery($query);
+			$ids = $db->loadObjectList('id');
 
-                for ($c=0; $c < $num; $c++) {
-                    if (isset($cols[$c])) {
-                        $bind[$cols[$c]] = $data[$c];
-                    }
-                }
+			$query->select('ordering')
+				->from($tableName)
+				->order('ordering DESC');
+			$db->setQuery($query);
+			$maxOrdering = $db->loadResult();
 
-                try {
-                    if (isset($bind['id']) && isset($ids[$bind['id']])) {
-                        // Load row to update
-                        $table->load((int) $bind['id']);
+			if ($maxOrdering == null)
+			{
+				$maxOrdering = 1;
+			}
 
-                    } elseif (isset($bind['ordering'])) {
-                        $bind['ordering'] = $maxOrdering;
-                        $maxOrdering++;
-                    }
+			while (($data = fgetcsv($handle, 1000, ';', '"')) !== false)
+			{
+				$num = count($data);
+				$bind = array();
 
-                    $table->save($bind, '', 'id');
+				for ($c = 0; $c < $num; $c ++)
+				{
+					if (isset($cols[$c]))
+					{
+						$bind[$cols[$c]] = $data[$c];
+					}
+				}
 
-                } catch (Exception $e) {
-                    $this->setError($e->getMessage());
-                    continue;
-                }
+				try
+				{
+					if (isset($bind['id']) && isset($ids[$bind['id']]))
+					{
+						// Load row to update
+						$table->load((int) $bind['id']);
+					}
+					elseif (isset($bind['ordering']))
+					{
+						$bind['ordering'] = $maxOrdering;
+						$maxOrdering ++;
+					}
 
-                // To force new insertion
-                $table->id = null;
-                $row++;
-            }
-        }
+					$table->save($bind, '', 'id');
+				}
+				catch (Exception $e)
+				{
+					$this->setError($e->getMessage());
+					continue;
+				}
 
-        return $row;
-    }
+				// To force new insertion
+				$table->id = null;
+				$row ++;
+			}
+		}
 
+		return $row;
+	}
 }

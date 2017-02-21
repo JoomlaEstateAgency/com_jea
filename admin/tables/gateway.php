@@ -8,25 +8,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-// no direct access
+// No direct access
 defined('_JEXEC') or die('Restricted access');
 
 /**
- * Gateways table class.
+ * Gateway table class.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
+ *
+ * @since       1.0
  */
-class TableGateways extends JTable
+class TableGateway extends JTable
 {
-    /**
-     * Constructor
-     * @param    Database    A database connector object
-     */
-    public function __construct(&$db)
-    {
-        parent::__construct('#__jea_gateways', 'id', $db);
-    }
-
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  &$db  A database diver object
+	 */
+	public function __construct (&$db)
+	{
+		parent::__construct('#__jea_gateways', 'id', $db);
+	}
 }

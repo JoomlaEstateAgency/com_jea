@@ -7,156 +7,177 @@
  * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
 
 jimport('joomla.filesystem.folder');
 
+/**
+ * The base class for export gateways
+ *
+ * @since  3.4
+ */
 abstract class JeaGatewayExport extends JeaGateway
 {
+	/**
+	 * Site base url
+	 *
+	 * @var string
+	 */
+	protected $baseUrl = '';
 
-    
-    /**
-     * This method must be implemented by child class
-     */
-    public function export(){}
-    
-    
-    protected $_baseUrl = '';
-    
-    /**
-     * Constructor
-     *
-     * @param   object  &$subject  The object to observe
-     * @param   array   $config    An optional associative array of configuration settings.
-     */
-    public function __construct(&$subject, $config = array())
-    {
-        $application = JFactory::getApplication();
-        
-        if (defined('BASE_URL')) {
-            $this->_baseUrl = BASE_URL;
-        }
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 */
+	public function __construct (&$subject, $config = array())
+	{
+		$application = JFactory::getApplication();
 
-        if ($application instanceof JApplicationWeb) {
-            $this->_baseUrl = JUri::root();
-        }
+		if (defined('BASE_URL'))
+		{
+			$this->baseUrl = BASE_URL;
+		}
 
-        parent::__construct($subject, $config);
-    }
+		if ($application instanceof JApplicationWeb)
+		{
+			$this->baseUrl = JUri::root();
+		}
 
-    /**
-     * Get all JEA properties
-     * 
-     * @param boolean $published if true, get only published properties
-     * @return array
-     */
-    protected function getJeaProperties($published = true)
-    {
-        $db = JFactory::getDbo();
+		parent::__construct($subject, $config);
+	}
 
-        $query = 'SELECT p.*, t.value AS town, ht.value AS heating_type'
-            . ', hwt.value AS hot_water_type, d.value AS department'
-            . ', a.value AS `area`, s.value AS slogan'
-            . ', c.value AS `condition`, type.value AS type' . PHP_EOL
-            . 'FROM #__jea_properties AS p'. PHP_EOL
-            . 'LEFT JOIN #__jea_towns AS t ON t.id = p.town_id'. PHP_EOL
-            . 'LEFT JOIN #__jea_departments AS d ON d.id = p.department_id'. PHP_EOL
-            . 'LEFT JOIN #__jea_areas AS a ON a.id = p.area_id'. PHP_EOL
-            . 'LEFT JOIN #__jea_heatingtypes AS ht ON ht.id = p.heating_type'. PHP_EOL
-            . 'LEFT JOIN #__jea_hotwatertypes AS hwt ON hwt.id = p.heating_type'. PHP_EOL
-            . 'LEFT JOIN #__jea_types AS type ON type.id = p.type_id'. PHP_EOL
-            . 'LEFT JOIN #__jea_conditions AS c ON c.id = p.condition_id'. PHP_EOL
-            . 'LEFT JOIN #__jea_slogans AS s ON s.id = p.slogan_id'. PHP_EOL;
+	/**
+	 * This method must be implemented by child class
+	 *
+	 * @return  array containg export summary data
+	 */
+	public function export ()
+	{
+	}
 
-        if ($published) {
-            $query .= 'WHERE p.published = 1';
-        }
+	/**
+	 * Get all JEA properties
+	 *
+	 * @param   boolean  $published  If true, get only published properties
+	 *
+	 * @return  array
+	 */
+	protected function getJeaProperties ($published = true)
+	{
+		$db = JFactory::getDbo();
 
-        $db->setQuery($query);
-        $properties = $db->loadAssocList();
+		$query = 'SELECT p.*, t.value AS town, ht.value AS heating_type'
+				. ', hwt.value AS hot_water_type, d.value AS department'
+				. ', a.value AS `area`, s.value AS slogan' . ', c.value AS `condition`, type.value AS type' . PHP_EOL
+				. 'FROM #__jea_properties AS p' . PHP_EOL
+				. 'LEFT JOIN #__jea_towns AS t ON t.id = p.town_id' . PHP_EOL
+				. 'LEFT JOIN #__jea_departments AS d ON d.id = p.department_id' . PHP_EOL
+				. 'LEFT JOIN #__jea_areas AS a ON a.id = p.area_id' . PHP_EOL
+				. 'LEFT JOIN #__jea_heatingtypes AS ht ON ht.id = p.heating_type' . PHP_EOL
+				. 'LEFT JOIN #__jea_hotwatertypes AS hwt ON hwt.id = p.heating_type' . PHP_EOL
+				. 'LEFT JOIN #__jea_types AS type ON type.id = p.type_id' . PHP_EOL
+				. 'LEFT JOIN #__jea_conditions AS c ON c.id = p.condition_id' . PHP_EOL
+				. 'LEFT JOIN #__jea_slogans AS s ON s.id = p.slogan_id' . PHP_EOL;
 
-        $db->setQuery('SELECT `id`, `value` FROM #__jea_amenities');
-        $amenities = $db->loadObjectList('id');
+		if ($published)
+		{
+			$query .= 'WHERE p.published = 1';
+		}
 
-        $unsets = array(
-            'asset_id',
-            'type_id',
-            'town_id',
-            'area_id',
-            'department_id',
-            'condition_id',
-            'slogan_id',
-            'published',
-            'access',
-            'publish_up',
-            'publish_down',
-            'checked_out',
-            'checked_out_time',
-            'created_by',
-            'hits',
-        );
+		$db->setQuery($query);
+		$properties = $db->loadAssocList();
 
-        foreach ($properties as &$property) {
+		$db->setQuery('SELECT `id`, `value` FROM #__jea_amenities');
+		$amenities = $db->loadObjectList('id');
 
-            foreach ($unsets as $key) {
-                if (isset($property[$key])) {
-                    unset($property[$key]);
-                }
-            }
+		$unsets = array(
+				'asset_id',
+				'type_id',
+				'town_id',
+				'area_id',
+				'department_id',
+				'condition_id',
+				'slogan_id',
+				'published',
+				'access',
+				'publish_up',
+				'publish_down',
+				'checked_out',
+				'checked_out_time',
+				'created_by',
+				'hits'
+		);
 
-            $exp = explode('-' , $property['amenities']);
-            $tmp = array();
-            foreach($exp as $id) {
-                if (isset($amenities[$id])){
-                    $tmp[] = $amenities[$id]->value;
-                }
-            }
-            $property['amenities'] = $tmp;
-            $property['images'] = $this->getImages((object) $property);
+		foreach ($properties as &$property)
+		{
+			foreach ($unsets as $key)
+			{
+				if (isset($property[$key]))
+				{
+					unset($property[$key]);
+				}
+			}
 
-        }
+			$exp = explode('-', $property['amenities']);
+			$tmp = array();
 
-        return $properties;
-    }
+			foreach ($exp as $id)
+			{
+				if (isset($amenities[$id]))
+				{
+					$tmp[] = $amenities[$id]->value;
+				}
+			}
 
-    /**
-     * Get pictures of a property
-     *
-     * @param object $property The property row
-     * @return array
-     */
-    private function getImages($row)
-    {
-        $result = array();
-        $images = json_decode($row->images);
+			$property['amenities'] = $tmp;
+			$property['images'] = $this->getImages((object) $property);
+		}
 
-        if (empty($images) && !is_array($images)) {
-            return $result;
-        }
+		return $properties;
+	}
 
-        $imgDir = 'images/com_jea/images/' . $row->id;
+	/**
+	 * Get pictures of a property
+	 *
+	 * @param   object  $row  The property DB row
+	 *
+	 * @return  array
+	 */
+	private function getImages ($row)
+	{
+		$result = array();
+		$images = json_decode($row->images);
 
-        if(!JFolder::exists( JPATH_ROOT . '/' .$imgDir)) {
-            return $result;
-        }
+		if (empty($images) && ! is_array($images))
+		{
+			return $result;
+		}
 
-        foreach ($images as $image) {
-            $path = JPATH_ROOT . '/' . $imgDir . '/' . $image->name;
+		$imgDir = 'images/com_jea/images/' . $row->id;
 
-            if (JFile::exists($path)) {
-                $result[] = array (
-                    'path'        => $path,
-                    'url'         => $this->_baseUrl . $imgDir . '/' . $image->name,
-                    'name'        => $image->name,
-                    'title'       => $image->title,
-                    'description' => $image->description,
-                );
-            }
-        }
+		if (! JFolder::exists(JPATH_ROOT . '/' . $imgDir))
+		{
+			return $result;
+		}
 
-        return $result ;
-    }
+		foreach ($images as $image)
+		{
+			$path = JPATH_ROOT . '/' . $imgDir . '/' . $image->name;
 
+			if (JFile::exists($path))
+			{
+				$result[] = array(
+						'path' => $path,
+						'url' => $this->baseUrl . $imgDir . '/' . $image->name,
+						'name' => $image->name,
+						'title' => $image->title,
+						'description' => $image->description
+				);
+			}
+		}
 
+		return $result;
+	}
 }

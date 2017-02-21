@@ -13,239 +13,265 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/export.php';
 jimport('joomla.filesystem.archive');
 jimport('joomla.client.ftp');
 
-
+/**
+ * The export class for JEA gateway provider
+ *
+ * @since  3.4
+ */
 class JeaGatewayExportJea extends JeaGatewayExport
 {
-    /**
-     * Data array of properties
-     * 
-     * @var array
-     */
-    protected $_data = array();
+	/**
+	 * The directory where to write data
+	 *
+	 * @var string
+	 */
+	protected $exportDirectory = '';
 
-    /**
-     * The directory where to write data 
-     * 
-     * @var string
-     */
-    protected $_exportDirectory='';
+	/**
+	 * Get the export directory path
+	 *
+	 * @throws Exception if directory is not found
+	 *
+	 * @return string The export dir
+	 */
+	protected function getExportDirectory()
+	{
+		if (empty($this->exportDirectory))
+		{
+			$dir = $this->params->get('export_directory');
 
+			if (! JFolder::exists($dir))
+			{
+				// Try to create dir into joomla root dir
+				$dir = JPATH_ROOT . '/' . trim($dir, '/');
 
-    protected function getExportDirectory()
-    {
-        if (empty($this->_exportDirectory)) {
+				if (JFolder::exists(basename($dir)) && ! JFolder::create($dir))
+				{
+					throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_EXPORT_DIRECTORY_CANNOT_BE_CREATED', $dir));
+				}
+			}
 
+			$this->exportDirectory = $dir;
+		}
 
-            $dir = $this->params->get('export_directory');
+		return $this->exportDirectory;
+	}
 
-            if (!JFolder::exists($dir)) {
+	/**
+	 * Create the zip file
+	 *
+	 * @param   string  $filename  The zipfile path to create.
+	 * @param   array   &$files    A set of files to be included into the zipfile.
+	 *
+	 * @throws  Exception if zip file cannot be created
+	 * @return  void
+	 */
+	protected function createZip ($filename, &$files)
+	{
+		$zipAdapter = JArchive::getAdapter('zip');
 
-                // Try to create dir into joomla root dir
-                $dir = JPATH_ROOT . '/' . trim($dir, '/');
+		if (! @$zipAdapter->create($filename, $files))
+		{
+			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_ZIP_CREATION', $filename));
+		}
 
-                if (JFolder::exists(basename($dir)) && !JFolder::create($dir)) {
-                    throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_EXPORT_DIRECTORY_CANNOT_BE_CREATED', $dir));
-                }
-            }
+		$this->log("Zip creation : $filename");
+	}
 
-            $this->_exportDirectory = $dir;
+	/**
+	 * Build XML
+	 *
+	 * @param   string|array  &$data        The data to convert
+	 * @param   string        $elementName  The element name
+	 *
+	 * @return  DOMDocument|DOMElement
+	 */
+	protected function buildXMl(&$data, $elementName = '')
+	{
+		static $doc;
 
+		$rootName = 'jea';
 
-        }
+		if ($elementName == $rootName)
+		{
+			$doc = new DOMDocument('1.0', 'utf-8');
+		}
 
-        return $this->_exportDirectory;
-    }
+		$element = $doc->createElement($elementName);
 
-    /**
-     * Create the zip file
-     *
-     * @return void
-     * @throws Exception if zip file cannot be created
-     */
-    protected function createZip($filename, &$files)
-    {
-        $zipAdapter = JArchive::getAdapter('zip');
+		if (is_array($data))
+		{
+			foreach ($data as $key => $value)
+			{
+				if (is_int($key))
+				{
+					$childsName = array(
+							$rootName => 'property',
+							'amenities' => 'amenity',
+							'images' => 'image'
+					);
 
-        if (!@$zipAdapter->create($filename, $files)) {
-            throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_ZIP_CREATION', $filename));
-        }
+					if (! isset($childsName[$elementName]))
+					{
+						continue;
+					}
 
-        $this->log("Zip creation : $filename");
-    }
+					$key = $childsName[$elementName];
+				}
 
+				$child = $this->buildXMl($value, $key);
+				$element->appendChild($child);
+			}
+		}
+		else
+		{
+			$text = ctype_alnum($data) ? $doc->createTextNode((string) $data) : $doc->createCDATASection((string) $data);
+			$element->appendChild($text);
+		}
 
-    /**
-     * Build XML
-     *
-     * @param mixed $data            
-     * @param string $elementName            
-     * @return DOMDocument|DOMElement
-     */
-    protected function buildXMl(&$data, $elementName = '')
-    {
-        static $doc;
+		if ($elementName == $rootName)
+		{
+			$doc->appendChild($element);
 
-        $rootName = 'jea';
+			return $doc;
+		}
 
-        if ($elementName == $rootName) {
-            $doc = new DOMDocument('1.0', 'utf-8');
-        }
+		return $element;
+	}
 
-        $element = $doc->createElement($elementName);
+	/**
+	 * Send File over FTP
+	 *
+	 * @param   string  $file  The file to send
+	 *
+	 * @throws Exception if FTP transfer fails
+	 * @return  void
+	 */
+	protected function ftpSend($file)
+	{
+		$ftpClient = new JClientFtp(array('timeout' => 5, 'type' => FTP_BINARY));
 
-        if (is_array($data)) {
+		if (! $ftpClient->connect($this->params->get('ftp_host')))
+		{
+			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_CONNECT_TO_HOST', $this->params->get('ftp_host')));
+		}
 
-            foreach ($data as $key => $value) {
+		if (! $ftpClient->login($this->params->get('ftp_username'), $this->params->get('ftp_password')))
+		{
+			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_LOGIN'));
+		}
 
-                if (is_int($key)) {
+		if (! $ftpClient->store($file))
+		{
+			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_SEND_FILE'));
+		}
 
-                    $childsName = array (
-                        $rootName   => 'property',
-                        'amenities' => 'amenity',
-                        'images'    => 'image'
-                    );
+		$ftpClient->quit();
+	}
 
-                    if (!isset($childsName[$elementName])) {
-                        continue;
-                    }
+	/**
+	 * InitWebConsole event handler
+	 *
+	 * @return void
+	 */
+	public function initWebConsole()
+	{
+		JHtml::script('media/com_jea/js/gateway-jea.js', true);
+		$title = addslashes($this->title);
 
-                    $key = $childsName[$elementName];
-                }
+		// Register script messages
+		JText::script('COM_JEA_EXPORT_START_MESSAGE', true);
+		JText::script('COM_JEA_EXPORT_END_MESSAGE', true);
+		JText::script('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS', true);
+		JText::script('COM_JEA_GATEWAY_DOWNLOAD_ZIP', true);
 
-                $child = $this->buildXMl($value, $key);
-                $element->appendChild($child);
-            }
+		$document = JFactory::getDocument();
+		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {"
+				. "    dispatcher.register(function() {"
+				. "        JeaGateway.startExport($this->id, '$title', webConsole);"
+				. "    });"
+				. "});";
+		$document->addScriptDeclaration($script);
+	}
 
-        } else {
+	/**
+	 * The export event handler
+	 *
+	 * @return void
+	 */
+	public function export()
+	{
+		$dir = $this->getExportDirectory();
+		$xmlFile = $dir . '/export.xml';
+		$zipName = $this->params->get('zip_name', 'jea_export_{{date}}.zip');
+		$zipName = str_replace('{{date}}', date('Y-m-d-H:i:s'), $zipName);
+		$zipFile = $dir . '/' . $zipName;
+		$zipUrl = rtrim($this->_baseUrl, '/') . str_replace(JPATH_ROOT, '', $dir) . '/' . $zipName;
 
-            $text = ctype_alnum($data) ? 
-                    $doc->createTextNode((string) $data) : 
-                    $doc->createCDATASection((string) $data);
+		$files = array();
 
-            $element->appendChild($text);
-        }
+		$properties = $this->getJeaProperties();
 
-        if ($elementName == $rootName) {
-            $doc->appendChild($element);
-            return $doc;
-        }
+		$exportImages = $this->params->get('export_images');
 
-        return $element;
-    }
+		foreach ($properties as &$property)
+		{
+			foreach ($property['images'] as &$image)
+			{
+				if ($exportImages == 'file')
+				{
+					$name = $property['id'] . '_' . basename($image['path']);
 
-    /**
-     * Send File to FTP
-     *
-     * @var $file string the file path to send
-     * @return void
-     * @throws Exception si le fichier zip n'a pas été trouvé ou si le transfert à échoué
-     */
-    protected function ftpSend($file)
-    {
-        $ftpClient = new JClientFtp(array(
-            'timeout' => 5,
-            'type' => FTP_BINARY
-        ));
+					$files[] = array(
+						'data' => file_get_contents($image['path']),
+						'name' => $name
+					);
 
-        if (!$ftpClient->connect($this->params->get('ftp_host'))) {
-            throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_CONNECT_TO_HOST', $this->params->get('ftp_host')));
-        }
+					$image['name'] = $name;
+					unset($image['url']);
+				}
 
-        if (!$ftpClient->login($this->params->get('ftp_username'), $this->params->get('ftp_password'))) {
-            throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_LOGIN'));
-        }
+				unset($image['path']);
+			}
+		}
 
-        if (!$ftpClient->store($file)) {
-            throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_SEND_FILE'));
-        }
+		// Init $xmlFile before DOMDocument::save()
+		JFile::write($xmlFile, '');
 
-        $ftpClient->quit();
-    }
+		$xml = $this->buildXMl($properties, 'jea');
+		$xml->formatOutput = true;
+		$xml->save($xmlFile);
 
+		$files[] = array(
+			'data' => file_get_contents($xmlFile),
+			'name' => 'export.xml'
+		);
 
-    public function initWebConsole()
-    {
-        JHtml::script('media/com_jea/js/gateway-jea.js', true);
-        $title = addslashes($this->title);
+		$this->createZip($zipFile, $files);
 
-        // Register script messages
-        JText::script('COM_JEA_EXPORT_START_MESSAGE', true);
-        JText::script('COM_JEA_EXPORT_END_MESSAGE', true);
-        JText::script('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS', true);
-        JText::script('COM_JEA_GATEWAY_DOWNLOAD_ZIP', true);
+		$response = array(
+			'exported_properties' => count($properties),
+			'zip_url' => $zipUrl,
+			'ftp_sent' => false
+		);
 
-        $document = JFactory::getDocument();
-        $document->addScriptDeclaration("
-        jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {
-            dispatcher.register(function(){
-                JeaGateway.startExport($this->id, '$title', webConsole)
-            })
-        })");
-    }
+		$message = JText::_('COM_JEA_EXPORT_END_MESSAGE');
+		$message = str_replace(
+			array('{title}', '{count}'),
+			array($this->title, $response['exported_properties']),
+			$message
+		);
 
+		if ($this->params->get('send_by_ftp') == '1')
+		{
+			$this->ftpSend($zipFile);
+			$response['ftp_sent'] = true;
+			$message .= ' ' . JText::_('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS');
+		}
 
-    public function export($output=null)
-    {
-        $dir = $this->getExportDirectory();
-        $xmlFile = $dir . '/export.xml';
-        $zipName = $this->params->get('zip_name', 'jea_export_{{date}}.zip');
-        $zipName = str_replace('{{date}}', date('Y-m-d-H:i:s'), $zipName);
-        $zipFile = $dir . '/' . $zipName;
-        $zipUrl  = rtrim($this->_baseUrl, '/') . str_replace(JPATH_ROOT, '', $dir) . '/' . $zipName;
+		$this->out($message);
+		$this->log($message);
 
-        $files = array();
-
-        $properties = $this->getJeaProperties();
-
-        $exportImages = $this->params->get('export_images');
-
-        foreach ($properties as &$property) {
-
-            foreach ($property['images'] as &$image) {
-
-                if ($exportImages == 'file') {
-
-                    $name = $property['id'] . '_' . basename($image['path']);
-                    $files[] = array('data' => file_get_contents($image['path']), 'name'=> $name);
-                    $image['name'] = $name;
-                    unset($image['url']);
-                }
-
-                unset($image['path']);
-            }
-
-        }
-
-        // Init $xmlFile before DOMDocument::save()
-        JFile::write($xmlFile, '');
-
-        $xml = $this->buildXMl($properties, 'jea');
-        $xml->formatOutput = true;
-        $xml->save($xmlFile);
-
-        $files[] = array('data' => file_get_contents($xmlFile), 'name'=> 'export.xml');
-
-        $this->createZip($zipFile, $files);
-
-        $response = array(
-            'exported_properties' => count($properties),
-            'zip_url' => $zipUrl,
-            'ftp_sent' => false
-        );
-
-        $message = JText::_('COM_JEA_EXPORT_END_MESSAGE');
-        $message = str_replace(array('{title}', '{count}'), array($this->title, $response['exported_properties']), $message);
-
-        if ($this->params->get('send_by_ftp') == '1') {
-            $this->ftpSend($zipFile);
-            $response['ftp_sent'] = true;
-            $message .= ' ' . JText::_('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS');
-        }
-
-        $this->out($message);
-        $this->log($message);
-
-        return $response;
-
-    }
+		return $response;
+	}
 }

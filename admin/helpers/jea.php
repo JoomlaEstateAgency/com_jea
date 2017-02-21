@@ -2,135 +2,146 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-// no direct access
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die();
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_jea
+ * Jea Helper class
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ *
+ * @since       2.0
  */
-
 class JeaHelper
 {
+	/**
+	 * Configure the Linkbar.
+	 *
+	 * @param   string  $viewName  The name of the active view.
+	 *
+	 * @return  void
+	 */
+	public static function addSubmenu($viewName)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('m.*')
+			->from('#__menu AS m')
+			->innerJoin('#__menu AS m2 ON m.parent_id = m2.id')
+			->where("m2.link='index.php?option=com_jea'")
+			->order('id ASC');
 
-    /**
-     * Configure the Linkbar.
-     *
-     * @param   string  $viewName  The name of the active view.
-     *
-     * @return  void
-     */
-    public static function addSubmenu($viewName)
-    {
-        $menu = JToolBar::getInstance('submenu');
+		$db->setQuery($query);
+		$items = $db->loadObjectList();
 
-        $db = JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $query->select('m.*')
-              ->from('#__menu AS m')
-              ->innerJoin('#__menu AS m2 ON m.parent_id = m2.id')
-              ->where("m2.link='index.php?option=com_jea'")
-              ->order('id ASC');
+		foreach ($items as $item)
+		{
+			$active = false;
 
-        $db->setQuery($query);
-        $items = $db->loadObjectList();
+			switch ($item->title)
+			{
+				case 'com_jea_properties':
+					$item->title = 'COM_JEA_PROPERTIES_MANAGEMENT';
+					break;
+				case 'com_jea_features':
+					$item->title = 'COM_JEA_FEATURES_MANAGEMENT';
+					break;
+			}
 
-        foreach ($items as $item) {
-            $active = false;
-            switch ($item->title) {
-                case 'com_jea_properties' :
-                    $item->title = 'COM_JEA_PROPERTIES_MANAGEMENT';
-                    break;
-                case 'com_jea_features' :
-                    $item->title = 'COM_JEA_FEATURES_MANAGEMENT';
-                    break;
-            }
-            if (preg_match('#&view=([a-z]+)#', $item->link, $matches)) {
-               $active = $matches[1] == $viewName;
-            }
-            if ((float) JVERSION > 3)  {
-                JHtmlSidebar::addEntry(JText::_($item->title),$item->link, $active);
-            } else {
-                $menu->appendButton(JText::_($item->title), $item->link, $active);
-            }
-        }
-    }
+			if (preg_match('#&view=([a-z]+)#', $item->link, $matches))
+			{
+				$active = $matches[1] == $viewName;
+			}
 
-    /**
-     * Gets a list of the actions that can be performed.
-     *
-     * @param  int    The property ID.
-     * @return  JObject
-     */
-    public static function getActions($propertyId = 0)
-    {
-        $user   = JFactory::getUser();
-        $result = new JObject;
+			JHtmlSidebar::addEntry(JText::_($item->title), $item->link, $active);
+		}
+	}
 
-        if (empty($propertyId)) {
-            $assetName = 'com_jea';
-        }  else {
-            $assetName = 'com_jea.property.'.(int) $propertyId;
-        }
+	/**
+	 * Gets a list of actions that can be performed.
+	 *
+	 * @param   int  $propertyId  The property ID.
+	 *
+	 * @return  JObject
+	 */
+	public static function getActions($propertyId = 0)
+	{
+		$user = JFactory::getUser();
+		$result = new JObject;
 
-        $actions = array(
-            'core.admin',
-            'core.manage',
-            'core.create',
-            'core.edit',
-            'core.edit.own',
-            'core.edit.state',
-            'core.delete'
-        );
+		if (empty($propertyId))
+		{
+			$assetName = 'com_jea';
+		}
+		else
+		{
+			$assetName = 'com_jea.property.' . (int) $propertyId;
+		}
 
-        foreach ($actions as $action) {
-            $result->set($action, $user->authorise($action, $assetName));
-        }
+		$actions = array(
+				'core.admin',
+				'core.manage',
+				'core.create',
+				'core.edit',
+				'core.edit.own',
+				'core.edit.state',
+				'core.delete'
+		);
 
-        return $result;
-    }
-    
-    /**
-     * Gets the list of tools icons.
-     *
-     */
-    public static function getToolsIcons()
-    {
-        $db = JFactory::getDbo();
+		foreach ($actions as $action)
+		{
+			$result->set($action, $user->authorise($action, $assetName));
+		}
 
-        $query = $db->getQuery(true);
-        $query->select(array('link', 'title AS text', 'icon AS image', 'access'));
-        $query->from('#__jea_tools');
-        $query->order('id ASC');
-        $db->setQuery($query);
-        $buttons = $db->loadAssocList();
+		return $result;
+	}
 
-        foreach ($buttons as &$button) {
-            $button['text'] = JText::_($button['text']);
+	/**
+	 * Gets the list of tools icons.
+	 *
+	 * @return void
+	 */
+	public static function getToolsIcons()
+	{
+		$db = JFactory::getDbo();
 
-            /*if ((float) JVERSION > 3) {
-                $button['image'] = str_replace(array('.png', 'icon-'), '', basename($button['image']));
-                parse_str($button['link'], $output);
-                if(!empty($output['view'])) {
-                    $button['image'] = '48-'.$output['view'];
-                    $button['name'] = $output['view'];
-                } else {
-                    $button['name'] = '';
-                }
-            }*/
+		$query = $db->getQuery(true);
+		$query->select(array('link', 'title AS text', 'icon AS image', 'access'));
+		$query->from('#__jea_tools');
+		$query->order('id ASC');
+		$db->setQuery($query);
+		$buttons = $db->loadAssocList();
 
-            if (!empty($button['access'])) {
-                $button['access'] = json_decode($button['access']);
-            }
-        }
+		foreach ($buttons as &$button)
+		{
+			$button['text'] = JText::_($button['text']);
 
-        return $buttons;
-    }
+			/*
+			 * if ((float) JVERSION > 3) {
+			 * $button['image'] = str_replace(array('.png', 'icon-'), '',
+			 * basename($button['image']));
+			 * parse_str($button['link'], $output);
+			 * if(!empty($output['view'])) {
+			 * $button['image'] = '48-'.$output['view'];
+			 * $button['name'] = $output['view'];
+			 * } else {
+			 * $button['name'] = '';
+			 * }
+			 * }
+			 */
 
+			if (! empty($button['access']))
+			{
+				$button['access'] = json_decode($button['access']);
+			}
+		}
+
+		return $buttons;
+	}
 }

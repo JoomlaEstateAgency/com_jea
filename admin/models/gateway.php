@@ -8,8 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
 jimport('joomla.filesystem.file');
 
@@ -18,90 +18,107 @@ jimport('joomla.filesystem.file');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
+ *
+ * @see         JModelAdmin
+ *
+ * @since       3.4
  */
 class JeaModelGateway extends JModelAdmin
 {
+	/**
+	 * Overrides parent method.
+	 *
+	 * @return  void
+	 *
+	 * @see JModelAdmin::populateState()
+	 */
+	protected function populateState()
+	{
+		parent::populateState();
+		$app = JFactory::getApplication();
 
-    /**
-     * {@inheritDoc}
-     * @see JModelAdmin::populateState()
-     */
-    protected function populateState()
-    {
-        parent::populateState();
-        $app = JFactory::getApplication();
+		$type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
+		$this->setState('type', $type);
+	}
 
-        $type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
-        $this->setState('type', $type);
-    }
-    
-    
-    /* (non-PHPdoc)
-     * @see JModelForm::getForm()
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        $type = $this->getState('type');
+	/**
+	 * Overrides parent method
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 *
+	 * @see JModelForm::getForm()
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		$type = $this->getState('type');
 
-        /* @var $form JForm */
-        $form = $this->loadForm('com_jea.'. $type, $type, array('control' => 'jform', 'load_data' => false));
+		/* @var $form JForm */
+		$form = $this->loadForm('com_jea.' . $type, $type, array('control' => 'jform', 'load_data' => false));
 
-        if (empty($form)) {
-            return false;
-        }
+		if (empty($form))
+		{
+			return false;
+		}
 
-        $item = $this->getItem();
+		$item = $this->getItem();
 
-        // Load gateway params
-        if ($item->id) {
-            $formConfigFile = JPATH_COMPONENT_ADMINISTRATOR . '/gateways/providers/' . $item->provider . '/' . $item->type . '.xml';
-            if (JFile::exists($formConfigFile)) {
-                $gatewayForm = $this->loadForm('com_jea.' . $item->type . '.' . $item->provider, $formConfigFile, array('load_data' => false));
-                $form->load($gatewayForm->getXml());
-            }
-    
-            $data = $this->loadFormData();
-            $form->bind($data);
-        }
+		// Load gateway params
+		if ($item->id)
+		{
+			$formConfigFile = JPATH_COMPONENT_ADMINISTRATOR . '/gateways/providers/' . $item->provider . '/' . $item->type . '.xml';
 
-        return $form;
-    }
+			if (JFile::exists($formConfigFile))
+			{
+				$gatewayForm = $this->loadForm('com_jea.' . $item->type . '.' . $item->provider, $formConfigFile, array('load_data' => false));
+				$form->load($gatewayForm->getXml());
+			}
 
-    /* (non-PHPdoc)
-     * @see JModelForm::loadFormData()
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data. See JControllerForm::save()
-        $data = JFactory::getApplication()->getUserState('com_jea.edit.gateway.data', array());
+			$data = $this->loadFormData();
+			$form->bind($data);
+		}
 
-        if (empty($data)) {
-            $data = $this->getItem();
-        }
+		return $form;
+	}
 
-        return $data;
-    }
+	/**
+	 * Overrides parent method
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @see JModelForm::loadFormData()
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data. See JControllerForm::save()
+		$data = JFactory::getApplication()->getUserState('com_jea.edit.gateway.data', array());
 
-    /* (non-PHPdoc)
-     * @see JModelAdmin::save()
-     */
-    public function save($data)
-    {
-        if (isset($data['params']) && is_array($data['params'])) {
-            $data['params'] = json_encode($data['params']);
-        }
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
 
-        return parent::save($data);
-    }
+		return $data;
+	}
 
+	/**
+	 * Overrides parent method
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @see JModelAdmin::save()
+	 */
+	public function save($data)
+	{
+		if (isset($data['params']) && is_array($data['params']))
+		{
+			$data['params'] = json_encode($data['params']);
+		}
 
-    /* (non-PHPdoc)
-     * @see JModel::getTable()
-     */
-    public function getTable($name = 'gateways', $prefix = 'Table', $options = array())
-    {
-        return parent::getTable($name, $prefix, $options);
-    }
+		return parent::save($data);
+	}
 }
-
-

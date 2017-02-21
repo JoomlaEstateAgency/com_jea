@@ -2,7 +2,6 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
  * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
@@ -14,97 +13,139 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
+/**
+ * Property item view.
+ *
+ * @package     Joomla.Site
+ * @subpackage  com_jea
+ *
+ * @since       2.0
+ */
 class JeaViewProperty extends JViewLegacy
 {
-    public function display( $tpl = null )
-    {
-        $state  = $this->get('State');
-        $item   = $this->get('Item');
-        $params = &$state->params;
+	/**
+	 * Overrides parent method.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse.
+	 *
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @see     JViewLegacy::display()
+	 */
+	public function display ($tpl = null)
+	{
+		$state = $this->get('State');
+		$item = $this->get('Item');
+		$params = &$state->params;
 
-        if (!$item) {
-            JError::raiseError(404, JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
-            return false;
-        }
+		if (! $item)
+		{
+			JError::raiseError(404, JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
 
-        // Increment the hit counter of the property
-        $this->getModel()->hit();
+			return false;
+		}
 
-        $this->assignRef('params', $params);
-        $this->assignRef('state', $state);
-        $this->assignRef('row', $item);
+		// Increment the hit counter of the property
+		$this->getModel()->hit();
 
-        if (empty($item->title)) {
-            $pageTitle = ucfirst( JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN',
-            $this->escape($item->type), $this->escape($item->town)));
-        } else {
-            $pageTitle = $this->escape($item->title) ;
-        }
+		$this->assignRef('params', $params);
+		$this->assignRef('state', $state);
+		$this->assignRef('row', $item);
 
-        $this->assign( 'page_title', $pageTitle );
+		if (empty($item->title))
+		{
+			$pageTitle = ucfirst(JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($item->type), $this->escape($item->town)));
+		}
+		else
+		{
+			$pageTitle = $this->escape($item->title);
+		}
 
-        $app = JFactory::getApplication();
-        $pathway = $app->getPathway();
-        $pathway->addItem($pageTitle);
+		$this->assign('page_title', $pageTitle);
 
-        $document= JFactory::getDocument();
-        $document->setTitle($pageTitle);
+		$app = JFactory::getApplication();
+		$pathway = $app->getPathway();
+		$pathway->addItem($pageTitle);
 
-        parent::display($tpl);
-    }
+		$document = JFactory::getDocument();
+		$document->setTitle($pageTitle);
 
-    /**
-     * Get the previous and next links relative to the property
-     * @param string $previousPrefix
-     * @param string $nextPrefix
-     * @return string
-     */
-    protected function getPrevNextNavigation($previousPrefix='&lt;&lt; ', $nextPrefix=' &gt;&gt;')
-    {
-        $res = $this->get('previousAndNext');
-        $html = '';
-        $previous = $previousPrefix. JText::_('JPREVIOUS') ;
-        $next     = JText::_('JNEXT') . $nextPrefix ;
+		parent::display($tpl);
+	}
 
-        if ($res['prev']) {
+	/**
+	 * Get the previous and next links relative to the property
+	 *
+	 * @param   string  $previousPrefix  Previous prefix
+	 * @param   string  $nextPrefix      Next prefix
+	 *
+	 * @return  string
+	 */
+	protected function getPrevNextNavigation ($previousPrefix = '&lt;&lt; ', $nextPrefix = ' &gt;&gt;')
+	{
+		$res = $this->get('previousAndNext');
+		$html = '';
+		$previous = $previousPrefix . JText::_('JPREVIOUS');
+		$next = JText::_('JNEXT') . $nextPrefix;
 
-            $html .= '<a class="previous" href="' . $this->buildPropertyLink($res['prev']) . '">' . $previous . '</a>' ;
-        } else {
-            $html .= '<span class="previous">' . $previous . '</span>';
-        }
+		if ($res['prev'])
+		{
+			$html .= '<a class="previous" href="' . $this->buildPropertyLink($res['prev']) . '">' . $previous . '</a>';
+		}
+		else
+		{
+			$html .= '<span class="previous">' . $previous . '</span>';
+		}
 
-        if ($res['next']) {
+		if ($res['next'])
+		{
+			$html .= '<a class="next" href="' . $this->buildPropertyLink($res['next']) . '">' . $next . '</a>';
+		}
+		else
+		{
+			$html .= '<span class="next">' . $next . '</span>';
+		}
 
-            $html .= '<a class="next" href="' . $this->buildPropertyLink($res['next']) . '">' . $next . '</a>' ;
-        }  else {
+		return $html;
+	}
 
-            $html .= '<span class="next">' . $next . '</span>';
-        }
+	/**
+	 * Build the property link
+	 *
+	 * @param   object  &$item  The property row
+	 *
+	 * @return  string
+	 */
+	protected function buildPropertyLink(&$item)
+	{
+		$slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
-        return $html;
+		return JRoute::_('index.php?option=com_jea&view=property&id=' . $slug);
+	}
 
-    }
+	/**
+	 * Display captcha
+	 *
+	 * @return string the HTML code to dispay captcha
+	 */
+	protected function displayCaptcha()
+	{
+		$plugin = JFactory::getConfig()->get('captcha');
 
-    protected function buildPropertyLink(&$item)
-    {
-        $slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-        return JRoute::_('index.php?option=com_jea&view=property&id='. $slug);
-    }
+		if ($plugin == '0')
+		{
+			$plugin = 'recaptcha';
+		}
 
-    protected function displayCaptcha()
-    {
-        $plugin = JFactory::getConfig()->get('captcha');
-        if ($plugin == '0') {
-            $plugin = 'recaptcha';
-        }
-        $captcha = JCaptcha::getInstance($plugin);
-        if ($captcha instanceof JCaptcha) {
-            return $captcha->display('captcha', 'jea-captcha');
-        }
-        return '';
-    }
+		$captcha = JCaptcha::getInstance($plugin);
 
+		if ($captcha instanceof JCaptcha)
+		{
+			return $captcha->display('captcha', 'jea-captcha');
+		}
+
+		return '';
+	}
 }
-

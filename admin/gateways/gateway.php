@@ -7,182 +7,202 @@
  * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 use Joomla\Registry\Registry;
 
 jimport('joomla.log.log');
 jimport('joomla.filesystem.file');
 
+/**
+ * The base class for all gateways
+ *
+ * @since  3.4
+ */
 abstract class JeaGateway extends JEvent
 {
-    /**
-     * A Registry object holding the parameters for the gateway
-     *
-     * @var    Registry
-     */
-    public $params = null;
+	/**
+	 * A Registry object holding the parameters for the gateway
+	 *
+	 * @var Registry
+	 */
+	public $params = null;
 
-    /**
-     * The id of the gateway
-     *
-     * @var    string
-     */
-    public $id = null;
+	/**
+	 * The id of the gateway
+	 *
+	 * @var string
+	 */
+	public $id = null;
 
-    /**
-     * The provider of the gateway
-     *
-     * @var    string
-     */
-    public $provider = null;
+	/**
+	 * The provider of the gateway
+	 *
+	 * @var string
+	 */
+	public $provider = null;
 
-    /**
-     * The title of the gateway
-     *
-     * @var    string
-     */
-    public $title = null;
+	/**
+	 * The title of the gateway
+	 *
+	 * @var string
+	 */
+	public $title = null;
 
-    /**
-     * The gateway type
-     *
-     * @var    string
-     */
-    public $type = null;
+	/**
+	 * The gateway type
+	 *
+	 * @var string
+	 */
+	public $type = null;
 
-    /**
-     * The gateway log file
-     * 
-     * @var string
-     */
-    protected $_log_file = '';
+	/**
+	 * The gateway log file
+	 *
+	 * @var string
+	 */
+	protected $log_file = '';
 
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 */
+	public function __construct (&$subject, $config = array())
+	{
+		if (isset($config['params']) && $config['params'] instanceof Registry)
+		{
+			$this->params = $config['params'];
+		}
 
-    /**
-     * Constructor
-     *
-     * @param   object  &$subject  The object to observe
-     * @param   array   $config    An optional associative array of configuration settings.
-     */
-    public function __construct(&$subject, $config = array())
-    {
-        if (isset($config['params']) && $config['params'] instanceof Registry) {
-            $this->params = $config['params'];
-        }
+		if (isset($config['id']))
+		{
+			$this->id = $config['id'];
+		}
 
-        if (isset($config['id']))
-        {
-            $this->id = $config['id'];
-        }
+		if (isset($config['provider']))
+		{
+			$this->provider = $config['provider'];
+		}
 
-        if (isset($config['provider']))
-        {
-            $this->provider = $config['provider'];
-        }
-        
-        if (isset($config['title']))
-        {
-            $this->title = $config['title'];
-        }
+		if (isset($config['title']))
+		{
+			$this->title = $config['title'];
+		}
 
-        if (isset($config['type']))
-        {
-            $this->type = $config['type'];
-        }
+		if (isset($config['type']))
+		{
+			$this->type = $config['type'];
+		}
 
-        $this->_log_file = $this->provider . '_' . $this->type . '_' . $this->id . '.php';
+		$this->log_file = $this->provider . '_' . $this->type . '_' . $this->id . '.php';
 
-        parent::__construct($subject);
-    }
+		parent::__construct($subject);
+	}
 
-    /**
-     * Write a log message
-     *
-     * Status codes :
-     * 
-     * EMERG   = 0;  // Emergency: system is unusable
-     * ALERT   = 1;  // Alert: action must be taken immediately
-     * CRIT    = 2;  // Critical: critical conditions
-     * ERR     = 3;  // Error: error conditions
-     * WARN    = 4;  // Warning: warning conditions
-     * NOTICE  = 5;  // Notice: normal but significant condition
-     * INFO    = 6;  // Informational: informational messages
-     * DEBUG   = 7;  // Debug: debug messages
-     *
-     * @param string $message
-     * @param string $status see status codes above
-     */
-    public function log($message, $status='')
-    {
-        // A category name
-        $cat = $this->provider;
+	/**
+	 * Write a log message
+	 *
+	 * Status codes :
+	 *
+	 * EMERG = 0; // Emergency: system is unusable
+	 * ALERT = 1; // Alert: action must be taken immediately
+	 * CRIT = 2; // Critical: critical conditions
+	 * ERR = 3; // Error: error conditions
+	 * WARN = 4; // Warning: warning conditions
+	 * NOTICE = 5; // Notice: normal but significant condition
+	 * INFO = 6; // Informational: informational messages
+	 * DEBUG = 7; // Debug: debug messages
+	 *
+	 * @param   string  $message  The log message
+	 * @param   string  $status   See status codes above
+	 *
+	 * @return  void
+	 */
+	public function log($message, $status = '')
+	{
+		// A category name
+		$cat = $this->provider;
 
-        JLog::addLogger(
-            array ('text_file' => $this->_log_file),
-            JLog::ALL,
-            $cat
-        );
+		JLog::addLogger(
+			array('text_file' => $this->log_file),
+			JLog::ALL,
+			$cat
+		);
 
-        $status = strtoupper($status);
-        $levels = array(
-            'EMERG'  => JLog::EMERGENCY,
-            'ALERT'  => JLog::ALERT,
-            'CRIT'   => JLog::CRITICAL,
-            'ERR'    => JLog::ERROR,
-            'WARN'   => JLog::WARNING,
-            'NOTICE' => JLog::NOTICE,
-            'INFO'   => JLog::INFO,
-            'DEBUG'  => JLog::DEBUG
-        );
-    
-        if (isset($levels[$status])) {
-            $status = $levels[$status];
-        } else {
-            $status = JLog::INFO;
-        }
-    
-        JLog::add($message, $status, $cat);
-    }
+		$status = strtoupper($status);
 
-    public function out($message = '')
-    {
-        $application = JFactory::getApplication();
-        if ($application instanceof JApplicationCli) {
-            /* @var JApplicationCli $application */
-            $application->out($message);
-        }
-    }
+		$levels = array(
+				'EMERG' => JLog::EMERGENCY,
+				'ALERT' => JLog::ALERT,
+				'CRIT' => JLog::CRITICAL,
+				'ERR' => JLog::ERROR,
+				'WARN' => JLog::WARNING,
+				'NOTICE' => JLog::NOTICE,
+				'INFO' => JLog::INFO,
+				'DEBUG' => JLog::DEBUG
+		);
 
-    /**
-     * Get logs
-     *
-     * @return string
-     */
-    public function getLogs()
-    {
-        $file = JFactory::getConfig()->get('log_path') . '/' . $this->_log_file;
+		if (isset($levels[$status]))
+		{
+			$status = $levels[$status];
+		}
+		else
+		{
+			$status = JLog::INFO;
+		}
 
-        if (JFile::exists($file)) {
-            return file_get_contents($file);
-        }
+		JLog::add($message, $status, $cat);
+	}
 
-        return '';
-    }
+	/**
+	 * Output a message in CLI mode
+	 *
+	 * @param   string  $message  A message
+	 *
+	 * @return void
+	 */
+	public function out($message = '')
+	{
+		$application = JFactory::getApplication();
 
-    /**
-     * Delete logs
-     *
-     * @return bool
-     */
-    public function deleteLogs()
-    {
-        $file = JFactory::getConfig()->get('log_path') . '/' . $this->_log_file;
+		if ($application instanceof JApplicationCli)
+		{
+			/* @var JApplicationCli $application */
+			$application->out($message);
+		}
+	}
 
-        if (JFile::exists($file)) {
-            return JFile::delete($file);
-        }
+	/**
+	 * Get logs
+	 *
+	 * @return string
+	 */
+	public function getLogs()
+	{
+		$file = JFactory::getConfig()->get('log_path') . '/' . $this->log_file;
 
-        return false;
-    }
+		if (JFile::exists($file))
+		{
+			return file_get_contents($file);
+		}
 
+		return '';
+	}
+
+	/**
+	 * Delete logs
+	 *
+	 * @return bool
+	 */
+	public function deleteLogs()
+	{
+		$file = JFactory::getConfig()->get('log_path') . '/' . $this->log_file;
+
+		if (JFile::exists($file))
+		{
+			return JFile::delete($file);
+		}
+
+		return false;
+	}
 }
