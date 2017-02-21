@@ -72,7 +72,7 @@ class Com_JeaInstallerScript
 	 */
 	public function preflight($route, JAdapterInstance $adapter)
 	{
-		$manifest = $parent->getParent()->getManifest();
+		$manifest = $adapter->getParent()->getManifest();
 
 		// Fix the missing schema upddate in the previous JEA 2.0 version
 		if ($route == 'update')
