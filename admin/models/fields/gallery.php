@@ -78,7 +78,7 @@ class JFormFieldGallery extends JFormField
 
 		$baseURL = JURI::root(true);
 		$imgBaseURL = $baseURL . '/images/com_jea/images/' . $propertyId;
-		$imgBasePath = JPATH_ROOT . DS . 'images' . DS . 'com_jea' . DS . 'images' . DS . $propertyId;
+		$imgBasePath = JPATH_ROOT . '/images/com_jea/images/' . $propertyId;
 
 		if (!empty($images))
 		{
@@ -86,7 +86,7 @@ class JFormFieldGallery extends JFormField
 
 			foreach ($images as $k => $image)
 			{
-				$imgPath = $imgBasePath . DS . $image->name;
+				$imgPath = $imgBasePath . '/' . $image->name;
 
 				try
 				{
@@ -101,7 +101,7 @@ class JFormFieldGallery extends JFormField
 				$thumbName = 'thumb-admin-' . $image->name;
 
 				// Create the thumbnail
-				if (! file_exists($imgBasePath . DS . $thumbName))
+				if (! file_exists($imgBasePath . '/' . $thumbName))
 				{
 					try
 					{
@@ -109,7 +109,7 @@ class JFormFieldGallery extends JFormField
 						$JImage = new JImage($imgPath);
 						$thumb = $JImage->resize(150, 90);
 						$thumb->crop(150, 90, 0, 0);
-						$thumb->toFile($imgBasePath . DS . $thumbName);
+						$thumb->toFile($imgBasePath . '/' . $thumbName);
 
 						// To avoid memory overconsumption, destroy the JImage. We don't need it anymore
 						if (method_exists($JImage, 'destroy'))

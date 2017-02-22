@@ -45,7 +45,7 @@ class JeaModelFeatures extends JModelLegacy
 		{
 			if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches))
 			{
-				$form = simplexml_load_file($xmlPath . DS . $filename);
+				$form = simplexml_load_file($xmlPath . '/' . $filename);
 
 				// Generate object
 				$feature = new stdClass;

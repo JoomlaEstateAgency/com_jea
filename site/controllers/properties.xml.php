@@ -96,16 +96,16 @@ class JeaControllerProperties extends JControllerLegacy
 				if (! empty($images) && is_array($images))
 				{
 					$image = array_shift($images);
-					$imagePath = JPATH_ROOT . DS . 'images' . DS . 'com_jea';
+					$imagePath = JPATH_ROOT . '/images/com_jea';
 					$imageUrl = '';
 
-					if (file_exists($imagePath . DS . 'thumb-min' . DS . $row->id . '-' . $image->name))
+					if (file_exists($imagePath . '/thumb-min/' . $row->id . '-' . $image->name))
 					{
 						// If the thumbnail already exists, display it directly
 						$baseURL = JURI::root(true);
 						$imageUrl = $baseURL . '/images/com_jea/thumb-min/' . $row->id . '-' . $image->name;
 					}
-					elseif (file_exists($imagePath . DS . 'images' . DS . $row->id . DS . $image->name))
+					elseif (file_exists($imagePath . '/images/' . $row->id . '/' . $image->name))
 					{
 						// If the thumbnail doesn't exist, generate it and output it on the fly
 						$url = 'index.php?option=com_jea&task=thumbnail.create&size=min&id=' . $row->id . '&image=' . $image->name;

@@ -84,7 +84,7 @@ class JeaModelFeaturelist extends JModelList
 			{
 				if ($feature == $matches[1])
 				{
-					$form = simplexml_load_file($xmlPath . DS . $filename);
+					$form = simplexml_load_file($xmlPath . '/' . $filename);
 					$this->setState('feature.table', (string) $form['table']);
 
 					if (isset($form['filters']))

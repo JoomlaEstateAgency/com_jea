@@ -232,7 +232,7 @@ class JeaUpload
 			$this->errors[] = 'COM_JEA_UPLOAD_DESTINATION_DIRECTORY_NOT_WRITABLE';
 		}
 
-		$file = $dir . DS . $this->name;
+		$file = $dir . '/' . $this->name;
 
 		if (JFile::exists($file))
 		{

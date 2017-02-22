@@ -13,7 +13,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'tables' . DS . 'features.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 
 /**
  * Property list view.
@@ -178,14 +178,14 @@ class JeaViewProperties extends JViewLegacy
 		if (! empty($images) && is_array($images))
 		{
 			$image = array_shift($images);
-			$imagePath = JPATH_ROOT . DS . 'images' . DS . 'com_jea';
+			$imagePath = JPATH_ROOT . '/images/com_jea';
 
-			if (file_exists($imagePath . DS . 'thumb-min' . DS . $row->id . '-' . $image->name))
+			if (file_exists($imagePath . '/thumb-min/' . $row->id . '-' . $image->name))
 			{
 				// If the thumbnail already exists, display it directly
 				return $this->baseurl . '/images/com_jea/thumb-min/' . $row->id . '-' . $image->name;
 			}
-			elseif (file_exists($imagePath . DS . 'images' . DS . $row->id . DS . $image->name))
+			elseif (file_exists($imagePath . '/images/' . $row->id . '/' . $image->name))
 			{
 				// If the thumbnail doesn't exist, generate it and output it on the fly
 				$url = 'index.php?option=com_jea&task=thumbnail.create&size=min&id=' . $row->id . '&image=' . $image->name;

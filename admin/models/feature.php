@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.folder');
 
-require_once JPATH_COMPONENT . DS . 'tables' . DS . 'features.php';
+require_once JPATH_COMPONENT . '/tables/features.php';
 
 /**
  * Feature model class.
@@ -80,7 +80,7 @@ class JeaModelFeature extends JModelAdmin
 			{
 				if ($feature == $matches[1])
 				{
-					$form = simplexml_load_file($xmlPath . DS . $filename);
+					$form = simplexml_load_file($xmlPath . '/' . $filename);
 					$this->setState('feature.table', (string) $form['table']);
 					$this->setState('feature.form', $xmlPath . $filename);
 				}

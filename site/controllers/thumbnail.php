@@ -45,9 +45,9 @@ class JeaControllerThumbnail extends JControllerLegacy
 
 		$image = JRequest::getVar('image', '');
 		$id = JRequest::getInt('id', 0);
-		$imagePath = JPATH_ROOT . DS . 'images' . DS . 'com_jea' . DS . 'images' . DS . $id . DS . $image;
-		$thumbDir = JPATH_ROOT . DS . 'images' . DS . 'com_jea' . DS . 'thumb-' . $size;
-		$thumbPath = $thumbDir . DS . $id . '-' . $image;
+		$imagePath = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
+		$thumbDir = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
+		$thumbPath = $thumbDir . '/' . $id . '-' . $image;
 
 		if (file_exists($thumbPath))
 		{

@@ -16,7 +16,7 @@ jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'upload.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.php';
 
 /**
  * Features controller class.
@@ -40,7 +40,7 @@ class JeaControllerFeatures extends JControllerLegacy
 		if (! empty($features))
 		{
 			$config = JFactory::getConfig();
-			$exportPath = $config->get('tmp_path') . DS . 'jea_export';
+			$exportPath = $config->get('tmp_path') . '/jea_export';
 
 			if (JFolder::create($exportPath) === false)
 			{
@@ -62,7 +62,7 @@ class JeaControllerFeatures extends JControllerLegacy
 
 						if (in_array($feature, $features))
 						{
-							$form = simplexml_load_file($xmlPath . DS . $filename);
+							$form = simplexml_load_file($xmlPath . '/' . $filename);
 							$table = (string) $form['table'];
 							$files[] = array(
 								'data' => $model->getCSVData($table),
@@ -72,7 +72,7 @@ class JeaControllerFeatures extends JControllerLegacy
 					}
 				}
 
-				$zipFile = $exportPath . DS . 'jea_export_' . uniqid() . '.zip';
+				$zipFile = $exportPath . '/jea_export_' . uniqid() . '.zip';
 				$zip = JArchive::getAdapter('zip');
 				$zip->create($zipFile, $files);
 
@@ -126,7 +126,7 @@ class JeaControllerFeatures extends JControllerLegacy
 
 				if (! isset($tables[$feature]))
 				{
-					$form = simplexml_load_file($xmlPath . DS . $filename);
+					$form = simplexml_load_file($xmlPath . '/' . $filename);
 					$tables[$feature] = (string) $form['table'];
 				}
 			}

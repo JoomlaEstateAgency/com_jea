@@ -13,7 +13,7 @@ defined('_JEXEC') or die();
 
 jimport('joomla.application.component.view');
 
-require JPATH_COMPONENT . DS . 'helpers' . DS . 'jea.php';
+require JPATH_COMPONENT . '/helpers/jea.php';
 
 /**
  * View to edit property.
