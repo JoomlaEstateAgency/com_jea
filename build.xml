@@ -24,5 +24,52 @@
 			<arg path="${basedir}"/>
 		</exec>
 	</target>
+	
+	<target name="cleancode" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="cleancode"/>
+		</exec>
+	</target>
+	
+	<target name="codesize" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="codesize"/>
+		</exec>
+	</target>
+	
+	<target name="controversial" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="controversial"/>
+		</exec>
+	</target>
+	
+	<target name="design" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="design"/>
+		</exec>
+	</target>
 
+	<target name="naming" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="naming"/>
+		</exec>
+	</target>
+	
+	<target name="unusedcode" description="Generate code mess report using PHPMD">
+		<exec executable="${basedir}/vendor/phpmd/phpmd/src/bin/phpmd">
+			<arg path="${basedir}/admin,${basedir}/site"/>
+			<arg value="text"/>
+			<arg value="unusedcode"/>
+		</exec>
+	</target>
 </project>
