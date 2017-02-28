@@ -69,7 +69,7 @@ class JeaControllerGateways extends JControllerAdmin
 		if (strpos($interpreter, 'php') === false)
 		{
 			echo "PHP interpreter must contains 'php' in its name";
-			exit();
+			$application->close();
 		}
 
 		$command = ($task == 'export' ? $interpreter . ' '
@@ -80,7 +80,8 @@ class JeaControllerGateways extends JControllerAdmin
 
 		$output = array();
 		$return = 0;
-		$lastLine = exec($command, $output, $return);
+
+		exec($command, $output, $return);
 
 		if ($return > 0)
 		{
@@ -92,7 +93,7 @@ class JeaControllerGateways extends JControllerAdmin
 			echo "$line\n";
 		}
 
-		exit();
+		$application->close();
 	}
 
 	/**

@@ -54,7 +54,7 @@ class JeaControllerGateway extends JControllerForm
 		$application->sendHeaders();
 		echo $gateway->getLogs();
 
-		exit();
+		$application->close();
 	}
 
 	/**

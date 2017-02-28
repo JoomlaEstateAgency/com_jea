@@ -43,7 +43,7 @@ if (!empty($filters)) {
   <fieldset id="filter-bar">
     <div class="clr"></div>
     <div class="filter-search fltlft">
-      <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label> 
+      <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
       <input type="text" name="filter_search" id="filter_search"
              value="<?php echo $this->escape($this->state->get('filter.search')); ?>" />
       <button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -131,7 +131,7 @@ if (!empty($filters)) {
         </th>
         <th width="10%">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'f.ordering', $listDirection , $listOrder ) ?>
-          <?php if ($saveOrder) :?> 
+          <?php if ($saveOrder) :?>
           <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'featurelist.saveorder'); ?>
           <?php endif; ?>
         </th>
@@ -165,35 +165,35 @@ if (!empty($filters)) {
       <tr class="row<?php echo $altrow ?>">
         <td><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
         <td>
-        <?php if ($canEdit) : ?> 
+        <?php if ($canEdit) : ?>
           <a href="<?php echo JRoute::_('index.php?option=com_jea&task=feature.edit&id='.(int) $item->id . '&feature='. $this->state->get('feature.name')); ?>">
-          <?php echo $this->escape($item->value) ?> </a> 
-        <?php else : ?> 
+          <?php echo $this->escape($item->value) ?> </a>
+        <?php else : ?>
           <?php echo $this->escape($item->value) ?>
         <?php endif ?>
         </td>
 
         <td class="order">
-        <?php if ($canChange) : ?> 
-          <?php if ($saveOrder) :?> 
+        <?php if ($canChange) : ?>
+          <?php if ($saveOrder) :?>
             <?php if ($listDirection == 'asc') : ?>
-              <span><?php echo $this->pagination->orderUpIcon($i, true, 'featurelist.orderup', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span> 
-              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'featurelist.orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span> 
-            <?php elseif ($listDirection == 'desc') : ?> 
-              <span><?php echo $this->pagination->orderUpIcon($i, true, 'featurelist.orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span> 
-              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'featurelist.orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span> 
-            <?php endif ?> 
-          <?php endif; ?> 
-          <input type="text" name="order[]" size="5" value="<?php echo $item->ordering ?>" <?php if (!$saveOrder) echo 'disabled="disabled"' ?> class="text-area-order" /> 
-        <?php else : ?> 
-          <?php echo $item->ordering ?> 
+              <span><?php echo $this->pagination->orderUpIcon($i, true, 'featurelist.orderup', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'featurelist.orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+            <?php elseif ($listDirection == 'desc') : ?>
+              <span><?php echo $this->pagination->orderUpIcon($i, true, 'featurelist.orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'featurelist.orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+            <?php endif ?>
+          <?php endif; ?>
+          <input type="text" name="order[]" size="5" value="<?php echo $item->ordering ?>" <?php if (!$saveOrder) echo 'disabled="disabled"' ?> class="text-area-order" />
+        <?php else : ?>
+          <?php echo $item->ordering ?>
         <?php endif ?>
         </td>
         <?php if ($this->state->get('language_enabled')): ?>
         <td class="center">
-        <?php if ($item->language == '*'): ?> 
+        <?php if ($item->language == '*'): ?>
           <?php echo JText::alt('JALL', 'language') ?>
-        <?php else: ?> 
+        <?php else: ?>
           <?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED') ?>
         <?php endif ?>
         </td>
@@ -206,7 +206,7 @@ if (!empty($filters)) {
   </div>
 
   <div>
-    <input type="hidden" name="task" value="" /> 
+    <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <input type="hidden" name="feature" value="<?php echo $this->state->get('feature.name')?>" />
     <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />

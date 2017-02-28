@@ -40,8 +40,8 @@ $transactionType = $this->state->get('filter.transaction_type');
   <fieldset id="filter-bar">
     <div class="clr"></div>
     <div class="filter-search fltlft">
-      <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label> 
-      <input type="text" name="filter_search" id="filter_search" 
+      <label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></label>
+      <input type="text" name="filter_search" id="filter_search"
              value="<?php echo $this->escape($this->state->get('filter.search', '')); ?>"
              title="<?php echo JText::_('COM_JEA_PROPERTIES_SEARCH_FILTER_DESC'); ?>" />
       <button type="submit" class="btn"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
@@ -178,7 +178,7 @@ $transactionType = $this->state->get('filter.transaction_type');
         </th>
         <th width="5%" class="nowrap">
           <?php echo JHTML::_('grid.sort', 'JGRID_HEADING_ORDERING', 'p.ordering', $listDirection , $listOrder ) ?>
-          <?php if ($saveOrder) :?> 
+          <?php if ($saveOrder) :?>
           <?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'properties.saveorder'); ?>
           <?php endif; ?>
         </th>
@@ -221,13 +221,13 @@ $transactionType = $this->state->get('filter.transaction_type');
       <tr class="row<?php echo $altrow ?>">
         <td><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
         <td>
-        <?php if ($item->checked_out) : ?> 
+        <?php if ($item->checked_out) : ?>
           <?php echo JHtml::_('jgrid.checkedout', $i, $item->author, $item->checked_out_time, 'properties.', $canCheckin); ?>
-        <?php endif ?> 
-        <?php if ($canEdit || $canEditOwn) : ?> 
+        <?php endif ?>
+        <?php if ($canEdit || $canEditOwn) : ?>
           <a href="<?php echo JRoute::_('index.php?option=com_jea&task=property.edit&id='.(int) $item->id); ?>">
-          <?php echo $this->escape($item->ref); ?> </a> 
-        <?php else : ?> 
+          <?php echo $this->escape($item->ref); ?> </a>
+        <?php else : ?>
           <?php echo $this->escape($item->ref); ?>
         <?php endif ?>
         </td>
@@ -250,26 +250,26 @@ $transactionType = $this->state->get('filter.transaction_type');
           <?php echo $this->escape($item->access_level); ?>
         </td>
         <td class="order">
-        <?php if ($canChange) : ?> 
-          <?php if ($saveOrder) :?> 
+        <?php if ($canChange) : ?>
+          <?php if ($saveOrder) :?>
             <?php if ($listDirection == 'asc') : ?>
-              <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderup', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span> 
-              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span> 
-            <?php elseif ($listDirection == 'desc') : ?> 
-              <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span> 
-              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span> 
-            <?php endif ?> 
-          <?php endif ?> 
-            <input type="text" name="order[]" size="5" value="<?php echo $item->ordering ?>" <?php if (!$saveOrder) echo 'disabled="disabled"' ?> class="text-area-order" /> 
-          <?php else : ?> 
-            <?php echo $item->ordering ?> 
+              <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderup', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderdown', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+            <?php elseif ($listDirection == 'desc') : ?>
+              <span><?php echo $this->pagination->orderUpIcon($i, true, 'properties.orderdown', 'JLIB_HTML_MOVE_UP', $saveOrder) ?></span>
+              <span><?php echo $this->pagination->orderDownIcon($i, $this->pagination->total, true, 'properties.orderup', 'JLIB_HTML_MOVE_DOWN', $saveOrder) ?></span>
+            <?php endif ?>
+          <?php endif ?>
+            <input type="text" name="order[]" size="5" value="<?php echo $item->ordering ?>" <?php if (!$saveOrder) echo 'disabled="disabled"' ?> class="text-area-order" />
+          <?php else : ?>
+            <?php echo $item->ordering ?>
         <?php endif ?>
         </td>
         <td>
-        <?php if ( $this->user->authorise( 'com_users', 'manage' ) ): ?> 
+        <?php if ( $this->user->authorise( 'com_users', 'manage' ) ): ?>
           <a href="<?php echo JRoute::_( 'index.php?option=com_users&task=user.edit&id='. $item->created_by )  ?>" title="<?php echo JText::_('COM_JEA_EDIT_USER') ?> ">
-          <?php echo $this->escape( $item->author ) ?></a> 
-        <?php else : echo $this->escape( $item->author ) ?> 
+          <?php echo $this->escape( $item->author ) ?></a>
+        <?php else : echo $this->escape( $item->author ) ?>
         <?php endif ?>
         </td>
         <td class="center">
@@ -290,9 +290,9 @@ $transactionType = $this->state->get('filter.transaction_type');
   </table>
 
   <div>
-    <input type="hidden" name="task" value="" /> 
+    <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
-    <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" /> 
+    <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
     <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
     <?php echo JHtml::_('form.token') ?>
   </div>

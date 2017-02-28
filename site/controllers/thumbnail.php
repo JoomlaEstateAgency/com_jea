@@ -34,20 +34,20 @@ class JeaControllerThumbnail extends JControllerLegacy
 	 */
 	public function create()
 	{
-		$output = '';
-
-		$size = JRequest::getCmd('size', '');
+		/* @var JApplicationWeb  $application */
+		$application = JFactory::getApplication();
+		$output      = '';
+		$size        = $application->input->getCmd('size', '');
+		$image       = $application->input->getPath('image', '');
+		$id          = $application->input->getInt('id', 0);
+		$imagePath   = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
+		$thumbDir    = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
+		$thumbPath   = $thumbDir . '/' . $id . '-' . $image;
 
 		if (!in_array($size, array('min', 'medium')))
 		{
 			throw new Exception('The image size is not recognized', 500);
 		}
-
-		$image = JRequest::getVar('image', '');
-		$id = JRequest::getInt('id', 0);
-		$imagePath = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
-		$thumbDir = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
-		$thumbPath = $thumbDir . '/' . $id . '-' . $image;
 
 		if (file_exists($thumbPath))
 		{
@@ -98,11 +98,12 @@ class JeaControllerThumbnail extends JControllerLegacy
 			throw new Exception('The image ' . $image . ' was not found', 500);
 		}
 
-		JResponse::setHeader('Content-Type', 'image/jpeg', true);
-		JResponse::setHeader('Content-Transfer-Encoding', 'binary');
-		JResponse::allowCache(false);
-		JResponse::setBody($output);
-		echo JResponse::toString();
-		exit();
+		$application->setHeader('Content-Type', 'image/jpeg', true);
+		$application->setHeader('Content-Transfer-Encoding', 'binary', true);
+		$application->sendHeaders();
+
+		echo $output;
+
+		$application->close();
 	}
 }

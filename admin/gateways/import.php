@@ -209,7 +209,6 @@ abstract class JeaGatewayImport extends JeaGateway
 						$msg .= " $error\n";
 					}
 
-					$msg .= print_r($row->getProperties(), true);
 					$this->log($msg, 'WARN');
 					JError::raiseNotice(200, "A property cant'be saved. See logs for more infos");
 				}
