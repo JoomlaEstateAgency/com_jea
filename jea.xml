@@ -52,7 +52,7 @@
 
 	<!-- Backend -->
 	<administration>
-		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >Joomla Estate Agency</menu>
+		<menu img="../media/com_jea/images/menu/icon-16-jea.png" >com_jea</menu>
 		<submenu>
 			<menu img="icon" view="properties">com_jea_properties</menu>
 			<menu img="icon" view="features">com_jea_features</menu>
