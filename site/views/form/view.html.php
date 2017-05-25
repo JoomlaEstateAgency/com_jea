@@ -32,7 +32,7 @@ class JeaViewForm extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
@@ -46,7 +46,7 @@ class JeaViewForm extends JViewLegacy
 
 		if (empty($this->item->id))
 		{
-			if (! $user->get('id'))
+			if (!$user->id)
 			{
 				// When user is not authenticated
 				if ($this->params->get('login_behavior') == 'before')
@@ -76,17 +76,15 @@ class JeaViewForm extends JViewLegacy
 			{
 				$authorised = true;
 			}
-			elseif ($user->authorise('core.edit.own', $asset) && $this->item->created_by == $user->get('id'))
+			elseif ($user->authorise('core.edit.own', $asset) && $this->item->created_by == $user->id)
 			{
 				$authorised = true;
 			}
 		}
 
-		if ($authorised !== true)
+		if (!$authorised)
 		{
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return false;
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		parent::display($tpl);

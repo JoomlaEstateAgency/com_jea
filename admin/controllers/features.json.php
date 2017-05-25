@@ -28,12 +28,12 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function get_areas ()
+	public function get_areas()
 	{
 		$response = false;
 
 		// Require town id
-		if ($town_id = JRequest::getInt('town_id', 0))
+		if ($town_id = $this->input->getInt('town_id', 0))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -53,12 +53,12 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function get_towns ()
+	public function get_towns()
 	{
 		$response = false;
 
 		// Require department id
-		if ($department_id = JRequest::getInt('department_id', 0))
+		if ($department_id = $this->input->getInt('department_id', 0))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -78,21 +78,21 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function get_list ()
+	public function get_list()
 	{
+		// TODO: Check if this method is used
 		$response = false;
 
-		$jinput = JFactory::getApplication()->input;
-		$featName = $jinput->get('feature', null, 'alnum');
+		$featName = $this->input->getAlnum('feature');
 
-		if (! is_null($featName))
+		if (!is_null($featName))
 		{
 			$model = $this->getModel('Features', 'JeaModel');
 			$features = $model->getItems();
 
 			if (isset($features[$featName]))
 			{
-				if (! $language = $jinput->get('language', '*', 'string'))
+				if (!$language = $this->input->getString('language', '*'))
 				{
 					$language = '*';
 				}

@@ -38,8 +38,7 @@ class JeaViewProperties extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$params = JComponentHelper::getParams('com_jea');
-		$this->assignRef('params', $params);
+		$this->params = JComponentHelper::getParams('com_jea');
 
 		JeaHelper::addSubmenu('properties');
 
@@ -48,10 +47,7 @@ class JeaViewProperties extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 
-		if ((float) JVERSION > 3)
-		{
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->sidebar = JHtmlSidebar::render();
 
 		$this->addToolbar();
 

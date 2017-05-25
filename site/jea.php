@@ -24,11 +24,5 @@ if ($input->getCmd('task') == '')
 }
 
 $controller = JControllerLegacy::getInstance('jea');
-
-if ((float) JVERSION > 3)
-{
-	$controller->authorise($input->getCmd('task'));
-}
-
 $controller->execute($input->getCmd('task'));
 $controller->redirect();

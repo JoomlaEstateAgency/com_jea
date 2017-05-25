@@ -67,7 +67,8 @@ class JeaModelFeature extends JModelAdmin
 		 * Be careful to not call parent::populateState() because this will cause an
 		 * infinite call of this method in JeaModelFeature::getTable()
 		 */
-		$feature = JRequest::getCmd('feature');
+		$input = JFactory::getApplication()->input;
+		$feature = $input->getCmd('feature');
 		$this->setState('feature.name', $feature);
 
 		// Retrieve the feature table params
@@ -88,7 +89,7 @@ class JeaModelFeature extends JModelAdmin
 		}
 
 		// Get the pk of the record from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $input->getInt('id');
 		$this->setState($this->getName() . '.id', $pk);
 	}
 

@@ -36,23 +36,18 @@ class JeaViewProperty extends JViewLegacy
 	 */
 	public function display ($tpl = null)
 	{
-		$state = $this->get('State');
+		$this->state = $this->get('State');
 		$item = $this->get('Item');
-		$params = &$state->params;
+		$this->params = $this->state->params;
 
-		if (! $item)
+		if (!$item)
 		{
-			JError::raiseError(404, JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
-
-			return false;
+			throw new RuntimeException(JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
 		}
+		$this->row = $item;
 
 		// Increment the hit counter of the property
 		$this->getModel()->hit();
-
-		$this->assignRef('params', $params);
-		$this->assignRef('state', $state);
-		$this->assignRef('row', $item);
 
 		if (empty($item->title))
 		{
@@ -63,7 +58,7 @@ class JeaViewProperty extends JViewLegacy
 			$pageTitle = $this->escape($item->title);
 		}
 
-		$this->assign('page_title', $pageTitle);
+		$this->page_title = $pageTitle;
 
 		$app = JFactory::getApplication();
 		$pathway = $app->getPathway();

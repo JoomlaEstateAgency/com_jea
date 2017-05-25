@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Jea Amenities HTML helper
  *
@@ -32,7 +34,7 @@ abstract class JHtmlAmenities
 	 */
 	static public function bindList($value = 0, $format = 'raw')
 	{
-		if (is_string($value) && ! empty($value))
+		if (is_string($value) && !empty($value))
 		{
 			$ids = explode('-', $value);
 		}
@@ -42,8 +44,7 @@ abstract class JHtmlAmenities
 		}
 		else
 		{
-			JArrayHelper::toInteger($value);
-			$ids = $value;
+			$ids = ArrayHelper::toInteger($value);
 		}
 
 		$html = '';
@@ -92,7 +93,7 @@ abstract class JHtmlAmenities
 		$values = (array) $values;
 		$html = '';
 
-		if (! empty($amenities))
+		if (!empty($amenities))
 		{
 			$html .= "<ul>\n";
 

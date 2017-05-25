@@ -48,10 +48,7 @@ class JeaViewDefault extends JViewLegacy
 			JToolBarHelper::preferences('com_jea');
 		}
 
-		if ((float) JVERSION > 3)
-		{
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->sidebar = JHtmlSidebar::render();
 
 		parent::display($tpl);
 	}
@@ -65,7 +62,7 @@ class JeaViewDefault extends JViewLegacy
 	{
 		if (is_file(JPATH_COMPONENT . '/jea.xml'))
 		{
-			$xml = JFactory::getXML(JPATH_COMPONENT . '/jea.xml');
+			$xml = simplexml_load_file(JPATH_COMPONENT . '/jea.xml');
 
 			return $xml->version;
 		}

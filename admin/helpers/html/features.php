@@ -245,7 +245,7 @@ abstract class JHtmlFeatures
 		}
 		else
 		{
-			if ((float) JVERSION > 3 && JFactory::getApplication()->isAdmin())
+			if ((float) JVERSION > 3 && JFactory::getApplication()->isClient('administrator'))
 			{
 				$attr = 'class="inputbox span12 small" size="1" ' . $attr;
 			}
@@ -267,7 +267,7 @@ abstract class JHtmlFeatures
 	{
 		$condition = '';
 
-		if (JFactory::getApplication()->isSite())
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			$db = JFactory::getDbo();
 			$condition = 'f.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')';

@@ -49,14 +49,6 @@ class JeaViewProperty extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->canDo = JeaHelper::getActions($this->item->id);
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
-
 		$this->addToolbar();
 
 		parent::display($tpl);
@@ -69,11 +61,11 @@ class JeaViewProperty extends JViewLegacy
 	 */
 	protected function addToolbar ()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
+
 		$isNew = ($this->item->id == 0);
-		$checkedOut = ! ($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = ! ($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
 
 		$title = JText::_('COM_JEA_PROPERTIES_MANAGEMENT') . ' : ';
 		$title .= $isNew ? JText::_('JACTION_CREATE') : JText::_('JACTION_EDIT');
@@ -96,7 +88,7 @@ class JeaViewProperty extends JViewLegacy
 			{
 				// Since it's an existing record, check the edit permission, or
 				// fall back to edit own if the owner.
-				if ($this->canDo->get('core.edit') || ($this->canDo->get('core.edit.own') && $this->item->created_by == $userId))
+				if ($this->canDo->get('core.edit') || ($this->canDo->get('core.edit.own') && $this->item->created_by == $user->id))
 				{
 					JToolBarHelper::apply('property.apply');
 					JToolBarHelper::save('property.save');

@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.application.component.modeladmin');
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
@@ -252,39 +254,16 @@ class JeaModelProperty extends JModelAdmin
 	 * @param   array    $pks    The ids of the items to toggle.
 	 * @param   integer  $value  The value to toggle to.
 	 *
-	 * @return  boolean  true on success.
+	 * @return  void.
 	 */
 	public function featured($pks, $value = 0)
 	{
 		// Sanitize the ids.
-		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger((array) $pks);
 
-		if (empty($pks))
-		{
-			$this->setError(JText::_('COM_JEA_NO_ITEM_SELECTED'));
-
-			return false;
-		}
-
-		try
-		{
-			$db = $this->getDbo();
-			$db->setQuery('UPDATE #__jea_properties' . ' SET featured = ' . (int) $value . ' WHERE id IN (' . implode(',', $pks) . ')');
-
-			if (! $db->query())
-			{
-				throw new Exception($db->getErrorMsg());
-			}
-
-			return true;
-		}
-		catch (Exception $e)
-		{
-			$this->setError($e->getMessage());
-		}
-
-		return false;
+		$db = $this->getDbo();
+		$db->setQuery('UPDATE #__jea_properties' . ' SET featured = ' . (int) $value . ' WHERE id IN (' . implode(',', $pks) . ')');
+		$db->execute();
 	}
 
 	/**
@@ -292,13 +271,13 @@ class JeaModelProperty extends JModelAdmin
 	 *
 	 * @param   array  $pks  The ids of the items to copy.
 	 *
-	 * @return  boolean  true on success.
+	 * @return  void.
 	 */
 	public function copy($pks)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
+		ArrayHelper::toInteger($pks);
 
 		$table = $this->getTable();
 		$nextOrdering = $table->getNextOrder();
@@ -324,17 +303,7 @@ class JeaModelProperty extends JModelAdmin
 			$row['created'] = date('Y-m-d H:i:s');
 
 			$table->bind($row);
-
-			try
-			{
-				$table->store();
-			}
-			catch (Exception $e)
-			{
-				$this->setError($e->getMessage());
-
-				return false;
-			}
+			$table->store();
 
 			$nextOrdering ++;
 		}

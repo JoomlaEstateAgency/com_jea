@@ -19,9 +19,8 @@ JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
-if ((float) JVERSION > 3) {
-    JHtml::_('formbehavior.chosen', 'select');
-}
+
+JHtml::_('formbehavior.chosen', 'select');
 
 $rowsCount = count($this->items) ;
 $altrow = 1;

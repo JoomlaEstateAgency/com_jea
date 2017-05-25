@@ -46,14 +46,6 @@ class JeaViewFeature extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
-		}
-
 		$this->addToolbar();
 
 		parent::display($tpl);
@@ -66,7 +58,7 @@ class JeaViewFeature extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$isNew = ($this->item->id == 0);
 		$canDo = JeaHelper::getActions();
 

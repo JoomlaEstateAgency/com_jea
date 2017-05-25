@@ -45,10 +45,7 @@ class JeaViewTools extends JViewLegacy
 			JToolBarHelper::preferences('com_jea');
 		}
 
-		if ((float) JVERSION > 3)
-		{
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->sidebar = JHtmlSidebar::render();
 
 		parent::display($tpl);
 	}

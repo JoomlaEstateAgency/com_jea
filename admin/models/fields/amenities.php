@@ -105,7 +105,7 @@ class JFormFieldAmenities extends JFormField
 		$query->select('f.id , f.value');
 		$query->from('#__jea_amenities AS f');
 
-		if (JFactory::getApplication()->isSite())
+		if (JFactory::getApplication()->isClient('site'))
 		{
 			$query->where('f.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}

@@ -11,6 +11,8 @@
 // Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die();
 
+use Joomla\String\StringHelper;
+
 jimport('joomla.application.component.view');
 
 require JPATH_COMPONENT . '/helpers/jea.php';
@@ -36,8 +38,7 @@ class JeaViewFeaturelist extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$params = JComponentHelper::getParams('com_jea');
-		$this->assignRef('params', $params);
+		$this->params = JComponentHelper::getParams('com_jea');
 
 		JeaHelper::addSubmenu('features');
 
@@ -46,10 +47,7 @@ class JeaViewFeaturelist extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 
-		if ((float) JVERSION > 3)
-		{
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->sidebar = JHtmlSidebar::render();
 
 		$this->addToolbar();
 		parent::display($tpl);
@@ -65,7 +63,7 @@ class JeaViewFeaturelist extends JViewLegacy
 		$canDo = JeaHelper::getActions();
 		$feature = $this->state->get('feature.name');
 
-		JToolBarHelper::title(JText::_(JString::strtoupper("com_jea_list_of_{$feature}_title")), 'jea.png');
+		JToolBarHelper::title(JText::_(StringHelper::strtoupper("com_jea_list_of_{$feature}_title")), 'jea.png');
 
 		if ($canDo->get('core.create'))
 		{

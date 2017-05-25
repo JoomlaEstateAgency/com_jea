@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.application.component.modellist');
 
 /**
@@ -91,7 +93,7 @@ class JeaModelProperties extends JModelList
 		}
 
 		// Add a context by Itemid
-		$itemId = JRequest::getInt('Itemid');
+		$itemId = JFactory::getApplication()->input->getInt('Itemid', 0);
 
 		if ($itemId > 0)
 		{
@@ -254,15 +256,15 @@ class JeaModelProperties extends JModelList
 			$canEdit = $user->authorise('core.edit', 'com_jea');
 			$canEditOwn = $user->authorise('core.edit.own', 'com_jea');
 
-			if (! $canEdit && $canEditOwn)
+			if (!$canEdit && $canEditOwn)
 			{
 				// Get only the user properties
-				$query->where('p.created_by =' . (int) $user->get('id'));
+				$query->where('p.created_by =' . (int) $user->id);
 			}
 
-			if (! $canEditOwn)
+			if (!$canEditOwn)
 			{
-				throw new JException(JText::_('JERROR_ALERTNOAUTHOR'));
+				throw new \RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 		else
@@ -306,7 +308,7 @@ class JeaModelProperties extends JModelList
 		{
 			if (is_array($value))
 			{
-				JArrayHelper::toInteger($value);
+				$value = ArrayHelper::toInteger($value);
 				$query->where('p.type_id IN(' . implode(',', $value) . ')');
 			}
 			else
@@ -434,8 +436,8 @@ class JeaModelProperties extends JModelList
 		// Filter by amenities
 		if ($value = $this->getState('filter.amenities'))
 		{
-			$amenities = (array) $value;
-			JArrayHelper::toInteger($amenities);
+
+			$amenities = ArrayHelper::toInteger((array) $value);
 
 			foreach ($amenities as $id)
 			{

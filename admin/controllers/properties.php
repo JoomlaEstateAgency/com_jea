@@ -11,6 +11,8 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\Utilities\ArrayHelper;
+
 jimport('joomla.application.component.controlleradmin');
 
 /**
@@ -45,42 +47,44 @@ class JeaControllerProperties extends JControllerAdmin
 	public function featured()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user = JFactory::getUser();
-		$ids = JRequest::getVar('cid', array(), '', 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 		$values = array(
 				'featured' => 1,
 				'unfeatured' => 0
 		);
 		$task = $this->getTask();
-		$value = JArrayHelper::getValue($values, $task, 0, 'int');
+		$value = ArrayHelper::getValue($values, $task, 0, 'int');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (! $user->authorise('core.edit.state', 'com_jea.property.' . (int) $id))
+			if (!$user->authorise('core.edit.state', 'com_jea.property.' . (int) $id))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 			}
 		}
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
-			// Get the model.
 			$model = $this->getModel();
 
-			// Publish the items.
-			if (! $model->featured($ids, $value))
+			try
 			{
-				JError::raiseWarning(500, $model->getError());
+				$model->featured($ids, $value);
+			}
+			catch (\Exception $e)
+			{
+				$this->setMessage($e->getMessage(), 'error');
 			}
 		}
 
@@ -95,30 +99,32 @@ class JeaControllerProperties extends JControllerAdmin
 	public function copy()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken()or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
 		$user = JFactory::getUser();
-		$ids = JRequest::getVar('cid', array(), '', 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
 		if (! $user->authorise('core.create'))
 		{
-			JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
+			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'warning');
 		}
 		elseif (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
-			// Get the model.
 			$model = $this->getModel();
 
-			// Publish the items.
-			if (! $model->copy($ids))
+			try
 			{
-				JError::raiseWarning(500, $model->getError());
+				$model->copy($ids);
+			}
+			catch (\Exception $e)
+			{
+				$this->setMessage($e->getMessage(), 'error');
 			}
 		}
 

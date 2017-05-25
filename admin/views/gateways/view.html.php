@@ -47,10 +47,7 @@ class JeaViewGateways extends JViewLegacy
 
 		$this->state = $this->get('State');
 
-		if ((float) JVERSION > 3)
-		{
-			$this->sidebar = JHtmlSidebar::render();
-		}
+		$this->sidebar = JHtmlSidebar::render();
 
 		$title = JText::_('COM_JEA_GATEWAYS');
 

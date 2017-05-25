@@ -37,26 +37,23 @@ class JeaViewProperties extends JViewLegacy
 	public function display ($tpl = null)
 	{
 		$state = $this->get('State');
-		$params = &$state->params;
+		$this->params = $state->params;
+		$this->state = $state;
 
-		$this->assignRef('params', $params);
-		$this->assignRef('state', $state);
 		$layout = $this->getLayout();
 
 		if ($layout == 'default' || $layout == 'manage')
 		{
 			if ($layout == 'manage')
 			{
-				$items = $this->get('MyItems');
+				$this->items = $this->get('MyItems');
 			}
 			else
 			{
-				$items = $this->get('Items');
+				$this->items= $this->get('Items');
 			}
 
-			$pagination = $this->get('Pagination');
-			$this->assignRef('items', $items);
-			$this->assignRef('pagination', $pagination);
+			$this->pagination = $this->get('Pagination');
 		}
 
 		if ($layout == 'default')
@@ -129,7 +126,7 @@ class JeaViewProperties extends JViewLegacy
 			$sort_links[] = $this->sort('COM_JEA_SORT_BY_AREA', 'area', $direction, $order);
 		}
 
-		$this->assign('sort_links', $sort_links);
+		$this->sort_links = $sort_links;
 	}
 
 	/**

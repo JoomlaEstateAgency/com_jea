@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Jea Helper class
  *
@@ -68,12 +70,12 @@ class JeaHelper
 	 *
 	 * @param   int  $propertyId  The property ID.
 	 *
-	 * @return  JObject
+	 * @return  Registry
 	 */
 	public static function getActions($propertyId = 0)
 	{
 		$user = JFactory::getUser();
-		$result = new JObject;
+		$registry = new Registry();
 
 		if (empty($propertyId))
 		{
@@ -96,10 +98,10 @@ class JeaHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action, $user->authorise($action, $assetName));
+			$registry->set($action, $user->authorise($action, $assetName));
 		}
 
-		return $result;
+		return $registry;
 	}
 
 	/**

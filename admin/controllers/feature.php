@@ -43,8 +43,8 @@ class JeaControllerFeature extends JControllerForm
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$feature = JRequest::getCmd('feature');
-		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
+		$feature = $this->input->getCmd('feature');
+		$append  = parent::getRedirectToItemAppend($recordId, $urlVar);
 
 		if ($feature)
 		{

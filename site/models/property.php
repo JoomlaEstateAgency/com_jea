@@ -213,7 +213,7 @@ class JeaModelProperty extends JModelLegacy
 		$item = $this->getItem();
 
 		$context = 'com_jea.properties';
-		$itemId = JRequest::getInt('Itemid');
+		$itemId = JFactory::getApplication()->input->getInt('Itemid', 0);
 
 		if ($itemId > 0)
 		{
@@ -260,15 +260,17 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	public function hit($pk = 0)
 	{
-		// Initialise variables.
-		$pk = (! empty($pk)) ? $pk : $this->getState('property.id');
+		$pk = empty($pk) ? $this->getState('property.id') : (int) $pk ;
 		$db = $this->getDbo();
 		$db->setQuery('UPDATE #__jea_properties' . ' SET hits = hits + 1' . ' WHERE id = ' . (int) $pk);
 
-		if (! $db->query())
+		try
 		{
-			$this->setError($db->getErrorMsg());
-
+			$db->execute();
+		}
+		catch (\RuntimeException $e)
+		{
+			JLog::add($e->getMessage(), JLog::ERROR, 'com_jea');
 			return false;
 		}
 

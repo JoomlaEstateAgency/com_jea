@@ -37,16 +37,16 @@ class JeaControllerThumbnail extends JControllerLegacy
 		/* @var JApplicationWeb  $application */
 		$application = JFactory::getApplication();
 		$output      = '';
-		$size        = $application->input->getCmd('size', '');
-		$image       = $application->input->getPath('image', '');
-		$id          = $application->input->getInt('id', 0);
+		$size        = $this->input->getCmd('size', '');
+		$image       = $this->input->getPath('image', '');
+		$id          = $this->input->getInt('id', 0);
 		$imagePath   = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
 		$thumbDir    = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
 		$thumbPath   = $thumbDir . '/' . $id . '-' . $image;
 
 		if (!in_array($size, array('min', 'medium')))
 		{
-			throw new Exception('The image size is not recognized', 500);
+			throw new RuntimeException('The image size is not recognized', 500);
 		}
 
 		if (file_exists($thumbPath))
@@ -95,7 +95,7 @@ class JeaControllerThumbnail extends JControllerLegacy
 		}
 		else
 		{
-			throw new Exception('The image ' . $image . ' was not found', 500);
+			throw new RuntimeException('The image ' . $image . ' was not found', 500);
 		}
 
 		$application->setHeader('Content-Type', 'image/jpeg', true);

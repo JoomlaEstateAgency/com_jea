@@ -12,16 +12,11 @@
 // no direct access
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
-if ((float) JVERSION > 3) {
-    // require dirname(__FILE__) . '/edit-J3.x.php' ;
-    // return;
-}
-
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
-JHtml::script('media/com_jea/js/property.form.js', true);
+JHtml::script('media/com_jea/js/property.form.js');
 ?>
 <div id="ajaxupdating">
   <h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
@@ -106,7 +101,7 @@ JHtml::script('media/com_jea/js/property.form.js', true);
     <fieldset class="panelform">
     <?php echo $this->form->getInput('images') ?>
     </fieldset>
-    
+
     <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_NOTES'), 'note-pane') ?>
     <fieldset class="panelform">
         <?php echo $this->form->getLabel('notes') ?>
@@ -135,9 +130,9 @@ JHtml::script('media/com_jea/js/property.form.js', true);
   <?php endif; ?>
 
   <div>
-    <input type="hidden" name="task" value="" /> <input type="hidden" name="return"
-      value="<?php echo JRequest::getCmd('return') ?>" />
-      <?php echo JHtml::_('form.token') ?>
+    <input type="hidden" name="task" value="" />
+    <input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->getCmd('return') ?>" />
+    <?php echo JHtml::_('form.token') ?>
   </div>
 
 </form>

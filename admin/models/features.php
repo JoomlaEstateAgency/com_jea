@@ -140,26 +140,18 @@ class JeaModelFeatures extends JModelLegacy
 					}
 				}
 
-				try
+				if (isset($bind['id']) && isset($ids[$bind['id']]))
 				{
-					if (isset($bind['id']) && isset($ids[$bind['id']]))
-					{
-						// Load row to update
-						$table->load((int) $bind['id']);
-					}
-					elseif (isset($bind['ordering']))
-					{
-						$bind['ordering'] = $maxOrdering;
-						$maxOrdering ++;
-					}
+					// Load row to update
+					$table->load((int) $bind['id']);
+				}
+				elseif (isset($bind['ordering']))
+				{
+					$bind['ordering'] = $maxOrdering;
+					$maxOrdering ++;
+				}
 
-					$table->save($bind, '', 'id');
-				}
-				catch (Exception $e)
-				{
-					$this->setError($e->getMessage());
-					continue;
-				}
+				$table->save($bind, '', 'id');
 
 				// To force new insertion
 				$table->id = null;

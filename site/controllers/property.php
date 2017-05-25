@@ -90,7 +90,6 @@ class JeaControllerProperty extends JControllerForm
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$user = JFactory::getUser();
-		$userId = $user->get('id');
 		$asset = 'com_jea.property.' . $recordId;
 
 		// Check general edit permission first.
@@ -119,7 +118,7 @@ class JeaControllerProperty extends JControllerForm
 			}
 
 			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId)
+			if ($ownerId == $user->id)
 			{
 				return true;
 			}
@@ -200,7 +199,7 @@ class JeaControllerProperty extends JControllerForm
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl = $this->input->getCmd('tmpl');
 		$append = '&layout=edit';
 
 		// Setup redirect info.
@@ -226,7 +225,7 @@ class JeaControllerProperty extends JControllerForm
 	 */
 	protected function getRedirectToListAppend()
 	{
-		$tmpl = JRequest::getCmd('tmpl');
+		$tmpl = $this->input->getCmd('tmpl');
 		$append = '&layout=manage';
 
 		// Try to redirect to the manage menu item if found

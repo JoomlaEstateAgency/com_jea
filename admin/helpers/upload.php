@@ -88,7 +88,12 @@ class JeaUpload
 	 */
 	public static function getUpload($name = '')
 	{
-		$rawUploaded = JRequest::getVar($name, array(), 'files', 'array');
+		if (!isset($_FILES[$name]))
+		{
+			throw new \RuntimeException('No file with name ' . $name . ' was posted.');
+		}
+
+		$rawUploaded = $_FILES[$name];
 
 		if (is_array($rawUploaded['name']))
 		{

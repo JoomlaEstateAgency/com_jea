@@ -41,7 +41,7 @@ class JeaViewProperties extends JViewLegacy
 
 		$document->link = JRoute::_('index.php?option=com_jea&view=properties');
 
-		JRequest::setVar('limit', $app->getCfg('feed_limit'));
+		JFactory::getApplication()->input->set('limit', $app->get('feed_limit'));
 
 		$rows = $this->get('Items');
 

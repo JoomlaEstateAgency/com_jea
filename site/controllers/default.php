@@ -28,22 +28,21 @@ class JeaControllerDefault extends JControllerLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $task  The ACO Section Value to check access on.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  boolean  True if authorised
+	 * @return  JControllerLegacy.
 	 *
-	 * @deprecated  13.3  Use JAccess instead.
-	 *
-	 * @see JControllerLegacy::authorise()
+	 * @since   3.0
 	 */
-	public function authorise($task)
+	public function display($cachable = false, $urlparams = array())
 	{
 		$layout = JFactory::getApplication()->input->get('layout');
 
 		if ($layout == 'manage' || $layout == 'edit')
 		{
 			$user = JFactory::getUser();
-			$uri = JFactory::getURI();
+			$uri = JUri::getInstance();
 			$return = base64_encode($uri);
 			$access = false;
 
@@ -69,7 +68,7 @@ class JeaControllerDefault extends JControllerLegacy
 
 			if (! $access)
 			{
-				if ($user->get('id'))
+				if ($user->id)
 				{
 					$this->setMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
 				}
@@ -84,8 +83,10 @@ class JeaControllerDefault extends JControllerLegacy
 			}
 		}
 
-		return true;
+		return parent::display($cachable, $urlparams);
 	}
+
+
 
 	/**
 	 * Send contact form action
@@ -95,7 +96,7 @@ class JeaControllerDefault extends JControllerLegacy
 	public function sendContactForm()
 	{
 		// Check for request forgeries
-		if (! JRequest::checkToken())
+		if (!JSession::checkToken())
 		{
 			return $this->setRedirect($returnURL, JText::_('JINVALID_TOKEN'), 'warning');
 		}
@@ -103,7 +104,7 @@ class JeaControllerDefault extends JControllerLegacy
 		$model = $this->getModel('Property', 'JeaModel');
 		$returnURL = $model->getState('contact.propertyURL');
 
-		if (! $model->sendContactForm())
+		if (!$model->sendContactForm())
 		{
 			$errors = $model->getErrors();
 			$msg = '';

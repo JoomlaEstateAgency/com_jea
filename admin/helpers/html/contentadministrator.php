@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die();
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Content administrator html helper class.
  *
@@ -47,7 +49,7 @@ abstract class JHtmlContentAdministrator
 			)
 		);
 
-		$state = JArrayHelper::getValue($states, (int) $value, $states[1]);
+		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 		$html = JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
 
 		if ($canChange)

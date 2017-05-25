@@ -35,9 +35,10 @@ class JeaControllerFeatures extends JControllerLegacy
 	 */
 	public function export ()
 	{
-		$features = JRequest::getVar('cid', array(), 'post', 'array');
+		$application = JFactory::getApplication();
+		$features = $this->input->get('cid', array(), 'array');
 
-		if (! empty($features))
+		if (!empty($features))
 		{
 			$config = JFactory::getConfig();
 			$exportPath = $config->get('tmp_path') . '/jea_export';
@@ -76,17 +77,18 @@ class JeaControllerFeatures extends JControllerLegacy
 				$zip = JArchive::getAdapter('zip');
 				$zip->create($zipFile, $files);
 
-				JResponse::setHeader('Content-Type', 'application/zip');
-				JResponse::setHeader('Content-Disposition', 'attachment; filename="jea_features.zip"');
-				JResponse::setHeader('Content-Transfer-Encoding', 'binary');
-				JResponse::setBody(readfile($zipFile));
-				echo JResponse::toString();
+				$application->setHeader('Content-Type', 'application/zip', true);
+				$application->setHeader('Content-Disposition', 'attachment; filename="jea_features.zip"', true);
+				$application->setHeader('Content-Transfer-Encoding', 'binary', true);
+				$application->sendHeaders();
+
+				echo readfile($zipFile);
 
 				// Clean tmp files
 				JFile::delete($zipFile);
 				JFolder::delete($exportPath);
 
-				Jexit();
+				$application->close();
 			}
 		}
 		else
@@ -139,19 +141,17 @@ class JeaControllerFeatures extends JControllerLegacy
 				$file->setValidExtensions($validExtensions);
 				$fileErrors = $file->getErrors();
 
-				if (! $fileErrors)
+				if (!$fileErrors)
 				{
-					$rows = $model->importFromCSV($file->temp_name, $tables[$file->key]);
-					$msg = JText::sprintf('COM_JEA_NUM_LINES_IMPORTED_ON_TABLE', $rows, $tables[$file->key]);
-					$application->enqueueMessage($msg);
-					$errors = $model->getErrors();
-
-					if ($errors)
+					try
 					{
-						foreach ($errors as $error)
-						{
-							$application->enqueueMessage($error, 'warning');
-						}
+						$rows = $model->importFromCSV($file->temp_name, $tables[$file->key]);
+						$msg = JText::sprintf('COM_JEA_NUM_LINES_IMPORTED_ON_TABLE', $rows, $tables[$file->key]);
+						$application->enqueueMessage($msg);
+					}
+					catch (Exception $e)
+					{
+						$application->enqueueMessage($e->getMessage(), 'warning');
 					}
 				}
 				else
