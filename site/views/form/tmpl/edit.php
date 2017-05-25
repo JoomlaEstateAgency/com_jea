@@ -87,7 +87,7 @@ $uri =JFactory::getURI();
 
       <?php if (JPluginHelper::isEnabled('jea', 'dpe')): ?>
       <fieldset>
-         <?php 
+         <?php
          if ($this->item->dpe_energy === null) {
             $this->item->dpe_energy = '-1';
          }
@@ -120,15 +120,15 @@ $uri =JFactory::getURI();
         <div class="formelm">
         <?php echo $this->form->getLabel('language') ?> <?php echo $this->form->getInput('language') ?>
         </div>
-        
+
         <div class="formelm">
         <?php echo $this->form->getLabel('featured') ?> <?php echo $this->form->getInput('featured') ?>
         </div>
-        
+
         <div class="formelm">
         <?php echo $this->form->getLabel('slogan_id') ?> <?php echo $this->form->getInput('slogan_id') ?>
         </div>
-        
+
         <div class="formelm">
         <?php echo $this->form->getLabel('created') ?> <?php echo $this->form->getInput('created') ?>
         </div>
@@ -150,7 +150,9 @@ $uri =JFactory::getURI();
 
       <fieldset>
       <legend><?php echo JText::_('COM_JEA_PICTURES')?></legend>
+      <?php JLayoutHelper::$defaultBasePath = JPATH_COMPONENT_ADMINISTRATOR . '/layouts'; // Find layout path into JEA admin directory ?>
       <?php echo $this->form->getInput('images') ?>
+      <?php JLayoutHelper::$defaultBasePath = ''; // Restore default base path ?>
       </fieldset>
 
       <div class="formelm">
