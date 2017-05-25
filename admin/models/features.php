@@ -116,6 +116,7 @@ class JeaModelFeatures extends JModelLegacy
 			$db->setQuery($query);
 			$ids = $db->loadObjectList('id');
 
+			$query->clear();
 			$query->select('ordering')
 				->from($tableName)
 				->order('ordering DESC');
