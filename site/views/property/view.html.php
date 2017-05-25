@@ -44,6 +44,7 @@ class JeaViewProperty extends JViewLegacy
 		{
 			throw new RuntimeException(JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
 		}
+
 		$this->row = $item;
 
 		// Increment the hit counter of the property

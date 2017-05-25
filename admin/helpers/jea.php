@@ -75,7 +75,7 @@ class JeaHelper
 	public static function getActions($propertyId = 0)
 	{
 		$user = JFactory::getUser();
-		$registry = new Registry();
+		$registry = new Registry;
 
 		if (empty($propertyId))
 		{

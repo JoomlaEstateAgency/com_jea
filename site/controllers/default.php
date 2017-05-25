@@ -86,8 +86,6 @@ class JeaControllerDefault extends JControllerLegacy
 		return parent::display($cachable, $urlparams);
 	}
 
-
-
 	/**
 	 * Send contact form action
 	 *

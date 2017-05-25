@@ -260,7 +260,7 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	public function hit($pk = 0)
 	{
-		$pk = empty($pk) ? $this->getState('property.id') : (int) $pk ;
+		$pk = empty($pk) ? $this->getState('property.id') : (int) $pk;
 		$db = $this->getDbo();
 		$db->setQuery('UPDATE #__jea_properties' . ' SET hits = hits + 1' . ' WHERE id = ' . (int) $pk);
 
@@ -271,6 +271,7 @@ class JeaModelProperty extends JModelLegacy
 		catch (\RuntimeException $e)
 		{
 			JLog::add($e->getMessage(), JLog::ERROR, 'com_jea');
+
 			return false;
 		}
 

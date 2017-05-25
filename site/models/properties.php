@@ -436,7 +436,6 @@ class JeaModelProperties extends JModelList
 		// Filter by amenities
 		if ($value = $this->getState('filter.amenities'))
 		{
-
 			$amenities = ArrayHelper::toInteger((array) $value);
 
 			foreach ($amenities as $id)

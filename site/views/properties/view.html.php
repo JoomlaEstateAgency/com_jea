@@ -50,7 +50,7 @@ class JeaViewProperties extends JViewLegacy
 			}
 			else
 			{
-				$this->items= $this->get('Items');
+				$this->items = $this->get('Items');
 			}
 
 			$this->pagination = $this->get('Pagination');
