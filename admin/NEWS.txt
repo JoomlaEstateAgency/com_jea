@@ -1,6 +1,15 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 3.4 / 05-2017=
+- Remove Joomla 2.5 support
+# Fix pagination bug again
+# Fix properties filters
++ Import/Export new implementation
+^ Update translations
+^ The component follows now the Joomla Coding Standards
+# Fix Google map issues
+
 RELEASE 3.3 / 06-2016=
 # Fix pagination bug
 ^ Add a callback to save images
