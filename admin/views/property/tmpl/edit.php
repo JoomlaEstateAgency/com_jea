@@ -15,6 +15,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
+JHtml::_('behavior.framework');
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 JHtml::script('media/com_jea/js/property.form.js');
 ?>
