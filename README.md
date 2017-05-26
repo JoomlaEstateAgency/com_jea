@@ -12,8 +12,8 @@ Try a [demo](http://demo.sphilip.com/jea/)
 
 ## Support
 
-- [Documentation](http://joomlacode.org/gf/project/jea/wiki/)
-- [Forum](http://joomlacode.org/gf/project/jea/forum/)
+- [Documentation](https://github.com/JoomlaEstateAgency/com_jea/wiki/)
+- [Forum](http://jea.sphilip.com/forum/)
 
 ## Credits
 
