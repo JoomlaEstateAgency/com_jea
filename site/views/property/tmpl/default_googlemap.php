@@ -37,7 +37,7 @@ if(!empty($address) && !empty($town)){
     $address = $lang;
 }
 
-$this->document->addScript('http://maps.google.com/maps/api/js?sensor=false&amp;language='. $lang . '&amp;region=' . $region );
+$this->document->addScript('http://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language='. $lang . '&amp;region=' . $region );
 
 $script = <<<EOD
 var map = null;
@@ -45,8 +45,8 @@ var map = null;
 function initMap(mapOptions, MarkerLatlng) {
     map = new google.maps.Map(document.id('jea_property_map'), mapOptions);
     var marker = new google.maps.Marker({
-        position: MarkerLatlng, 
-        map: map, 
+        position: MarkerLatlng,
+        map: map,
         title: '{$this->row->ref}'
     });
 }

@@ -37,6 +37,7 @@ class JFormFieldGeolocalization extends JFormField
 	 */
 	protected function getInput()
 	{
+		$params = JComponentHelper::getParams('com_jea');
 		$ouptut = '';
 		$url = 'index.php?option=com_jea&amp;view=property&amp;layout=geolocalization&amp;tmpl=component';
 
@@ -159,7 +160,7 @@ class JFormFieldGeolocalization extends JFormField
             }"
 		);
 
-		JFactory::getDocument()->addScript('http://maps.google.com/maps/api/js?sensor=false&language=' . $lang . '&region=' . $region);
+		JFactory::getDocument()->addScript('http://maps.google.com/maps/api/js?key=' . $params->get('googlemap_api_key') . '&language=' . $lang . '&region=' . $region);
 
 		return $ouptut;
 	}

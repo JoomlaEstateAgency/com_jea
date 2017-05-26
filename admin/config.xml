@@ -103,6 +103,9 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		
+		<field name="googlemap_api_key" type="text" default="" label="COM_JEA_FIELD_GOOGLE_MAP_API_KEY_LABEL" description="COM_JEA_FIELD_GOOGLE_MAP_API_KEY_DESC" />
+		<field type="note" description="COM_JEA_FIELD_GOOGLE_MAP_API_KEY_MORE_INFO" />
 
 		<field name="show_contactform" type="radio" default="1" label="COM_JEA_FIELD_CONTACT_FORM_LABEL" description="COM_JEA_FIELD_CONTACT_FORM_DESC">
 			<option value="0">JHIDE</option>
