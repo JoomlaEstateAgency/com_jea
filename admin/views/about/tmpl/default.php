@@ -32,20 +32,20 @@ JHtml::stylesheet('media/com_jea/css/jea.admin.css');
   <div style="height: 300px; float: left; margin-right: 50px;">
     <img src="../media/com_jea/images/logo.png" alt="logo.png" />
   </div>
-    
+
   <div style="height: 300px">
     <p><strong>Joomla Estate Agency <?php echo $this->getVersion() ?> </strong></p>
 
     <p>
-      <a href="http://joomlacode.org/gf/project/jea/" target="_blank"><?php echo JText::_('COM_JEA_PROJECT_HOME') ?></a>
+      <a href="http://jea.sphilip.com/" target="_blank"><?php echo JText::_('COM_JEA_PROJECT_HOME') ?></a>
     </p>
 
     <p>
-      <a href="http://joomlacode.org/gf/project/jea/forum/" target="_blank"><?php echo JText::_('COM_JEA_FORUM') ?></a>
+      <a href="http://jea.sphilip.com/forum/" target="_blank"><?php echo JText::_('COM_JEA_FORUM') ?></a>
     </p>
 
     <p>
-      <a href="http://joomlacode.org/gf/project/jea/wiki/" target="_blank"><?php echo JText::_('COM_JEA_DOCUMENTATION') ?></a>
+      <a href="https://github.com/JoomlaEstateAgency/com_jea/wiki/" target="_blank"><?php echo JText::_('COM_JEA_DOCUMENTATION') ?></a>
     </p>
 
     <p>
@@ -53,9 +53,6 @@ JHtml::stylesheet('media/com_jea/css/jea.admin.css');
       <?php echo JText::_('COM_JEA_CREDITS') ?> : <a href="https://twitter.com/#!/phproberto" target="_blank">Roberto Segura</a>
     </p>
 
-    <p>
-      <?php echo JText::_('COM_JEA_LOGO') ?> : <a href="http://www.lievregraphiste.com/" target="_blank">Elisa Roche</a>
-    </p>
   </div>
 </div>
 

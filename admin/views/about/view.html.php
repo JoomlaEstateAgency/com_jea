@@ -16,14 +16,14 @@ jimport('joomla.application.component.view');
 require JPATH_COMPONENT . '/helpers/jea.php';
 
 /**
- * JEA default view.
+ * JEA about view.
  *
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
  * @since       2.0
  */
-class JeaViewDefault extends JViewLegacy
+class JeaViewAbout extends JViewLegacy
 {
 	protected $sidebar = '';
 
@@ -38,7 +38,7 @@ class JeaViewDefault extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JeaHelper::addSubmenu('default');
+		JeaHelper::addSubmenu('about');
 		JToolBarHelper::title('Joomla Estate Agency', 'jea.png');
 
 		$canDo = JeaHelper::getActions();

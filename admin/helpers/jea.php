@@ -63,6 +63,12 @@ class JeaHelper
 
 			JHtmlSidebar::addEntry(JText::_($item->title), $item->link, $active);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_JEA_ABOUT'),
+			'index.php?option=com_jea&view=about',
+			$viewName == 'about'
+		);
 	}
 
 	/**
