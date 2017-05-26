@@ -28,5 +28,5 @@ class JeaControllerDefault extends JControllerLegacy
 	 *
 	 * @var string
 	 */
-	protected $default_view = 'default';
+	protected $default_view = 'properties';
 }
