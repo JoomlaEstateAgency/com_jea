@@ -26,22 +26,6 @@ jimport('joomla.filesystem.file');
 class JeaModelGateway extends JModelAdmin
 {
 	/**
-	 * Overrides parent method.
-	 *
-	 * @return  void
-	 *
-	 * @see JModelAdmin::populateState()
-	 */
-	protected function populateState()
-	{
-		parent::populateState();
-		$app = JFactory::getApplication();
-
-		$type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
-		$this->setState('type', $type);
-	}
-
-	/**
 	 * Overrides parent method
 	 *
 	 * @param   array    $data      Data for the form.
@@ -53,7 +37,8 @@ class JeaModelGateway extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$type = $this->getState('type');
+		$app = JFactory::getApplication();
+		$type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
 
 		/* @var $form JForm */
 		$form = $this->loadForm('com_jea.' . $type, $type, array('control' => 'jform', 'load_data' => false));
