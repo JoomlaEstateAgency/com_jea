@@ -48,7 +48,7 @@ class JeaModelGateway extends JModelAdmin
 			return false;
 		}
 
-		$item = $this->getItem();
+		$item = $this->getItem($app->input->getInt('id', 0));
 
 		// Load gateway params
 		if ($item->id)
