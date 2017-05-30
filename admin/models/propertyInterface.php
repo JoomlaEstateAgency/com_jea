@@ -569,7 +569,7 @@ class JEAPropertyInterface extends JObject
 		if (self::$users == null)
 		{
 			$db = JFactory::getDbo();
-			$db->setQuery('SELECT `id`, `email` FROM `#_users`');
+			$db->setQuery('SELECT `id`, `email` FROM `#__users`');
 			$rows = $db->loadObjectList();
 
 			foreach ($rows as $row)
