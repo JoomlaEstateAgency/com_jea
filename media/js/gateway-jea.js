@@ -116,8 +116,8 @@ var JeaGateway = {
 			})
 			.fail(function( jqxhr, textStatus, error ) {
 				var err = textStatus + ", " + error
-				jQuery(line).addClass('error');
-				jQuery(line).text('> ' + "Request Failed: " + err)
+				jQuery(startLine).addClass('error');
+				jQuery(startLine).text('> ' + "Request Failed: " + err)
 			});
 	}
 
