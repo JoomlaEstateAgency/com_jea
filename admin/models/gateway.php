@@ -57,6 +57,9 @@ class JeaModelGateway extends JModelAdmin
 
 			if (JFile::exists($formConfigFile))
 			{
+				// Try to load provider language file
+				JFactory::getLanguage()->load($item->provider, JPATH_COMPONENT, null, false, false);
+
 				$gatewayForm = $this->loadForm('com_jea.' . $item->type . '.' . $item->provider, $formConfigFile, array('load_data' => false));
 				$form->load($gatewayForm->getXml());
 			}
