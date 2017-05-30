@@ -85,7 +85,7 @@ class JeaControllerGateway extends JControllerLegacy
 	 */
 	protected function gatewayExecute($task)
 	{
-		$model = $this->getModel();
+		$model = $this->getModel('Gateway', 'JeaModel');
 		$gateway = $model->getItem();
 		$dispatcher = GatewaysEventDispatcher::getInstance();
 		$dispatcher->loadGateway($gateway);
