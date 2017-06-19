@@ -8,8 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 ?>

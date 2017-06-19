@@ -2,15 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 if (!is_array($this->row->images)) {
     return ;
@@ -62,22 +60,22 @@ $img_height = $this->params->get('thumb_medium_height', 400);
 
 <div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
 <a href="<?php echo $mainImage->URL ?>" class="modal">
-      <img src="<?php echo $mainImage->mediumURL ?>" 
+      <img src="<?php echo $mainImage->mediumURL ?>"
            id="jea-preview-img"
-           alt="<?php echo $mainImage->title ?>" 
+           alt="<?php echo $mainImage->title ?>"
            title="<?php echo $mainImage->description ?>" /></a>
   <div id="jea-preview-title"><?php echo $mainImage->title ?></div>
   <div id="jea-preview-description"><?php echo $mainImage->description ?></div>
 </div>
 
 <?php if( !empty($this->row->images)): ?>
-<div id="jea-gallery-scroll" 
+<div id="jea-gallery-scroll"
      class="<?php echo $gallery_orientation ?>"
      style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'max-height:'.$img_height.'px' ?>">
      <?php foreach($this->row->images as $image) : ?>
      <a class="jea-thumbnails" rel="<?php echo $image->mediumURL?>" href="<?php echo $image->URL?>" >
-     <img src="<?php echo $image->minURL ?>" 
-           alt="<?php echo $image->title ?>" 
+     <img src="<?php echo $image->minURL ?>"
+           alt="<?php echo $image->title ?>"
            title="<?php echo $image->description  ?>" /></a><br />
     <?php endforeach ?>
 </div>

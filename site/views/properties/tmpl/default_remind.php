@@ -2,12 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+defined('_JEXEC') or die;
 
 $states = array();
 $filters = $this->get('Filters');
@@ -83,22 +84,22 @@ defined('_JEXEC') or die('Restricted access');
 
 <?php if ($states['filter_rooms_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_NUMBER_OF_ROOMS_MIN') ?> : </strong>
-  <?php echo $this->escape($states['filter_rooms_min']) ?> 
+  <?php echo $this->escape($states['filter_rooms_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_bedrooms_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_NUMBER_OF_BEDROOMS_MIN') ?> : </strong>
-  <?php echo $this->escape($states['filter_bedrooms_min']) ?> 
+  <?php echo $this->escape($states['filter_bedrooms_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_bathrooms_min'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_NUMBER_OF_BATHROOMS_MIN') ?> : </strong>
-  <?php echo $this->escape($states['filter_bathrooms_min']) ?> 
+  <?php echo $this->escape($states['filter_bathrooms_min']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_floor'] > 0): ?>
   <br /><strong><?php echo JText::_('COM_JEA_FIELD_FLOOR_LABEL') ?> : </strong>
-  <?php echo $this->escape($states['filter_floor']) ?> 
+  <?php echo $this->escape($states['filter_floor']) ?>
 <?php endif ?>
 
 <?php if ($states['filter_hotwatertype'] > 0): ?>
@@ -149,7 +150,7 @@ defined('_JEXEC') or die('Restricted access');
       case 'EW':
           echo JText::_('COM_JEA_OPTION_EAST_WEST');
           break;
-      
+
   }?>
 <?php endif ?>
 

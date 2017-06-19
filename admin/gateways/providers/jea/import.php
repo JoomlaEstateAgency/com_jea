@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
+
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/import.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/propertyInterface.php';
 

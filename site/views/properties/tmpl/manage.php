@@ -2,15 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -54,7 +52,7 @@ $this->document->addScriptDeclaration($script);
 
 <form name="adminForm" id="adminForm" action="<?php echo JRoute::_('') ?>" method="post">
 
-<?php if (!empty($this->items)): ?>  
+<?php if (!empty($this->items)): ?>
   <p class="limitbox"><em><?php echo JText::_('COM_JEA_RESULTS_PER_PAGE') ?> : </em><?php echo $this->pagination->getLimitBox() ?></p>
 <?php endif ?>
 
@@ -76,8 +74,8 @@ $this->document->addScriptDeclaration($script);
     <?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
     </select>
   </p>
-  
-<?php if (!empty($this->items)): ?>  
+
+<?php if (!empty($this->items)): ?>
   <table class="jea_listing" >
     <thead>
     <tr>
@@ -107,14 +105,14 @@ $this->document->addScriptDeclaration($script);
     ?>
 
     <tr class="row<?php echo $altrow ?>" >
-      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->id ) ?>" title="<?php echo JText::_('JACTION_EDIT') ?>" > 
+      <td class="nowrap"><a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.edit&id='.$row->id ) ?>" title="<?php echo JText::_('JACTION_EDIT') ?>" >
       <?php echo $row->ref ?></a></td>
       <td><?php echo $row->type ?></td>
       <td><?php echo $row->address ?></td>
       <td><?php echo $row->town ?></td>
       <td class="right nowrap"><?php echo JHtml::_('utility.formatSurface', (float) $row->living_space , '-' ) ?></td>
       <td class="right nowrap">
-      <?php echo JHtml::_('utility.formatPrice', (float) $row->price, '-') ?> 
+      <?php echo JHtml::_('utility.formatPrice', (float) $row->price, '-') ?>
       <?php if ($row->transaction_type == 'RENTING' && (float)$row->price != 0.0) echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $row->rate_frequency) ?>
       </td>
       <td class="center">
@@ -127,7 +125,7 @@ $this->document->addScriptDeclaration($script);
       <?php else: $title = $canChange ? 'JLIB_HTML_PUBLISH_ITEM' : 'COM_JEA_UNPUBLISHED';?>
           <img src="<?php echo $this->baseurl.'/media/com_jea/images/unpublished.png' ?>" alt="<?php echo JText::_('COM_JEA_UNPUBLISHED') ?>" title="<?php echo JText::_($title) ?>" />
       <?php endif?>
-      
+
       <?php if ($canChange): ?>
       </a>
       <?php endif ?>
@@ -135,12 +133,12 @@ $this->document->addScriptDeclaration($script);
       </td>
       <?php if ($canDelete): ?>
       <td class="center">
-        <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.delete&id='.$row->id ) ?>" 
+        <a href="<?php echo JRoute::_( 'index.php?option=com_jea&task=property.delete&id='.$row->id ) ?>"
            title="<?php echo JText::_('JACTION_DELETE') ?>"
            onclick="return confirm('<?php echo JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE') ?>')">
          <img src="<?php echo $this->baseurl.'/media/com_jea/images/media_trash.png' ?>" alt="" />
          </a>
-         
+
       </td>
       <?php endif ?>
     </tr>
@@ -148,7 +146,7 @@ $this->document->addScriptDeclaration($script);
     </tbody>
   </table>
 <?php endif ?>
-  
+
    <div>
     <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
     <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />

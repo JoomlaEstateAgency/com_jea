@@ -8,8 +8,7 @@
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
@@ -46,7 +45,7 @@ function GatewaysActionDispatcher() {
 }
 
 jQuery(document).ready(function($) {
-    
+
     var dispatcher = new GatewaysActionDispatcher();
 
     $(this).on('gatewayActionDone', function(e) {

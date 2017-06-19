@@ -2,15 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id: edit.php 272 2012-03-10 11:05:08Z ilhooq $
  * @package     Joomla.Administrator
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');

@@ -2,16 +2,14 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+defined('_JEXEC') or die;
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
 $uri = JFactory::getURI();
 ?>
 
@@ -35,7 +33,7 @@ $uri = JFactory::getURI();
       <dt><label for="e_message"><?php echo JText::_('COM_JEA_MESSAGE') ?> :</label></dt>
       <dd><textarea name="message" id="e_message" rows="10" cols="40"><?php echo $this->escape($this->state->get('contact.message')) ?></textarea></dd>
 
-      <?php if ($this->params->get('use_captcha')):?> 
+      <?php if ($this->params->get('use_captcha')):?>
       <dd><?php echo $this->displayCaptcha() ?></dd>
       <?php endif ?>
       <dd>

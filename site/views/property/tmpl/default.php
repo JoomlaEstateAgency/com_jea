@@ -2,16 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.css');
 $dispatcher = JDispatcher::getInstance();
@@ -50,16 +47,16 @@ JPluginHelper::importPlugin('jea');
   <?php if ($this->row->address || $this->row->zip_code || $this->row->town ): ?>
   <h3><?php echo JText::_('COM_JEA_FIELD_ADDRESS_LABEL') ?> :</h3>
   <address>
-  <?php if ($this->row->address):?> 
+  <?php if ($this->row->address):?>
   <?php echo $this->escape($this->row->address ) ?><br />
   <?php endif ?>
-  <?php if ($this->row->zip_code) echo $this->escape($this->row->zip_code ) ?> 
+  <?php if ($this->row->zip_code) echo $this->escape($this->row->zip_code ) ?>
   <?php if ($this->row->town) echo $this->escape($this->row->town ) ?>
   </address>
   <?php endif ?>
 
   <?php if ($this->row->area) :?>
-  <p><?php echo JText::_('COM_JEA_FIELD_AREA_LABEL') ?> : 
+  <p><?php echo JText::_('COM_JEA_FIELD_AREA_LABEL') ?> :
   <strong> <?php echo$this->escape( $this->row->area ) ?></strong></p>
   <?php endif  ?>
 
@@ -71,7 +68,7 @@ JPluginHelper::importPlugin('jea');
 
 <?php if (intval($this->row->availability)): ?>
 <p class="availability">
-<?php echo JText::_('COM_JEA_FIELD_PROPERTY_AVAILABILITY_LABEL') ?> : 
+<?php echo JText::_('COM_JEA_FIELD_PROPERTY_AVAILABILITY_LABEL') ?> :
 <?php echo JHTML::_('date',  $this->row->availability, JText::_('DATE_FORMAT_LC3') ) ?>
 </p>
 <?php endif  ?>

@@ -8,8 +8,7 @@
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
@@ -145,7 +144,7 @@ $document->addScriptDeclaration($script);
       <input type="hidden" name="task" value="" />
       <input type="hidden" name="type" value="<?php echo $this->state->get('filter.type')?>" />
       <input type="hidden" name="boxchecked" value="0" />
-      <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" /> 
+      <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
       <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
       <?php echo JHtml::_('form.token') ?>
     </div>
@@ -172,7 +171,7 @@ $document->addScriptDeclaration($script);
 </p>
 
 <pre id="logs"></pre>
-<?php 
+<?php
 $modalBody = ob_get_contents();
 ob_end_clean();
 ?>

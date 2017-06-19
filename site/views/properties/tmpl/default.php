@@ -2,15 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -63,17 +61,17 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
       <em><?php echo JText::_('COM_JEA_RESULTS_PER_PAGE') ?> : </em>
       <?php echo $this->pagination->getLimitBox() ?>
     </p>
-    
+
     <div class="jea-items">
     <?php foreach ($this->items as $k => $row): ?>
     <?php $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id ?>
 
       <dl class="jea_item">
         <dt class="title">
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>"> <strong> 
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>"> <strong>
           <?php if(empty($row->title)): ?>
           <?php echo ucfirst( JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($row->type), $this->escape($row->town) ) ) ?>
-          <?php else : echo $this->escape($row->title) ?> 
+          <?php else : echo $this->escape($row->title) ?>
           <?php endif ?></strong> ( <?php echo JText::_('COM_JEA_REF' ) . ' : ' . $row->ref ?>)
           </a>
 
@@ -84,7 +82,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
 
         <?php if ($imgUrl = $this->getFirstImageUrl($row)): ?>
         <dt class="image">
-          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>"> 
+          <a href="<?php echo JRoute::_('index.php?option=com_jea&view=property&id='. $row->slug) ?>" title="<?php echo JText::_('COM_JEA_DETAIL') ?>">
           <img src="<?php echo $imgUrl ?>" alt="<?php echo JText::_('COM_JEA_DETAIL') ?>" /></a>
         </dt>
         <?php endif ?>
@@ -94,7 +92,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
           <span class="slogan"><?php echo $this->escape($row->slogan) ?> </span>
         <?php endif ?>
 
-        <?php echo $row->transaction_type == 'RENTING' ? JText::_('COM_JEA_FIELD_PRICE_RENT_LABEL') :  JText::_('COM_JEA_FIELD_PRICE_LABEL') ?> : 
+        <?php echo $row->transaction_type == 'RENTING' ? JText::_('COM_JEA_FIELD_PRICE_RENT_LABEL') :  JText::_('COM_JEA_FIELD_PRICE_LABEL') ?> :
         <strong> <?php echo JHtml::_('utility.formatPrice', (float) $row->price , JText::_('COM_JEA_CONSULT_US') ) ?> </strong>
         <?php if ($row->transaction_type == 'RENTING' && (float)$row->price != 0.0) echo JText::_('COM_JEA_PRICE_PER_FREQUENCY_'. $row->rate_frequency) ?>
 
@@ -126,7 +124,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
 
     <div>
       <input type="hidden" id="filter_order" name="filter_order" value="<?php echo $listOrder ?>" />
-      <input type="hidden" id="filter_order_Dir" name="filter_order_Dir" value="<?php echo $listDirection ?>" /> 
+      <input type="hidden" id="filter_order_Dir" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
     </div>
 
     <div class="pagination">
@@ -134,7 +132,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
       <?php echo $this->pagination->getPagesLinks() ?>
     </div>
   </form>
-  
+
 <?php else : ?>
 
   <?php if ($this->state->get('searchcontext') === true): ?>
@@ -148,7 +146,7 @@ $listDirection  = $this->escape($this->state->get('list.direction'));
   </p>
 
 <?php endif ?>
-  
+
 <?php endif ?>
 
 </div>

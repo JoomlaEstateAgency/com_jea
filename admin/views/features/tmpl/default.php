@@ -2,16 +2,13 @@
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
- * @version     $Id$
  * @package     Joomla.Administrator
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2012 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
@@ -34,7 +31,7 @@ $altrow=1;
     <thead>
       <tr>
         <th width="1%">
-          <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" 
+          <input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>"
                  onclick="Joomla.checkAll(this)" />
         </th>
         <th width="60%"><?php echo JText::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?></th>
@@ -56,7 +53,7 @@ $altrow=1;
   </table>
 
   <div>
-    <input type="hidden" name="task" value="" /> 
+    <input type="hidden" name="task" value="" />
     <input type="hidden" name="boxchecked" value="0" />
     <?php echo JHtml::_('form.token') ?>
   </div>

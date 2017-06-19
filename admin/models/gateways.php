@@ -8,10 +8,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
-defined('_JEXEC') or die('Restricted access');
-
-jimport('joomla.application.component.modellist');
+defined('_JEXEC') or die;
 
 /**
  * Gateways model class.

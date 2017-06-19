@@ -9,7 +9,7 @@
  */
 
 // no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 // JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
@@ -30,7 +30,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
       <div class="controls"><div class="input-append"><?php echo $this->form->getInput('published') ?></div></div>
     </div>
   </div>
-  
+
   <fieldset>
     <legend><?php echo JText::_('COM_JEA_GATEWAY_PARAMS')?></legend>
     <?php if (!empty($this->item->id)): ?>
