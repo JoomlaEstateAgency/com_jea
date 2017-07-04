@@ -371,7 +371,7 @@ class JEAPropertyInterface extends JObject
 
 				if (in_array(JFile::getExt($basename), $validExtensions))
 				{
-					if (substr($image, 0, 7) == 'http://')
+					if (substr($image, 0, 4) == 'http')
 					{
 						if (!JFile::exists($imgDir . '/' . $basename))
 						{
