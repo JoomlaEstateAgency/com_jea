@@ -417,7 +417,11 @@ class JEAPropertyInterface extends JObject
 		}
 		elseif (function_exists('curl_init'))
 		{
-			$ch = curl_init($url);
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_URL, $url);
+
+			// Don't check SSL certificate
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($ch, CURLOPT_HEADER, false);
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			$buffer = curl_exec($ch);
