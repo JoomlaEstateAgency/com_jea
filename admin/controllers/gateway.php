@@ -85,7 +85,7 @@ class JeaControllerGateway extends JControllerForm
 	 */
 	protected function getGateway()
 	{
-		$model = $this->getModel();
+		$model = $this->getModel('Gateway', 'JeaModel', array('ignore_request' => false));
 		$item = $model->getItem();
 		$dispatcher = GatewaysEventDispatcher::getInstance();
 
