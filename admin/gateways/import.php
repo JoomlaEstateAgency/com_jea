@@ -533,18 +533,28 @@ abstract class JeaGatewayImport extends JeaGateway
 	 * Download a file and return the file as local file path
 	 *
 	 * @param   string  $url The file url to download
+	 * @param   string  $destFile Optionnal file destination name
 	 *
-	 * @return  string  the downloaded file path
+	 * @return  string  the downloaded file destination name
 	 */
-	protected function downloadFile($url = '')
+	protected function downloadFile($url, $destFile = '')
 	{
-		$cachePath = $this->getCachePath(true);
-
-		$fileName = basename($url);
-
-		if (JFile::exists($cachePath . '/' . $fileName))
+		if (empty($destFile))
 		{
-			JFile::delete($cachePath . '/' . $fileName);
+			$cachePath = $this->getCachePath(true);
+			$fileName = JFilterOutput::stringUrlSafe(basename($url));
+
+			if (strlen($fileName) > 20)
+			{
+				$fileName = substr($fileName, 0, 20);
+			}
+
+			$destFile = $cachePath . '/' . $fileName;
+		}
+
+		if (JFile::exists($destFile))
+		{
+			JFile::delete($destFile);
 		}
 
 		$ch = curl_init();
@@ -569,8 +579,8 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		curl_close($ch);
 
-		JFile::write($cachePath . '/' . $fileName, $data);
+		JFile::write($destFile, $data);
 
-		return $cachePath . '/' . $fileName;
+		return $destFile;
 	}
 }
