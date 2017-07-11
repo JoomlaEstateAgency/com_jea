@@ -107,6 +107,33 @@ abstract class JeaGatewayImport extends JeaGateway
 	}
 
 	/**
+	 * InitWebConsole event handler
+	 *
+	 * @return void
+	 */
+	public function initWebConsole()
+	{
+		JHtml::script('media/com_jea/js/gateway-jea.js');
+		$title = addslashes($this->title);
+
+		// Register script messages
+		JText::script('COM_JEA_IMPORT_START_MESSAGE', true);
+		JText::script('COM_JEA_IMPORT_END_MESSAGE', true);
+		JText::script('COM_JEA_GATEWAY_PROPERTIES_FOUND', true);
+		JText::script('COM_JEA_GATEWAY_PROPERTIES_CREATED', true);
+		JText::script('COM_JEA_GATEWAY_PROPERTIES_UPDATED', true);
+		JText::script('COM_JEA_GATEWAY_PROPERTIES_DELETED', true);
+
+		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {"
+				. "    dispatcher.register(function() {"
+				. "        JeaGateway.startImport($this->id, '$title', webConsole);"
+				. "    });"
+				. "});";
+
+		JFactory::getDocument()->addScriptDeclaration($script);
+	}
+
+	/**
 	 * The import handler method
 	 *
 	 * @return array the import summary
@@ -424,5 +451,81 @@ abstract class JeaGatewayImport extends JeaGateway
 		$this->removed = $count;
 
 		return true;
+	}
+
+	/**
+	 * Return the cache path for the gateway instance
+	 *
+	 * @param   string $createDir
+	 * @return  string
+	 */
+	protected function getCachePath($createDir = false)
+	{
+		$cachePath = JFactory::getApplication()->get('cache_path', JPATH_CACHE) . '/alize';
+		$cachePath .= '/' . $this->provider . '_' . $this->type . '_' . $this->id;
+
+		if (!JFolder::exists($cachePath) && $createDir)
+		{
+			JFolder::create($cachePath);
+		}
+
+		if (!JFolder::exists($cachePath))
+		{
+			throw RuntimeException("Cache directory : $cachePath cannot be created.");
+		}
+
+		return $cachePath;
+	}
+
+	/**
+	 * Parse an xml file
+	 *
+	 * @param   string  $xmlFile  The xml file path
+	 *
+	 * @return  void
+	 *
+	 * @throws Exception if xml cannot be parsed
+	 */
+	protected function parseXmlFile($xmlFile = '')
+	{
+		// Disable libxml errors and allow to fetch error information as needed
+		libxml_use_internal_errors(true);
+
+		$xml = simplexml_load_file($xmlFile, 'SimpleXMLElement', LIBXML_PARSEHUGE);
+		$currentDirectory = dirname($xmlFile);
+
+		if (! $xml)
+		{
+			$msg = "Cannot load : $xmlFile. ";
+			$errors = libxml_get_errors();
+
+			foreach ($errors as $error)
+			{
+				switch ($error->level)
+				{
+					case LIBXML_ERR_WARNING:
+						$msg .= "Warning $error->code: ";
+						break;
+					case LIBXML_ERR_ERROR:
+						$msg .= "Err Error $error->code: ";
+						break;
+					case LIBXML_ERR_FATAL:
+						$msg .= "Fatal Error $error->code: ";
+						break;
+				}
+
+				$msg .= trim($error->message) . " -  Line: $error->line" . " -  Column: $error->column";
+
+				if ($error->file)
+				{
+					$msg .= "  File: $error->file";
+				}
+			}
+
+			libxml_clear_errors();
+			throw new Exception($msg, $error->code);
+		}
+
+		return $xml;
 	}
 }
