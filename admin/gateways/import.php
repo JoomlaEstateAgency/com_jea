@@ -482,7 +482,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	 *
 	 * @param   string  $xmlFile  The xml file path
 	 *
-	 * @return  void
+	 * @return  SimpleXMLElement
 	 *
 	 * @throws Exception if xml cannot be parsed
 	 */
@@ -527,5 +527,50 @@ abstract class JeaGatewayImport extends JeaGateway
 		}
 
 		return $xml;
+	}
+
+	/**
+	 * Download a file and return the file as local file path
+	 *
+	 * @param   string  $url The file url to download
+	 *
+	 * @return  string  the downloaded file path
+	 */
+	protected function downloadFile($url = '')
+	{
+		$cachePath = $this->getCachePath(true);
+
+		$fileName = basename($url);
+
+		if (JFile::exists($cachePath . '/' . $fileName))
+		{
+			JFile::delete($cachePath . '/' . $fileName);
+		}
+
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, $url);
+
+		// Don't check SSL certificate
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+
+		$data = curl_exec($ch);
+
+		if ($data === false)
+		{
+			$curl_errno = curl_errno($ch);
+			$curl_error = curl_error($ch);
+			$msg = "Cannot download $url. Error code : $curl_errno, Message : $curl_error";
+			$this->log($msg, 'ERR');
+			throw new RuntimeException($msg);
+		}
+
+		curl_close($ch);
+
+		JFile::write($cachePath . '/' . $fileName, $data);
+
+		return $cachePath . '/' . $fileName;
 	}
 }
