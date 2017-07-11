@@ -461,8 +461,8 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	protected function getCachePath($createDir = false)
 	{
-		$cachePath = JFactory::getApplication()->get('cache_path', JPATH_CACHE) . '/alize';
-		$cachePath .= '/' . $this->provider . '_' . $this->type . '_' . $this->id;
+		$cachePath = JFactory::getApplication()->get('cache_path', JPATH_CACHE)
+					. '/' . $this->provider . '_' . $this->type . '_' . $this->id;
 
 		if (!JFolder::exists($cachePath) && $createDir)
 		{
