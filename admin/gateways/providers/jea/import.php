@@ -21,34 +21,6 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/propertyInterface.php';
 class JeaGatewayImportJea extends JeaGatewayImport
 {
 	/**
-	 * InitWebConsole event handler
-	 *
-	 * @return void
-	 */
-	public function initWebConsole()
-	{
-		JHtml::script('media/com_jea/js/gateway-jea.js', true);
-		$title = addslashes($this->title);
-
-		// Register script messages
-		JText::script('COM_JEA_IMPORT_START_MESSAGE', true);
-		JText::script('COM_JEA_IMPORT_END_MESSAGE', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_FOUND', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_CREATED', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_UPDATED', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_DELETED', true);
-
-		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {"
-				. "    dispatcher.register(function() {"
-				. "        JeaGateway.startImport($this->id, '$title', webConsole);"
-				. "    });"
-				. "});";
-
-		$document = JFactory::getDocument();
-		$document->addScriptDeclaration($script);
-	}
-
-	/**
 	 * The gateway parser method.
 	 *
 	 * @return JEAPropertyInterface[]
@@ -146,41 +118,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	 */
 	protected function parseXML(&$properties, $xmlFile = '')
 	{
-		libxml_use_internal_errors(true);
-		$xml = simplexml_load_file($xmlFile, 'SimpleXMLElement', LIBXML_PARSEHUGE);
-		$currentDirectory = dirname($xmlFile);
-
-		if (! $xml)
-		{
-			$msg = "Cannot load : $xmlFile. ";
-			$errors = libxml_get_errors();
-
-			foreach ($errors as $error)
-			{
-				switch ($error->level)
-				{
-					case LIBXML_ERR_WARNING:
-						$msg .= "Warning $error->code: ";
-						break;
-					case LIBXML_ERR_ERROR:
-						$msg .= "Err Error $error->code: ";
-						break;
-					case LIBXML_ERR_FATAL:
-						$msg .= "Fatal Error $error->code: ";
-						break;
-				}
-
-				$msg .= trim($error->message) . " -  Line: $error->line" . " -  Column: $error->column";
-
-				if ($error->file)
-				{
-					$msg .= "  File: $error->file";
-				}
-			}
-
-			libxml_clear_errors();
-			throw new Exception($msg, $error->code);
-		}
+		$xml = $this->parseXmlFile($xmlFile);
 
 		// Check root tag
 		if ($xml->getName() != 'jea')
