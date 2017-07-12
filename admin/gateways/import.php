@@ -113,7 +113,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	public function initWebConsole()
 	{
-		JHtml::script('media/com_jea/js/gateway-jea.js');
+		JHtml::script('media/com_jea/js/admin/gateway.js');
 		$title = addslashes($this->title);
 
 		// Register script messages
@@ -124,10 +124,10 @@ abstract class JeaGatewayImport extends JeaGateway
 		JText::script('COM_JEA_GATEWAY_PROPERTIES_UPDATED', true);
 		JText::script('COM_JEA_GATEWAY_PROPERTIES_DELETED', true);
 
-		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {"
-				. "    dispatcher.register(function() {"
-				. "        JeaGateway.startImport($this->id, '$title', webConsole);"
-				. "    });"
+		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {\n"
+				. "    dispatcher.register(function() {\n"
+				. "        JeaGateway.startImport($this->id, '$title', webConsole);\n"
+				. "    });\n"
 				. "});";
 
 		JFactory::getDocument()->addScriptDeclaration($script);
