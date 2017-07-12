@@ -112,18 +112,18 @@
 		if (message.text)
 			text += message.text;
 
-		var line = new Element('p', {
-			'class' : className,
-			'text' : text.toString()
+		var line = $('<p>', {
+			class: className,
+			text: text.toString()
 		});
 		this.console.append(line);
 		return line;
 	};
 	
 	Console.prototype.addPlaceHolder = function(name) {
-		var line = new Element('p', {
-			'class' : 'placeholder',
-			'id' : name
+		var line = $('<p>', {
+			class: 'placeholder',
+			id: name
 		});
 		this.console.append(line);
 		return line;
@@ -139,9 +139,9 @@
 	};
 	
 	Console.prototype.addProgressBar = function(name, options) {
-		var progressbarContainer = new Element('div', {
-			'class' : 'progressbar',
-			'id' : name
+		var progressbarContainer = $('<div>', {
+			class: 'progressbar',
+			id: name
 		});
 		var options  = $.extend({}, ProgressBar.DEFAULTS, typeof options == 'object' && options)
 		this.console.append(progressbarContainer);

@@ -49,7 +49,7 @@ jQuery(document).ready(function($) {
     var dispatcher = new GatewaysActionDispatcher();
 
     $(this).on('gatewayActionDone', function(e) {
-        $('#console').append(new Element('br'))
+        $('#console').append($('<br>'));
         if (dispatcher.queue.length == 0) {
             $('#ajax-launch').toggleClass('active');
         } else {
