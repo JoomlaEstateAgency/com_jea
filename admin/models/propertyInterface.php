@@ -426,7 +426,7 @@ class JEAPropertyInterface extends JObject
 	 */
 	protected function downloadImage ($url = '', $dest = '')
 	{
-		JLog::add("Download Image : $url", JLog::DEBUG, __FILE__);
+		JLog::add("Download Image : $url", JLog::DEBUG, 'jea');
 
 		if (empty($url) || empty($dest))
 		{
