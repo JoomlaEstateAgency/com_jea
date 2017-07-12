@@ -488,7 +488,8 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Return the cache path for the gateway instance
 	 *
-	 * @param   string $createDir
+	 * @param   boolean  $createDir  If true, the Directory will be created
+	 *
 	 * @return  string
 	 */
 	protected function getCachePath($createDir = false)
@@ -564,8 +565,8 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Download a file and return the file as local file path
 	 *
-	 * @param   string  $url The file url to download
-	 * @param   string  $destFile Optionnal file destination name
+	 * @param   string  $url       The file url to download
+	 * @param   string  $destFile  Optionnal file destination name
 	 *
 	 * @return  string  the downloaded file destination name
 	 */
