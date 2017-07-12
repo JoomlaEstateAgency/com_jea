@@ -134,6 +134,26 @@ abstract class JeaGatewayImport extends JeaGateway
 	}
 
 	/**
+	 * Method called before the import
+	 * This could be overriden in child class
+	 *
+	 * @return void
+	 */
+	protected function beforeImport()
+	{
+	}
+
+	/**
+	 * Method called after the import
+	 * This could be overriden in child class
+	 *
+	 * @return void
+	 */
+	protected function afterImport()
+	{
+	}
+
+	/**
 	 * The import handler method
 	 *
 	 * @return array the import summary
@@ -146,6 +166,7 @@ abstract class JeaGatewayImport extends JeaGateway
 		}
 		else
 		{
+			$this->beforeImport();
 			$properties = & $this->parse();
 		}
 
@@ -259,8 +280,17 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		if (empty($properties))
 		{
-			$msg = JText::sprintf('COM_JEA_IMPORT_END_MESSAGE', $this->title);
+			$msg = JText::sprintf('COM_JEA_IMPORT_END_MESSAGE', $this->title)
+				. '. [' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_FOUND', $this->total)
+				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_CREATED', $this->created)
+				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_UPDATED', $this->updated)
+				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_DELETED', $this->removed)
+				. ']';
+
 			$this->out($msg);
+			$this->log($msg, 'info');
+
+			$this->afterImport();
 		}
 
 		return $this->getSummary();
