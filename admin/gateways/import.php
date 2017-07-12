@@ -274,11 +274,13 @@ abstract class JeaGatewayImport extends JeaGateway
 	protected function getSummary()
 	{
 		return array(
-				'total' => $this->total,
-				'created' => $this->created,
-				'updated' => $this->updated,
-				'imported' => $this->imported,
-				'removed' => $this->removed
+			'gateway_id' => $this->id,
+			'gateway_title' => $this->title,
+			'total' => $this->total,
+			'created' => $this->created,
+			'updated' => $this->updated,
+			'imported' => $this->imported,
+			'removed' => $this->removed
 		);
 	}
 
