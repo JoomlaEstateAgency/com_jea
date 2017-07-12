@@ -373,10 +373,29 @@ class JEAPropertyInterface extends JObject
 				{
 					if (substr($image, 0, 4) == 'http')
 					{
-						if (!JFile::exists($imgDir . '/' . $basename))
+						if (JFile::exists($imgDir . '/' . $basename))
 						{
-							$this->downloadImage($image, $imgDir . '/' . $basename);
+							$localtime  = $this->getLastModified($imgDir . '/' . $basename);
+							$remotetime = $this->getLastModified($image);
+
+							if ($remotetime <= $localtime)
+							{
+								JLog::add(
+									sprintf(
+										"File %s is up to date. [local time: %u - remote time: %u]",
+										$imgDir . '/' . $basename,
+										$localtime,
+										$remotetime
+									),
+									JLog::DEBUG,
+									'jea'
+								);
+
+								continue;
+							}
 						}
+
+						$this->downloadImage($image, $imgDir . '/' . $basename);
 					}
 					else
 					{
@@ -403,6 +422,8 @@ class JEAPropertyInterface extends JObject
 	 */
 	protected function downloadImage ($url = '', $dest = '')
 	{
+		JLog::add("Download Image : $url", JLog::DEBUG, __FILE__);
+
 		if (empty($url) || empty($dest))
 		{
 			return false;
@@ -429,6 +450,68 @@ class JEAPropertyInterface extends JObject
 		}
 
 		return JFile::write($dest, $buffer);
+	}
+
+	/**
+	 * Get Last modified time as Unix timestamp
+	 *
+	 * @param   string  $file  A local or remote file
+	 *
+	 * @throws  RuntimeException
+	 * @return  integer Unix timestamp
+	 */
+	public function getLastModified($file)
+	{
+		if (substr($file, 0, 4) != 'http' && file_exists($file))
+		{
+			$stat = stat($file);
+
+			return $stat['mtime'];
+		}
+
+		$allow_url_fopen = (bool) ini_get('allow_url_fopen');
+		$headers = array();
+
+		if ($allow_url_fopen)
+		{
+			$headers = get_headers($file);
+		}
+		elseif (function_exists('curl_init'))
+		{
+			$curl = curl_init();
+			curl_setopt($curl, CURLOPT_URL, $file);
+
+			// Don't check SSL certificate
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($curl, CURLOPT_FILETIME, true);
+			curl_setopt($curl, CURLOPT_NOBODY, true);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($curl, CURLOPT_HEADER, true);
+			$out = curl_exec($curl);
+			curl_close($curl);
+			$headers = explode("\n", $out);
+		}
+
+		if (empty($headers))
+		{
+			throw new RuntimeException("Cannot get HTTP headers for $file");
+		}
+
+		foreach ($headers as $header)
+		{
+			if (strpos($header, 'Last-Modified') !== false)
+			{
+				if (preg_match('/:\s?(.*)$/m', $header, $matches) !== false)
+				{
+					$matches[1];
+					JLog::add(sprintf("Last-Modified: %s - Time: %u", $matches[1], strtotime($matches[1])), JLog::DEBUG, 'jea');
+
+					return strtotime($matches[1]);
+				}
+			}
+		}
+
+		return 0;
 	}
 
 	/**
