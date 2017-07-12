@@ -354,7 +354,7 @@ class JEAPropertyInterface extends JObject
 		}
 
 		// Save images
-		if (! empty($this->images) && $this->saveImagesCallback === null)
+		if (!empty($this->images) && $this->saveImagesCallback === null)
 		{
 			$imgDir = JPATH_ROOT . '/images/com_jea/images/' . $property->id;
 
@@ -369,38 +369,42 @@ class JEAPropertyInterface extends JObject
 			{
 				$basename = basename($image);
 
-				if (in_array(JFile::getExt($basename), $validExtensions))
+				if (!in_array(JFile::getExt($basename), $validExtensions))
 				{
-					if (substr($image, 0, 4) == 'http')
+					// Not a valid Extension
+					continue;
+				}
+
+				if (substr($image, 0, 4) != 'http' && file_exists($image))
+				{
+					JFile::copy($image, $imgDir . '/' . $basename);
+				}
+
+				if (substr($image, 0, 4) == 'http')
+				{
+					if (JFile::exists($imgDir . '/' . $basename))
 					{
-						if (JFile::exists($imgDir . '/' . $basename))
+						$localtime  = $this->getLastModified($imgDir . '/' . $basename);
+						$remotetime = $this->getLastModified($image);
+
+						if ($remotetime <= $localtime)
 						{
-							$localtime  = $this->getLastModified($imgDir . '/' . $basename);
-							$remotetime = $this->getLastModified($image);
+							JLog::add(
+								sprintf(
+									"File %s is up to date. [local time: %u - remote time: %u]",
+									$imgDir . '/' . $basename,
+									$localtime,
+									$remotetime
+								),
+								JLog::DEBUG,
+								'jea'
+							);
 
-							if ($remotetime <= $localtime)
-							{
-								JLog::add(
-									sprintf(
-										"File %s is up to date. [local time: %u - remote time: %u]",
-										$imgDir . '/' . $basename,
-										$localtime,
-										$remotetime
-									),
-									JLog::DEBUG,
-									'jea'
-								);
-
-								continue;
-							}
+							continue;
 						}
+					}
 
-						$this->downloadImage($image, $imgDir . '/' . $basename);
-					}
-					else
-					{
-						JFile::copy($image, $imgDir . '/' . $basename);
-					}
+					$this->downloadImage($image, $imgDir . '/' . $basename);
 				}
 			}
 		}
