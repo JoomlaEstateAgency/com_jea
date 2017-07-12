@@ -36,11 +36,16 @@ class JeaControllerThumbnail extends JControllerLegacy
 		$application = JFactory::getApplication();
 		$output      = '';
 		$size        = $this->input->getCmd('size', '');
-		$image       = $this->input->getPath('image', '');
+		$image       = $_REQUEST['image'];
 		$id          = $this->input->getInt('id', 0);
 		$imagePath   = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
 		$thumbDir    = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
 		$thumbPath   = $thumbDir . '/' . $id . '-' . $image;
+
+		if (empty($image))
+		{
+			throw new RuntimeException('Empty \'image\' parameter', 500);
+		}
 
 		if (!in_array($size, array('min', 'medium')))
 		{
