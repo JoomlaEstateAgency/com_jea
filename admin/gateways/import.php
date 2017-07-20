@@ -92,7 +92,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	public function __construct (&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$this->autoDeletion = $this->params->get('auto_deletion', true);
+		$this->autoDeletion = (bool) $this->params->get('auto_deletion', 0);
 	}
 
 	/**
@@ -464,23 +464,20 @@ abstract class JeaGatewayImport extends JeaGateway
 			return false;
 		}
 
-		$model = JModelLegacy::getInstance('Property', 'JeaModel');
+		$dbo = JFactory::getDbo();
+		$dbo->setQuery('DELETE FROM #__jea_properties WHERE id IN(' .  implode(',', $ids). ')');
+		$dbo->execute();
 
-		$flip = array_flip($ids);
-		$model->delete($ids);
-		$count = 0;
-
+		// Remove images folder
 		foreach ($ids as $id)
 		{
-			if (! isset($flip[$id]))
+			if (JFolder::exists(JPATH_ROOT . '/images/com_jea/images/' . $id))
 			{
-				break;
+				JFolder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
 			}
-
-			$count ++;
 		}
 
-		$this->removed = $count;
+		$this->removed = count($ids);
 
 		return true;
 	}
