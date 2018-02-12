@@ -47,7 +47,8 @@ class JeaControllerGateway extends JControllerLegacy
 	{
 		$error = array(
 			'error' => $e->getmessage(),
-			'errorCode' => $e->getCode()
+			'errorCode' => $e->getCode(),
+			'trace' => $e->getTraceAsString(),
 		);
 
 		echo json_encode($error);
