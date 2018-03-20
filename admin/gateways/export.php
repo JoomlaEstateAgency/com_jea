@@ -96,21 +96,19 @@ abstract class JeaGatewayExport extends JeaGateway
 		$amenities = $db->loadObjectList('id');
 
 		$unsets = array(
-				'asset_id',
-				'type_id',
-				'town_id',
-				'area_id',
-				'department_id',
-				'condition_id',
-				'slogan_id',
-				'published',
-				'access',
-				'publish_up',
-				'publish_down',
-				'checked_out',
-				'checked_out_time',
-				'created_by',
-				'hits'
+			'asset_id',
+			'town_id',
+			'area_id',
+			'department_id',
+			'slogan_id',
+			'published',
+			'access',
+			'publish_up',
+			'publish_down',
+			'checked_out',
+			'checked_out_time',
+			'created_by',
+			'hits'
 		);
 
 		foreach ($properties as &$property)
@@ -130,7 +128,7 @@ abstract class JeaGatewayExport extends JeaGateway
 			{
 				if (isset($amenities[$id]))
 				{
-					$tmp[] = $amenities[$id]->value;
+					$tmp[$id] = $amenities[$id]->value;
 				}
 			}
 
