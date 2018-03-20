@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.file');
 
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
+
 /**
  * Gateway model class.
  *
@@ -62,6 +64,10 @@ class JeaModelGateway extends JModelAdmin
 				$gatewayForm = $this->loadForm('com_jea.' . $item->type . '.' . $item->provider, $formConfigFile, array('load_data' => false));
 				$form->load($gatewayForm->getXml());
 			}
+
+			$dispatcher = GatewaysEventDispatcher::getInstance();
+			$dispatcher->loadGateway($item);
+			$dispatcher->trigger('onPrepareForm', array('form' => $form));
 
 			$data = $this->loadFormData();
 			$form->bind($data);
