@@ -122,7 +122,7 @@ class JEAPropertyInterface extends JObject
 	 *  This should be a function or a method but not a closure because
 	 *  this object needs to be serialised and closures can't be serialized
 	 *
-	 * @var callback
+	 * @var string|array
 	 */
 	public $saveImagesCallback = null;
 

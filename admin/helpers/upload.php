@@ -27,7 +27,7 @@ class JeaUpload
 	 * The upload key
 	 * (ex: $files[0][{picture}] or $files[0][{1}] or $files[0][{picture1}])
 	 *
-	 * @var unknown_type
+	 * @var string
 	 */
 	public $key = '';
 
@@ -58,7 +58,7 @@ class JeaUpload
 
 	/**
 	 *
-	 * @see HTTP_Upload_File::setValidExtensions()
+	 * @see JeaUpload::setValidExtensions()
 	 * @var string
 	 */
 	protected $extensionsMode = 'deny';

@@ -104,7 +104,7 @@ abstract class JHtmlUtility
 	/**
 	 * Get JEA params
 	 *
-	 * @return Registry
+	 * @return Joomla\Registry\Registry
 	 */
 	protected static function getParams()
 	{

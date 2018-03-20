@@ -25,7 +25,7 @@ class JeaViewGateway extends JViewLegacy
 	/**
 	 * The component paramaters
 	 *
-	 * @var Registry
+	 * @var Joomla\Registry\Registry
 	 */
 	protected $params = null;
 
