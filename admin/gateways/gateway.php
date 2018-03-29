@@ -82,9 +82,14 @@ abstract class JeaGateway extends JEvent
 			$this->id = $config['id'];
 		}
 
+		if (isset($config['type']))
+		{
+			$this->type = $config['type'];
+		}
+
 		if (isset($config['provider']))
 		{
-			$this->provider = $config['provider'];
+			$this->provider = $config['provider'] . '_' . $this->id;
 		}
 
 		if (isset($config['title']))
@@ -92,12 +97,7 @@ abstract class JeaGateway extends JEvent
 			$this->title = $config['title'];
 		}
 
-		if (isset($config['type']))
-		{
-			$this->type = $config['type'];
-		}
-
-		$this->log_file = $this->provider . '_' . $this->type . '_' . $this->id . '.php';
+		$this->log_file = $this->type . '_' . $this->provider . '.php';
 
 		parent::__construct($subject);
 	}
