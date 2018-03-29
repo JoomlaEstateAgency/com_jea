@@ -34,7 +34,7 @@ if (isset($options['export']) && ! isset($options['baseurl']))
 }
 
 define('JPATH_BASE', $options['basedir']);
-define('BASE_URL', $options['baseurl']);
+define('BASE_URL', isset($options['baseurl'])? $options['baseurl'] : '');
 define('_JEXEC', 1);
 
 require_once JPATH_BASE . '/includes/defines.php';
