@@ -237,6 +237,12 @@ class JEAPropertyInterface extends JObject
 
 		foreach ($this->images as $image)
 		{
+			if (substr($image, 0, 4) == 'http')
+			{
+				$uri = new \Joomla\Uri\Uri($image);
+				$image = $uri->getPath();
+			}
+
 			$image = basename($image);
 
 			if (! empty($image))
@@ -368,6 +374,12 @@ class JEAPropertyInterface extends JObject
 			foreach ($this->images as $image)
 			{
 				$basename = basename($image);
+
+				if (substr($image, 0, 4) == 'http')
+				{
+					$uri = new \Joomla\Uri\Uri($image);
+					$basename = basename($uri->getPath());
+				}
 
 				if (!in_array(JFile::getExt($basename), $validExtensions))
 				{
