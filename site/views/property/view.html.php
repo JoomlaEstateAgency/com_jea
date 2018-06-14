@@ -132,11 +132,11 @@ class JeaViewProperty extends JViewLegacy
 			$plugin = 'recaptcha';
 		}
 
-		$captcha = JCaptcha::getInstance($plugin);
+		$captcha = JCaptcha::getInstance($plugin, array('namespace' => 'contact'));
 
 		if ($captcha instanceof JCaptcha)
 		{
-			return $captcha->display('captcha', 'jea-captcha');
+			return $captcha->display('captcha', 'jea-captcha', 'required');
 		}
 
 		return '';
