@@ -14,7 +14,7 @@ jimport('joomla.user.user');
 jimport('joomla.mail.helper');
 jimport('joomla.filesystem.folder');
 
-require_once JPATH_COMPONENT . '/tables/property.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
 
 /**
  * JEAPropertyInterface model class.

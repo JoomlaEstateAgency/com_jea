@@ -27,7 +27,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	 */
 	protected function &parse()
 	{
-		/* @var JEARowInterface[] $properties */
+		/* @var JEAPropertyInterface[] $properties */
 		$properties = array();
 		$importDir = $this->params->get('import_directory');
 
