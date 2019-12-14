@@ -10,7 +10,7 @@
 		<property name="phpcs-ignore-admin" value="${basedir}/admin/views/*/tmpl/*" />
 		<property name="phpcs-ignore-admin-layouts" value="${basedir}/admin/layouts/*" />
 		<property name="phpcs-ignore-site" value="${basedir}/site/views/*/tmpl/*" />
-		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcs">
+		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcs" failonerror="true">
 			<arg line="-p" />
 			<arg line="-w" />
 			<arg value="--report=full"/>
