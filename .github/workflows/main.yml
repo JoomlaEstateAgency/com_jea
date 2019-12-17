@@ -16,7 +16,7 @@ jobs:
       with:
         submodule: true
     - name: Set PHP version
-      run: update-alternatives --set php /usr/bin/php7.2
+      run: sudo update-alternatives --set php /usr/bin/php7.2
     - name: Install Composer dependencies 
       run: composer install
     - name: Run Joomla coding standards
