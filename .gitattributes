@@ -1,5 +1,6 @@
 # Ignore these files with "export-ignore".
 /.gitattributes     export-ignore
+/.github            export-ignore
 /.gitignore         export-ignore
 /.gitmodules        export-ignore
 /build.xml          export-ignore
