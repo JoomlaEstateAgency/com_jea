@@ -11,11 +11,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-
     steps:
     - uses: actions/checkout@v1
       with:
         submodule: true
+    - name: Set PHP version
+      run: update-alternatives --set php /usr/bin/php7.2
     - name: Install Composer dependencies 
       run: composer install
     - name: Run Joomla coding standards
