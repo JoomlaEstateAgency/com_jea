@@ -1,6 +1,18 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 3.4.3 / 12-2019=
+# Fix gateways bugs
+# Fix JEA gateway (import images)
+# Fix Recaptcha
+
+RELEASE 3.4.2 / 07-2017=
+# Fix gateways bugs
+# Fix thumbnails generation
+
+RELEASE 3.4.1 / 05-2017=
+# Fix gateways bugs
+
 RELEASE 3.4 / 05-2017=
 - Remove Joomla 2.5 support
 # Fix pagination bug again
