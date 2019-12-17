@@ -119,6 +119,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	protected function parseXML(&$properties, $xmlFile = '')
 	{
 		$xml = $this->parseXmlFile($xmlFile);
+		$currentDirectory = dirname($xmlFile);
 
 		// Check root tag
 		if ($xml->getName() != 'jea')
