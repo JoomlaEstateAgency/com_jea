@@ -12,9 +12,11 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-    - uses: actions/checkout@v1
-      with:
-        submodule: true
+    - uses: actions/checkout@v2
+    - name: Checkout submodules
+      run: |
+        git submodule init
+        git submodule update
     - name: Set PHP version
       run: sudo update-alternatives --set php /usr/bin/php7.2
     - name: Install Composer dependencies 
