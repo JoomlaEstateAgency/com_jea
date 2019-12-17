@@ -123,7 +123,6 @@ class JeaModelProperties extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
 
 		$dispatcher = JDispatcher::getInstance();
 

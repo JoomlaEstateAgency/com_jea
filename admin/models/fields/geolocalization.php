@@ -40,7 +40,6 @@ class JFormFieldGeolocalization extends JFormField
 	{
 		$params = JComponentHelper::getParams('com_jea');
 		$ouptut = '';
-		$url = 'index.php?option=com_jea&amp;view=property&amp;layout=geolocalization&amp;tmpl=component';
 
 		// TODO : use JLayout
 		$ouptut = '<div class="button2-left">' . "\n" .

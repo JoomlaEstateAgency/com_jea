@@ -46,7 +46,6 @@ class JeaViewGateway extends JViewLegacy
 
 		$this->state = $this->get('State');
 
-		$type = $this->state->get('type');
 		$title = JText::_('COM_JEA_GATEWAYS');
 
 		$this->item = $this->get('Item');

@@ -59,7 +59,6 @@ class JeaViewProperties extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo = JeaHelper::getActions();
-		$user = JFactory::getUser();
 
 		JToolBarHelper::title(JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea.png');
 

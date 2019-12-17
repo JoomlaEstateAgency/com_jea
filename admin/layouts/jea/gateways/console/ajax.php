@@ -1,14 +1,16 @@
 <?php
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
-*
-* @package     Joomla.Administrator
-* @subpackage  com_jea
-* @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2017 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 defined('_JEXEC') or die;
+
+/* @var $displayData array */
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
@@ -22,8 +24,6 @@ $action = $displayData['action'];
 $dispatcher = GatewaysEventDispatcher::getInstance();
 $dispatcher->loadGateways($action);
 $dispatcher->trigger('initWebConsole');
-
-$jsStartAction = 'start' . ucfirst($action);
 
 $script = <<<JS
 

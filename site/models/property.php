@@ -205,17 +205,7 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	public function getPreviousAndNext()
 	{
-		$app = JFactory::getApplication();
-
 		$item = $this->getItem();
-
-		$context = 'com_jea.properties';
-		$itemId = JFactory::getApplication()->input->getInt('Itemid', 0);
-
-		if ($itemId > 0)
-		{
-			$context .= '.menuitem' . $itemId;
-		}
 
 		$properties = JModelLegacy::getInstance('Properties', 'JeaModel');
 		$state = $properties->getState();

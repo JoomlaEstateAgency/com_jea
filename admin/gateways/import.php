@@ -465,7 +465,7 @@ abstract class JeaGatewayImport extends JeaGateway
 		}
 
 		$dbo = JFactory::getDbo();
-		$dbo->setQuery('DELETE FROM #__jea_properties WHERE id IN(' .  implode(',', $ids). ')');
+		$dbo->setQuery('DELETE FROM #__jea_properties WHERE id IN(' . implode(',', $ids) . ')');
 		$dbo->execute();
 
 		// Remove images folder
@@ -521,7 +521,6 @@ abstract class JeaGatewayImport extends JeaGateway
 		libxml_use_internal_errors(true);
 
 		$xml = simplexml_load_file($xmlFile, 'SimpleXMLElement', LIBXML_PARSEHUGE);
-		$currentDirectory = dirname($xmlFile);
 
 		if (! $xml)
 		{

@@ -498,7 +498,7 @@ class JEAPropertyInterface extends JObject
 			curl_setopt($curl, CURLOPT_URL, $file);
 
 			// Don't check SSL certificate
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 			curl_setopt($curl, CURLOPT_FILETIME, true);
 			curl_setopt($curl, CURLOPT_NOBODY, true);
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

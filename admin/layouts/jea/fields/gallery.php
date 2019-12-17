@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+/* @var $displayData array */
+
 $uploadNumber = (int) $displayData['uploadNumber'];
 $images = $displayData['images'];
 $name = $displayData['name'];

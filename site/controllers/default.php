@@ -90,14 +90,14 @@ class JeaControllerDefault extends JControllerLegacy
 	 */
 	public function sendContactForm()
 	{
+		$model = $this->getModel('Property', 'JeaModel');
+		$returnURL = $model->getState('contact.propertyURL');
+
 		// Check for request forgeries
 		if (!JSession::checkToken())
 		{
 			return $this->setRedirect($returnURL, JText::_('JINVALID_TOKEN'), 'warning');
 		}
-
-		$model = $this->getModel('Property', 'JeaModel');
-		$returnURL = $model->getState('contact.propertyURL');
 
 		if (!$model->sendContactForm())
 		{

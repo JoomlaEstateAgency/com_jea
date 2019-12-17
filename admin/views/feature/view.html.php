@@ -56,7 +56,6 @@ class JeaViewFeature extends JViewLegacy
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$isNew = ($this->item->id == 0);
 		$canDo = JeaHelper::getActions();
 
 		$title = $this->item->id ? JText::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : JText::_('JACTION_CREATE');

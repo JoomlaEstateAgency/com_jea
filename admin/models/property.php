@@ -281,7 +281,6 @@ class JeaModelProperty extends JModelAdmin
 		$nextOrdering = $table->getNextOrder();
 
 		$fields = $table->getProperties();
-		$db = $this->getDbo();
 
 		unset($fields['id']);
 		unset($fields['checked_out']);

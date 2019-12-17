@@ -36,7 +36,7 @@ class JeaViewAbout extends JViewLegacy
 	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('about');
-		JToolBarHelper::title('Joomla Estate Agency', 'jea.png');
+		JToolbarHelper::title('Joomla Estate Agency', 'jea.png');
 
 		$canDo = JeaHelper::getActions();
 

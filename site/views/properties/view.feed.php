@@ -32,14 +32,9 @@ class JeaViewProperties extends JViewLegacy
 	public function display ($tpl = null)
 	{
 		$app = JFactory::getApplication();
-
 		$document = JFactory::getDocument();
-		$params = $app->getParams();
-
 		$document->link = JRoute::_('index.php?option=com_jea&view=properties');
-
 		JFactory::getApplication()->input->set('limit', $app->get('feed_limit'));
-
 		$rows = $this->get('Items');
 
 		foreach ($rows as $row)
@@ -57,7 +52,7 @@ class JeaViewProperties extends JViewLegacy
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// Url link to article
-			$item->link = JRoute::_('index.php?view=properties&id=' . $row->slug);
+			$link = JRoute::_('index.php?view=properties&id=' . $row->slug);
 
 			// Strip html from feed item description text
 			$description = strip_tags($row->description);

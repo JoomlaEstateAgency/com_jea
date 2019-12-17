@@ -40,8 +40,6 @@ class JFormFieldGallery extends JFormField
 	 */
 	protected function getInput()
 	{
-		$output = '';
-
 		$params = JComponentHelper::getParams('com_jea');
 
 		if (is_string($this->value))

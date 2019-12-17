@@ -38,7 +38,6 @@ abstract class JHtmlUtility
 		if (! empty($price))
 		{
 			$currency_symbol = $params->get('currency_symbol', '&euro;');
-			$decimal_separator = $params->get('decimals_separator', ',');
 			$price = self::formaNumber($price);
 
 			// Is currency symbol before or after price ?
