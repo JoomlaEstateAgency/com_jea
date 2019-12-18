@@ -34,7 +34,7 @@ if(!empty($address) && !empty($town)){
     $address = $lang;
 }
 
-$this->document->addScript('http://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language='. $lang . '&amp;region=' . $region );
+$this->document->addScript('https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language='. $lang . '&amp;region=' . $region );
 
 $script = <<<EOD
 var map = null;

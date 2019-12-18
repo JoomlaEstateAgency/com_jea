@@ -42,7 +42,7 @@ $langs  = explode('-', $this->document->getLanguage());
 $lang   = $langs[0];
 $region = $langs[1];
 
-$this->document->addScript('http://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang
+$this->document->addScript('https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang
 . '&amp;region=' . $region );
 
 $model = $this->getModel();
