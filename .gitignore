@@ -4,3 +4,4 @@
 /.externalToolBuilders/
 /vendor/
 /composer.lock
+/dist/
