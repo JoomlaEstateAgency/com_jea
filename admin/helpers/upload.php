@@ -269,6 +269,7 @@ class JeaUpload
 	{
 		$this->name = substr($this->name, 0, $maxlen);
 		$this->name = JFile::makeSafe($this->name);
+		$this->name = preg_replace('/\s+/', '-', $this->name);
 
 		return $this;
 	}
