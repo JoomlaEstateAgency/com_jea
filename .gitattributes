@@ -6,5 +6,5 @@
 /build.xml          export-ignore
 /composer.json      export-ignore
 /composer.lock      export-ignore
-/.deps              export-ignore
+/coding-standards   export-ignore
 /dist               export-ignore

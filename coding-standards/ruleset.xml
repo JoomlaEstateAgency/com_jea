@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="jea">
+	<description>
+		Joomla Estate Agency coding Standard
+	</description>
+	
+	<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+	<exclude-pattern type="relative">*/layouts/*</exclude-pattern>
+	<exclude-pattern type="relative">vendor/*</exclude-pattern>
+	
+	<rule ref="../vendor/joomla/coding-standards/Joomla">
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.NotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.MethodUnderscore"/>
+	</rule>
+	
+	<rule ref="Squiz.Commenting.VariableComment">
+		<exclude-pattern type="relative">admin/models/interface.php</exclude-pattern>
+		<exclude-pattern type="relative">admin/models/propertyInterface.php</exclude-pattern>
+		<exclude-pattern type="relative">admin/views/*</exclude-pattern>
+		<exclude-pattern type="relative">site/views/*</exclude-pattern>
+	</rule>
+</ruleset>

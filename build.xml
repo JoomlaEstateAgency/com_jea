@@ -7,20 +7,12 @@
 	</target>
 	
 	<target name="standard" description="Generate codestyle report using PHP_CodeSniffer">
-		<property name="phpcs-ignore-admin" value="${basedir}/admin/views/*/tmpl/*" />
-		<property name="phpcs-ignore-admin-layouts" value="${basedir}/admin/layouts/*" />
-		<property name="phpcs-ignore-site" value="${basedir}/site/views/*/tmpl/*" />
 		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcs" failonerror="true">
 			<arg line="-p" />
 			<arg line="-w" />
 			<arg value="--report=full"/>
 			<arg value="--extensions=php"/>
-			<arg value="--standard=${basedir}/vendor/joomla/coding-standards/Joomla"/>
-			<arg value="--ignore=${phpcs-ignore-admin}"/>
-			<arg value="--ignore=${phpcs-ignore-admin-layouts}"/>
-			<arg value="--ignore=${phpcs-ignore-site}"/>
-			<arg value="--ignore=${basedir}/vendor"/>
-			<arg value="--ignore=${basedir}/.deps"/>
+			<arg value="--standard=${basedir}/coding-standards"/>
 			<arg path="${basedir}"/>
 		</exec>
 	</target>
