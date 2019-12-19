@@ -23,7 +23,7 @@ class TableProperty extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database diver object
+	 * @param   JDatabaseDriver  $db  A database diver object
 	 */
 	public function __construct(&$db)
 	{

@@ -28,8 +28,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
  */
 class JEAPropertyInterface extends JObject
 {
-	/* These public members concern the interface */
-
+	// These public members concern the interface
 	public $ref = '';
 
 	public $title = '';
@@ -436,7 +435,7 @@ class JEAPropertyInterface extends JObject
 	 *
 	 * @return  boolean
 	 */
-	protected function downloadImage ($url = '', $dest = '')
+	protected function downloadImage($url = '', $dest = '')
 	{
 		JLog::add("Download Image : $url", JLog::DEBUG, 'jea');
 
@@ -540,7 +539,7 @@ class JEAPropertyInterface extends JObject
 	 *
 	 * @return  integer
 	 */
-	public static function getFeatureId ($tableName = '', $fieldValue = '', $language = null, $parentId = 0)
+	public static function getFeatureId($tableName = '', $fieldValue = '', $language = null, $parentId = 0)
 	{
 		$fieldValue = trim($fieldValue);
 		$id = 0;
@@ -612,7 +611,7 @@ class JEAPropertyInterface extends JObject
 	 *
 	 * @return  boolean|object The feature row object or false if feature not found
 	 */
-	protected static function _getJeaRowIfExists ($tableName = '', $fieldName = '', $fieldValue = '')
+	protected static function _getJeaRowIfExists($tableName = '', $fieldName = '', $fieldValue = '')
 	{
 		if (self::$tables == null)
 		{
@@ -669,7 +668,7 @@ class JEAPropertyInterface extends JObject
 	 *
 	 * @return  integer Return the user id. Return 0 if the user cannot be created.
 	 */
-	public static function getUserId ($email = '', $name = '')
+	public static function getUserId($email = '', $name = '')
 	{
 		if (self::$users == null)
 		{
@@ -710,7 +709,7 @@ class JEAPropertyInterface extends JObject
 	 *
 	 * @return  boolean|number return the user id or false if the user cannot be created
 	 */
-	protected static function _createUser ($email = '', $name = '')
+	protected static function _createUser($email = '', $name = '')
 	{
 		if (!JMailHelper::isEmailAddress($email))
 		{

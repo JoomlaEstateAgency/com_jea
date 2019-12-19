@@ -32,7 +32,8 @@ class JeaControllerThumbnail extends JControllerLegacy
 	 */
 	public function create()
 	{
-		/* @var JApplicationWeb  $application */
+		// @var JApplicationWeb  $application
+
 		$application = JFactory::getApplication();
 		$output      = '';
 		$size        = $this->input->getCmd('size', '');

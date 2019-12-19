@@ -249,7 +249,7 @@ class JeaModelProperty extends JModelLegacy
 	{
 		$pk = empty($pk) ? $this->getState('property.id') : (int) $pk;
 		$db = $this->getDbo();
-		$db->setQuery('UPDATE #__jea_properties' . ' SET hits = hits + 1' . ' WHERE id = ' . (int) $pk);
+		$db->setQuery('UPDATE #__jea_properties SET hits = hits + 1 WHERE id = ' . (int) $pk);
 
 		try
 		{

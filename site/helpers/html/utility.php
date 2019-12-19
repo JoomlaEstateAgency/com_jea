@@ -20,6 +20,9 @@ defined('_JEXEC') or die;
  */
 abstract class JHtmlUtility
 {
+	/**
+	 * @var Joomla\Registry\Registry
+	 */
 	protected static $params = null;
 
 	/**

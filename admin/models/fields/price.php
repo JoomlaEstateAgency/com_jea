@@ -26,7 +26,7 @@ class JFormFieldPrice extends JFormFieldText
 	/**
 	 * The form field type.
 	 *
-	 * @param string
+	 * @var string
 	 */
 	protected $type = 'Price';
 

@@ -39,7 +39,7 @@ class JFormFieldFeatureList extends JFormField
 	 *
 	 * @see     JHtmlFeatures
 	 */
-	protected function getInput ()
+	protected function getInput()
 	{
 		$subtype = (string) $this->element['subtype'];
 
@@ -106,7 +106,7 @@ class JFormFieldFeatureList extends JFormField
 	 *
 	 * @return  boolean
 	 */
-	private function _hasRelationShip ()
+	private function _hasRelationShip()
 	{
 		$params = JComponentHelper::getParams('com_jea');
 
@@ -122,7 +122,7 @@ class JFormFieldFeatureList extends JFormField
 	 *
 	 * @return  void
 	 */
-	private function _ajaxUpdateList ($fromId, $toId, $task)
+	private function _ajaxUpdateList($fromId, $toId, $task)
 	{
 		if ($this->form->getName() == 'com_menus.item')
 		{
@@ -136,7 +136,7 @@ class JFormFieldFeatureList extends JFormField
 		if (! empty($fieldTo->id))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
+				"window.addEvent('domready', function() {
                     document.id('{$this->id}').addEvent('change', function() {
                         var jSonRequest = new Request.JSON({
                             url: 'index.php',

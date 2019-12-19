@@ -62,15 +62,15 @@ abstract class JeaGateway extends JEvent
 	 *
 	 * @var string
 	 */
-	protected $log_file = '';
+	protected $logFile = '';
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
+	 * @param   object  $subject   The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 */
-	public function __construct (&$subject, $config = array())
+	public function __construct(&$subject, $config = array())
 	{
 		if (isset($config['params']) && $config['params'] instanceof Registry)
 		{
@@ -97,7 +97,7 @@ abstract class JeaGateway extends JEvent
 			$this->title = $config['title'];
 		}
 
-		$this->log_file = $this->type . '_' . $this->provider . '.php';
+		$this->logFile = $this->type . '_' . $this->provider . '.php';
 
 		parent::__construct($subject);
 	}
@@ -127,7 +127,7 @@ abstract class JeaGateway extends JEvent
 		$cat = $this->provider;
 
 		JLog::addLogger(
-			array('text_file' => $this->log_file),
+			array('text_file' => $this->logFile),
 			JLog::ALL,
 			$cat
 		);
@@ -170,7 +170,7 @@ abstract class JeaGateway extends JEvent
 
 		if ($application instanceof JApplicationCli)
 		{
-			/* @var JApplicationCli $application */
+			// @var JApplicationCli $application
 			$application->out($message);
 		}
 	}
@@ -182,7 +182,7 @@ abstract class JeaGateway extends JEvent
 	 */
 	public function getLogs()
 	{
-		$file = JFactory::getConfig()->get('log_path') . '/' . $this->log_file;
+		$file = JFactory::getConfig()->get('log_path') . '/' . $this->logFile;
 
 		if (JFile::exists($file))
 		{
@@ -195,11 +195,11 @@ abstract class JeaGateway extends JEvent
 	/**
 	 * Delete logs
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function deleteLogs()
 	{
-		$file = JFactory::getConfig()->get('log_path') . '/' . $this->log_file;
+		$file = JFactory::getConfig()->get('log_path') . '/' . $this->logFile;
 
 		if (JFile::exists($file))
 		{

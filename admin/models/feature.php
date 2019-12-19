@@ -59,7 +59,7 @@ class JeaModelFeature extends JModelAdmin
 	 *
 	 * @see JModelAdmin::populateState()
 	 */
-	public function populateState ()
+	public function populateState()
 	{
 		/*
 		 * Be careful to not call parent::populateState() because this will cause an

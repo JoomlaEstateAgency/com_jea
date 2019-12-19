@@ -20,5 +20,10 @@ defined('_JEXEC') or die;
  */
 class JeaControllerDefault extends JControllerLegacy
 {
+	/**
+	 * The default view for the display method.
+	 *
+	 * @var    string
+	 */
 	protected $default_view = 'properties';
 }

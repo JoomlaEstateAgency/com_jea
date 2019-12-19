@@ -31,10 +31,10 @@ abstract class JeaGatewayExport extends JeaGateway
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
+	 * @param   object  $subject   The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 */
-	public function __construct (&$subject, $config = array())
+	public function __construct(&$subject, $config = array())
 	{
 		$application = JFactory::getApplication();
 
@@ -56,9 +56,7 @@ abstract class JeaGatewayExport extends JeaGateway
 	 *
 	 * @return  array containg export summary data
 	 */
-	public function export ()
-	{
-	}
+	abstract public function export();
 
 	/**
 	 * Get all JEA properties
@@ -67,13 +65,13 @@ abstract class JeaGatewayExport extends JeaGateway
 	 *
 	 * @return  array
 	 */
-	protected function getJeaProperties ($published = true)
+	protected function getJeaProperties($published = true)
 	{
 		$db = JFactory::getDbo();
 
 		$query = 'SELECT p.*, t.value AS town, ht.value AS heating_type'
 				. ', hwt.value AS hot_water_type, d.value AS department'
-				. ', a.value AS `area`, s.value AS slogan' . ', c.value AS `condition`, type.value AS type' . PHP_EOL
+				. ', a.value AS `area`, s.value AS slogan, c.value AS `condition`, type.value AS type' . PHP_EOL
 				. 'FROM #__jea_properties AS p' . PHP_EOL
 				. 'LEFT JOIN #__jea_towns AS t ON t.id = p.town_id' . PHP_EOL
 				. 'LEFT JOIN #__jea_departments AS d ON d.id = p.department_id' . PHP_EOL
@@ -146,7 +144,7 @@ abstract class JeaGatewayExport extends JeaGateway
 	 *
 	 * @return  array
 	 */
-	private function getImages ($row)
+	private function getImages($row)
 	{
 		$result = array();
 		$images = json_decode($row->images);

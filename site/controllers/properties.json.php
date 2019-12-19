@@ -120,12 +120,12 @@ class JeaControllerProperties extends JControllerLegacy
 	/**
 	 * Sort method for usort
 	 *
-	 * @param   array  &$arg1  Sort data 1
-	 * @param   array  &$arg2  Sort data 2
+	 * @param   array  $arg1  Sort data 1
+	 * @param   array  $arg2  Sort data 2
 	 *
 	 * @return number
 	 */
-	public function _ajaxAlphaSort (&$arg1, &$arg2)
+	public function _ajaxAlphaSort(&$arg1, &$arg2)
 	{
 		$val1 = strtolower($arg1['text']);
 		$val2 = strtolower($arg2['text']);
@@ -144,7 +144,7 @@ class JeaControllerProperties extends JControllerLegacy
 	 *
 	 * @see JControllerLegacy::getModel()
 	 */
-	public function getModel ($name = 'Properties', $prefix = 'JeaModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Properties', $prefix = 'JeaModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

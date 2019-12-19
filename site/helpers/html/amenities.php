@@ -22,6 +22,9 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class JHtmlAmenities
 {
+	/**
+	 * @var stdClass[]
+	 */
 	protected static $amenities = null;
 
 	/**
@@ -87,7 +90,7 @@ abstract class JHtmlAmenities
 	 *
 	 * @return string Html list
 	 */
-	static public function checkboxes ($values = array(), $name = 'amenities', $idSuffix = '')
+	static public function checkboxes($values = array(), $name = 'amenities', $idSuffix = '')
 	{
 		$amenities = self::getAmenities();
 		$values = (array) $values;

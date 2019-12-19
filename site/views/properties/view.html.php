@@ -31,7 +31,7 @@ class JeaViewProperties extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		$state = $this->get('State');
 		$this->params = $state->params;
@@ -160,7 +160,7 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * Get the first image url in the row
 	 *
-	 * @param   object  &$row  A property row
+	 * @param   object  $row  A property row object
 	 *
 	 * @return  string
 	 */
@@ -199,7 +199,7 @@ class JeaViewProperties extends JViewLegacy
 	 *
 	 * @return  string
 	 */
-	protected function getFeatureValue ($featureId = 0, $featureTable = '')
+	protected function getFeatureValue($featureId = 0, $featureTable = '')
 	{
 		// TODO: Refactor this. Use cache?
 		$db = JFactory::getDbo();

@@ -82,7 +82,7 @@ class JFormFieldAmenities extends JFormField
 			$output .= '<li class="amenity ' . $class . '">';
 
 			$output .= '<input class="am-input" type="checkbox" name="' . $this->name . '"'
-					. ' id="' . $this->id . $k . '"' . ' value="' . $row->id . '" ' . $checked . ' />'
+					. ' id="' . $this->id . $k . '" value="' . $row->id . '" ' . $checked . ' />'
 					. '<label class="am-title" for="' . $this->id . $k . '" ' . $title . '>' . $label . '</label>';
 
 			$output .= '</li>';

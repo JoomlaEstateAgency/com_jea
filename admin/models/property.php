@@ -260,7 +260,7 @@ class JeaModelProperty extends JModelAdmin
 		$pks = ArrayHelper::toInteger((array) $pks);
 
 		$db = $this->getDbo();
-		$db->setQuery('UPDATE #__jea_properties' . ' SET featured = ' . (int) $value . ' WHERE id IN (' . implode(',', $pks) . ')');
+		$db->setQuery('UPDATE #__jea_properties SET featured = ' . (int) $value . ' WHERE id IN (' . implode(',', $pks) . ')');
 		$db->execute();
 	}
 
@@ -304,14 +304,12 @@ class JeaModelProperty extends JModelAdmin
 
 			$nextOrdering ++;
 		}
-
-		return true;
 	}
 
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks   An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -329,7 +327,11 @@ class JeaModelProperty extends JModelAdmin
 					JFolder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
 				}
 			}
+
+			return true;
 		}
+
+		return false;
 	}
 
 	/**

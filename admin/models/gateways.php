@@ -29,7 +29,7 @@ class JeaModelGateways extends JModelList
 	 *
 	 * @see     JModelList
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -52,7 +52,7 @@ class JeaModelGateways extends JModelList
 	 *
 	 * @see JModelList::getListQuery()
 	 */
-	protected function getListQuery ()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();

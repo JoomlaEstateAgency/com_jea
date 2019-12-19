@@ -111,7 +111,7 @@ class JeaHelper
 	/**
 	 * Gets the list of tools icons.
 	 *
-	 * @return void
+	 * @return array  A button list
 	 */
 	public static function getToolsIcons()
 	{
@@ -128,21 +128,7 @@ class JeaHelper
 		{
 			$button['text'] = JText::_($button['text']);
 
-			/*
-			 * if ((float) JVERSION > 3) {
-			 * $button['image'] = str_replace(array('.png', 'icon-'), '',
-			 * basename($button['image']));
-			 * parse_str($button['link'], $output);
-			 * if(!empty($output['view'])) {
-			 * $button['image'] = '48-'.$output['view'];
-			 * $button['name'] = $output['view'];
-			 * } else {
-			 * $button['name'] = '';
-			 * }
-			 * }
-			 */
-
-			if (! empty($button['access']))
+			if (!empty($button['access']))
 			{
 				$button['access'] = json_decode($button['access']);
 			}

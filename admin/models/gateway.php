@@ -41,7 +41,8 @@ class JeaModelGateway extends JModelAdmin
 		$app = JFactory::getApplication();
 		$type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
 
-		/* @var $form JForm */
+		// @var $form JForm
+
 		$form = $this->loadForm('com_jea.' . $type, $type, array('control' => 'jform', 'load_data' => false));
 
 		if (empty($form))

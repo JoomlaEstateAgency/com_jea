@@ -39,7 +39,7 @@ class JeaViewProperty extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
@@ -56,7 +56,7 @@ class JeaViewProperty extends JViewLegacy
 	 *
 	 * @return void
 	 */
-	protected function addToolbar ()
+	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 		$user = JFactory::getUser();

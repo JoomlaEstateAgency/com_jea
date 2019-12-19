@@ -29,7 +29,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function types ($value = 0, $name = 'type_id', $attr = '')
+	static public function types($value = 0, $name = 'type_id', $attr = '')
 	{
 		$cond = self::getLanguageCondition();
 
@@ -45,7 +45,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function departments ($value = 0, $name = 'department_id', $attr = '')
+	static public function departments($value = 0, $name = 'department_id', $attr = '')
 	{
 		return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_DEPARTMENT_LABEL', $attr, 'departments');
 	}
@@ -60,7 +60,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function towns ($value = 0, $name = 'town_id', $attr = '', $department_id = null)
+	static public function towns($value = 0, $name = 'town_id', $attr = '', $department_id = null)
 	{
 		$condition = '';
 
@@ -88,7 +88,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function areas ($value = 0, $name = 'area_id', $attr = '', $town_id = null)
+	static public function areas($value = 0, $name = 'area_id', $attr = '', $town_id = null)
 	{
 		$condition = '';
 
@@ -114,7 +114,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function conditions ($value = 0, $name = 'condition_id', $attr = '')
+	static public function conditions($value = 0, $name = 'condition_id', $attr = '')
 	{
 		$cond = self::getLanguageCondition();
 
@@ -130,7 +130,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function hotwatertypes ($value = 0, $name = 'hot_water_type', $attr = '')
+	static public function hotwatertypes($value = 0, $name = 'hot_water_type', $attr = '')
 	{
 		$cond = self::getLanguageCondition();
 
@@ -146,7 +146,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function heatingtypes ($value = 0, $name = 'heating_type', $attr = '')
+	static public function heatingtypes($value = 0, $name = 'heating_type', $attr = '')
 	{
 		$cond = self::getLanguageCondition();
 
@@ -162,7 +162,7 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string HTML for the select list.
 	 */
-	static public function slogans ($value = 0, $name = 'slogan_id', $attr = '')
+	static public function slogans($value = 0, $name = 'slogan_id', $attr = '')
 	{
 		$cond = self::getLanguageCondition();
 
@@ -182,8 +182,9 @@ abstract class JHtmlFeatures
 	 *
 	 * @return  string  HTML for the select list.
 	 */
-	static public function getHTMLSelectList($value = 0, $name = '', $defaultOptionLabel = 'JOPTION_ANY', $attr = '', $featureTable = '',
-		$conditions = null, $ordering = 'f.value asc')
+	static public function getHTMLSelectList($value = 0, $name = '', $defaultOptionLabel = 'JOPTION_ANY',
+		$attr = '', $featureTable = '', $conditions = null, $ordering = 'f.value asc'
+	)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);

@@ -65,7 +65,7 @@ class JeaControllerProperties extends JControllerLegacy
 				$pointNode = $doc->createElement('Point');
 
 				/*
-				 * http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
+																 * Http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
 				 * (longitude, latitude, and optional altitude)
 				 */
 
@@ -113,7 +113,7 @@ class JeaControllerProperties extends JControllerLegacy
 				}
 
 				$description .= substr(strip_tags($row->description), 0, 255)
-							. ' ...' . '<p><a href="' . $url . '">' . JText::_('COM_JEA_DETAIL')
+							. ' ...<p><a href="' . $url . '">' . JText::_('COM_JEA_DETAIL')
 							. '</a></p><div style="clear:both"></div>';
 
 				$nameCDATA = $doc->createCDATASection($name);

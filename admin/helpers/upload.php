@@ -31,13 +31,25 @@ class JeaUpload
 	 */
 	public $key = '';
 
+	/**
+	 * @var string
+	 */
 	public $name = '';
 
+	/**
+	 * @var string
+	 */
 	public $temp_name = '';
 
+	/**
+	 * @var string
+	 */
 	public $type = '';
 
-	public $error = false;
+	/**
+	 * @var integer
+	 */
+	public $error;
 
 	/**
 	 * Errors list
@@ -50,16 +62,14 @@ class JeaUpload
 	 * It's a common security risk in pages who has the upload dir
 	 * under the document root
 	 *
-	 * @param   array
-	 *
+	 * @var  array
 	 * @see  JeaUpload::setValidExtensions()
 	 */
 	protected $extensionsCheck = array();
 
 	/**
-	 *
-	 * @see JeaUpload::setValidExtensions()
-	 * @var string
+	 * @var  string
+	 * @see  JeaUpload::setValidExtensions()
 	 */
 	protected $extensionsMode = 'deny';
 
@@ -222,7 +232,7 @@ class JeaUpload
 	 *
 	 * @return  boolean true on success or false on error
 	 */
-	public function moveTo ($dir = '', $overwrite = true)
+	public function moveTo($dir = '', $overwrite = true)
 	{
 		$this->check();
 
@@ -265,7 +275,7 @@ class JeaUpload
 	 *
 	 * @return  JeaUpload
 	 */
-	public function nameToSafe ($maxlen = 250)
+	public function nameToSafe($maxlen = 250)
 	{
 		$this->name = substr($this->name, 0, $maxlen);
 		$this->name = JFile::makeSafe($this->name);
@@ -284,7 +294,7 @@ class JeaUpload
 	 *
 	 * @return JeaUpload
 	 */
-	public function setValidExtensions ($exts, $mode = 'accept')
+	public function setValidExtensions($exts, $mode = 'accept')
 	{
 		$this->extensionsCheck = $exts;
 		$this->extensionsMode = $mode;

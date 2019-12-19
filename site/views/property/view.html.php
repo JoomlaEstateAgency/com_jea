@@ -31,7 +31,7 @@ class JeaViewProperty extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		$this->state = $this->get('State');
 		$item = $this->get('Item');
@@ -76,7 +76,7 @@ class JeaViewProperty extends JViewLegacy
 	 *
 	 * @return  string
 	 */
-	protected function getPrevNextNavigation ($previousPrefix = '&lt;&lt; ', $nextPrefix = ' &gt;&gt;')
+	protected function getPrevNextNavigation($previousPrefix = '&lt;&lt; ', $nextPrefix = ' &gt;&gt;')
 	{
 		$res = $this->get('previousAndNext');
 		$html = '';
@@ -107,7 +107,7 @@ class JeaViewProperty extends JViewLegacy
 	/**
 	 * Build the property link
 	 *
-	 * @param   object  &$item  The property row
+	 * @param   object  $item  The property row
 	 *
 	 * @return  string
 	 */

@@ -57,7 +57,7 @@ class Com_JeaInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 */
-	public function update (JAdapterInstance $adapter)
+	public function update(JAdapterInstance $adapter)
 	{
 		return true;
 	}
@@ -96,6 +96,8 @@ class Com_JeaInstallerScript
 				$db->query();
 			}
 		}
+
+		return true;
 	}
 
 	/**

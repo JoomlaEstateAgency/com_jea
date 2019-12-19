@@ -31,7 +31,7 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function export ()
+	public function export()
 	{
 		$application = JFactory::getApplication();
 		$features = $this->input->get('cid', array(), 'array');
@@ -101,7 +101,7 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @return void
 	 */
-	public function import ()
+	public function import()
 	{
 		$application = JFactory::getApplication();
 		$upload = JeaUpload::getUpload('csv');
@@ -176,7 +176,7 @@ class JeaControllerFeatures extends JControllerLegacy
 	 *
 	 * @see JControllerForm::getModel()
 	 */
-	public function getModel ($name = 'Features', $prefix = 'JeaModel', $config = array())
+	public function getModel($name = 'Features', $prefix = 'JeaModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

@@ -27,7 +27,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	 */
 	protected function &parse()
 	{
-		/* @var JEAPropertyInterface[] $properties */
+		// @var JEAPropertyInterface[] $properties
 		$properties = array();
 		$importDir = $this->params->get('import_directory');
 
@@ -109,7 +109,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	/**
 	 * Xml parser
 	 *
-	 * @param   array   &$properties  Will be filled with JEAPropertyInterface instances
+	 * @param   array   $properties   Will be filled with JEAPropertyInterface instances
 	 * @param   string  $xmlFile      The xml file path
 	 *
 	 * @return  void

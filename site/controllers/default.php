@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
  */
 class JeaControllerDefault extends JControllerLegacy
 {
+	/**
+	 * The default view for the display method.
+	 *
+	 * @var   string
+	 */
 	protected $default_view = 'properties';
 
 	/**
@@ -63,7 +68,7 @@ class JeaControllerDefault extends JControllerLegacy
 				}
 			}
 
-			if (! $access)
+			if (!$access)
 			{
 				if ($user->id)
 				{
@@ -74,9 +79,7 @@ class JeaControllerDefault extends JControllerLegacy
 					$this->setMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				}
 
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&return=' . $return, false));
-
-				return $this->redirect();
+				return $this->setRedirect(JRoute::_('index.php?option=com_users&view=login&return=' . $return, false));
 			}
 		}
 
@@ -86,7 +89,7 @@ class JeaControllerDefault extends JControllerLegacy
 	/**
 	 * Send contact form action
 	 *
-	 * @return void
+	 * @return JControllerLegacy
 	 */
 	public function sendContactForm()
 	{
@@ -114,6 +117,6 @@ class JeaControllerDefault extends JControllerLegacy
 
 		$msg = JText::_('COM_JEA_CONTACT_FORM_SUCCESSFULLY_SENT');
 
-		$this->setRedirect($returnURL, $msg);
+		return $this->setRedirect($returnURL, $msg);
 	}
 }

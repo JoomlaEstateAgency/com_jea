@@ -31,7 +31,7 @@ class JeaControllerFeaturelist extends JControllerAdmin
 	 *
 	 * @see JControllerForm::getModel()
 	 */
-	public function getModel ($name = 'Feature', $prefix = 'JeaModel', $config = array())
+	public function getModel($name = 'Feature', $prefix = 'JeaModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

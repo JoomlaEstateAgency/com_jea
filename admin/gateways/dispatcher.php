@@ -26,7 +26,7 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	 *
 	 * @var GatewaysEventDispatcher
 	 */
-	protected static $g_instance = null;
+	protected static $gInstance = null;
 
 	/**
 	 * Get unique Instance of GatewaysEventDispatcher
@@ -35,12 +35,12 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	 */
 	public static function getInstance()
 	{
-		if (self::$g_instance === null)
+		if (self::$gInstance === null)
 		{
-			self::$g_instance = new static;
+			self::$gInstance = new static;
 		}
 
-		return self::$g_instance;
+		return self::$gInstance;
 	}
 
 	/**

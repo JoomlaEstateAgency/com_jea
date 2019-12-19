@@ -29,7 +29,7 @@ class JeaViewProperties extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();

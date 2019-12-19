@@ -29,7 +29,7 @@ class JeaModelProperties extends JModelList
 	 *
 	 * @see     JModelList
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -86,7 +86,7 @@ class JeaModelProperties extends JModelList
 	 *
 	 * @see JModelList::populateState()
 	 */
-	protected function populateState ($ordering = null, $direction = null)
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$this->context .= '.properties';
 
@@ -118,7 +118,7 @@ class JeaModelProperties extends JModelList
 	 *
 	 * @see JModelList::getListQuery()
 	 */
-	protected function getListQuery ()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -130,9 +130,10 @@ class JeaModelProperties extends JModelList
 		JPluginHelper::importPlugin('jea');
 
 		$query->select(
-				'p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
+			'p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
                 p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
-                p.created_by, p.hits, p.language ');
+                p.created_by, p.hits, p.language '
+		);
 
 		$query->from('#__jea_properties AS p');
 

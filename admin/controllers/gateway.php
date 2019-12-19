@@ -29,7 +29,7 @@ class JeaControllerGateway extends JControllerForm
 	 *
 	 * @see JControllerLegacy::__construct()
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 		$this->view_item .= '&type=' . JFactory::getApplication()->input->getCmd('type');
@@ -44,7 +44,8 @@ class JeaControllerGateway extends JControllerForm
 	{
 		$gateway = $this->getGateway();
 
-		/* @var JApplicationWeb  $application */
+		// @var JApplicationWeb  $application
+
 		$application = JFactory::getApplication();
 
 		$application->setHeader('Content-Type', 'text/plain', true);

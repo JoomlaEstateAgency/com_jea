@@ -79,17 +79,17 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Array of properties already imported
 	 *
-	 * @var array();
+	 * @var array
 	 */
 	protected $importedProperties = array();
 
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$subject  The object to observe
+	 * @param   object  $subject   The object to observe
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 */
-	public function __construct (&$subject, $config = array())
+	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
 		$this->autoDeletion = (bool) $this->params->get('auto_deletion', 0);
@@ -178,7 +178,7 @@ abstract class JeaGatewayImport extends JeaGateway
 			return $this->getSummary();
 		}
 
-		$ids_to_remove = array();
+		$idsToRemove = array();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -227,14 +227,14 @@ abstract class JeaGatewayImport extends JeaGateway
 			{
 				// Property not in the $imported_properties
 				// So we can delete it if the autodeletion option is set to true
-				$ids_to_remove[] = $row->id;
+				$idsToRemove[] = $row->id;
 			}
 		}
 
 		if ($this->autoDeletion === true)
 		{
 			// Remove outdated properties
-			$this->removeProperties($ids_to_remove);
+			$this->removeProperties($idsToRemove);
 		}
 
 		foreach ($properties as $ref => $row)
@@ -542,7 +542,7 @@ abstract class JeaGatewayImport extends JeaGateway
 						break;
 				}
 
-				$msg .= trim($error->message) . " -  Line: $error->line" . " -  Column: $error->column";
+				$msg .= trim($error->message) . " - Line: $error->line - Column: $error->column";
 
 				if ($error->file)
 				{
@@ -598,9 +598,9 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		if ($data === false)
 		{
-			$curl_errno = curl_errno($ch);
-			$curl_error = curl_error($ch);
-			$msg = "Cannot download $url. Error code : $curl_errno, Message : $curl_error";
+			$errno = curl_errno($ch);
+			$error = curl_error($ch);
+			$msg = "Cannot download $url. Error code : $errno, Message : $error";
 			$this->log($msg, 'ERR');
 			throw new RuntimeException($msg);
 		}

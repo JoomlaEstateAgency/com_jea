@@ -23,9 +23,9 @@ class TableGateway extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver  &$db  A database diver object
+	 * @param   JDatabaseDriver  $db  A database diver object
 	 */
-	public function __construct (&$db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__jea_gateways', 'id', $db);
 	}

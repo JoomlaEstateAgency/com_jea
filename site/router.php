@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * JEA router functions
  *
- * @param   array  &$query  An array of URL arguments
+ * @param   array  $query  An array of URL arguments
  *
  * @return  array The URL arguments to use to assemble the subsequent URL.
  *

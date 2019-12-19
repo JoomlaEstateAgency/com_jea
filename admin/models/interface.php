@@ -55,7 +55,7 @@ abstract class JeaModelInterface extends JModelLegacy
 	/**
 	 * The properties already imported
 	 *
-	 * @var array();
+	 * @var array
 	 */
 	protected $importedProperties = array();
 
@@ -367,7 +367,7 @@ abstract class JeaModelInterface extends JModelLegacy
 	 *
 	 * @return  void
 	 */
-	public function setLogFileName ($fileName = '')
+	public function setLogFileName($fileName = '')
 	{
 		$this->log_file = $fileName;
 	}
@@ -391,7 +391,7 @@ abstract class JeaModelInterface extends JModelLegacy
 	 *
 	 * @return  void
 	 */
-	public function log ($message, $status = '')
+	public function log($message, $status = '')
 	{
 		jimport('joomla.log.log');
 
@@ -436,7 +436,7 @@ abstract class JeaModelInterface extends JModelLegacy
 	 *
 	 * @return string
 	 */
-	public function getLogsContent ()
+	public function getLogsContent()
 	{
 		$path = JFactory::getConfig()->get('log_path');
 		$logFile = $path . '/' . $this->log_file;
@@ -452,9 +452,9 @@ abstract class JeaModelInterface extends JModelLegacy
 	/**
 	 * Delete logs
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
-	public function deleteLogs ()
+	public function deleteLogs()
 	{
 		$path = JFactory::getConfig()->get('log_path');
 		$logFile = $path . '/' . $this->log_file;

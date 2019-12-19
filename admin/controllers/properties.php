@@ -29,7 +29,7 @@ class JeaControllerProperties extends JControllerAdmin
 	 *
 	 * @see JControllerLegacy::__construct()
 	 */
-	public function __construct ($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -170,7 +170,7 @@ class JeaControllerProperties extends JControllerAdmin
 	 *
 	 * @see JControllerForm::getModel()
 	 */
-	public function getModel ($name = 'Property', $prefix = 'JeaModel', $config = array())
+	public function getModel($name = 'Property', $prefix = 'JeaModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, $config);
 

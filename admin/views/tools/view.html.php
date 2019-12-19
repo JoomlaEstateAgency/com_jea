@@ -30,7 +30,7 @@ class JeaViewTools extends JViewLegacy
 	 *
 	 * @see     JViewLegacy::display()
 	 */
-	public function display ($tpl = null)
+	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('tools');
 		JToolBarHelper::title(JText::_('COM_JEA_TOOLS'), 'jea.png');

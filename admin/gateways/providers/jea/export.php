@@ -63,12 +63,12 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	 * Create the zip file
 	 *
 	 * @param   string  $filename  The zipfile path to create.
-	 * @param   array   &$files    A set of files to be included into the zipfile.
+	 * @param   array   $files     A set of files to be included into the zipfile.
 	 *
 	 * @throws  Exception if zip file cannot be created
 	 * @return  void
 	 */
-	protected function createZip ($filename, &$files)
+	protected function createZip($filename, &$files)
 	{
 		$zipAdapter = JArchive::getAdapter('zip');
 
@@ -83,7 +83,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * Build XML
 	 *
-	 * @param   string|array  &$data        The data to convert
+	 * @param   string|array  $data         The data to convert
 	 * @param   string        $elementName  The element name
 	 *
 	 * @return  DOMDocument|DOMElement
@@ -199,7 +199,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * The export event handler
 	 *
-	 * @return void
+	 * @return array  An array containing the response model
 	 */
 	public function export()
 	{
