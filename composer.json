@@ -1,19 +1,19 @@
 {
-	"name": "joomla-estate-agency/com_jea",
-	"type": "project",
-	"description": "Joomla! real-estate component",
-	"keywords": [
+	"name" : "joomla-estate-agency/com_jea",
+	"type" : "project",
+	"description" : "Joomla! real-estate component",
+	"keywords" : [
 		"joomla",
 		"cms"
 	],
-	"homepage": "https://github.com/JoomlaEstateAgency/com_jea",
-	"license": "GPL-2.0",
-	"require": {
-		"php": ">=5.3.10"
+	"homepage" : "https://github.com/JoomlaEstateAgency/com_jea",
+	"license" : "GPL-2.0",
+	"require" : {
+		"php" : ">=5.3.10"
 	},
-	"require-dev": {
-		"squizlabs/php_codesniffer": "1.5.6",
-		"phpmd/phpmd": "*",
-		"codeception/codeception": "*"
+	"require-dev" : {
+		"squizlabs/php_codesniffer": "~2.8.0",
+		"joomla/coding-standards": "~2.0@alpha",
+		"phpmd/phpmd" : "*"
 	}
 }

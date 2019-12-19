@@ -15,7 +15,7 @@
 			<arg line="-w" />
 			<arg value="--report=full"/>
 			<arg value="--extensions=php"/>
-			<arg value="--standard=${basedir}/.deps/coding-standards/Joomla/ruleset.xml"/>
+			<arg value="--standard=${basedir}/vendor/joomla/coding-standards/Joomla"/>
 			<arg value="--ignore=${phpcs-ignore-admin}"/>
 			<arg value="--ignore=${phpcs-ignore-admin-layouts}"/>
 			<arg value="--ignore=${phpcs-ignore-site}"/>
