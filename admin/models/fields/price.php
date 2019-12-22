@@ -54,13 +54,12 @@ class JFormFieldPrice extends JFormFieldText
 		$params = JComponentHelper::getParams('com_jea');
 		$symbol_place = $params->get('symbol_place', 1);
 		$currency_symbol = $params->get('currency_symbol', '€');
-		$currency_symbol = '<span class="input-suffix">' . $currency_symbol . '</span>';
 
 		if ($symbol_place == 0)
 		{
-			return $currency_symbol . ' ' . $input;
+			return '<span class="input-prefix">' . $currency_symbol . '</span> ' . $input;
 		}
 
-		return $input . ' ' . $currency_symbol;
+		return $input . ' <span class="input-suffix">' . $currency_symbol . '</span>';
 	}
 }

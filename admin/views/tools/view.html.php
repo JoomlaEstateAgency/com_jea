@@ -10,7 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
 /**
  * JEA tools view.
  *
@@ -21,6 +20,13 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewTools extends JViewLegacy
 {
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
+
 	/**
 	 * Overrides parent method.
 	 *
@@ -33,7 +39,7 @@ class JeaViewTools extends JViewLegacy
 	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('tools');
-		JToolBarHelper::title(JText::_('COM_JEA_TOOLS'), 'jea.png');
+		JToolBarHelper::title(JText::_('COM_JEA_TOOLS'), 'jea');
 
 		$canDo = JeaHelper::getActions();
 

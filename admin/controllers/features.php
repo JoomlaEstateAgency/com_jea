@@ -10,12 +10,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.archive');
-
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.php';
-
 /**
  * Features controller class.
  *
@@ -105,12 +99,7 @@ class JeaControllerFeatures extends JControllerLegacy
 	{
 		$application = JFactory::getApplication();
 		$upload = JeaUpload::getUpload('csv');
-		$validExtensions = array(
-			'csv',
-			'CSV',
-			'txt',
-			'TXT'
-		);
+		$validExtensions = array('csv', 'CSV', 'txt', 'TXT');
 
 		$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
 		$xmlFiles = JFolder::files($xmlPath);
@@ -124,7 +113,7 @@ class JeaControllerFeatures extends JControllerLegacy
 			{
 				$feature = $matches[1];
 
-				if (! isset($tables[$feature]))
+				if (!isset($tables[$feature]))
 				{
 					$form = simplexml_load_file($xmlPath . '/' . $filename);
 					$tables[$feature] = (string) $form['table'];
@@ -137,6 +126,7 @@ class JeaControllerFeatures extends JControllerLegacy
 			if ($file->isPosted() && isset($tables[$file->key]))
 			{
 				$file->setValidExtensions($validExtensions);
+				$file->check();
 				$fileErrors = $file->getErrors();
 
 				if (!$fileErrors)

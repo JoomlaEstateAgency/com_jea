@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="JSEARCH_FILTER_LABEL"
+			hint="COM_JEA_PROPERTIES_SEARCH_FILTER_DESC"
+		/>
+
+		<field
+			name="transaction_type"
+			type="list"
+			label="COM_JEA_FIELD_TRANSACTION_TYPE_LABEL"
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_JEA_FIELD_TRANSACTION_TYPE_LABEL</option>
+			<option value="RENTING">COM_JEA_OPTION_RENTING</option>
+			<option value="SELLING">COM_JEA_OPTION_SELLING</option>
+		</field>
+
+		<field
+			name="type_id"
+			type="featurelist"
+			subtype="types"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="department_id"
+			type="featurelist"
+			noajax="noajax"
+			subtype="departments"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="town_id"
+			type="featurelist"
+			noajax="noajax"
+			subtype="towns"
+			onchange="this.form.submit();"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
+			label="JOPTION_FILTER_LANGUAGE"
+			description="JOPTION_FILTER_LANGUAGE_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_LANGUAGE</option>
+			<option value="*">JALL</option>
+		</field>
+	</fields>
+
+	<fields name="list">
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

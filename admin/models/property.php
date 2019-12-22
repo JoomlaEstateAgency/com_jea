@@ -15,8 +15,6 @@ use Joomla\Utilities\ArrayHelper;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.php';
-
 /**
  * Property model class.
  *

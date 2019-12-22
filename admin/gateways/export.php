@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
 
-jimport('joomla.filesystem.folder');
-
 /**
  * The base class for export gateways
  *

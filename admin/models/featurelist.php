@@ -36,22 +36,49 @@ class JeaModelFeaturelist extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
 				'f.id',
-				'value',
 				'f.value',
-				'ordering',
-				'f.ordering'
+				'f.ordering',
+				'l.title',
 			);
 		}
 
-		// Set the internal state marker to true
-		$config['ignore_request'] = true;
-
 		parent::__construct($config);
+	}
 
-		// Initialize state information and use id as default column ordering
-		$this->populateState('f.id', 'desc');
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string A store id.
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('feature.name');
+		$id .= ':' . $this->getState('filter.search');
+
+		$filters = $this->getState('feature.filters');
+
+		if (is_array($filters) && !empty($filters))
+		{
+			foreach ($filters as $filter)
+			{
+				$state = $this->getState('filter.' . $filter);
+
+				if (!empty($state))
+				{
+					$id .= ':' . $state;
+				}
+			}
+		}
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -64,13 +91,14 @@ class JeaModelFeaturelist extends JModelList
 	 *
 	 * @see JModelList::populateState()
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'f.id', $direction = 'desc')
 	{
-		$this->context .= '.featurelist';
-
 		// The active feature
 		$feature = $this->getUserStateFromRequest($this->context . '.feature.name', 'feature');
 		$this->setState('feature.name', $feature);
+
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		// Retrieve the feature table params
 		$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
@@ -83,21 +111,32 @@ class JeaModelFeaturelist extends JModelList
 				if ($feature == $matches[1])
 				{
 					$form = simplexml_load_file($xmlPath . '/' . $filename);
+					$this->setState('feature.form', $form);
 					$this->setState('feature.table', (string) $form['table']);
 
-					if (isset($form['filters']))
+					$filterFields = $form->xpath("/form/fields[@name='filter']");
+					$filters = array();
+
+					if (isset($filterFields[0]) && $filterFields[0] instanceof SimpleXMLElement)
 					{
-						$this->setState('feature.filters', (string) $form['filters']);
+						foreach ($filterFields[0]->children() as $filterField)
+						{
+							$filter = (string) $filterField['name'];
+							$filterState = $this->getUserStateFromRequest($this->context . '.filter.' . $filter, 'filter_' . $filter, '');
+							$this->setState('filter.' . $filter, $filterState);
+							$filters[] = $filter;
+							$this->filter_fields[] = $filter;
+						}
 					}
+
+					$this->setState('feature.filters', $filters);
 
 					// Check if this feature uses language
 					$lang = $form->xpath("//field[@name='language']");
 
-					if (! empty($lang))
+					if (!empty($lang))
 					{
 						$this->setState('language_enabled', true);
-						$this->filter_fields[] = 'language';
-						$this->filter_fields[] = 'f.language';
 					}
 
 					break;
@@ -105,30 +144,42 @@ class JeaModelFeaturelist extends JModelList
 			}
 		}
 
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
+		parent::populateState($ordering, $direction);
+	}
 
-		if ($filters = $this->getState('feature.filters'))
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since   3.2
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form instanceof JForm)
 		{
-			$filters = explode(',', $filters);
+			$featureForm = $this->getState('feature.form');
 
-			foreach ($filters as $filter)
+			if ($featureForm instanceof SimpleXMLElement)
 			{
-				$filter = explode(':', $filter);
-				$filterKey = $filter[0];
-				$filterState = $this->getUserStateFromRequest($this->context . '.filter.' . $filterKey, $filterKey);
-				$this->setState('filter.' . $filterKey, $filterState);
+				$form->load($featureForm);
+
+				if ($loadData)
+				{
+					$data = $this->loadFormData();
+					$form->bind($data);
+				}
 			}
 		}
 
-		if ($this->getState('language_enabled'))
-		{
-			$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
-			$this->setState('filter.language', $language);
-		}
-
-		parent::populateState($ordering, $direction);
+		return $form;
 	}
+
 
 	/**
 	 * Overrides parent method
@@ -154,16 +205,11 @@ class JeaModelFeaturelist extends JModelList
 
 		if ($filters = $this->getState('feature.filters'))
 		{
-			$filters = explode(',', $filters);
-
 			foreach ($filters as $filter)
 			{
-				$filter = explode(':', $filter);
-				$filterKey = $db->escape($filter[0]);
-
-				if ($filterState = $this->getState('filter.' . $filterKey, ''))
+				if ($filterState = $this->getState('filter.' . $filter, ''))
 				{
-					$query->where('f.' . $filterKey . ' =' . $db->Quote($filterState));
+					$query->where('f.' . $filter . ' =' . $db->Quote($filterState));
 				}
 			}
 		}
@@ -175,27 +221,9 @@ class JeaModelFeaturelist extends JModelList
 			$query->where('f.value LIKE ' . $search);
 		}
 
-		// Filter on the language.
-		if ($this->getState('language_enabled'))
-		{
-			if ($language = $this->getState('filter.language'))
-			{
-				$query->where('f.language = ' . $db->quote($language));
-			}
-		}
-
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-
-		// If language order selected order by languagetable title
-		if ($this->getState('language_enabled'))
-		{
-			if ($orderCol == 'language')
-			{
-				$orderCol = 'l.title';
-			}
-		}
+		$orderCol = $this->state->get('list.ordering', 'f.id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

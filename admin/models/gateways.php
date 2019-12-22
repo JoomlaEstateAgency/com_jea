@@ -34,7 +34,7 @@ class JeaModelGateways extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'type',
+				'id',
 				'title',
 				'provider',
 				'published',
@@ -68,7 +68,7 @@ class JeaModelGateways extends JModelList
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 'id');
-		$orderDirn = $this->state->get('list.direction', 'DESC');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 

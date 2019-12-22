@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * View to manage a feature list.
  *
@@ -25,6 +23,55 @@ require JPATH_COMPONENT . '/helpers/jea.php';
 class JeaViewFeaturelist extends JViewLegacy
 {
 	/**
+	 * The user object
+	 *
+	 * @var JUser
+	 */
+	protected $user;
+
+	/**
+	 * Array of database records
+	 *
+	 * @var Jobject[]
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The model state
+	 *
+	 * @var Jobject
+	 */
+	protected $state;
+
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
+
+	/**
+	 * The form object for search filters
+	 *
+	 * @var JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.
@@ -35,18 +82,18 @@ class JeaViewFeaturelist extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->params = JComponentHelper::getParams('com_jea');
-
 		JeaHelper::addSubmenu('features');
 
 		$this->user = JFactory::getUser();
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
-
 		$this->sidebar = JHtmlSidebar::render();
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -60,7 +107,7 @@ class JeaViewFeaturelist extends JViewLegacy
 		$canDo = JeaHelper::getActions();
 		$feature = $this->state->get('feature.name');
 
-		JToolBarHelper::title(JText::_(StringHelper::strtoupper("com_jea_list_of_{$feature}_title")), 'jea.png');
+		JToolBarHelper::title(JText::_(StringHelper::strtoupper("com_jea_list_of_{$feature}_title")), 'jea');
 
 		if ($canDo->get('core.create'))
 		{

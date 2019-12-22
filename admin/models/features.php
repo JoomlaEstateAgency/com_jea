@@ -14,7 +14,6 @@ jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
 
 require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
-require JPATH_COMPONENT_ADMINISTRATOR . '/helpers/utility.php';
 
 /**
  * Features model class.

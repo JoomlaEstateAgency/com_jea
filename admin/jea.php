@@ -10,13 +10,9 @@
 
 defined('_JEXEC') or die;
 
-if (!defined('DS'))
-{
-	define('DS', DIRECTORY_SEPARATOR);
-}
-
-// Include dependancies
-jimport('joomla.application.component.controller');
+JLoader::register('JeaHelper', __DIR__ . '/helpers/jea.php');
+JLoader::register('JeaUpload', __DIR__ . '/helpers/upload.php');
+JLoader::register('JeaHelperUtility', __DIR__ . '/helpers/utility.php');
 
 $input = JFactory::getApplication()->input;
 

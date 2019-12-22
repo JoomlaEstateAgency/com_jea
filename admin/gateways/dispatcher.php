@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Custom Event dispatcher class for JEA gateways
  *

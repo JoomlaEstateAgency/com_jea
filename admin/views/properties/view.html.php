@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * Properties list View.
  *
@@ -22,7 +20,61 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewProperties extends JViewLegacy
 {
+	/**
+	 * The component parameters
+	 *
+	 * @var Joomla\Registry\Registry
+	 */
+	protected $params;
+
+	/**
+	 * The user object
+	 *
+	 * @var JUser
+	 */
+	protected $user;
+
+	/**
+	 * Array of database records
+	 *
+	 * @var Jobject[]
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The model state
+	 *
+	 * @var Jobject
+	 */
+	protected $state;
+
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
 	protected $sidebar = '';
+
+	/**
+	 * The form object for search filters
+	 *
+	 * @var JForm
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var  array
+	 */
+	public $activeFilters;
 
 	/**
 	 * Overrides parent method.
@@ -44,6 +96,9 @@ class JeaViewProperties extends JViewLegacy
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
 		$this->sidebar = JHtmlSidebar::render();
 
 		$this->addToolbar();
@@ -60,7 +115,7 @@ class JeaViewProperties extends JViewLegacy
 	{
 		$canDo = JeaHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea.png');
+		JToolBarHelper::title(JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea');
 
 		if ($canDo->get('core.create'))
 		{

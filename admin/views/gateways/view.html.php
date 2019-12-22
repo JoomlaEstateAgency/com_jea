@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * Gateways View
  *
@@ -23,11 +21,39 @@ require JPATH_COMPONENT . '/helpers/jea.php';
 class JeaViewGateways extends JViewLegacy
 {
 	/**
-	 * The component paramaters
+	 * The user object
 	 *
-	 * @var Joomla\Registry\Registry
+	 * @var JUser
 	 */
-	protected $params = null;
+	protected $user;
+
+	/**
+	 * Array of database records
+	 *
+	 * @var Jobject[]
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var JPagination
+	 */
+	protected $pagination;
+
+	/**
+	 * The model state
+	 *
+	 * @var Jobject
+	 */
+	protected $state;
+
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
 
 	/**
 	 * Overrides parent method.
@@ -40,8 +66,6 @@ class JeaViewGateways extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->params = JComponentHelper::getParams('com_jea');
-
 		JeaHelper::addSubmenu('tools');
 
 		$this->state = $this->get('State');
@@ -71,7 +95,7 @@ class JeaViewGateways extends JViewLegacy
 				JToolBarHelper::deleteList(JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'gateways.delete');
 		}
 
-		JToolBarHelper::title($title, 'jea.png');
+		JToolBarHelper::title($title, 'jea');
 
 		parent::display($tpl);
 	}

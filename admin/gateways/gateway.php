@@ -11,9 +11,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
-
-jimport('joomla.log.log');
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Log\Log;
 
 /**
  * The base class for all gateways
@@ -126,35 +124,28 @@ abstract class JeaGateway extends JEvent
 		// A category name
 		$cat = $this->provider;
 
-		JLog::addLogger(
+		Log::addLogger(
 			array('text_file' => $this->logFile),
-			JLog::ALL,
+			Log::ALL,
 			$cat
 		);
 
 		$status = strtoupper($status);
 
 		$levels = array(
-				'EMERG' => JLog::EMERGENCY,
-				'ALERT' => JLog::ALERT,
-				'CRIT' => JLog::CRITICAL,
-				'ERR' => JLog::ERROR,
-				'WARN' => JLog::WARNING,
-				'NOTICE' => JLog::NOTICE,
-				'INFO' => JLog::INFO,
-				'DEBUG' => JLog::DEBUG
+			'EMERG' => Log::EMERGENCY,
+			'ALERT' => Log::ALERT,
+			'CRIT' => Log::CRITICAL,
+			'ERR' => Log::ERROR,
+			'WARN' => Log::WARNING,
+			'NOTICE' => Log::NOTICE,
+			'INFO' => Log::INFO,
+			'DEBUG' => Log::DEBUG
 		);
 
-		if (isset($levels[$status]))
-		{
-			$status = $levels[$status];
-		}
-		else
-		{
-			$status = JLog::INFO;
-		}
+		$status = isset($levels[$status]) ? levels[$status] : Log::INFO;
 
-		JLog::add($message, $status, $cat);
+		Log::add($message, $status, $cat);
 	}
 
 	/**

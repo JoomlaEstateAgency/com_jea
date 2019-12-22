@@ -12,14 +12,15 @@ defined('_JEXEC') or die;
 
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 
+/**
+ * @var $this JeaViewTools
+ */
 ?>
 
-<?php if (!empty( $this->sidebar)) : ?>
 <div id="j-sidebar-container" class="span2">
-  <?php echo $this->sidebar ?>
+	<?php echo $this->sidebar ?>
 </div>
-<?php endif ?>
 
 <div id="j-main-container" class="span10">
-  <div class="cpanel"><?php echo $this->getIcons()?></div>
+	<div class="cpanel"><?php echo $this->getIcons()?></div>
 </div>

@@ -43,7 +43,7 @@ class JFormFieldGeolocalization extends JFormField
 
 		// TODO : use JLayout
 		$ouptut = '<div class="button2-left">' . "\n" .
-				'<div class="blank"><a class="modal" href="#map-box-content"' .
+				'<div class="blank"><a class="modal btn btn-info" href="#map-box-content"' .
 				' rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">' .
 				JText::_('COM_JEA_MAP_OPEN') . '</a></div>' . "\n" . '</div>' . "\n" .
 				'<div id="map-box-content" class="map-box-content" style="display:none">' . "\n" . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') .

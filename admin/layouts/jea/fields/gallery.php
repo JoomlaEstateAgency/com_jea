@@ -67,24 +67,36 @@ JHtml::script('media/com_jea/js/admin/gallery.js');
 			</a>
 		</div>
 
-		<div class="clr"></div>
-		<label for="<?php echo $name . $k ?>title"> <?php echo JText::_('JGLOBAL_TITLE') ?></label>
-		<input id="<?php echo $name. $k ?>title"
-				type="text"
-				name="<?php echo $name?>[<?php echo $k ?>][title]"
-				value="<?php echo $image->title ?>"
-				size="20"
+		<div class="clearfix"></div>
+
+		<div class="control-group">
+			<div class="control-label">
+				<label for="<?php echo $name . $k ?>title"> <?php echo JText::_('JGLOBAL_TITLE') ?></label>
+			</div>
+			<div class="controls">
+				<input id="<?php echo $name. $k ?>title"
+					type="text"
+					name="<?php echo $name?>[<?php echo $k ?>][title]"
+					value="<?php echo $image->title ?>"
+					size="20"
 				/>
-		<br />
-		<label for="<?php echo $name . $k ?>desc"><?php echo JText::_('JGLOBAL_DESCRIPTION') ?></label>
-		<input id="<?php echo $name. $k ?>desc"
-				type="text"
-				name="<?php echo $name?>[<?php echo $k ?>][description]"
-				value="<?php echo $image->description ?>"
-				size="40"
+			</div>
+		</div>
+
+		<div class="control-group">
+			<div class="control-label">
+				<label for="<?php echo $name . $k ?>desc"><?php echo JText::_('JGLOBAL_DESCRIPTION') ?></label>
+			</div>
+			<div class="controls">
+				<input id="<?php echo $name. $k ?>desc"
+					type="text"
+					name="<?php echo $name?>[<?php echo $k ?>][description]"
+					value="<?php echo $image->description ?>"
+					size="40"
 				/>
-		<input type="hidden" name="<?php echo $name?>[<?php echo $k ?>][name]" value="<?php echo $image->name ?>" />
-		<div class="clr"></div>
+				<input type="hidden" name="<?php echo $name?>[<?php echo $k ?>][name]" value="<?php echo $image->name ?>" />
+			</div>
+		</div>
 	</li>
 
 <?php endforeach?>

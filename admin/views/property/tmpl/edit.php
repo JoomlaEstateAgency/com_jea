@@ -10,128 +10,120 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @var $this JeaViewProperty
+ */
+
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin( 'jea' );
 
 JHtml::_('behavior.framework');
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 JHtml::script('media/com_jea/js/property.form.js');
+
+JHtml::_('behavior.keepalive');
+JHtml::_('behavior.tabstate');
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div id="ajaxupdating">
-  <h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
+	<h3><?php echo JText::_('COM_JEA_FEATURES_UPDATED_WARNING')?></h3>
 </div>
 
-<form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>" method="post" id="adminForm" class="form-validate" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>" method="post" id="adminForm"
+	class="form-validate" enctype="multipart/form-data">
 
-  <div class="width-60 fltlft span8 form-horizontal">
-    <fieldset class="adminform">
-      <legend>
-      <?php echo empty($this->item->id) ? JText::_('COM_JEA_NEW_PROPERTY') : JText::sprintf('COM_JEA_EDIT_PROPERTY', $this->item->id) ?>
-      </legend>
+	<div class="form-inline form-inline-header">
+		<?php echo $this->form->renderField('title') ?>
+		<?php echo $this->form->renderField('ref') ?>
+		<?php echo $this->form->renderField('alias') ?>
+	</div>
 
-      <ul class="adminformlist">
-        <li><?php echo $this->form->getLabel('ref') ?> <?php echo $this->form->getInput('ref') ?></li>
-        <li><?php echo $this->form->getLabel('title') ?> <?php echo $this->form->getInput('title') ?></li>
-        <li><?php echo $this->form->getLabel('alias') ?> <?php echo $this->form->getInput('alias') ?></li>
-        <li><?php echo $this->form->getLabel('transaction_type') ?> <?php echo $this->form->getInput('transaction_type') ?></li>
-        <li><?php echo $this->form->getLabel('type_id') ?> <?php echo $this->form->getInput('type_id') ?></li>
-      </ul>
+	<div class="form-horizontal">
 
-      <div class="clr"></div>
-      <?php echo $this->form->getLabel('description') ?>
-      <div class="clr"></div>
-      <?php echo $this->form->getInput('description') ?>
-      <div class="clr"></div>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'propertyTab', array('active' => 'general')) ?>
 
-      <fieldset style="margin-top:15px">
-        <legend><?php echo JText::_('COM_JEA_LOCALIZATION')?></legend>
-        <ul class="adminformlist">
-        <?php foreach ($this->form->getFieldset('localization') as $field): ?>
-          <li><?php echo $field->label . "\n" . $field->input ?></li>
-        <?php endforeach ?>
-        </ul>
-      </fieldset>
+		<?php echo JHtml::_('bootstrap.addTab', 'propertyTab', 'general', JText::_('COM_JEA_CONFIG_GENERAL')) ?>
+		<div class="row-fluid">
+			<div class="span8">
+				<fieldset class="adminform">
+					<?php echo $this->form->renderField('transaction_type') ?>
+					<?php echo $this->form->renderField('type_id') ?>
+					<?php echo $this->form->renderField('description') ?>
+				</fieldset>
+			</div>
+			<div class="span4">
+				<fieldset class="form-vertical">
+					<?php echo $this->form->renderField('published') ?>
+					<?php echo $this->form->renderField('featured') ?>
+					<?php echo $this->form->renderField('access') ?>
+					<?php echo $this->form->renderField('language') ?>
+					<?php echo $this->form->renderField('slogan_id') ?>
+				</fieldset>
 
-      <fieldset>
-        <legend><?php echo JText::_('COM_JEA_FINANCIAL_INFORMATIONS')?></legend>
-        <ul class="adminformlist">
-        <?php foreach ($this->form->getFieldset('financial_informations') as $field): ?>
-          <li><?php echo $field->label . "\n" . $field->input ?></li>
-        <?php endforeach ?>
-        </ul>
-      </fieldset>
+				<?php echo JHtml::_('sliders.start', 'property-sliders', array('useCookie'=>1)) ?>
+				<?php $dispatcher->trigger('onAfterStartPanels', array(&$this->item)) ?>
 
-      <fieldset>
-        <legend><?php echo JText::_('COM_JEA_DETAILS')?></legend>
-        <ul class="adminformlist">
-        <?php foreach ($this->form->getFieldset('details') as $field): ?>
-          <li><?php echo $field->label . "\n" . $field->input ?></li>
-        <?php endforeach ?>
-        </ul>
-        <div class="clr"></div>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PICTURES'), 'picture-pane') ?>
+				<fieldset>
+					<?php echo $this->form->getInput('images') ?>
+				</fieldset>
 
-        <fieldset class="advantages">
-          <legend><?php echo JText::_('COM_JEA_AMENITIES')?></legend>
-          <div class="clr"></div>
-          <?php echo $this->form->getInput('amenities') ?>
-          <div class="clr"></div>
-        </fieldset>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_NOTES'), 'note-pane') ?>
+				<fieldset class="form-vertical panelform">
+					<?php echo $this->form->renderField('notes') ?>
 
-      </fieldset>
+				</fieldset>
+				<?php $dispatcher->trigger('onBeforeEndPanels', array(&$this->item)) ?>
+				<?php echo JHtml::_('sliders.end') ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab') ?>
 
-    </fieldset>
-  </div>
+		<?php echo JHtml::_('bootstrap.addTab', 'propertyTab', 'details', JText::_('COM_JEA_DETAILS')) ?>
+			<div class="row-fluid">
+				<div class="span4">
+					<fieldset>
+						<legend><?php echo JText::_('COM_JEA_FINANCIAL_INFORMATIONS')?></legend>
+						<?php foreach ($this->form->getFieldset('financial_informations') as $field) echo $field->renderField() ?>
+					</fieldset>
+					<fieldset class="advantages">
+						<legend><?php echo JText::_('COM_JEA_AMENITIES')?></legend>
+						<?php echo $this->form->getInput('amenities') ?>
+					</fieldset>
+				</div>
 
-  <div class="width-40 fltrt span4">
-  <?php echo JHtml::_('sliders.start', 'property-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
+				<div class="span4">
+					<fieldset>
+						<legend><?php echo JText::_('COM_JEA_LOCALIZATION')?></legend>
+						<?php foreach ($this->form->getFieldset('localization') as $field) echo $field->renderField() ?>
+					</fieldset>
+				</div>
 
-  <?php $dispatcher->trigger('onAfterStartPanels', array(&$this->item)) ?>
+				<div class="span4">
+					<fieldset>
+						<?php foreach ($this->form->getFieldset('details') as $field) echo $field->renderField() ?>
+					</fieldset>
+				</div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab') ?>
 
-  <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PUBLICATION_INFO'), 'params-pane') ?>
-    <fieldset class="panelform">
-      <ul class="adminformlist">
-      <?php foreach ($this->form->getFieldset('publication') as $field): ?>
-        <li><?php echo $field->label . "\n" . $field->input ?></li>
-      <?php endforeach ?>
-      </ul>
-    </fieldset>
+		<?php echo JHtml::_('bootstrap.addTab', 'propertyTab', 'publication', JText::_('COM_JEA_PUBLICATION_INFO')) ?>
+			<?php foreach ($this->form->getFieldset('publication') as $field) echo $field->renderField() ?>
+		<?php echo JHtml::_('bootstrap.endTab') ?>
 
-    <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_PICTURES'), 'picture-pane') ?>
-    <fieldset class="panelform">
-    <?php echo $this->form->getInput('images') ?>
-    </fieldset>
+		<?php if ($this->canDo->get('core.admin')): ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'propertyTab', 'permissions', JText::_('COM_JEA_FIELDSET_RULES')) ?>
+			<?php echo $this->form->getInput('rules') ?>
+		<?php echo JHtml::_('bootstrap.endTab') ?>
+		<?php endif ?>
 
-    <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_NOTES'), 'note-pane') ?>
-    <fieldset class="panelform">
-        <?php echo $this->form->getLabel('notes') ?>
-        <div class="clr"></div>
-        <?php echo $this->form->getInput('notes') ?>
-    </fieldset>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-    <?php $dispatcher->trigger('onBeforeEndPanels', array(&$this->item)) ?>
+	</div>
 
-    <?php echo JHtml::_('sliders.end') ?>
-  </div>
-
-  <div class="clr"></div>
-
-  <?php if ($this->canDo->get('core.admin')): ?>
-  <div class="width-100 fltlft span8" style="margin-top: 20px">
-  <?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)) ?>
-
-  <?php echo JHtml::_('sliders.panel', JText::_('COM_JEA_FIELDSET_RULES'), 'access-rules') ?>
-    <fieldset class="panelform">
-    <?php echo $this->form->getInput('rules') ?>
-    </fieldset>
-
-    <?php echo JHtml::_('sliders.end') ?>
-  </div>
-  <?php endif; ?>
-
-  <div>
-    <input type="hidden" name="task" value="" />
-    <input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->getCmd('return') ?>" />
-    <?php echo JHtml::_('form.token') ?>
-  </div>
-
+	<div>
+		<input type="hidden" name="task" value="" />
+		<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->getCmd('return') ?>" />
+		<?php echo JHtml::_('form.token') ?>
+	</div>
 </form>

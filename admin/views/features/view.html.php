@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * View to manage all features tables.
  *
@@ -22,6 +20,27 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewFeatures extends JViewLegacy
 {
+	/**
+	 * Array of managed features
+	 *
+	 * @var stdClass[]
+	 */
+	protected $items;
+
+	/**
+	 * The model state
+	 *
+	 * @var Jobject
+	 */
+	protected $state;
+
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
+
 	/**
 	 * Overrides parent method.
 	 *
@@ -34,7 +53,6 @@ class JeaViewFeatures extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->items = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 
 		JeaHelper::addSubmenu('features');
@@ -55,7 +73,7 @@ class JeaViewFeatures extends JViewLegacy
 	{
 		$canDo = JeaHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea.png');
+		JToolBarHelper::title(JText::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea');
 
 		if ($canDo->get('core.manage'))
 		{

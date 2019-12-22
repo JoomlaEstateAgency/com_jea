@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * View to edit property.
  *
@@ -22,12 +20,32 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewProperty extends JViewLegacy
 {
+	/**
+	 * The form object
+	 *
+	 * @var JForm
+	 */
 	protected $form;
 
+	/**
+	 * The database record
+	 *
+	 * @var JObject|boolean
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
 	protected $state;
 
+	/**
+	 * The actions the user is authorised to perform
+	 *
+	 * @var  JObject
+	 */
 	protected $canDo;
 
 	/**
@@ -67,7 +85,7 @@ class JeaViewProperty extends JViewLegacy
 		$title = JText::_('COM_JEA_PROPERTIES_MANAGEMENT') . ' : ';
 		$title .= $isNew ? JText::_('JACTION_CREATE') : JText::_('JACTION_EDIT');
 
-		JToolBarHelper::title($title, 'jea.png');
+		JToolBarHelper::title($title, 'jea');
 
 		// Built the actions for new and existing records.
 		// For new records, check the create permission.

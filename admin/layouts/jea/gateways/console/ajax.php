@@ -26,43 +26,41 @@ $dispatcher->loadGateways($action);
 $dispatcher->trigger('initWebConsole');
 
 $script = <<<JS
-
 function GatewaysActionDispatcher() {
 
-    this.queue = []
+	this.queue = []
 
-    this.register = function(action) {
-        this.queue.push(action)
-    }
+	this.register = function(action) {
+		this.queue.push(action)
+	}
 
-    this.nextAction = function()
-    {
-        if (this.queue.length > 0) {
-            var nextAction = this.queue.shift()
-            nextAction()
-        }
-    }
+	this.nextAction = function()
+	{
+		if (this.queue.length > 0) {
+			var nextAction = this.queue.shift()
+			nextAction()
+		}
+	}
 }
 
 jQuery(document).ready(function($) {
+	var dispatcher = new GatewaysActionDispatcher();
+	
+	$(this).on('gatewayActionDone', function(e) {
+		$('#console').append($('<br>'));
+		if (dispatcher.queue.length == 0) {
+			$('#ajax-launch').toggleClass('active');
+		} else {
+			dispatcher.nextAction();
+		}
+	});
 
-    var dispatcher = new GatewaysActionDispatcher();
-
-    $(this).on('gatewayActionDone', function(e) {
-        $('#console').append($('<br>'));
-        if (dispatcher.queue.length == 0) {
-            $('#ajax-launch').toggleClass('active');
-        } else {
-            dispatcher.nextAction();
-        }
-    });
-
-    $('#ajax-launch').on('click', function(e) {
-        $(this).toggleClass('active');
-        $('#console').empty();
-        $(document).trigger('registerGatewayAction', [$('#console').console(), dispatcher]);
-        dispatcher.nextAction();
-    });
+	$('#ajax-launch').on('click', function(e) {
+		$(this).toggleClass('active');
+		$('#console').empty();
+		$(document).trigger('registerGatewayAction', [$('#console').console(), dispatcher]);
+		dispatcher.nextAction();
+	});
 });
 JS;
 

@@ -10,8 +10,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
-
 /**
  * Form Field class for JEA.
  * Provides a list of features
@@ -41,31 +39,41 @@ class JFormFieldFeatureList extends JFormField
 	 */
 	protected function getInput()
 	{
+		JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
+
 		$subtype = (string) $this->element['subtype'];
 
-		$size = (string) $this->element['size'];
-		$multiple = (string) $this->element['multiple'];
-
 		$params = array(
-				'id' => $this->id,
-				'class' => (string) $this->element['class']
+			'id' => $this->id,
+			'class' => (string) $this->element['class']
 		);
 
-		if (! empty($size))
+		if (isset($this->element['size']))
 		{
-			$params['size'] = $size;
+			$params['size'] = (string) $this->element['size'];
 		}
 
-		if (! empty($multiple))
+		if (isset($this->element['multiple']))
 		{
-			$params['multiple'] = 'multiple';
+			$params['multiple'] = (string) $this->element['multiple'];
+		}
+
+		if (isset($this->element['onchange']))
+		{
+			$params['onchange'] = (string) $this->element['onchange'];
 		}
 
 		$group = null;
 
-		if ($this->form->getName() == 'com_menus.item')
+		switch ($this->form->getName())
 		{
-			$group = 'params';
+			case 'com_menus.item':
+				$group = 'params';
+				break;
+			case 'com_jea.properties.filter':
+			case 'com_jea.featurelist.filter':
+				$group = 'filter';
+				break;
 		}
 
 		// Verify if some fields have relashionship
@@ -108,6 +116,11 @@ class JFormFieldFeatureList extends JFormField
 	 */
 	private function _hasRelationShip()
 	{
+		if (isset($this->element['norelation']))
+		{
+			return false;
+		}
+
 		$params = JComponentHelper::getParams('com_jea');
 
 		return (bool) $params->get('relationship_dpts_towns_area', 1);
@@ -124,9 +137,14 @@ class JFormFieldFeatureList extends JFormField
 	 */
 	private function _ajaxUpdateList($fromId, $toId, $task)
 	{
+		if (isset($this->element['noajax']))
+		{
+			return;
+		}
+
 		if ($this->form->getName() == 'com_menus.item')
 		{
-			$fieldTo = $this->form->getField($toId, 'params');
+			$fieldTo = $this->form->getField('filter_' . $toId, 'params');
 		}
 		else
 		{
@@ -136,32 +154,27 @@ class JFormFieldFeatureList extends JFormField
 		if (! empty($fieldTo->id))
 		{
 			JFactory::getDocument()->addScriptDeclaration(
-				"window.addEvent('domready', function() {
-                    document.id('{$this->id}').addEvent('change', function() {
-                        var jSonRequest = new Request.JSON({
-                            url: 'index.php',
-                            onSuccess: function(response) {
-                                var first = document.id('{$fieldTo->id}').getFirst().clone();
-                                document.id('{$fieldTo->id}').empty();
-                                document.id('{$fieldTo->id}').adopt(first);
-                                if (response) {
-                                    response.each(function(item) {
-                                        var option  = new Element('option', {'value' : item.id});
-                                        option.appendText(item.value);
-                                        document.id('{$fieldTo->id}').adopt(option);
-                                    });
-                                }
-                            }
-                         });
-                         jSonRequest.get({
-                             'option' : 'com_jea',
-                             'format' : 'json',
-                             'task' : 'features.{$task}',
-                             {$fromId} : this.value
-                         });
-                     });
-                });
-            "
+				"
+jQuery(document).ready(function($) {
+	$('#{$this->id}').change(function(e) {
+		$.ajax({
+			dataType: 'json',
+			url: 'index.php',
+			data: 'option=com_jea&format=json&task=features.{$task}&{$fromId}=' + this.value,
+			success: function(response) {
+				var first = $('#{$fieldTo->id} option').first().clone();
+				$('#{$fieldTo->id}').empty().append(first);
+				if (response.length) {
+					$.each(response, function( idx, item ){
+						$('#{$fieldTo->id}').append($('<option></option>').text(item.value).attr('value', item.id));
+					});
+				}
+				$('#{$fieldTo->id}').trigger('liszt:updated.chosen'); // Update jQuery choosen
+			}
+		});
+	});
+});
+				"
 			);
 		}
 	}

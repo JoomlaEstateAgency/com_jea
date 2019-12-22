@@ -1,45 +1,37 @@
 
-table.adminlist th {
-	white-space: nowrap;
+.icon-jea {
+	background-image:url(../images/header/icon-36-jea.png);
+	height: 36px !important;
+	width: 36px !important;
+	line-height: 36px !important;
+	vertical-align: middle;
 }
 
-#ajaxupdating {
-	padding: 5px;
-	border-radius: 5px;
-	border: 1px solid #DE7A7B;
+.numberbox{
+	text-align:right;
+	padding-right:2px;
 }
 
-select#department_id,
-select#town_id,
-select#area_id {
-	max-width: 160px;
-}
-
-
+/* Used to format price / surface fields */
 span.input-suffix {
-	float: left;
-	margin: 5px 5px 5px 0;
+	display: inline-block;
+	margin-left: 5px;
 }
 
-
-fieldset.adminform label.amenity {
-	display:inline-block;
-	width:200px;
-	margin-right:15px;
-	padding: 0;
-	clear: none;
-	float:left;
-	font-size: 12px;
-	line-height: 13px;
-}
-
-fieldset.adminform label.amenity input {
-	float:none;
-	margin: 0 10px 0 0;
+span.input-prefix {
+	display: inline-block;
+	margin-right: 5px;
 }
 
 ul.gallery {
 	margin-top: 10px;
+}
+
+ul.gallery,
+ul.gallery li {
+	list-style: none outside none;
+	margin: 0;
+	padding: 10px;
 }
 
 ul.gallery li {
@@ -71,35 +63,35 @@ ul.gallery .imgTools a.delete-img {
 	margin-left: 20px;
 }
 
-
-
-.numberbox{
-	text-align:right;
-	padding-right:2px;
+ul.gallery .control-group {
+	margin-bottom: 3px !important;
 }
 
-
-.icon-48-jea {
-	background-image:url(../images/header/icon-48-jea.png);
+ul.gallery .control-group input {
+	font-size: 12px !important;
+	line-height: 14px !important;
 }
 
-.icon-32-download {
-	background: url(../images/export.png);
+#ajaxupdating {
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #DE7A7B;
 }
 
-.icon-32-database {
-	background: url(../images/import.png);
-}
-
-div.file_reader{
-	width :700px;
-	height :300px;
-	overflow: auto;
-	border: 1px solid #ccc;
-	margin: auto;
-	padding: 10px;
+fieldset.adminform label.amenity {
+	display:inline-block;
+	width:200px;
+	margin-right:15px;
+	padding: 0;
+	clear: none;
+	float:left;
 	font-size: 12px;
-	background: #fff;
+	line-height: 13px;
+}
+
+fieldset.adminform label.amenity input {
+	float:none;
+	margin: 0 10px 0 0;
 }
 
 /* property form - amenities */
@@ -132,109 +124,6 @@ ul#amenities li label{
 	padding: 0 20px 0 0;
 }
 
-/*** Specific to Joomla 3.x */
-
-
-body.com_jea h1.page-title {
-	background:url(../images/header/icon-36-jea.png) left center no-repeat;
-	padding-left: 45px;
-}
-
-.admin .clr {
-	clear: both;
-	height: 0;
-	overflow: hidden;
-}
-
-.admin dl.tabs {
-	float: left;
-	margin: 10px 0 -1px;
-	z-index: 50;
-}
-
-.admin dl.tabs dt {
-	background: none repeat scroll 0 0 #E9E9E9;
-	border: 1px solid #CCCCCC;
-	color: #666666;
-	float: left;
-	margin-left: 3px;
-	padding: 4px 10px;
-}
-
-.admin dl.tabs dt.open {
-	background: none repeat scroll 0 0 #F9F9F9;
-	border-bottom: 1px solid #F9F9F9;
-	color: #000000;
-	z-index: 100;
-}
-
-.admin div.current {
-	border: 1px solid #CCCCCC;
-	clear: both;
-	padding: 10px;
-}
-
-.admin dl.tabs dt h3 {
-	font-size: 14px ;
-	font-weight: normal;
-	margin: 0;
-	padding: 0;
-}
-
-.admin dl.tabs dt h3 a:link {
-	color: #333333;
-	outline: medium none;
-	text-decoration: none;
-}
-
-.admin input.text-area-order {
-	width: auto;
-}
-
-.admin fieldset ul {
-	margin: 0;
-	padding: 0;
-}
-
-.admin ul.adminformlist, .admin ul.adminformlist li,
-.admin ul.gallery, .admin ul.gallery li {
-	list-style: none outside none;
-	margin: 0;
-	padding: 0;
-}
-
-.admin ul.adminformlist label {
-	min-width: 135px;
-	padding: 0 5px 0 0;
-	clear: left;
-	display: block;
-	float: left;
-	margin: 5px 0;
-}
-
-.admin ul.adminformlist input, 
-.admin ul.adminformlist textarea, 
-.admin ul.adminformlist select, 
-.admin ul.adminformlist img, 
-.admin ul.adminformlist button {
-	float: left;
-	margin: 5px 5px 5px 0;
-	width: auto;
-}
-
-.admin ul.adminformlist input, .admin ul.adminformlist select {
-	background: none repeat scroll 0 0 #FFFFFF;
-	border: 1px solid silver;
-	font-size: 0.909em;
-}
-
-.admin .input-append, .admin .input-prepend {
-	font-size: inherit;
-	white-space: nowrap;
-	display: block !important;
-	margin-bottom: 5px;
-	vertical-align: middle;
-}
 
 .admin .pane-sliders .panel {
 	border: 1px solid #CCCCCC;
@@ -255,25 +144,7 @@ body.com_jea h1.page-title {
 	border-bottom: 1px solid #CCCCCC;
 }
 
-fieldset.panelform {
-	clear: both;
-	overflow: hidden;
-	padding: 5px 17px 17px;
-}
-
-.admin .adminformlist li {
-	overflow: hidden;
-}
-
 /* Tools view */
-
-i.icon-48-import {
-	display: inline-block;
-	background: url("../images/header/icon-48-import.png") left center no-repeat;
-	height: 48px;
-	width: 48px;
-	vertical-align: middle;
-}
 
 .cpanel .span12 {
 	display: table-cell !important;
@@ -319,7 +190,6 @@ i.icon-48-import {
 }
 
 /* logs */
-
 pre#logs {
 	font-size: 11px;
 	font-family: "Courier New", Courier, monospace;

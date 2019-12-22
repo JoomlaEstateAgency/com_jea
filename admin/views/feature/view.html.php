@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * View to edit a feature.
  *
@@ -22,10 +20,25 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewFeature extends JViewLegacy
 {
+	/**
+	 * The form object
+	 *
+	 * @var JForm
+	 */
 	protected $form;
 
+	/**
+	 * The database record
+	 *
+	 * @var JObject|boolean
+	 */
 	protected $item;
 
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
 	protected $state;
 
 	/**
@@ -59,7 +72,7 @@ class JeaViewFeature extends JViewLegacy
 		$canDo = JeaHelper::getActions();
 
 		$title = $this->item->id ? JText::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : JText::_('JACTION_CREATE');
-		JToolBarHelper::title($title, 'jea.png');
+		JToolBarHelper::title($title, 'jea');
 
 		// For new records, check the create permission.
 		if ($canDo->get('core.create'))

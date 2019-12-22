@@ -10,8 +10,6 @@
 
 defined('_JEXEC') or die;
 
-require JPATH_COMPONENT . '/helpers/jea.php';
-
 /**
  * JEA about view.
  *
@@ -22,6 +20,11 @@ require JPATH_COMPONENT . '/helpers/jea.php';
  */
 class JeaViewAbout extends JViewLegacy
 {
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
 	protected $sidebar = '';
 
 	/**
@@ -36,7 +39,7 @@ class JeaViewAbout extends JViewLegacy
 	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('about');
-		JToolbarHelper::title('Joomla Estate Agency', 'jea.png');
+		JToolbarHelper::title('Joomla Estate Agency', 'jea');
 
 		$canDo = JeaHelper::getActions();
 

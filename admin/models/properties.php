@@ -34,46 +34,49 @@ class JeaModelProperties extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id',
 				'p.id',
-				'ref',
-				'p.ref',
-				'title',
-				'p.title',
-				'alias',
-				'p.alias',
-				'price',
-				'p.price',
-				'checked_out',
-				'p.checked_out',
-				'checked_out_time',
-				'p.checked_out_time',
-				'published',
-				'p.published',
-				'access',
-				'access_level',
-				'created',
-				'p.created',
-				'created_by',
-				'p.created_by',
-				'ordering',
 				'p.ordering',
-				'featured',
+				'p.price',
 				'p.featured',
-				'hits',
+				'p.published',
+				'access_level',
+				'author',
+				'p.created',
 				'p.hits',
 				'language',
-				'p.language'
+				'search',
+				'transaction_type',
+				'type_id',
+				'department_id',
+				'town_id',
+				'language'
 			);
 		}
 
-		// Set the internal state marker to true
-		$config['ignore_request'] = true;
-
 		parent::__construct($config);
+	}
 
-		// Initialize state information and use id as default column ordering
-		$this->populateState('p.id', 'desc');
+	/**
+	 * Method to get a store id based on model configuration state.
+	 *
+	 * This is necessary because the model is used by the component and
+	 * different modules that might need different sets of data or different
+	 * ordering requirements.
+	 *
+	 * @param   string  $id  A prefix for the store id.
+	 *
+	 * @return  string A store id.
+	 */
+	protected function getStoreId($id = '')
+	{
+		// Compile the store id.
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.transaction_type');
+		$id .= ':' . $this->getState('filter.department_id');
+		$id .= ':' . $this->getState('filter.town_id');
+		$id .= ':' . $this->getState('filter.language');
+
+		return parent::getStoreId($id);
 	}
 
 	/**
@@ -86,10 +89,8 @@ class JeaModelProperties extends JModelList
 	 *
 	 * @see JModelList::populateState()
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'p.id', $direction = 'desc')
 	{
-		$this->context .= '.properties';
-
 		$transaction_type = $this->getUserStateFromRequest($this->context . '.filter.transaction_type', 'filter_transaction_type');
 		$this->setState('filter.transaction_type', $transaction_type);
 
@@ -131,8 +132,8 @@ class JeaModelProperties extends JModelList
 
 		$query->select(
 			'p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
-                p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
-                p.created_by, p.hits, p.language '
+             p.featured, p.published, p.publish_up, p.publish_down, p.access, p.ordering, p.checked_out, p.checked_out_time,
+             p.created_by, p.hits, p.language '
 		);
 
 		$query->from('#__jea_properties AS p');
@@ -193,15 +194,15 @@ class JeaModelProperties extends JModelList
 			$query->where($search);
 		}
 
-		// Filter on the language.
+		// Filter by language.
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('p.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
+		$orderCol = $this->state->get('list.ordering', 'p.id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
 		// If language order selected order by languagetable title
 		if ($orderCol == 'language')

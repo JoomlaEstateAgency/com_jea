@@ -10,16 +10,18 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * @var $this JeaViewGateways
+ */
+
 JHtml::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
-<?php if (!empty( $this->sidebar)) : ?>
 <div id="j-sidebar-container" class="span2">
-  <?php echo $this->sidebar?>
+	<?php echo $this->sidebar?>
 </div>
-<?php endif ?>
 
 <div id="j-main-container" class="span10">
-  <?php echo JLayoutHelper::render('jea.gateways.nav', array('action' => 'import', 'view' => 'console'))?>
-  <?php echo JLayoutHelper::render('jea.gateways.consoles', array('action' => 'import')) ?>
+	<?php echo JLayoutHelper::render('jea.gateways.nav', array('action' => 'import', 'view' => 'console'))?>
+	<?php echo JLayoutHelper::render('jea.gateways.consoles', array('action' => 'import')) ?>
 </div>
