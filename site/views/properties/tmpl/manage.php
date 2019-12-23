@@ -15,7 +15,6 @@ defined('_JEXEC') or die();
  * @var $this JeaViewProperties
  */
 
-JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 

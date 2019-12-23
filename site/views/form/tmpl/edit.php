@@ -19,8 +19,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidation');
 
-JHtml::stylesheet('media/com_jea/css/jea.css');
-
 $this->form->setFieldAttribute('description', 'buttons', 'false');
 
 $user = JFactory::getUser();

@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  * @var $this JeaViewProperty
  */
 
-JHtml::stylesheet('media/com_jea/css/jea.css');
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('jea');
 ?>

@@ -61,6 +61,8 @@ class JeaViewProperties extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::stylesheet('com_jea/jea.css', array('relative' => true));
+
 		$state = $this->get('State');
 		$this->params = $state->params;
 		$this->state = $state;

@@ -15,7 +15,6 @@ defined('_JEXEC') or die;
  * @var $this JeaViewProperties
  */
 
-JHtml::stylesheet('media/com_jea/css/jea.css');
 JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
@@ -43,17 +42,18 @@ elseif (! empty($transationType) && empty($states['filter_transaction_type']))
 $fields = json_encode($states);
 // Load the Mootools More framework if not already inclued
 JHtml::_('behavior.framework', true);
-JHtml::script('media/com_jea/js/search.js', true);
-JHtml::script('media/com_jea/js/geoSearch.js');
-JHtml::script('media/com_jea/js/geoxml3.js');
-JHtml::script('media/com_jea/js/biSlider.js');
+JHtml::script('com_jea/search.js', array('relative' => true));
+JHtml::script('com_jea/geoSearch.js', array('relative' => true));
+JHtml::script('com_jea/geoxml3.js', array('relative' => true));
+JHtml::script('com_jea/biSlider.js', array('relative' => true));
 
 $langs = explode('-', $this->document->getLanguage());
 $lang = $langs[0];
 $region = $langs[1];
 
 $this->document->addScript(
-		'https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region);
+	'https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
+);
 
 $model = $this->getModel();
 

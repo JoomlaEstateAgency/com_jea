@@ -30,7 +30,9 @@ $script = <<<EOB
 	var nextLabel = '$nextLabel';
 EOB;
 
-$this->document->addScriptDeclaration($script)->addScript(JURI::root(true) . '/media/com_jea/js/jea-squeezebox.js');
+$this->document->addScriptDeclaration($script);
+
+JHtml::script('com_jea/jea-squeezebox.js', array('relative' => true));
 
 JHtml::_('behavior.modal', 'a.jea_modal', array('onOpen' => '\onOpenSqueezebox'));
 

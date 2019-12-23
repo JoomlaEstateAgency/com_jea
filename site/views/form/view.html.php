@@ -59,6 +59,8 @@ class JeaViewForm extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		JHtml::stylesheet('com_jea/jea.css', array('relative' => true));
+
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
