@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.image');
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Image\Image;
 
 /**
  * Thumbnail controller class.
@@ -59,9 +59,9 @@ class JeaControllerThumbnail extends JControllerLegacy
 		}
 		elseif (file_exists($imagePath))
 		{
-			if (! JFolder::exists($thumbPath))
+			if (!Folder::exists($thumbPath))
 			{
-				JFolder::create($thumbDir);
+				Folder::create($thumbDir);
 			}
 
 			$params = JComponentHelper::getParams('com_jea');
@@ -79,18 +79,18 @@ class JeaControllerThumbnail extends JControllerLegacy
 
 			$quality = (int) $params->get('jpg_quality', 90);
 			$cropThumbnails = (bool) $params->get('crop_thumbnails', 0);
-			$JImage = new JImage($imagePath);
+			$image = new Image($imagePath);
 
 			if ($cropThumbnails)
 			{
-				$thumb = $JImage->resize($width, $height, true, JImage::SCALE_OUTSIDE);
+				$thumb = $image->resize($width, $height, true, JImage::SCALE_OUTSIDE);
 				$left = $thumb->getWidth() > $width ? intval(($thumb->getWidth() - $width) / 2) : 0;
 				$top = $thumb->getHeight() > $height ? intval(($thumb->getHeight() - $height) / 2) : 0;
 				$thumb->crop($width, $height, $left, $top, false);
 			}
 			else
 			{
-				$thumb = $JImage->resize($width, $height);
+				$thumb = $image->resize($width, $height);
 			}
 
 			$thumb->toFile($thumbPath, IMAGETYPE_JPEG, array('quality' => $quality));

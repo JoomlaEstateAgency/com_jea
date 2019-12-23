@@ -23,6 +23,34 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 class JeaViewProperties extends JViewLegacy
 {
 	/**
+	 * The component parameters
+	 *
+	 * @var Joomla\Registry\Registry
+	 */
+	protected $params;
+
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
+	protected $state;
+
+	/**
+	 * Array of database records
+	 *
+	 * @var Jobject[]
+	 */
+	protected $items;
+
+	/**
+	 * The pagination object
+	 *
+	 * @var JPagination
+	 */
+	protected $pagination;
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.

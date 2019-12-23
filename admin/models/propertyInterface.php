@@ -10,9 +10,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.user.user');
-jimport('joomla.mail.helper');
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\User\User;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
 
@@ -246,7 +247,7 @@ class JEAPropertyInterface extends JObject
 
 			if (! empty($image))
 			{
-				if (in_array(JFile::getExt($image), $validExtensions))
+				if (in_array(File::getExt($image), $validExtensions))
 				{
 					$img = new stdClass;
 					$img->name = $image;
@@ -363,9 +364,9 @@ class JEAPropertyInterface extends JObject
 		{
 			$imgDir = JPATH_ROOT . '/images/com_jea/images/' . $property->id;
 
-			if (! JFolder::exists($imgDir))
+			if (!Folder::exists($imgDir))
 			{
-				JFolder::create($imgDir);
+				Folder::create($imgDir);
 			}
 
 			$validExtensions = array('jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF', 'png', 'PNG');
@@ -380,7 +381,7 @@ class JEAPropertyInterface extends JObject
 					$basename = basename($uri->getPath());
 				}
 
-				if (!in_array(JFile::getExt($basename), $validExtensions))
+				if (!in_array(File::getExt($basename), $validExtensions))
 				{
 					// Not a valid Extension
 					continue;
@@ -388,12 +389,12 @@ class JEAPropertyInterface extends JObject
 
 				if (substr($image, 0, 4) != 'http' && file_exists($image))
 				{
-					JFile::copy($image, $imgDir . '/' . $basename);
+					File::copy($image, $imgDir . '/' . $basename);
 				}
 
 				if (substr($image, 0, 4) == 'http')
 				{
-					if (JFile::exists($imgDir . '/' . $basename))
+					if (File::exists($imgDir . '/' . $basename))
 					{
 						$localtime  = $this->getLastModified($imgDir . '/' . $basename);
 						$remotetime = $this->getLastModified($image);
@@ -464,7 +465,7 @@ class JEAPropertyInterface extends JObject
 			curl_close($ch);
 		}
 
-		return JFile::write($dest, $buffer);
+		return File::write($dest, $buffer);
 	}
 
 	/**
@@ -516,6 +517,8 @@ class JEAPropertyInterface extends JObject
 		{
 			if (strpos($header, 'Last-Modified') !== false)
 			{
+				$matches = array();
+
 				if (preg_match('/:\s?(.*)$/m', $header, $matches) !== false)
 				{
 					$matches[1];
@@ -613,24 +616,26 @@ class JEAPropertyInterface extends JObject
 	 */
 	protected static function _getJeaRowIfExists($tableName = '', $fieldName = '', $fieldValue = '')
 	{
-		if (self::$tables == null)
+		if (self::$tables === null)
 		{
 			$db = JFactory::getDbo();
 
-			self::$tables = array(
-				'amenities' => array(),
-				'areas' => array(),
-				'conditions' => array(),
-				'departments' => array(),
-				'heatingtypes' => array(),
-				'hotwatertypes' => array(),
-				'properties' => array(),
-				'slogans' => array(),
-				'towns' => array(),
-				'types' => array()
+			self::$tables = array();
+
+			$tables = array(
+				'amenities',
+				'areas',
+				'conditions',
+				'departments',
+				'heatingtypes',
+				'hotwatertypes',
+				'properties',
+				'slogans',
+				'towns',
+				'types'
 			);
 
-			foreach (self::$tables as $tableName => $value)
+			foreach ($tables as $tableName)
 			{
 				// Get all JEA datas
 				$db->setQuery('SELECT * FROM #__jea_' . $tableName);
@@ -711,13 +716,13 @@ class JEAPropertyInterface extends JObject
 	 */
 	protected static function _createUser($email = '', $name = '')
 	{
-		if (!JMailHelper::isEmailAddress($email))
+		if (!MailHelper::isEmailAddress($email))
 		{
 			return false;
 		}
 
 		$splitMail = explode('@', $email);
-		$user = new JUser;
+		$user = new User;
 
 		$params = array(
 			'username' => $splitMail[0] . uniqid(),

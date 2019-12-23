@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Mail\MailHelper;
+
 /**
  * Property model class.
  *
@@ -272,8 +274,6 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	public function sendContactForm()
 	{
-		jimport('joomla.mail.helper');
-
 		$app = JFactory::getApplication();
 
 		// Get a JMail instance
@@ -284,11 +284,11 @@ class JeaModelProperty extends JModelLegacy
 		$defaultFromname = $mailer->FromName;
 
 		$data = array(
-			'name'          => JMailHelper::cleanLine($this->getState('contact.name')),
-			'email'         => JMailHelper::cleanAddress($this->getState('contact.email')),
-			'telephone'     => JMailHelper::cleanLine($this->getState('contact.telephone')),
-			'subject'       => JMailHelper::cleanSubject($this->getState('contact.subject')) . ' [' . $defaultFromname . ']',
-			'message'       => JMailHelper::cleanText($this->getState('contact.message')),
+			'name'          => MailHelper::cleanLine($this->getState('contact.name')),
+			'email'         => MailHelper::cleanAddress($this->getState('contact.email')),
+			'telephone'     => MailHelper::cleanLine($this->getState('contact.telephone')),
+			'subject'       => MailHelper::cleanSubject($this->getState('contact.subject')) . ' [' . $defaultFromname . ']',
+			'message'       => MailHelper::cleanText($this->getState('contact.message')),
 			'propertyURL'   => $this->getState('contact.propertyURL')
 		);
 
@@ -333,7 +333,7 @@ class JeaModelProperty extends JModelLegacy
 			$this->setError(JText::_('COM_JEA_YOU_MUST_TO_ENTER_A_MESSAGE'));
 		}
 
-		if (! JMailHelper::isEmailAddress($data['email']))
+		if (!MailHelper::isEmailAddress($data['email']))
 		{
 			$this->setError(JText::sprintf('COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
 		}

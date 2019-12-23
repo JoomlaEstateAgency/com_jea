@@ -10,10 +10,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/export.php';
+use Joomla\Archive\Archive;
+use Joomla\CMS\Client\FtpClient;
 
-jimport('joomla.filesystem.archive');
-jimport('joomla.client.ftp');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/export.php';
 
 /**
  * The export class for JEA gateway provider
@@ -70,9 +70,9 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	 */
 	protected function createZip($filename, &$files)
 	{
-		$zipAdapter = JArchive::getAdapter('zip');
+		$zipAdapter = (new Archive)->getAdapter('zip');
 
-		if (! @$zipAdapter->create($filename, $files))
+		if (!@$zipAdapter->create($filename, $files))
 		{
 			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_ZIP_CREATION', $filename));
 		}
@@ -151,19 +151,19 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	 */
 	protected function ftpSend($file)
 	{
-		$ftpClient = new JClientFtp(array('timeout' => 5, 'type' => FTP_BINARY));
+		$ftpClient = new FtpClient(array('timeout' => 5, 'type' => FTP_BINARY));
 
-		if (! $ftpClient->connect($this->params->get('ftp_host')))
+		if (!$ftpClient->connect($this->params->get('ftp_host')))
 		{
 			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_CONNECT_TO_HOST', $this->params->get('ftp_host')));
 		}
 
-		if (! $ftpClient->login($this->params->get('ftp_username'), $this->params->get('ftp_password')))
+		if (!$ftpClient->login($this->params->get('ftp_username'), $this->params->get('ftp_password')))
 		{
 			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_LOGIN'));
 		}
 
-		if (! $ftpClient->store($file))
+		if (!$ftpClient->store($file))
 		{
 			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_SEND_FILE'));
 		}
@@ -208,7 +208,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 		$zipName = $this->params->get('zip_name', 'jea_export_{{date}}.zip');
 		$zipName = str_replace('{{date}}', date('Y-m-d-H:i:s'), $zipName);
 		$zipFile = $dir . '/' . $zipName;
-		$zipUrl = rtrim($this->_baseUrl, '/') . str_replace(JPATH_ROOT, '', $dir) . '/' . $zipName;
+		$zipUrl = rtrim($this->baseUrl, '/') . str_replace(JPATH_ROOT, '', $dir) . '/' . $zipName;
 
 		$files = array();
 

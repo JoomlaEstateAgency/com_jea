@@ -10,8 +10,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.image');
+use Joomla\CMS\Image\Image;
 
 /**
  * Form Field class for JEA.
@@ -58,7 +57,7 @@ class JFormFieldGallery extends JFormField
 
 		$propertyId = $this->form->getValue('id');
 
-		$baseURL = JURI::root(true);
+		$baseURL = JUri::root(true);
 		$imgBaseURL = $baseURL . '/images/com_jea/images/' . $propertyId;
 		$imgBasePath = JPATH_ROOT . '/images/com_jea/images/' . $propertyId;
 
@@ -68,7 +67,7 @@ class JFormFieldGallery extends JFormField
 
 			try
 			{
-				$infos = JImage::getImageFileProperties($imgPath);
+				$infos = Image::getImageFileProperties($imgPath);
 			}
 			catch (Exception $e)
 			{

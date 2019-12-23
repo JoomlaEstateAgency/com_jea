@@ -54,6 +54,8 @@ class JeaHelper
 					break;
 			}
 
+			$matches = array();
+
 			if (preg_match('#&view=([a-z]+)#', $item->link, $matches))
 			{
 				$active = $matches[1] == $viewName;

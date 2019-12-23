@@ -32,12 +32,12 @@ class JeaControllerProperties extends JControllerLegacy
 
 		$model = $this->getModel('Properties', 'JeaModel', array('ignore_request' => true));
 
-		$filters = $model->getFilters();
+		$filters = array_keys($model->getFilters());
 
 		// Set the Model state
-		foreach ($filters as $name => $value)
+		foreach ($filters as $filter)
 		{
-			$model->setState('filter.' . $name, $app->input->get('filter_' . $name, null, 'default'));
+			$model->setState('filter.' . $filter, $app->input->get('filter_' . $filter, null, 'default'));
 		}
 
 		// Deactivate pagination

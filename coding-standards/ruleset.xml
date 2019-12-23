@@ -18,7 +18,5 @@
 	<rule ref="Squiz.Commenting.VariableComment">
 		<exclude-pattern type="relative">admin/models/interface.php</exclude-pattern>
 		<exclude-pattern type="relative">admin/models/propertyInterface.php</exclude-pattern>
-		<exclude-pattern type="relative">admin/views/*</exclude-pattern>
-		<exclude-pattern type="relative">site/views/*</exclude-pattern>
 	</rule>
 </ruleset>

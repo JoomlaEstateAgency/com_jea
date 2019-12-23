@@ -10,7 +10,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 JFormHelper::loadFieldClass('list');
 
@@ -115,7 +115,7 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 
 		$path = JPATH_ADMINISTRATOR . '/components/com_jea/gateways/providers';
 
-		$folders = JFolder::folders($path);
+		$folders = Folder::folders($path);
 
 		$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 

@@ -23,6 +23,34 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 class JeaViewProperty extends JViewLegacy
 {
 	/**
+	 * The component parameters
+	 *
+	 * @var Joomla\Registry\Registry
+	 */
+	protected $params;
+
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
+	protected $state;
+
+	/**
+	 * The database record
+	 *
+	 * @var JObject|boolean
+	 */
+	protected $row;
+
+	/**
+	 * The page title
+	 *
+	 * @var string
+	 */
+	protected $page_title = '';
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.

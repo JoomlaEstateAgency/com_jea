@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 require_once JPATH_COMPONENT . '/tables/features.php';
 
@@ -71,10 +71,12 @@ class JeaModelFeature extends JModelAdmin
 
 		// Retrieve the feature table params
 		$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
-		$xmlFiles = JFolder::files($xmlPath);
+		$xmlFiles = Folder::files($xmlPath);
 
 		foreach ($xmlFiles as $filename)
 		{
+			$matches = array();
+
 			if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches))
 			{
 				if ($feature == $matches[1])

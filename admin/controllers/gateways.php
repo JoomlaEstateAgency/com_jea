@@ -58,6 +58,8 @@ class JeaControllerGateways extends JControllerAdmin
 
 		$interpreter = JFactory::getApplication()->input->getString('php_interpreter', 'php');
 
+		$matches = array();
+
 		if (preg_match('/^([a-zA-Z0-9-_.\/]+)/', $interpreter, $matches) !== false)
 		{
 			$interpreter = $matches[1];

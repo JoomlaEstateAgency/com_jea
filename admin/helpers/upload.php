@@ -10,8 +10,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Upload class helper.
@@ -236,7 +236,7 @@ class JeaUpload
 	{
 		$this->check();
 
-		if (! JFolder::exists($dir))
+		if (!Folder::exists($dir))
 		{
 			$this->errors[] = 'COM_JEA_UPLOAD_DESTINATION_DIRECTORY_DOESNT_EXISTS';
 		}
@@ -248,7 +248,7 @@ class JeaUpload
 
 		$file = $dir . '/' . $this->name;
 
-		if (JFile::exists($file))
+		if (File::exists($file))
 		{
 			if ($overwrite === false)
 			{
@@ -262,7 +262,7 @@ class JeaUpload
 
 		if (empty($this->errors))
 		{
-			return JFile::upload($this->temp_name, $file);
+			return File::upload($this->temp_name, $file);
 		}
 
 		return false;
@@ -278,7 +278,7 @@ class JeaUpload
 	public function nameToSafe($maxlen = 250)
 	{
 		$this->name = substr($this->name, 0, $maxlen);
-		$this->name = JFile::makeSafe($this->name);
+		$this->name = File::makeSafe($this->name);
 		$this->name = preg_replace('/\s+/', '-', $this->name);
 
 		return $this;
@@ -309,7 +309,7 @@ class JeaUpload
 	 */
 	protected function _evalValidExtensions()
 	{
-		$extension = JFile::getExt($this->name);
+		$extension = File::getExt($this->name);
 
 		if ($this->extensionsMode == 'deny')
 		{

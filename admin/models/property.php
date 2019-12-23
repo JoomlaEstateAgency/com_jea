@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Property model class.
@@ -163,9 +163,9 @@ class JeaModelProperty extends JModelAdmin
 		$baseUploadDir = JPATH_ROOT . '/images/com_jea/images';
 		$validExtensions = array('jpg', 'JPG', 'jpeg', 'JPEG', 'gif', 'GIF', 'png', 'PNG');
 
-		if (! JFolder::exists($baseUploadDir))
+		if (!Folder::exists($baseUploadDir))
 		{
-			JFolder::create($baseUploadDir);
+			Folder::create($baseUploadDir);
 		}
 
 		$uploadDir = $baseUploadDir . '/' . $item->id;
@@ -178,9 +178,9 @@ class JeaModelProperty extends JModelAdmin
 				{
 					$file->setValidExtensions($validExtensions)->nameToSafe();
 
-					if (! JFolder::exists($uploadDir))
+					if (! Folder::exists($uploadDir))
 					{
-						JFolder::create($uploadDir);
+						Folder::create($uploadDir);
 					}
 
 					if ($file->moveTo($uploadDir))
@@ -217,10 +217,10 @@ class JeaModelProperty extends JModelAdmin
 			$table->store();
 		}
 
-		if (JFolder::exists($uploadDir))
+		if (Folder::exists($uploadDir))
 		{
 			// Remove image files
-			$list = JFolder::files($uploadDir);
+			$list = Folder::files($uploadDir);
 
 			foreach ($list as $filename)
 			{
@@ -231,11 +231,11 @@ class JeaModelProperty extends JModelAdmin
 
 				if (! isset($imageNames[$filename]))
 				{
-					$removeList = JFolder::files($uploadDir, $filename . '$', false, true);
+					$removeList = Folder::files($uploadDir, $filename . '$', false, true);
 
 					foreach ($removeList as $removeFile)
 					{
-						JFile::delete($removeFile);
+						File::delete($removeFile);
 					}
 				}
 			}
@@ -320,9 +320,9 @@ class JeaModelProperty extends JModelAdmin
 			// Remove images folder
 			foreach ($pks as $id)
 			{
-				if (JFolder::exists(JPATH_ROOT . '/images/com_jea/images/' . $id))
+				if (Folder::exists(JPATH_ROOT . '/images/com_jea/images/' . $id))
 				{
-					JFolder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
+					Folder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
 				}
 			}
 

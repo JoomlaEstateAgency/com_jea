@@ -10,7 +10,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
+use Joomla\CMS\Filesystem\File;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
@@ -57,7 +57,7 @@ class JeaModelGateway extends JModelAdmin
 		{
 			$formConfigFile = JPATH_COMPONENT_ADMINISTRATOR . '/gateways/providers/' . $item->provider . '/' . $item->type . '.xml';
 
-			if (JFile::exists($formConfigFile))
+			if (File::exists($formConfigFile))
 			{
 				// Try to load provider language file
 				JFactory::getLanguage()->load($item->provider, JPATH_COMPONENT, null, false, false);

@@ -21,6 +21,34 @@ defined('_JEXEC') or die;
 class JeaViewForm extends JViewLegacy
 {
 	/**
+	 * The form object
+	 *
+	 * @var JForm
+	 */
+	protected $form;
+
+	/**
+	 * The database record
+	 *
+	 * @var JObject|boolean
+	 */
+	protected $item;
+
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
+	protected $state;
+
+	/**
+	 * The component parameters
+	 *
+	 * @var Joomla\Registry\Registry
+	 */
+	protected $params;
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse.

@@ -10,8 +10,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
+use Joomla\CMS\Filesystem\Folder;
 
 require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 
@@ -35,11 +34,13 @@ class JeaModelFeatures extends JModelLegacy
 	public function getItems()
 	{
 		$xmlPath = JPATH_COMPONENT_ADMINISTRATOR . '/models/forms/features';
-		$xmlFiles = JFolder::files($xmlPath);
+		$xmlFiles = Folder::files($xmlPath);
 		$items = array();
 
 		foreach ($xmlFiles as $key => $filename)
 		{
+			$matches = array();
+
 			if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches))
 			{
 				$form = simplexml_load_file($xmlPath . '/' . $filename);
