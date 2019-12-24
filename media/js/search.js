@@ -1,4 +1,15 @@
-	
+/**
+ * This file is part of Joomla Estate Agency - Joomla! extension for real estate
+ * agency
+ * 
+ * @copyright Copyright (C) 2008 - 2019 PHILIP Sylvain. All rights reserved.
+ * @license GNU/GPL, see LICENSE.txt
+ */
+
+/**
+ * This implementation works with Mootools framework
+ * We keep this file for backward compatibility with old templates overriding JEA layouts
+ */
 
 JEASearch = new Class({
 
@@ -111,7 +122,7 @@ JEASearch = new Class({
 					});
 				}.bind(this)
 			});
-			
+
 			jSonRequest.post(this.options.fields);
 		}
 	},

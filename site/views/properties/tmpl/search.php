@@ -19,7 +19,7 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $useAjax = $this->params->get('searchform_use_ajax', 0);
-$transationType = $this->params->get('searchform_transaction_type');
+$transactionType = $this->params->get('searchform_transaction_type');
 
 $showLocalization = $this->params->get('searchform_show_departments') ||
 					$this->params->get('searchform_show_towns') ||
@@ -43,30 +43,23 @@ foreach ($filters as $name => $defaultValue)
 	$states['filter_' . $name] = $this->state->get('filter.' . $name, $defaultValue);
 }
 
-if (empty($transationType) && empty($states['filter_transaction_type']))
-{
-	// Set SELLING as default transaction_type state
-	$states['filter_transaction_type'] = 'SELLING';
-}
-elseif (! empty($transationType) && empty($states['filter_transaction_type']))
-{
-	$states['filter_transaction_type'] = $transationType;
-}
+$states['filter_transaction_type'] = $transactionType;
 
 $fields = json_encode($states);
 $ajax = $useAjax ? 'true' : 'false';
 
-// Load the Mootools More framework if not already inclued
-JHtml::_('behavior.framework', true);
-JHTML::script('com_jea/search.js', array('relative' => true));
-$this->document->addScriptDeclaration(
-	"
-window.addEvent('domready', function() {
-	var jeaSearch = new JEASearch('jea-search-form', {fields:$fields, useAJAX:$ajax});
+// Include jQuery
+JHtml::_('jquery.framework');
+JHTML::script('com_jea/jquery-search.js', array('relative' => true));
+
+$script = <<<JS
+jQuery(function($) {
+	var jeaSearch = new JEASearch('#jea-search-form', {fields:$fields, useAJAX:$ajax, transactionType:'$transactionType'});
 	jeaSearch.refresh();
 });
-	"
-);
+JS;
+
+$this->document->addScriptDeclaration($script);
 ?>
 
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
@@ -98,9 +91,9 @@ window.addEvent('domready', function() {
 	<p>
 		<?php echo JHtml::_('features.types', $this->state->get('filter.type_id', 0), 'filter_type_id') ?>
 
-		<?php if ($transationType == 'RENTING'): ?>
+		<?php if ($transactionType == 'RENTING'): ?>
 		<input type="hidden" name="filter_transaction_type" value="RENTING" />
-		<?php elseif($transationType == 'SELLING'): ?>
+		<?php elseif($transactionType == 'SELLING'): ?>
 		<input type="hidden" name="filter_transaction_type" value="SELLING" />
 		<?php else: ?>
 		<input type="radio" name="filter_transaction_type" id="jea-search-selling" value="SELLING"
