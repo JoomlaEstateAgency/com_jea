@@ -240,6 +240,17 @@
 		</field>
 
 		<field
+			name="show_creation_date"
+			type="radio"
+			default="1"
+			label="COM_JEA_FIELD_SHOW_CREATION_DATE_LABEL"
+			class="btn-group btn-group-yesno"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_googlemap"
 			type="radio"
 			default="0"
