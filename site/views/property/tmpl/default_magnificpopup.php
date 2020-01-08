@@ -55,7 +55,9 @@ jQuery(function($) {
 		image: {
 			tError: '<a href="%url%">The image #%curr%</a> could not be loaded.',
 			titleSrc: function(item) {
-				return item.el.attr('alt');
+				var title = item.el.attr('title');
+				var description = item.img.attr('alt');
+				return description ? title + ' / ' + description : title;
 			}
 		}
 	});
@@ -72,16 +74,16 @@ $img_height = $this->params->get('thumb_medium_height', 400);
 <div class="clr"></div>
 
 <div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
-	<a href="<?php echo $mainImage->URL ?>"><img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
-		alt="<?php echo $mainImage->title ?>" title="<?php echo $mainImage->description ?>" /></a>
+	<a href="<?php echo $mainImage->URL ?>" title="<?php echo $mainImage->title ?>"><img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
+		alt="<?php echo $mainImage->description ?>" /></a>
 </div>
 
 <?php if( !empty($this->row->images)): ?>
 <div id="jea-gallery-scroll" class="popup-gallery <?php echo $gallery_orientation ?>"
 	style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'max-height:'.$img_height.'px' ?>">
 	<?php foreach($this->row->images as $image) : ?>
-	<a href="<?php echo $image->URL?>"><img src="<?php echo $image->minURL ?>" alt="<?php echo $image->title ?>"
-		title="<?php echo $image->description  ?>" /></a><br />
+	<a href="<?php echo $image->URL?>" title="<?php echo $image->title ?>">
+	<img src="<?php echo $image->minURL ?>" alt="<?php echo $image->description ?>" /></a><br />
 	<?php endforeach ?>
 </div>
 <?php endif ?>
