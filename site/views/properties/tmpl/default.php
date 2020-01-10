@@ -4,7 +4,7 @@
  *
  * @package     Joomla.Site
  * @subpackage  com_jea
- * @copyright   Copyright (C) 2008 - 2019 PHILIP Sylvain. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2020 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 

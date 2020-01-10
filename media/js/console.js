@@ -2,7 +2,7 @@
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate
  * agency
  * 
- * @copyright Copyright (C) 2008 - 2019 PHILIP Sylvain. All rights reserved.
+ * @copyright Copyright (C) 2008 - 2020 PHILIP Sylvain. All rights reserved.
  * @license GNU/GPL, see LICENSE.txt
  */
 
