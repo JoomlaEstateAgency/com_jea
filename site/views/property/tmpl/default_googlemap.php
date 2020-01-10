@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @var $this JeaViewProperty
  */
 
-JHtml::_('behavior.framework');
+JHtml::_('jquery.framework');
 
 $langs = explode('-', $this->document->getLanguage());
 
@@ -53,20 +53,21 @@ $this->document->addScript(
 );
 
 $script = <<<JS
-var map = null;
 
-function initMap(mapOptions, MarkerLatlng) {
-	map = new google.maps.Map(document.id('jea_property_map'), mapOptions);
-	var marker = new google.maps.Marker({
-		position: MarkerLatlng,
-		map: map,
-		title: '{$this->row->ref}'
-	});
-}
+jQuery(function($) {
 
-window.addEvent("domready", function(){
+	var map = null;
 	var longitude  = {$longitude};
 	var latitude   = {$latitude};
+
+	function initMap(mapOptions, MarkerLatlng) {
+		map = new google.maps.Map($('#jea_property_map')[0], mapOptions);
+		var marker = new google.maps.Marker({
+			position: MarkerLatlng,
+			map: map,
+			title: '{$this->escape($this->row->ref)}'
+		});
+	}
 
 	if (longitude && latitude) {
 		var myLatlng = new google.maps.LatLng(latitude, longitude);
