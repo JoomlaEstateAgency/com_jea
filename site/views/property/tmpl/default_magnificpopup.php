@@ -61,31 +61,34 @@ jQuery(function($) {
 			}
 		}
 	});
+
+	if ($('#jea-gallery-scroll').hasClass('vertical') && $(window).width() > 1200) {
+		$('#jea-preview-img').on('load', function() {
+			$('#jea-gallery-scroll').css('height', $(this).height());
+		});
+	}
 });
 EOB;
 
 $this->document->addScriptDeclaration($script);
 
 $gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
-$img_width = $this->params->get('thumb_medium_width', 400);
-$img_height = $this->params->get('thumb_medium_height', 400);
 ?>
+<div id="jea-gallery" class="<?php echo $gallery_orientation ?>">
 
-<div class="clr"></div>
+	<div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
+		<a href="<?php echo $mainImage->URL ?>" title="<?php echo $mainImage->title ?>"><img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
+			alt="<?php echo $mainImage->description ?>" /></a>
+	</div>
 
-<div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
-	<a href="<?php echo $mainImage->URL ?>" title="<?php echo $mainImage->title ?>"><img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
-		alt="<?php echo $mainImage->description ?>" /></a>
+	<?php if( !empty($this->row->images)): ?>
+	<div id="jea-gallery-scroll" class="popup-gallery <?php echo $gallery_orientation ?>">
+		<?php foreach($this->row->images as $image) : ?>
+		<a href="<?php echo $image->URL?>" title="<?php echo $image->title ?>">
+		<img src="<?php echo $image->mediumURL ?>" alt="<?php echo $image->description ?>" /></a>
+		<?php endforeach ?>
+	</div>
+	<?php endif ?>
+
 </div>
 
-<?php if( !empty($this->row->images)): ?>
-<div id="jea-gallery-scroll" class="popup-gallery <?php echo $gallery_orientation ?>"
-	style="<?php echo $gallery_orientation == 'horizontal' ? 'width:'.$img_width.'px' : 'max-height:'.$img_height.'px' ?>">
-	<?php foreach($this->row->images as $image) : ?>
-	<a href="<?php echo $image->URL?>" title="<?php echo $image->title ?>">
-	<img src="<?php echo $image->minURL ?>" alt="<?php echo $image->description ?>" /></a><br />
-	<?php endforeach ?>
-</div>
-<?php endif ?>
-
-<div class="clr"></div>
