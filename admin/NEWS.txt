@@ -1,5 +1,14 @@
 Joomla Estate Agency          News
 ==================================
+RELEASE 3.5.0 / 01-2020=
+# Include Google map scripts using https
+# Remove white spaces in images names
+^ Backend enhancements
+- Remove Mootools dependencies in frontend
++ Convert frontend scripts with Jquery
+^ Ability to override medias (css, js) in template
++ Add Magnific popup gallery option in property view
+^ CSS enhancements
 
 RELEASE 3.4.3 / 12-2019=
 # Fix gateways bugs
