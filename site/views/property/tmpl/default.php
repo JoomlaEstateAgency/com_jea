@@ -19,31 +19,25 @@ $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('jea');
 ?>
 
-<p class="prev-next-navigation">
-<?php echo $this->getPrevNextNavigation() ?>
-</p>
-
-<?php if ($this->params->get('show_print_icon')): ?>
 <div class="jea-tools">
-	<a href="javascript:window.print()" title="<?php echo JText::_('JGLOBAL_PRINT') ?>">
+	<?php if ($this->params->get('show_print_icon')): ?>
+	<a href="javascript:window.print()" title="<?php echo JText::_('JGLOBAL_PRINT') ?>" class="print-icon">
 	<?php echo JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true) ?>
 	</a>
+	<?php endif ?>
+	<nav class="prev-next-navigation"><?php echo $this->getPrevNextNavigation() ?></nav>
 </div>
-<?php endif ?>
+
 
 <h1><?php echo $this->page_title ?></h1>
 
-<?php if ( $this->params->get('show_creation_date', 0) ) : ?>
+<?php if ($this->params->get('show_creation_date', 0)) : ?>
 <p>
 	<span class="date"><?php echo JHtml::_('date',  $this->row->created, JText::_('DATE_FORMAT_LC3') ) ?></span>
 </p>
 <?php endif ?>
 
-<?php if(!empty($this->row->images)): ?>
-<div id="jea-gallery">
-<?php echo $this->loadTemplate($this->params->get('images_layout', 'squeezebox')) ?>
-</div>
-<?php endif ?>
+<?php if(!empty($this->row->images)) echo $this->loadTemplate($this->params->get('images_layout', 'squeezebox')) ?>
 
 <h2 class="clr"><?php echo JText::_('COM_JEA_REF')?> : <?php echo $this->escape($this->row->ref) ?></h2>
 
