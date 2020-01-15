@@ -179,7 +179,7 @@ class TableProperty extends JTable
 		}
 		else
 		{
-			$this->modified = $this->modified ? $this->modified : date('Y-m-d H:i:s');
+			$this->modified = date('Y-m-d H:i:s');
 		}
 
 		return true;
