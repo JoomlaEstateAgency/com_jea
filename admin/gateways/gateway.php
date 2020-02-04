@@ -143,7 +143,7 @@ abstract class JeaGateway extends JEvent
 			'DEBUG' => Log::DEBUG
 		);
 
-		$status = isset($levels[$status]) ? levels[$status] : Log::INFO;
+		$status = isset($levels[$status]) ? $levels[$status] : Log::INFO;
 
 		Log::add($message, $status, $cat);
 	}
