@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('JeaUpload', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.php');
+
 $input = JFactory::getApplication()->input;
 
 if ($input->getCmd('task') == '')
