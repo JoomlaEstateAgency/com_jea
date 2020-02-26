@@ -116,7 +116,7 @@ class JeaModelProperty extends JModelAdmin
 		JPluginHelper::importPlugin('jea');
 
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy')
+		if (JFactory::getApplication()->input->getCmd('task') == 'save2copy')
 		{
 			$data['ref'] = JString::increment($data['ref']);
 			$data['title'] = JString::increment($data['title']);

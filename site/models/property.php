@@ -36,9 +36,6 @@ class JeaModelProperty extends JModelLegacy
 		$app = JFactory::getApplication('site');
 		$this->setState('property.id', $app->input->get('id', 0, 'int'));
 
-		// $offset = JRequest::getUInt('limitstart');
-		// $this->setState('list.offset', $offset);
-
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);

@@ -162,7 +162,7 @@ $this->document->addScriptDeclaration($script);
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="Itemid" value="<?php echo JRequest::getInt('Itemid', 0) ?>" />
+		<input type="hidden" name="Itemid" value="<?php echo JFactory::getApplication()->input->getInt('Itemid', 0) ?>" />
 	</div>
 
 	<div class="pagination">

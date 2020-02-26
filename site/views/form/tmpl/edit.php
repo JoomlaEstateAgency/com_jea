@@ -174,7 +174,7 @@ $uri =JFactory::getURI();
 			<button type="button" onclick="Joomla.submitbutton('property.apply')"><?php echo JText::_('JSAVE') ?></button>
 			<button type="button" onclick="Joomla.submitbutton('property.cancel')"><?php echo JText::_('JCANCEL') ?></button>
 			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return') ?>" />
+			<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->getCmd('return') ?>" />
 			<?php echo JHtml::_('form.token') ?>
 		</div>
 	</form>
