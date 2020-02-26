@@ -1,5 +1,12 @@
 Joomla Estate Agency          News
 ==================================
+
+RELEASE 3.5.1 / 02-2020=
+# Fix date modified when saving property
+# Fix property type when saving property
+# Fix JeaUpload not found in frontend
+# Fix warning in gateway
+
 RELEASE 3.5.0 / 01-2020=
 # Include Google map scripts using https
 # Remove white spaces in images names
