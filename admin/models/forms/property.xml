@@ -50,6 +50,7 @@
 			subtype="types"
 			label="COM_JEA_FIELD_PROPERTY_TYPE_LABEL"
 			required="true"
+			filter="intval"
 		/>
 
 		<field

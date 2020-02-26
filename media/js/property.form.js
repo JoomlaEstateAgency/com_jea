@@ -41,6 +41,7 @@ function updateFeature(name, fieldId, language) {
 					option.appendText(item.value);
 					document.id(fieldId).adopt(option);
 				});
+				jQuery('#'+fieldId).trigger('liszt:updated.chosen'); // Update jQuery choosen
 			}
 		}
 	});
