@@ -15,12 +15,12 @@ defined('_JEXEC') or die;
  * @var $this JeaViewProperty
  */
 
-if (!is_array($this->row->images))
+if (!is_array($this->row->images) || empty($this->row->images))
 {
 	return;
 }
 
-$mainImage = $this->row->images[0];
+$mainImage = array_shift($this->row->images);
 
 $previousLabel = JText::_('JPREVIOUS');
 $nextLabel = JText::_('JNEXT');
@@ -76,7 +76,7 @@ $gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
 ?>
 <div id="jea-gallery" class="<?php echo $gallery_orientation ?>">
 
-	<div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
+	<div id="jea-gallery-preview" class="popup-gallery <?php echo $gallery_orientation ?>">
 		<a href="<?php echo $mainImage->URL ?>" title="<?php echo $mainImage->title ?>"><img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
 			alt="<?php echo $mainImage->description ?>" /></a>
 	</div>
