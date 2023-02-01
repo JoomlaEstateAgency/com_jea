@@ -26,54 +26,56 @@ defined('_JEXEC') or die;
  */
 class JeaModelGateways extends ListModel
 {
-    /**
-     * Constructor.
-     *
-     * @param array $config An optional associative array of configuration settings.
-     *
-     * @see     JModelList
-     */
-    public function __construct($config = array())
-    {
-        if (empty($config['filter_fields'])) {
-            $config['filter_fields'] = array(
-                'id',
-                'title',
-                'provider',
-                'published',
-                'ordering',
-            );
-        }
+	/**
+	 * Constructor.
+	 *
+	 * @param   array $config An optional associative array of configuration settings.
+	 *
+	 * @see     JModelList
+	 */
+	public function __construct($config = array())
+	{
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'id',
+				'title',
+				'provider',
+				'published',
+				'ordering',
+			);
+		}
 
-        parent::__construct($config);
-    }
+		parent::__construct($config);
+	}
 
-    /**
-     * Overrides parent method
-     *
-     * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
-     *
-     * @see ListModel::getListQuery()
-     */
-    protected function getListQuery()
-    {
-        // Create a new query object.
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
-        $query = $db->getQuery(true);
+	/**
+	 * Overrides parent method
+	 *
+	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 *
+	 * @see ListModel::getListQuery()
+	 */
+	protected function getListQuery()
+	{
+		// Create a new query object.
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
+		$query = $db->getQuery(true);
 
-        $query->select('*');
-        $query->from('#__jea_gateways');
+		$query->select('*');
+		$query->from('#__jea_gateways');
 
-        if ($type = $this->state->get('filter.type')) {
-            $query->where('type=' . $db->Quote($type));
-        }
+		if ($type = $this->state->get('filter.type'))
+		{
+			$query->where('type=' . $db->Quote($type));
+		}
 
-        // Add the list ordering clause.
-        $orderCol = $this->state->get('list.ordering', 'id');
-        $orderDirn = $this->state->get('list.direction', 'desc');
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'id');
+		$orderDirn = $this->state->get('list.direction', 'desc');
 
-        $query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-        return $query;
-    }
+		return $query;
+	}
 }

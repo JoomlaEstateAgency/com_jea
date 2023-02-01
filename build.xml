@@ -6,6 +6,17 @@
 		<zip destfile="dist/com_jea-${version}.zip" basedir="${basedir}" includes="admin/**,media/**,site/**,jea.xml,README.md,script.php" />
 	</target>
 	
+	<target name="format" description="Formats the project files using PHP_CodeSniffer">
+		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcbf">
+			<arg line="-p" />
+			<arg line="-w" />
+			<arg value="--report=full"/>
+			<arg value="--extensions=php"/>
+			<arg value="--standard=${basedir}/coding-standards"/>
+			<arg path="${basedir}"/>
+		</exec>
+	</target>
+
 	<target name="standard" description="Generate codestyle report using PHP_CodeSniffer">
 		<exec executable="${basedir}/vendor/squizlabs/php_codesniffer/scripts/phpcs" failonerror="true">
 			<arg line="-p" />

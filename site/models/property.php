@@ -10,7 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Event\Event;
 
 /**
  * Property model class.
@@ -33,7 +40,7 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication('site');
+		$app = Factory::getApplication();
 		$this->setState('property.id', $app->input->get('id', 0, 'int'));
 
 		// Load the parameters.
@@ -67,10 +74,10 @@ class JeaModelProperty extends JModelLegacy
 			return $data;
 		}
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Include the jea plugins for the onBeforeLoadProperty event.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
 		$pk = $this->getState('property.id');
 
@@ -120,27 +127,22 @@ class JeaModelProperty extends JModelLegacy
 		$query->where('p.published = 1');
 
 		// Filter by access level
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$query->where('p.access IN (' . $groups . ')');
 
 		// Filter by start and end dates.
 		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toSql());
+		$nowDate = $db->Quote(Factory::getDate()->toSql());
 
 		$query->where('(p.publish_up = ' . $nullDate . ' OR p.publish_up <= ' . $nowDate . ')');
 		$query->where('(p.publish_down = ' . $nullDate . ' OR p.publish_down >= ' . $nowDate . ')');
 
-		$dispatcher->trigger('onBeforeLoadProperty', array(&$query, &$this->state));
+		$dispatcher->dispatch('onBeforeLoadProperty', new Event('onBeforeLoadProperty', array(&$query, &$this->state)));
 
 		$db->setQuery($query);
 
 		$data = $db->loadObject();
-
-		if ($error = $db->getErrorMsg())
-		{
-			throw new Exception($error);
-		}
 
 		if ($data == null)
 		{
@@ -150,10 +152,10 @@ class JeaModelProperty extends JModelLegacy
 		// Convert images field
 		$images = json_decode($data->images);
 
-		if (! empty($images) && is_array($images))
+		if (!empty($images) && is_array($images))
 		{
 			$imagePath = JPATH_ROOT . '/images/com_jea';
-			$baseURL = JURI::root(true);
+			$baseURL = Uri::root(true);
 
 			foreach ($images as $k => $image)
 			{
@@ -240,7 +242,7 @@ class JeaModelProperty extends JModelLegacy
 	/**
 	 * Increment the hit counter for the property.
 	 *
-	 * @param   integer  $pk  Optional primary key of the article to increment.
+	 * @param   integer $pk Optional primary key of the article to increment.
 	 *
 	 * @return  boolean True if successful; false otherwise and internal error set.
 	 */
@@ -256,7 +258,7 @@ class JeaModelProperty extends JModelLegacy
 		}
 		catch (\RuntimeException $e)
 		{
-			JLog::add($e->getMessage(), JLog::ERROR, 'com_jea');
+			Log::add($e->getMessage(), Log::ERROR, 'com_jea');
 
 			return false;
 		}
@@ -271,40 +273,40 @@ class JeaModelProperty extends JModelLegacy
 	 */
 	public function sendContactForm()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get a JMail instance
-		$mailer = JFactory::getMailer();
+		$mailer = Factory::getMailer();
 		$params = $app->getParams();
 
 		$defaultFrom = $mailer->From;
 		$defaultFromname = $mailer->FromName;
 
 		$data = array(
-			'name'          => MailHelper::cleanLine($this->getState('contact.name')),
-			'email'         => MailHelper::cleanAddress($this->getState('contact.email')),
-			'telephone'     => MailHelper::cleanLine($this->getState('contact.telephone')),
-			'subject'       => MailHelper::cleanSubject($this->getState('contact.subject')) . ' [' . $defaultFromname . ']',
-			'message'       => MailHelper::cleanText($this->getState('contact.message')),
-			'propertyURL'   => $this->getState('contact.propertyURL')
+			'name' => MailHelper::cleanLine($this->getState('contact.name')),
+			'email' => MailHelper::cleanAddress($this->getState('contact.email')),
+			'telephone' => MailHelper::cleanLine($this->getState('contact.telephone')),
+			'subject' => MailHelper::cleanSubject($this->getState('contact.subject')) . ' [' . $defaultFromname . ']',
+			'message' => MailHelper::cleanText($this->getState('contact.message')),
+			'propertyURL' => $this->getState('contact.propertyURL')
 		);
 
-		$dispatcher = JDispatcher::getInstance();
-		JPluginHelper::importPlugin('jea');
+		$dispatcher = Factory::getApplication()->getDispatcher();
+		PluginHelper::importPlugin('jea');
 
 		if ($params->get('use_captcha'))
 		{
-			$plugin = JFactory::getConfig()->get('captcha');
+			$plugin = Factory::getApplication()->get('captcha');
 
 			if ($plugin == '0')
 			{
 				$plugin = 'recaptcha';
 			}
 
-			$captcha = JCaptcha::getInstance($plugin);
+			$captcha = Captcha::getInstance($plugin);
 
 			// Test the value.
-			if (! $captcha->checkAnswer(''))
+			if (!$captcha->checkAnswer(''))
 			{
 				$error = $captcha->getError();
 
@@ -322,20 +324,20 @@ class JeaModelProperty extends JModelLegacy
 		// Check data
 		if (empty($data['name']))
 		{
-			$this->setError(JText::_('COM_JEA_YOU_MUST_TO_ENTER_YOUR_NAME'));
+			$this->setError(Text::_('COM_JEA_YOU_MUST_TO_ENTER_YOUR_NAME'));
 		}
 
 		if (empty($data['message']))
 		{
-			$this->setError(JText::_('COM_JEA_YOU_MUST_TO_ENTER_A_MESSAGE'));
+			$this->setError(Text::_('COM_JEA_YOU_MUST_TO_ENTER_A_MESSAGE'));
 		}
 
 		if (!MailHelper::isEmailAddress($data['email']))
 		{
-			$this->setError(JText::sprintf('COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
+			$this->setError(Text::sprintf('COM_JEA_INVALID_EMAIL_ADDRESS', $data['email']));
 		}
 
-		$result = $dispatcher->trigger('onBeforeSendContactForm', array($data, &$this));
+		$result = $dispatcher->dispatch('onBeforeSendContactForm', new Event('onBeforeSendContactForm', array($data, &$this)));
 
 		if (in_array(false, $result, true))
 		{
@@ -360,16 +362,16 @@ class JeaModelProperty extends JModelLegacy
 			$agentMail = $db->loadResult();
 		}
 
-		if (! empty($defaultMail) && ! empty($agentMail))
+		if (!empty($defaultMail) && !empty($agentMail))
 		{
 			$recipients[] = $defaultMail;
 			$recipients[] = $agentMail;
 		}
-		elseif (! empty($defaultMail))
+		elseif (!empty($defaultMail))
 		{
 			$recipients[] = $defaultMail;
 		}
-		elseif (! empty($agentMail))
+		elseif (!empty($agentMail))
 		{
 			$recipients[] = $agentMail;
 		}
@@ -383,10 +385,10 @@ class JeaModelProperty extends JModelLegacy
 
 		if (!empty($data['telephone']))
 		{
-			$body .= "\n" . JText::_('COM_JEA_TELEPHONE') . ' : ' . $data['telephone'];
+			$body .= "\n" . Text::_('COM_JEA_TELEPHONE') . ' : ' . $data['telephone'];
 		}
 
-		$body .= "\n" . JText::_('COM_JEA_PROPERTY_URL') . ' : ' . $data['propertyURL'];
+		$body .= "\n" . Text::_('COM_JEA_PROPERTY_URL') . ' : ' . $data['propertyURL'];
 
 		$mailer->setBody($body);
 		$ret = $mailer->sendMail($data['email'], $data['name'], $recipients, $data['subject'], $body, false);

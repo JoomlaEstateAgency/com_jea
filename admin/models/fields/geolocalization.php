@@ -28,48 +28,48 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldGeolocalization extends FormField
 {
-    /**
-     * The form field type.
-     *
-     * @var string
-     *
-     */
-    protected $type = 'Geolocalization';
+	/**
+	 * The form field type.
+	 *
+	 * @var string
+	 *
+	 */
+	protected $type = 'Geolocalization';
 
-    /**
-     * Method to get the button to geolocalize coordinates with a map.
-     *
-     * @return string The field input markup.
-     */
-    protected function getInput()
-    {
-        $params = ComponentHelper::getParams('com_jea');
-        $ouptut = '';
+	/**
+	 * Method to get the button to geolocalize coordinates with a map.
+	 *
+	 * @return string The field input markup.
+	 */
+	protected function getInput()
+	{
+		$params = ComponentHelper::getParams('com_jea');
+		$ouptut = '';
 
-        // TODO : use JLayout
-        $ouptut = '<div class="button2-left">' . "\n" .
-            '<div class="blank"><a class="modal btn btn-info" href="#map-box-content"' .
-            ' rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">' .
-            Text::_('COM_JEA_MAP_OPEN') . '</a></div>' . "\n" . '</div>' . "\n" .
-            '<div id="map-box-content" class="map-box-content" style="display:none">' . "\n" . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') .
-            ' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />' . JText::_('COM_JEA_FIELD_LONGITUDE_LABEL') .
-            ' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />' .
-            '<div class="map-box-container" style="width: 100%; height: 480px"></div>' . "\n" . '</div>' . "\n";
+		// TODO : use JLayout
+		$ouptut = '<div class="button2-left">' . "\n" .
+			'<div class="blank"><a class="modal btn btn-info" href="#map-box-content"' .
+			' rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">' .
+			Text::_('COM_JEA_MAP_OPEN') . '</a></div>' . "\n" . '</div>' . "\n" .
+			'<div id="map-box-content" class="map-box-content" style="display:none">' . "\n" . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') .
+			' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />' . JText::_('COM_JEA_FIELD_LONGITUDE_LABEL') .
+			' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />' .
+			'<div class="map-box-container" style="width: 100%; height: 480px"></div>' . "\n" . '</div>' . "\n";
 
-        $document = Factory::getDocument();
-        $langs = explode('-', $document->getLanguage());
+		$document = Factory::getDocument();
+		$langs = explode('-', $document->getLanguage());
 
-        $lang = $langs[0];
-        $region = $langs[1];
-        $fieldDepartment = $this->form->getField('department_id');
-        $fieldTown = $this->form->getField('town_id');
-        $fieldAddress = $this->form->getField('address');
-        $fieldLongitude = $this->form->getField('longitude');
-        $fieldLatitude = $this->form->getField('latitude');
-        $markerLabel = addslashes(Text::_('COM_JEA_MAP_MARKER_LABEL'));
+		$lang = $langs[0];
+		$region = $langs[1];
+		$fieldDepartment = $this->form->getField('department_id');
+		$fieldTown = $this->form->getField('town_id');
+		$fieldAddress = $this->form->getField('address');
+		$fieldLongitude = $this->form->getField('longitude');
+		$fieldLatitude = $this->form->getField('latitude');
+		$markerLabel = addslashes(Text::_('COM_JEA_MAP_MARKER_LABEL'));
 
-        Factory::getDocument()->addScriptDeclaration(
-            "
+		Factory::getDocument()->addScriptDeclaration(
+			"
             function initBoxContent(elementContent) {
                 var latitude = document.id('{$fieldLatitude->id}').value;
                 var longitude = document.id('{$fieldLongitude->id}').value;
@@ -160,12 +160,12 @@ class JFormFieldGeolocalization extends FormField
                 document.id('{$fieldLatitude->id}').set('value', elementContent.getElement('.input-latitude').value);
                 document.id('{$fieldLongitude->id}').set('value', elementContent.getElement('.input-longitude').value);
             }"
-        );
+		);
 
-        Factory::getDocument()->addScript(
-            'https://maps.google.com/maps/api/js?key=' . $params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
-        );
+		Factory::getDocument()->addScript(
+			'https://maps.google.com/maps/api/js?key=' . $params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
+		);
 
-        return $ouptut;
-    }
+		return $ouptut;
+	}
 }

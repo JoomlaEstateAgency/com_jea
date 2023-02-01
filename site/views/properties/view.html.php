@@ -8,6 +8,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Router\Route;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
@@ -20,7 +28,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
  *
  * @since       2.0
  */
-class JeaViewProperties extends JViewLegacy
+class JeaViewProperties extends HtmlView
 {
 	/**
 	 * The component parameters
@@ -46,22 +54,22 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var JPagination
+	 * @var Pagination
 	 */
 	protected $pagination;
 
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::display()
+	 * @see     HtmlView::display()
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::stylesheet('com_jea/jea.css', array('relative' => true));
+		HTMLHelper::stylesheet('com_jea/jea.css', array('relative' => true));
 
 		$state = $this->get('State');
 		$this->params = $state->params;
@@ -92,9 +100,9 @@ class JeaViewProperties extends JViewLegacy
 			{
 				$link = 'index.php?option=com_jea&view=properties&format=feed&limitstart=';
 				$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-				$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+				$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 				$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-				$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+				$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 			}
 		}
 
@@ -159,10 +167,10 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * Displays a sort link
 	 *
-	 * @param   string  $title      The link title
-	 * @param   string  $order      The order field for the column
-	 * @param   string  $direction  The current direction
-	 * @param   string  $selected   The selected ordering
+	 * @param   string $title       The link title
+	 * @param   string $order       The order field for the column
+	 * @param   string $direction   The current direction
+	 * @param   string $selected    The selected ordering
 	 *
 	 * @return string The HTML link
 	 */
@@ -175,7 +183,7 @@ class JeaViewProperties extends JViewLegacy
 		$index = intval($direction == 'desc');
 		$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		$html = '<a href="javascript:changeOrdering(\'' . $order . '\',\'' . $direction . '\');" >';
-		$html .= JText::_($title);
+		$html .= Text::_($title);
 
 		if ($order == $selected)
 		{
@@ -190,7 +198,7 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * Get the first image url in the row
 	 *
-	 * @param   object  $row  A property row object
+	 * @param   object $row A property row object
 	 *
 	 * @return  string
 	 */
@@ -199,7 +207,7 @@ class JeaViewProperties extends JViewLegacy
 		$images = json_decode($row->images);
 		$image = null;
 
-		if (! empty($images) && is_array($images))
+		if (!empty($images) && is_array($images))
 		{
 			$image = array_shift($images);
 			$imagePath = JPATH_ROOT . '/images/com_jea';
@@ -214,7 +222,7 @@ class JeaViewProperties extends JViewLegacy
 				// If the thumbnail doesn't exist, generate it and output it on the fly
 				$url = 'index.php?option=com_jea&task=thumbnail.create&size=min&id=' . $row->id . '&image=' . $image->name;
 
-				return JRoute::_($url);
+				return Route::_($url);
 			}
 		}
 
@@ -224,15 +232,15 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * Get a feature value
 	 *
-	 * @param   number  $featureId     The feature ID
-	 * @param   string  $featureTable  The feature Table name
+	 * @param   number $featureId       The feature ID
+	 * @param   string $featureTable    The feature Table name
 	 *
 	 * @return  string
 	 */
 	protected function getFeatureValue($featureId = 0, $featureTable = '')
 	{
 		// TODO: Refactor this. Use cache?
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$table = new FeaturesFactory('#__jea_' . $db->escape($featureTable), 'id', $db);
 		$table->load((int) $featureId);
 

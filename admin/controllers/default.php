@@ -22,10 +22,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
  */
 class JeaControllerDefault extends BaseController
 {
-    /**
-     * The default view for the display method.
-     *
-     * @var string
-     */
-    protected $default_view = 'properties';
+	/**
+	 * The default view for the display method.
+	 *
+	 * @var string
+	 */
+	protected $default_view = 'properties';
 }

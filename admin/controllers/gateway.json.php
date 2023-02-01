@@ -24,78 +24,79 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
  */
 class JeaControllerGateway extends BaseController
 {
-    /**
-     * Constructor.
-     *
-     * @param array $config An optional associative array of configuration settings.
-     *
-     * @see JControllerLegacy::__construct()
-     */
-    public function __construct($config = array())
-    {
-        parent::__construct($config);
-        set_exception_handler(array('JeaControllerGateway', 'error'));
-    }
+	/**
+	 * Constructor.
+	 *
+	 * @param   array $config An optional associative array of configuration settings.
+	 *
+	 * @see JControllerLegacy::__construct()
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		set_exception_handler(array('JeaControllerGateway', 'error'));
+	}
 
-    /**
-     * Custom Exception Handler
-     * displaying Exception in Json format
-     *
-     * @param Exception $e An error exception
-     *
-     * @return  void
-     */
-    public static function error($e)
-    {
-        $error = array(
-            'error' => $e->getmessage(),
-            'errorCode' => $e->getCode(),
-            'trace' => $e->getTraceAsString(),
-        );
+	/**
+	 * Custom Exception Handler
+	 * displaying Exception in Json format
+	 *
+	 * @param   Exception $e An error exception
+	 *
+	 * @return  void
+	 */
+	public static function error($e)
+	{
+		$error = array(
+			'error' => $e->getmessage(),
+			'errorCode' => $e->getCode(),
+			'trace' => $e->getTraceAsString(),
+		);
 
-        echo json_encode($error);
-    }
+		echo json_encode($error);
+	}
 
-    /**
-     * Ask the gateway to execute export
-     *
-     * @return  void
-     */
-    public function export()
-    {
-        $this->gatewayExecute('export');
-    }
+	/**
+	 * Ask the gateway to execute export
+	 *
+	 * @return  void
+	 */
+	public function export()
+	{
+		$this->gatewayExecute('export');
+	}
 
-    /**
-     * Ask the gateway to execute import
-     *
-     * @return  void
-     */
-    public function import()
-    {
-        $this->gatewayExecute('import');
-    }
+	/**
+	 * Ask the gateway to execute import
+	 *
+	 * @return  void
+	 */
+	public function import()
+	{
+		$this->gatewayExecute('import');
+	}
 
-    /**
-     * Ask the gateway to execute action
-     *
-     * @param string $task Action to execute
-     *
-     * @return  void
-     */
-    protected function gatewayExecute($task)
-    {
-        $model = $this->getModel('Gateway', 'JeaModel');
-        $gateway = $model->getItem();
-        $dispatcher = GatewaysEventDispatcher::getInstance();
-        $dispatcher->loadGateway($gateway);
+	/**
+	 * Ask the gateway to execute action
+	 *
+	 * @param   string $task Action to execute
+	 *
+	 * @return  void
+	 */
+	protected function gatewayExecute($task)
+	{
+		$model = $this->getModel('Gateway', 'JeaModel');
+		$gateway = $model->getItem();
+		$dispatcher = GatewaysEventDispatcher::getInstance();
+		$dispatcher->loadGateway($gateway);
 
-        if ($task == 'import') {
-            $dispatcher->trigger('activatePersistance');
-        }
+		if ($task == 'import')
+		{
+			$dispatcher->trigger('activatePersistance');
+		}
 
-        $responses = $dispatcher->trigger($task);
+		$responses = $dispatcher->trigger($task);
 
-        echo isset($responses[0]) ? json_encode($responses[0]) : '{}';
-    }
+		echo isset($responses[0]) ? json_encode($responses[0]) : '{}';
+	}
 }

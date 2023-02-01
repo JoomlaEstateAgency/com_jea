@@ -22,19 +22,19 @@ defined('_JEXEC') or die;
  */
 class JeaControllerFeaturelist extends AdminController
 {
-    /**
-     * Method to get a JeaModelFeature model object, loading it if required.
-     *
-     * @param string $name The model name.
-     * @param string $prefix The class prefix.
-     * @param array $config Configuration array for model.
-     *
-     * @return  JeaModelFeature|boolean  Model object on success; otherwise false on failure.
-     *
-     * @see AdminController::getModel()
-     */
-    public function getModel($name = 'Feature', $prefix = 'JeaModel', $config = array())
-    {
-        return parent::getModel($name, $prefix, $config);
-    }
+	/**
+	 * Method to get a JeaModelFeature model object, loading it if required.
+	 *
+	 * @param   string $name   The model name.
+	 * @param   string $prefix The class prefix.
+	 * @param   array  $config Configuration array for model.
+	 *
+	 * @return  JeaModelFeature|boolean  Model object on success; otherwise false on failure.
+	 *
+	 * @see AdminController::getModel()
+	 */
+	public function getModel($name = 'Feature', $prefix = 'JeaModel', $config = array())
+	{
+		return parent::getModel($name, $prefix, $config);
+	}
 }

@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -15,7 +17,7 @@ defined('_JEXEC') or die;
  * @var $this JeaViewProperty
  */
 
-JHtml::_('jquery.framework');
+HTMLHelper::_('jquery.framework');
 
 $langs = explode('-', $this->document->getLanguage());
 
@@ -27,29 +29,20 @@ $longitude = floatval($this->row->longitude);
 $address = str_replace(array("\n", "\r\n"), ' ', addslashes($this->row->address));
 $town = str_replace(array("\n", "\r\n"), ' ', addslashes($this->row->town));
 
-if (! empty($address) && ! empty($town))
-{
-	$address .= ', ' . $town . ', ' . $lang;
-}
-elseif (! empty($address))
-{
-	$address .= ', ' . $lang;
-}
-elseif (! empty($town))
-{
-	$address = $town . ', ' . $lang;
-}
-elseif (! empty($this->row->department))
-{
-	$address = addslashes($this->row->department) . ', ' . $lang;
-}
-else
-{
-	$address = $lang;
+if (!empty($address) && !empty($town)) {
+    $address .= ', ' . $town . ', ' . $lang;
+} elseif (!empty($address)) {
+    $address .= ', ' . $lang;
+} elseif (!empty($town)) {
+    $address = $town . ', ' . $lang;
+} elseif (!empty($this->row->department)) {
+    $address = addslashes($this->row->department) . ', ' . $lang;
+} else {
+    $address = $lang;
 }
 
 $this->document->addScript(
-	'https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
+    'https://maps.google.com/maps/api/js?key=' . $this->params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
 );
 
 $script = <<<JS

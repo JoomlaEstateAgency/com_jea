@@ -10,8 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Thumbnail controller class.
@@ -21,7 +24,7 @@ use Joomla\CMS\Image\Image;
  *
  * @since       2.0
  */
-class JeaControllerThumbnail extends JControllerLegacy
+class JeaControllerThumbnail extends BaseController
 {
 	/**
 	 * Create a thumbnail
@@ -34,14 +37,14 @@ class JeaControllerThumbnail extends JControllerLegacy
 	{
 		// @var JApplicationWeb  $application
 
-		$application = JFactory::getApplication();
-		$output      = '';
-		$size        = $this->input->getCmd('size', '');
-		$image       = $_REQUEST['image'];
-		$id          = $this->input->getInt('id', 0);
-		$imagePath   = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
-		$thumbDir    = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
-		$thumbPath   = $thumbDir . '/' . $id . '-' . $image;
+		$application = Factory::getApplication();
+		$output = '';
+		$size = $this->input->getCmd('size', '');
+		$image = $_REQUEST['image'];
+		$id = $this->input->getInt('id', 0);
+		$imagePath = JPATH_ROOT . '/images/com_jea/images/' . $id . '/' . $image;
+		$thumbDir = JPATH_ROOT . '/images/com_jea/thumb-' . $size;
+		$thumbPath = $thumbDir . '/' . $id . '-' . $image;
 
 		if (empty($image))
 		{
@@ -64,7 +67,7 @@ class JeaControllerThumbnail extends JControllerLegacy
 				Folder::create($thumbDir);
 			}
 
-			$params = JComponentHelper::getParams('com_jea');
+			$params = ComponentHelper::getParams('com_jea');
 
 			if ($size == 'medium')
 			{
@@ -83,7 +86,7 @@ class JeaControllerThumbnail extends JControllerLegacy
 
 			if ($cropThumbnails)
 			{
-				$thumb = $image->resize($width, $height, true, JImage::SCALE_OUTSIDE);
+				$thumb = $image->resize($width, $height, true, Image::SCALE_OUTSIDE);
 				$left = $thumb->getWidth() > $width ? intval(($thumb->getWidth() - $width) / 2) : 0;
 				$top = $thumb->getHeight() > $height ? intval(($thumb->getHeight() - $height) / 2) : 0;
 				$thumb->crop($width, $height, $left, $top, false);

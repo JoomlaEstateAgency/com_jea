@@ -122,6 +122,7 @@
 			subtype="slogans"
 			label="COM_JEA_FIELD_SLOGAN_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -364,6 +365,7 @@
 			subtype="conditions"
 			label="COM_JEA_FIELD_CONDITION_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -444,6 +446,7 @@
 			subtype="hotwatertypes"
 			label="COM_JEA_FIELD_HOTWATERTYPE_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -452,6 +455,7 @@
 			subtype="heatingtypes"
 			label="COM_JEA_FIELD_HEATINGTYPE_LABEL"
 			filter="intval"
+			default="0"
 		/>
 	</fieldset>
 </form>

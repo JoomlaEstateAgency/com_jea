@@ -8,6 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +21,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerProperties extends JControllerLegacy
+class JeaControllerProperties extends BaseController
 {
 	/**
 	 * The default view for the display method.
@@ -34,7 +37,7 @@ class JeaControllerProperties extends JControllerLegacy
 	 */
 	public function search()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$app->input->set('layout', 'default');
 		$this->display();
 	}

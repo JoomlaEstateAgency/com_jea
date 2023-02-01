@@ -18,9 +18,10 @@ JLoader::register('JeaHelperUtility', __DIR__ . '/helpers/utility.php');
 
 $input = Factory::getApplication()->getInput();
 
-if ($input->getCmd('task') == '') {
-    // In order to execute controllers/default.php as default controller and display as default method
-    $input->set('task', 'default.display');
+if ($input->getCmd('task') == '')
+{
+	// In order to execute controllers/default.php as default controller and display as default method
+	$input->set('task', 'default.display');
 }
 
 $controller = JControllerLegacy::getInstance('jea');

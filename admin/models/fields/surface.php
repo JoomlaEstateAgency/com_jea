@@ -26,24 +26,24 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldSurface extends TextField
 {
-    /**
-     * The form field type.
-     *
-     * @var string
-     */
-    protected $type = 'Surface';
+	/**
+	 * The form field type.
+	 *
+	 * @var string
+	 */
+	protected $type = 'Surface';
 
-    /**
-     * Method to get the field input markup.
-     *
-     * @return string The field input markup.
-     */
-    protected function getInput()
-    {
-        $input = parent::getInput();
-        $params = ComponentHelper::getParams('com_jea');
-        $surface_measure = $params->get('surface_measure', 'm²');
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return string The field input markup.
+	 */
+	protected function getInput()
+	{
+		$input = parent::getInput();
+		$params = ComponentHelper::getParams('com_jea');
+		$surface_measure = $params->get('surface_measure', 'm²');
 
-        return $input . ' <span class="input-suffix">' . $surface_measure . '</span>';
-    }
+		return $input . ' <span class="input-suffix">' . $surface_measure . '</span>';
+	}
 }

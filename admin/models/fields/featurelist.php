@@ -28,125 +28,138 @@ use \Joomla\CMS\Factory;
  */
 class JFormFieldFeatureList extends ListField
 {
-    /**
-     * The form field type.
-     *
-     * @var string
-     */
-    public $type = 'featureList';
+	/**
+	 * The form field type.
+	 *
+	 * @var string
+	 */
+	public $type = 'featureList';
 
-    /**
-     * Method to get the list of features.
-     *
-     * @return  string The field input markup.
-     *
-     * @see     JHtmlFeatures
-     */
-    protected function getInput()
-    {
-        HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
+	/**
+	 * Method to get the list of features.
+	 *
+	 * @return  string The field input markup.
+	 *
+	 * @see     JHtmlFeatures
+	 */
+	protected function getInput()
+	{
+		HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
 
-        $subtype = (string)$this->element['subtype'];
+		$subtype = (string) $this->element['subtype'];
 
-        $params = array(
-            'id' => $this->id,
-            'class' => (string)$this->element['class']
-        );
+		$params = array(
+			'id' => $this->id,
+			'class' => (string) $this->element['class']
+		);
 
-        if (isset($this->element['size'])) {
-            $params['size'] = (string)$this->element['size'];
-        }
+		if (isset($this->element['size']))
+		{
+			$params['size'] = (string) $this->element['size'];
+		}
 
-        if (isset($this->element['multiple'])) {
-            $params['multiple'] = (string)$this->element['multiple'];
-        }
+		if (isset($this->element['multiple']))
+		{
+			$params['multiple'] = (string) $this->element['multiple'];
+		}
 
-        if (isset($this->element['onchange'])) {
-            $params['onchange'] = (string)$this->element['onchange'];
-        }
+		if (isset($this->element['onchange']))
+		{
+			$params['onchange'] = (string) $this->element['onchange'];
+		}
 
-        $group = null;
+		$group = null;
 
-        switch ($this->form->getName()) {
-            case 'com_menus.item':
-                $group = 'params';
-                break;
-            case 'com_jea.properties.filter':
-            case 'com_jea.featurelist.filter':
-                $group = 'filter';
-                break;
-        }
+		switch ($this->form->getName())
+		{
+			case 'com_menus.item':
+				$group = 'params';
+				break;
+			case 'com_jea.properties.filter':
+			case 'com_jea.featurelist.filter':
+				$group = 'filter';
+				break;
+		}
 
-        // Verify if some fields have relashionship
-        $hasRelationShip = $this->_hasRelationShip();
+		// Verify if some fields have relashionship
+		$hasRelationShip = $this->_hasRelationShip();
 
-        switch ($subtype) {
-            case 'departments':
+		switch ($subtype)
+		{
+			case 'departments':
 
-                if ($hasRelationShip) {
-                    $this->_ajaxUpdateList('department_id', 'town_id', 'get_towns');
-                }
+				if ($hasRelationShip)
+				{
+					$this->_ajaxUpdateList('department_id', 'town_id', 'get_towns');
+				}
 
-                break;
-            case 'towns':
+				break;
+			case 'towns':
 
-                if ($hasRelationShip) {
-                    $this->_ajaxUpdateList('town_id', 'area_id', 'get_areas');
+				if ($hasRelationShip)
+				{
+					$this->_ajaxUpdateList('town_id', 'area_id', 'get_areas');
 
-                    return HTMLHelper::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, null));
-                }
+					return HTMLHelper::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, null));
+				}
 
-            case 'areas':
+			case 'areas':
 
-                if ($hasRelationShip) {
-                    return HTMLHelper::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, null));
-                }
-        }
+				if ($hasRelationShip)
+				{
+					return HTMLHelper::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, null));
+				}
+		}
 
-        return HTMLHelper::_('features.' . $subtype, $this->value, $this->name, $params);
-    }
+		return HTMLHelper::_('features.' . $subtype, $this->value, $this->name, $params);
+	}
 
-    /**
-     * Verify relationship component parameter
-     *
-     * @return  boolean
-     */
-    private function _hasRelationShip()
-    {
-        if (isset($this->element['norelation'])) {
-            return false;
-        }
+	/**
+	 * Verify relationship component parameter
+	 *
+	 * @return  boolean
+	 */
+	private function _hasRelationShip()
+	{
+		if (isset($this->element['norelation']))
+		{
+			return false;
+		}
 
-        $params = ComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 
-        return (bool)$params->get('relationship_dpts_towns_area', 1);
-    }
+		return (bool) $params->get('relationship_dpts_towns_area', 1);
+	}
 
-    /**
-     * Add AJAX behavior
-     *
-     * @param string $fromId The Element ID where the event come from
-     * @param string $toId The target Element ID
-     * @param string $task The AJAX controller task
-     *
-     * @return  void
-     */
-    private function _ajaxUpdateList($fromId, $toId, $task)
-    {
-        if (isset($this->element['noajax'])) {
-            return;
-        }
+	/**
+	 * Add AJAX behavior
+	 *
+	 * @param   string $fromId The Element ID where the event come from
+	 * @param   string $toId   The target Element ID
+	 * @param   string $task   The AJAX controller task
+	 *
+	 * @return  void
+	 */
+	private function _ajaxUpdateList($fromId, $toId, $task)
+	{
+		if (isset($this->element['noajax']))
+		{
+			return;
+		}
 
-        if ($this->form->getName() == 'com_menus.item') {
-            $fieldTo = $this->form->getField('filter_' . $toId, 'params');
-        } else {
-            $fieldTo = $this->form->getField($toId);
-        }
+		if ($this->form->getName() == 'com_menus.item')
+		{
+			$fieldTo = $this->form->getField('filter_' . $toId, 'params');
+		}
+		else
+		{
+			$fieldTo = $this->form->getField($toId);
+		}
 
-        if (!empty($fieldTo->id)) {
-
-            Factory::getDocument()->addScriptDeclaration(
-                "
+		if (!empty($fieldTo->id))
+		{
+			Factory::getDocument()->addScriptDeclaration(
+				"
 jQuery(document).ready(function($) {
 	$('#{$this->id}').change(function(e) {
 		$.ajax({
@@ -169,7 +182,7 @@ jQuery(document).ready(function($) {
 	});
 });
 				"
-            );
-        }
-    }
+			);
+		}
+	}
 }

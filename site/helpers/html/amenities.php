@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -30,8 +32,8 @@ abstract class JHtmlAmenities
 	/**
 	 * Method to get an HTML list of amenities
 	 *
-	 * @param   mixed   $value   string or array of amenities ids
-	 * @param   string  $format  The wanted format (ol, li, raw (default))
+	 * @param   mixed   $value  string or array of amenities ids
+	 * @param   string  $format The wanted format (ol, li, raw (default))
 	 *
 	 * @return string HTML for the list.
 	 */
@@ -84,9 +86,9 @@ abstract class JHtmlAmenities
 	/**
 	 * Return HTML list of amenities as checkboxes
 	 *
-	 * @param   array   $values    The checkboxes values
-	 * @param   string  $name      The attribute name for the checkboxes
-	 * @param   string  $idSuffix  An optional ID suffix for the checkboxes
+	 * @param   array   $values     The checkboxes values
+	 * @param   string  $name       The attribute name for the checkboxes
+	 * @param   string  $idSuffix   An optional ID suffix for the checkboxes
 	 *
 	 * @return string Html list
 	 */
@@ -111,7 +113,7 @@ abstract class JHtmlAmenities
 				}
 
 				$html .= '<li><input name="' . $name . '[]" id="' . $id . '" type="checkbox" value="' . $row->id . '" ' . $checked . ' /> '
-						. '<label for="' . $id . '">' . $row->value . '</label></li>' . "\n";
+					. '<label for="' . $id . '">' . $row->value . '</label></li>' . "\n";
 			}
 
 			$html .= "</ul>";
@@ -129,11 +131,11 @@ abstract class JHtmlAmenities
 	{
 		if (self::$amenities === null)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$query = $db->getQuery(true);
 			$query->select('a.id , a.value');
 			$query->from('#__jea_amenities AS a');
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			$query->order('a.ordering');
 			$db->setQuery($query);
 

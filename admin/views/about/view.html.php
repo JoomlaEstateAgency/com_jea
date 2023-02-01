@@ -24,49 +24,53 @@ defined('_JEXEC') or die;
  */
 class JeaViewAbout extends HtmlView
 {
-    /**
-     * The sidebar output
-     *
-     * @var string
-     */
-    protected $sidebar = '';
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
 
-    /**
-     * Overrides parent method.
-     *
-     * @param string $tpl The name of the template file to parse.
-     *
-     * @see     HtmlView::display()
-     */
-    public function display($tpl = null)
-    {
-        JeaHelper::addSubmenu('about');
-        ToolbarHelper::title('Joomla Estate Agency', 'jea');
+	/**
+	 * Overrides parent method.
+	 *
+	 * @param   string $tpl The name of the template file to parse.
+	 *
+	 * @see     HtmlView::display()
+	 *
+	 * @return  mixed A string if successful, otherwise an Error object.
+	 */
+	public function display($tpl = null)
+	{
+		JeaHelper::addSubmenu('about');
+		ToolbarHelper::title('Joomla Estate Agency', 'jea');
 
-        $canDo = JeaHelper::getActions();
+		$canDo = JeaHelper::getActions();
 
-        if ($canDo->get('core.admin')) {
-            ToolbarHelper::preferences('com_jea');
-        }
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::preferences('com_jea');
+		}
 
-        $this->sidebar = Sidebar::render();
+		$this->sidebar = Sidebar::render();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Get version of JEA
-     *
-     * @return string
-     */
-    protected function getVersion()
-    {
-        if (is_file(JPATH_COMPONENT . '/jea.xml')) {
-            $xml = simplexml_load_file(JPATH_COMPONENT . '/jea.xml');
+	/**
+	 * Get version of JEA
+	 *
+	 * @return string
+	 */
+	protected function getVersion()
+	{
+		if (is_file(JPATH_COMPONENT . '/jea.xml'))
+		{
+			$xml = simplexml_load_file(JPATH_COMPONENT . '/jea.xml');
 
-            return $xml->version;
-        }
+			return $xml->version;
+		}
 
-        return '';
-    }
+		return '';
+	}
 }

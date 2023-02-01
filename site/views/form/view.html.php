@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,12 +24,12 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewForm extends JViewLegacy
+class JeaViewForm extends HtmlView
 {
 	/**
 	 * The form object
 	 *
-	 * @var JForm
+	 * @var Form
 	 */
 	protected $form;
 
@@ -51,7 +57,7 @@ class JeaViewForm extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -59,10 +65,10 @@ class JeaViewForm extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::stylesheet('com_jea/jea.css', array('relative' => true));
+		HTMLHelper::stylesheet('com_jea/jea.css', array('relative' => true));
 
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
+		$app = Factory::getApplication();
+		$user = $app->getIdentity();
 
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
@@ -78,9 +84,9 @@ class JeaViewForm extends JViewLegacy
 				// When user is not authenticated
 				if ($this->params->get('login_behavior') == 'before')
 				{
-					$return = base64_encode(JFactory::getURI());
-					$message = JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST');
-					$redirect = JRoute::_('index.php?option=com_users&view=login&return=' . $return, false);
+					$return = base64_encode(JUri::getInstance());
+					$message = Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST');
+					$redirect = Route::_('index.php?option=com_users&view=login&return=' . $return, false);
 					$app->redirect($redirect, $message);
 				}
 				else
@@ -111,7 +117,7 @@ class JeaViewForm extends JViewLegacy
 
 		if (!$authorised)
 		{
-			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		parent::display($tpl);

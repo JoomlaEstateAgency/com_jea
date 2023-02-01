@@ -25,68 +25,72 @@ defined('_JEXEC') or die;
  */
 class JeaViewFeatures extends HtmlView
 {
-    /**
-     * Array of managed features
-     *
-     * @var stdClass[]
-     */
-    protected $items;
+	/**
+	 * Array of managed features
+	 *
+	 * @var stdClass[]
+	 */
+	protected $items;
 
-    /**
-     * The model state
-     *
-     * @var Jobject
-     */
-    protected $state;
+	/**
+	 * The model state
+	 *
+	 * @var Jobject
+	 */
+	protected $state;
 
-    /**
-     * The sidebar output
-     *
-     * @var string
-     */
-    protected $sidebar = '';
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
 
-    /**
-     * Overrides parent method.
-     *
-     * @param string $tpl The name of the template file to parse.
-     *
-     * @see     HtmlView::display()
-     */
-    public function display($tpl = null)
-    {
-        $this->items = $this->get('Items');
-        $this->state = $this->get('State');
+	/**
+	 * Overrides parent method.
+	 *
+	 * @param   string $tpl The name of the template file to parse.
+	 *
+	 * @see     HtmlView::display()
+	 *
+	 * @return  mixed A string if successful, otherwise an Error object.
+	 */
+	public function display($tpl = null)
+	{
+		$this->items = $this->get('Items');
+		$this->state = $this->get('State');
 
-        JeaHelper::addSubmenu('features');
+		JeaHelper::addSubmenu('features');
 
-        $this->addToolbar();
+		$this->addToolbar();
 
-        $this->sidebar = Sidebar::render();
+		$this->sidebar = Sidebar::render();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return void
-     */
-    protected function addToolbar()
-    {
-        $canDo = JeaHelper::getActions();
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return void
+	 */
+	protected function addToolbar()
+	{
+		$canDo = JeaHelper::getActions();
 
-        ToolbarHelper::title(Text::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea');
+		ToolbarHelper::title(Text::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea');
 
-        if ($canDo->get('core.manage')) {
-            ToolbarHelper::custom('features.import', 'database', '', 'Import', false);
-        }
+		if ($canDo->get('core.manage'))
+		{
+			ToolbarHelper::custom('features.import', 'database', '', 'Import', false);
+		}
 
-        ToolbarHelper::custom('features.export', 'download', '', 'Export', false);
+		ToolbarHelper::custom('features.export', 'download', '', 'Export', false);
 
-        if ($canDo->get('core.admin')) {
-            ToolbarHelper::divider();
-            ToolbarHelper::preferences('com_jea');
-        }
-    }
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::divider();
+			ToolbarHelper::preferences('com_jea');
+		}
+	}
 }

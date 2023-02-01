@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerProperty extends JControllerForm
+class JeaControllerProperty extends FormController
 {
 	/**
 	 * The URL view item variable.
@@ -37,34 +43,34 @@ class JeaControllerProperty extends JControllerForm
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   array  $data  An array of input data.
+	 * @param   array $data An array of input data.
 	 *
 	 * @return  boolean
 	 *
-	 * @see JControllerForm::allowAdd()
+	 * @see FormController::allowAdd()
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 
 		if (!$user->authorise('core.create', 'com_jea'))
 		{
-			$app = JFactory::getApplication();
-			$uri = JFactory::getURI();
+			$app = Factory::getApplication();
+			$uri = Uri::getInstance();
 			$return = base64_encode($uri);
 
 			if ($user->get('id'))
 			{
-				$this->setMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->setMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 			}
 			else
 			{
-				$this->setMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->setMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 			}
 
 			// Save the data in the session.
 			$app->setUserState('com_jea.edit.property.data', $data);
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login&return=' . $return, false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login&return=' . $return, false));
 
 			return $this->redirect();
 		}
@@ -75,8 +81,8 @@ class JeaControllerProperty extends JControllerForm
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   array   $data  An array of input data.
-	 * @param   string  $key   The name of the key for the primary key; default is id.
+	 * @param   array   $data   An array of input data.
+	 * @param   string  $key    The name of the key for the primary key; default is id.
 	 *
 	 * @return  boolean
 	 *
@@ -86,7 +92,7 @@ class JeaControllerProperty extends JControllerForm
 	{
 		// Initialise variables.
 		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$asset = 'com_jea.property.' . $recordId;
 
 		// Check general edit permission first.
@@ -138,13 +144,13 @@ class JeaControllerProperty extends JControllerForm
 	/**
 	 * Publish/Unpublish a property
 	 *
-	 * @param   integer  $action  0 -> unpublish, 1 -> publish
+	 * @param   integer $action 0 -> unpublish, 1 -> publish
 	 *
 	 * @return  void
 	 */
 	public function publish($action = 1)
 	{
-		$id = JFactory::getApplication()->input->get('id', 0, 'int');
+		$id = Factory::getApplication()->input->get('id', 0, 'int');
 		$this->getModel()->publish($id, $action);
 		$this->setRedirect(JRoute::_('index.php?option=com_jea&view=properties' . $this->getRedirectToListAppend(), false));
 	}
@@ -156,26 +162,26 @@ class JeaControllerProperty extends JControllerForm
 	 */
 	public function delete()
 	{
-		$id = JFactory::getApplication()->input->get('id', 0, 'int');
+		$id = Factory::getApplication()->input->get('id', 0, 'int');
 
 		if ($this->getModel()->delete($id))
 		{
 			$this->setMessage(JText::_('COM_JEA_SUCCESSFULLY_REMOVED_PROPERTY'));
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_jea&view=properties' . $this->getRedirectToListAppend(), false));
+		$this->setRedirect(Route::_('index.php?option=com_jea&view=properties' . $this->getRedirectToListAppend(), false));
 	}
 
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $name   The model name. Optional.
+	 * @param   string  $prefix The class prefix. Optional.
+	 * @param   array   $config Configuration array for model. Optional.
 	 *
 	 * @return  JeaModelForm|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @see JControllerLegacy::getModel()
+	 * @see FormController::getModel()
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
@@ -187,8 +193,8 @@ class JeaControllerProperty extends JControllerForm
 	/**
 	 *  Overrides parent method.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   integer $recordId   The primary key id for the item.
+	 * @param   string  $urlVar     The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
@@ -226,7 +232,7 @@ class JeaControllerProperty extends JControllerForm
 		$append = '&layout=manage';
 
 		// Try to redirect to the manage menu item if found
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$menu = $app->getMenu();
 		$activeItem = $menu->getActive();
 

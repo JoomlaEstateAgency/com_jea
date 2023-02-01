@@ -26,54 +26,60 @@ defined('_JEXEC') or die;
  */
 class JeaViewTools extends HtmlView
 {
-    /**
-     * The sidebar output
-     *
-     * @var string
-     */
-    protected $sidebar = '';
+	/**
+	 * The sidebar output
+	 *
+	 * @var string
+	 */
+	protected $sidebar = '';
 
-    /**
-     * Overrides parent method.
-     *
-     * @param string $tpl The name of the template file to parse.
-     * @see     HtmlView::display()
-     */
-    public function display($tpl = null)
-    {
-        JeaHelper::addSubmenu('tools');
-        ToolbarHelper::title(Text::_('COM_JEA_TOOLS'), 'jea');
+	/**
+	 * Overrides parent method.
+	 *
+	 * @param   string $tpl The name of the template file to parse.
+	 * @see     HtmlView::display()
+	 *
+	 * @return  mixed A string if successful, otherwise an Error object.
+	 */
+	public function display($tpl = null)
+	{
+		JeaHelper::addSubmenu('tools');
+		ToolbarHelper::title(Text::_('COM_JEA_TOOLS'), 'jea');
 
-        $canDo = JeaHelper::getActions();
+		$canDo = JeaHelper::getActions();
 
-        if ($canDo->get('core.admin')) {
-            ToolbarHelper::preferences('com_jea');
-        }
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::preferences('com_jea');
+		}
 
-        $this->sidebar = Sidebar::render();
+		$this->sidebar = Sidebar::render();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Return tools icons.
-     *
-     * @return  array  An array of icons
-     */
-    protected function getIcons()
-    {
-        $buttons = JeaHelper::getToolsIcons();
+	/**
+	 * Return tools icons.
+	 *
+	 * @return  array  An array of icons
+	 */
+	protected function getIcons()
+	{
+		$buttons = JeaHelper::getToolsIcons();
 
-        foreach ($buttons as $button) {
-            if (!empty($button['name'])) {
-                $styleSheet = 'media/com_jea/' . $button['name'] . '/styles.css';
+		foreach ($buttons as $button)
+		{
+			if (!empty($button['name']))
+			{
+				$styleSheet = 'media/com_jea/' . $button['name'] . '/styles.css';
 
-                if (file_exists(JPATH_ROOT . '/' . $styleSheet)) {
-                    HTMLHelper::stylesheet($styleSheet);
-                }
-            }
-        }
+				if (file_exists(JPATH_ROOT . '/' . $styleSheet))
+				{
+					HTMLHelper::stylesheet($styleSheet);
+				}
+			}
+		}
 
-        return HTMLHelper::_('icons.buttons', $buttons);
-    }
+		return HTMLHelper::_('icons.buttons', $buttons);
+	}
 }

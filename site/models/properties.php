@@ -10,6 +10,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Event\Event;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,11 +24,11 @@ use Joomla\Utilities\ArrayHelper;
  * @package     Joomla.Site
  * @subpackage  com_jea
  *
- * @see         JModelList
+ * @see         ListModel
  *
  * @since       2.0
  */
-class JeaModelProperties extends JModelList
+class JeaModelProperties extends ListModel
 {
 	/**
 	 * Model context string.
@@ -64,9 +70,9 @@ class JeaModelProperties extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see JModelList
+	 * @see ListModel
 	 */
 	public function __construct($config = array())
 	{
@@ -90,7 +96,7 @@ class JeaModelProperties extends JModelList
 		}
 
 		// Add a context by Itemid
-		$itemId = JFactory::getApplication()->input->getInt('Itemid', 0);
+		$itemId = Factory::getApplication()->input->getInt('Itemid', 0);
 
 		if ($itemId > 0)
 		{
@@ -103,16 +109,16 @@ class JeaModelProperties extends JModelList
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering    An optional ordering field.
+	 * @param   string $direction   An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
-	 * @see JModelList::populateState()
+	 * @see ListModel::populateState()
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('site');
+		$app = Factory::getApplication();
 
 		// Load the parameters.
 		$params = $app->getParams();
@@ -124,12 +130,12 @@ class JeaModelProperties extends JModelList
 		{
 			$state = $this->getUserStateFromRequest($this->context . '.filter.' . $name, 'filter_' . $name, $defaultValue, 'none', false);
 
-			if (! $searchContext && ! empty($state))
+			if (!$searchContext && !empty($state))
 			{
 				/*
-				 This flag indiquate that some filters are set by an user, so the context is a search.
-				 * It will be usefull in the view to retrieve this flag.
-				 */
+                 This flag indiquate that some filters are set by an user, so the context is a search.
+                 * It will be usefull in the view to retrieve this flag.
+                 */
 				$searchContext = true;
 			}
 			else
@@ -137,7 +143,7 @@ class JeaModelProperties extends JModelList
 				// Get component menuitem parameters
 				$state2 = $params->get('filter_' . $name, $defaultValue);
 
-				if (! empty($state2))
+				if (!empty($state2))
 				{
 					$state = $state2;
 				}
@@ -195,17 +201,17 @@ class JeaModelProperties extends JModelList
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @see JModelList::getListQuery()
+	 * @see ListModel::getListQuery()
 	 */
 	protected function getListQuery()
 	{
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Include the jea plugins for the onBeforeSearchQuery event.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$query = $db->getQuery(true);
 
 		$query->select('p.*');
@@ -250,7 +256,7 @@ class JeaModelProperties extends JModelList
 
 			$this->setState('filter.language', $lang);
 
-			$user = JFactory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 			$canEdit = $user->authorise('core.edit', 'com_jea');
 			$canEditOwn = $user->authorise('core.edit.own', 'com_jea');
 
@@ -262,26 +268,26 @@ class JeaModelProperties extends JModelList
 
 			if (!$canEditOwn)
 			{
-				throw new \RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'));
+				throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
 		else
 		{
 			if ($this->getState('filter.language'))
 			{
-				$query->where('p.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$query->where('p.language in (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			$query->where('p.published=1');
 
 			// Filter by access level
-			$user = JFactory::getUser();
+			$user = Factory::getApplication()->getIdentity();
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('p.access IN (' . $groups . ')');
 
 			// Filter by start and end dates.
 			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toSql());
+			$nowDate = $db->Quote(Factory::getDate()->toSql());
 
 			$query->where('(p.publish_up = ' . $nullDate . ' OR p.publish_up <= ' . $nowDate . ')');
 			$query->where('(p.publish_down = ' . $nullDate . ' OR p.publish_down >= ' . $nowDate . ')');
@@ -461,7 +467,7 @@ class JeaModelProperties extends JModelList
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		$dispatcher->trigger('onBeforeSearch', array(&$query, &$this->state));
+		$dispatcher->dispatch('onBeforeSearch', new Event('onBeforeSearch', array(&$query, &$this->state)));
 
 		return $query;
 	}
@@ -481,14 +487,14 @@ class JeaModelProperties extends JModelList
 	/**
 	 * Return the min max values for a column
 	 *
-	 * @param   string  $fieldName         The column name
-	 * @param   string  $transaction_type  Optional transaction type to filter on
+	 * @param   string $fieldName        The column name
+	 * @param   string $transaction_type Optional transaction type to filter on
 	 *
 	 * @return  integer[]
 	 */
 	public function getFieldLimit($fieldName = '', $transaction_type = '')
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 		$col = '`' . $db->escape($fieldName) . '`';
 		$query->select("MIN($col) AS min_value, MAX($col) AS max_value");

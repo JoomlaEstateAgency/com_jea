@@ -25,169 +25,195 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/propertyInterface.php';
  */
 class JeaGatewayImportJea extends JeaGatewayImport
 {
-    /**
-     * The gateway parser method.
-     *
-     * @return JEAPropertyInterface[]
-     */
-    protected function &parse()
-    {
-        // @var JEAPropertyInterface[] $properties
-        $properties = array();
-        $importDir = $this->params->get('import_directory');
+	/**
+	 * The gateway parser method.
+	 *
+	 * @return JEAPropertyInterface[]
+	 */
+	protected function &parse()
+	{
+		// @var JEAPropertyInterface[] $properties
+		$properties = array();
+		$importDir = $this->params->get('import_directory');
 
-        if (!Folder::exists($importDir)) {
-            // Maybe a relative path to Joomla ?
-            if (!Folder::exists(JPATH_ROOT . '/' . trim($importDir, '/'))) {
-                throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_DIRECTORY_NOT_FOUND', $importDir));
-            }
+		if (!Folder::exists($importDir))
+		{
+			// Maybe a relative path to Joomla ?
+			if (!Folder::exists(JPATH_ROOT . '/' . trim($importDir, '/')))
+			{
+				throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_DIRECTORY_NOT_FOUND', $importDir));
+			}
 
-            $importDir = JPATH_ROOT . '/' . trim($importDir, '/');
-        }
+			$importDir = JPATH_ROOT . '/' . trim($importDir, '/');
+		}
 
-        $tmpDirs = $this->extractZips($importDir);
+		$tmpDirs = $this->extractZips($importDir);
 
-        if (empty($tmpDirs)) {
-            return $properties;
-        }
+		if (empty($tmpDirs))
+		{
+			return $properties;
+		}
 
-        foreach ($tmpDirs as $dir) {
-            $xmlFiles = Folder::files($dir, '.(xml|XML)$', false, true);
+		foreach ($tmpDirs as $dir)
+		{
+			$xmlFiles = Folder::files($dir, '.(xml|XML)$', false, true);
 
-            if (empty($xmlFiles)) {
-                continue;
-            }
+			if (empty($xmlFiles))
+			{
+				continue;
+			}
 
-            $xmlFile = array_shift($xmlFiles);
-            $this->parseXML($properties, $xmlFile);
-        }
+			$xmlFile = array_shift($xmlFiles);
+			$this->parseXML($properties, $xmlFile);
+		}
 
-        return $properties;
-    }
+		return $properties;
+	}
 
-    /**
-     * Extract Zip files and return extracting directories
-     *
-     * @param string $importDir The directory where to find zip files
-     *
-     * @return  array
-     */
-    protected function extractZips($importDir)
-    {
-        $tmpDirs = array();
-        $tmpPath = Factory::getApplication()->get('tmp_path');
+	/**
+	 * Extract Zip files and return extracting directories
+	 *
+	 * @param   string $importDir The directory where to find zip files
+	 *
+	 * @return  array
+	 */
+	protected function extractZips($importDir)
+	{
+		$tmpDirs = array();
+		$tmpPath = Factory::getApplication()->get('tmp_path');
 
-        // Find zip files
-        $zips = Folder::files($importDir, '.(zip|ZIP)$', false, true);
+		// Find zip files
+		$zips = Folder::files($importDir, '.(zip|ZIP)$', false, true);
 
-        if (empty($zips)) {
-            throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_NO_ZIP_FOUND', $importDir));
-        }
+		if (empty($zips))
+		{
+			throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_NO_ZIP_FOUND', $importDir));
+		}
 
-        // Extract zips
-        foreach ($zips as $zipfile) {
-            $tmpDir = $tmpPath . '/' . basename($zipfile);
+		// Extract zips
+		foreach ($zips as $zipfile)
+		{
+			$tmpDir = $tmpPath . '/' . basename($zipfile);
 
-            if (!Folder::create($tmpDir)) {
-                throw new Exception(Text::sprintf('COM_JEA_ERROR_CANNOT_CREATE_DIR', $tmpDir));
-            }
+			if (!Folder::create($tmpDir))
+			{
+				throw new Exception(Text::sprintf('COM_JEA_ERROR_CANNOT_CREATE_DIR', $tmpDir));
+			}
 
-            $tmpDirs[] = $tmpDir;
+			$tmpDirs[] = $tmpDir;
 
-            $archive = new Joomla\Archive\Archive();
-            if (!$archive->extract($zipfile, $tmpDir)) {
-                throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_CANNOT_EXTRACT_ZIP', $zipfile));
-            }
-        }
+			$archive = new;
 
-        return $tmpDirs;
-    }
+			if (!$archive->extract($zipfile, $tmpDir))
+			{
+				throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_CANNOT_EXTRACT_ZIP', $zipfile));
+			}
+		}
 
-    /**
-     * Xml parser
-     *
-     * @param array $properties Will be filled with JEAPropertyInterface instances
-     * @param string $xmlFile The xml file path
-     *
-     * @return  void
-     *
-     * @throws Exception if xml cannot be parsed
-     */
-    protected function parseXML(&$properties, $xmlFile = '')
-    {
-        $xml = $this->parseXmlFile($xmlFile);
-        $currentDirectory = dirname($xmlFile);
+		return $tmpDirs;
+	}
 
-        // Check root tag
-        if ($xml->getName() != 'jea') {
-            throw new Exception("$xmlFile is not an export from JEA");
-        }
+	/**
+	 * Xml parser
+	 *
+	 * @param   array   $properties Will be filled with JEAPropertyInterface instances
+	 * @param   string  $xmlFile    The xml file path
+	 *
+	 * @return  void
+	 *
+	 * @throws Exception if xml cannot be parsed
+	 */
+	protected function parseXML(&$properties, $xmlFile = '')
+	{
+		$xml = $this->parseXmlFile($xmlFile);
+		$currentDirectory = dirname($xmlFile);
 
-        $children = $xml->children();
+		// Check root tag
+		if ($xml->getName() != 'jea')
+		{
+			throw new Exception("$xmlFile is not an export from JEA");
+		}
 
-        foreach ($children as $child) {
-            if ($child->getName() != 'property') {
-                continue;
-            }
+		$children = $xml->children();
 
-            $fields = $child->children();
-            $property = new JEAPropertyInterface;
+		foreach ($children as $child)
+		{
+			if ($child->getName() != 'property')
+			{
+				continue;
+			}
 
-            $ref = (string)$child->ref;
+			$fields = $child->children();
+			$property = new JEAPropertyInterface;
 
-            // Ref must be unique
-            if (isset($properties[$ref])) {
-                $ref .= '-' . (string)$child->id;
-            }
+			$ref = (string) $child->ref;
 
-            foreach ($fields as $field) {
-                $fieldName = $field->getName();
+			// Ref must be unique
+			if (isset($properties[$ref]))
+			{
+				$ref .= '-' . (string) $child->id;
+			}
 
-                if ($fieldName == 'id') {
-                    continue;
-                }
+			foreach ($fields as $field)
+			{
+				$fieldName = $field->getName();
 
-                if ($fieldName == 'images') {
-                    $images = $field->children();
+				if ($fieldName == 'id')
+				{
+					continue;
+				}
 
-                    foreach ($images as $image) {
-                        if (File::exists($currentDirectory . '/' . $image->name)) {
-                            $property->images[] = $currentDirectory . '/' . $image->name;
-                        }
-                    }
+				if ($fieldName == 'images')
+				{
+					$images = $field->children();
 
-                    continue;
-                }
+					foreach ($images as $image)
+					{
+						if (File::exists($currentDirectory . '/' . $image->name))
+						{
+							$property->images[] = $currentDirectory . '/' . $image->name;
+						}
+					}
 
-                if ($fieldName == 'amenities') {
-                    $amenities = $field->children();
+					continue;
+				}
 
-                    foreach ($amenities as $amenity) {
-                        $property->amenities[] = (string)$amenity;
-                    }
+				if ($fieldName == 'amenities')
+				{
+					$amenities = $field->children();
 
-                    continue;
-                }
+					foreach ($amenities as $amenity)
+					{
+						$property->amenities[] = (string) $amenity;
+					}
 
-                $value = (string)$field;
+					continue;
+				}
 
-                if ($fieldName == 'ref') {
-                    $value = $ref;
-                }
+				$value = (string) $field;
 
-                // Filter values
-                if (ctype_digit($value)) {
-                    $value = (int)$value;
-                }
+				if ($fieldName == 'ref')
+				{
+					$value = $ref;
+				}
 
-                if (property_exists($property, $fieldName)) {
-                    $property->$fieldName = $value;
-                } else {
-                    $property->addAdditionalField($fieldName, $value);
-                }
-            }
+				// Filter values
+				if (ctype_digit($value))
+				{
+					$value = (int) $value;
+				}
 
-            $properties[$ref] = $property;
-        }
-    }
+				if (property_exists($property, $fieldName))
+				{
+					$property->$fieldName = $value;
+				}
+				else
+				{
+					$property->addAdditionalField($fieldName, $value);
+				}
+			}
+
+			$properties[$ref] = $property;
+		}
+	}
 }

@@ -31,109 +31,115 @@ require_once JPATH_COMPONENT . '/tables/features.php';
  */
 class JeaModelFeature extends AdminModel
 {
-    /**
-     * Overrides parent method
-     *
-     * @param array $data Data for the form.
-     * @param boolean $loadData True if the form is to load its own data (default case), false if not.
-     *
-     * @return  Form|boolean  A JForm object on success, false on failure
-     *
-     * @see AdminModel::getForm()
-     */
-    public function getForm($data = array(), $loadData = true)
-    {
-        $feature = $this->getState('feature.name');
-        $formFile = $this->getState('feature.form');
-        $form = $this->loadForm('com_jea.feature.' . $feature, $formFile, array('control' => 'jform', 'load_data' => $loadData));
+	/**
+	 * Overrides parent method
+	 *
+	 * @param   array   $data       Data for the form.
+	 * @param   boolean $loadData   True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  Form|boolean  A JForm object on success, false on failure
+	 *
+	 * @see AdminModel::getForm()
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		$feature = $this->getState('feature.name');
+		$formFile = $this->getState('feature.form');
+		$form = $this->loadForm('com_jea.feature.' . $feature, $formFile, array('control' => 'jform', 'load_data' => $loadData));
 
-        $form->setFieldAttribute('ordering', 'filter', 'unset');
+		$form->setFieldAttribute('ordering', 'filter', 'unset');
 
-        if (empty($form)) {
-            return false;
-        }
+		if (empty($form))
+		{
+			return false;
+		}
 
-        return $form;
-    }
+		return $form;
+	}
 
-    /**
-     * Overrides parent method.
-     *
-     * @return  void
-     *
-     * @see JModelAdmin::populateState()
-     */
-    public function populateState()
-    {
-        /*
+	/**
+	 * Overrides parent method.
+	 *
+	 * @return  void
+	 *
+	 * @see JModelAdmin::populateState()
+	 */
+	public function populateState()
+	{
+		/*
          * Be careful to not call parent::populateState() because this will cause an
          * infinite call of this method in JeaModelFeature::getTable()
          */
-        $input = Factory::getApplication()->input;
-        $feature = $input->getCmd('feature');
-        $this->setState('feature.name', $feature);
+		$input = Factory::getApplication()->input;
+		$feature = $input->getCmd('feature');
+		$this->setState('feature.name', $feature);
 
-        // Retrieve the feature table params
-        $xmlPath = JPATH_COMPONENT . '/models/forms/features/';
-        $xmlFiles = Folder::files($xmlPath);
+		// Retrieve the feature table params
+		$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
+		$xmlFiles = Folder::files($xmlPath);
 
-        foreach ($xmlFiles as $filename) {
-            $matches = array();
+		foreach ($xmlFiles as $filename)
+		{
+			$matches = array();
 
-            if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches)) {
-                if ($feature == $matches[1]) {
-                    $form = simplexml_load_file($xmlPath . '/' . $filename);
-                    $this->setState('feature.table', (string)$form['table']);
-                    $this->setState('feature.form', $xmlPath . $filename);
-                }
-            }
-        }
+			if (preg_match('/^[0-9]{2}-([a-z]*).xml/', $filename, $matches))
+			{
+				if ($feature == $matches[1])
+				{
+					$form = simplexml_load_file($xmlPath . '/' . $filename);
+					$this->setState('feature.table', (string) $form['table']);
+					$this->setState('feature.form', $xmlPath . $filename);
+				}
+			}
+		}
 
-        // Get the pk of the record from the request.
-        $pk = $input->getInt('id');
-        $this->setState($this->getName() . '.id', $pk);
-    }
+		// Get the pk of the record from the request.
+		$pk = $input->getInt('id');
+		$this->setState($this->getName() . '.id', $pk);
+	}
 
-    /**
-     * Overrides parent method
-     *
-     * @return  array  The default data is an empty array.
-     *
-     * @see AdminModel::loadFormData()
-     */
-    protected function loadFormData()
-    {
-        // Check the session for previously entered form data. See JControllerForm::save()
-        $data = Factory::getApplication()->getUserState('com_jea.edit.feature.data', array());
+	/**
+	 * Overrides parent method
+	 *
+	 * @return  array  The default data is an empty array.
+	 *
+	 * @see AdminModel::loadFormData()
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data. See JControllerForm::save()
+		$data = Factory::getApplication()->getUserState('com_jea.edit.feature.data', array());
 
-        if (empty($data)) {
-            $data = $this->getItem();
-        }
+		if (empty($data))
+		{
+			$data = $this->getItem();
+		}
 
-        return $data;
-    }
+		return $data;
+	}
 
-    /**
-     * Overrides parent method
-     *
-     * @param string $name The table name. Optional.
-     * @param string $prefix The class prefix. Optional.
-     * @param array $options Configuration array for model. Optional.
-     *
-     * @return  Table  A JTable object
-     *
-     * @see AdminModel::getTable()
-     */
-    public function getTable($name = '', $prefix = 'Table', $options = array())
-    {
-        static $table;
+	/**
+	 * Overrides parent method
+	 *
+	 * @param   string  $name    The table name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $options Configuration array for model. Optional.
+	 *
+	 * @return  Table  A JTable object
+	 *
+	 * @see AdminModel::getTable()
+	 */
+	public function getTable($name = '', $prefix = 'Table', $options = array())
+	{
+		static $table;
 
-        if ($table === null) {
-            $tableName = $this->getState('feature.table');
-            $db = Factory::getContainer()->get(DatabaseDriver::class);
-            $table = new FeaturesFactory($db->escape($tableName), 'id', $db);
-        }
+		if ($table === null)
+		{
+			$tableName = $this->getState('feature.table');
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			$table = new FeaturesFactory($db->escape($tableName), 'id', $db);
+		}
 
-        return $table;
-    }
+		return $table;
+	}
 }

@@ -26,65 +26,68 @@ defined('_JEXEC') or die;
  */
 class JeaViewFeature extends HtmlView
 {
-    /**
-     * The form object
-     *
-     * @var Form
-     */
-    protected $form;
+	/**
+	 * The form object
+	 *
+	 * @var Form
+	 */
+	protected $form;
 
-    /**
-     * The database record
-     *
-     * @var JObject|boolean
-     */
-    protected $item;
+	/**
+	 * The database record
+	 *
+	 * @var JObject|boolean
+	 */
+	protected $item;
 
-    /**
-     * The model state
-     *
-     * @var JObject
-     */
-    protected $state;
+	/**
+	 * The model state
+	 *
+	 * @var JObject
+	 */
+	protected $state;
 
-    /**
-     * Overrides parent method.
-     *
-     * @param string $tpl The name of the template file to parse.
-     *
-     * @see     HtmlView::display()
-     */
-    public function display($tpl = null)
-    {
-        $this->form = $this->get('Form');
-        $this->item = $this->get('Item');
-        $this->state = $this->get('State');
+	/**
+	 * Overrides parent method.
+	 *
+	 * @param   string $tpl The name of the template file to parse.
+	 *
+	 * @see     HtmlView::display()
+	 *
+	 * @return  mixed A string if successful, otherwise an Error object.
+	 */
+	public function display($tpl = null)
+	{
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 
-        $this->addToolbar();
+		$this->addToolbar();
 
-        parent::display($tpl);
-    }
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @return void
-     */
-    protected function addToolbar()
-    {
-        Factory::getApplication()->input->set('hidemainmenu', true);
-        $canDo = JeaHelper::getActions();
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return void
+	 */
+	protected function addToolbar()
+	{
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$canDo = JeaHelper::getActions();
 
-        $title = $this->item->id ? Text::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : Text::_('JACTION_CREATE');
-        ToolbarHelper::title($title, 'jea');
+		$title = $this->item->id ? Text::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : Text::_('JACTION_CREATE');
+		ToolbarHelper::title($title, 'jea');
 
-        // For new records, check the create permission.
-        if ($canDo->get('core.create')) {
-            ToolbarHelper::apply('feature.apply');
-            ToolbarHelper::save('feature.save');
-            ToolbarHelper::save2new('feature.save2new');
-        }
+		// For new records, check the create permission.
+		if ($canDo->get('core.create'))
+		{
+			ToolbarHelper::apply('feature.apply');
+			ToolbarHelper::save('feature.save');
+			ToolbarHelper::save2new('feature.save2new');
+		}
 
-        ToolbarHelper::cancel('feature.cancel');
-    }
+		ToolbarHelper::cancel('feature.cancel');
+	}
 }

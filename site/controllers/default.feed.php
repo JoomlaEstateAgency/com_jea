@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerDefault extends JControllerLegacy
+class JeaControllerDefault extends BaseController
 {
 	/**
 	 * The default view for the display method.

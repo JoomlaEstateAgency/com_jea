@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -29,8 +31,8 @@ abstract class JHtmlUtility
 	 * Format price following the component configuration.
 	 * If price is empty, return a default string value.
 	 *
-	 * @param   float|int  $price    The price as number
-	 * @param   string     $default  Default value if price equals 0
+	 * @param   float|int   $price    The price as number
+	 * @param   string      $default  Default value if price equals 0
 	 *
 	 * @return  string
 	 */
@@ -38,7 +40,7 @@ abstract class JHtmlUtility
 	{
 		$params = self::getParams();
 
-		if (! empty($price))
+		if (!empty($price))
 		{
 			$currency_symbol = $params->get('currency_symbol', '&euro;');
 			$price = self::formaNumber($price);
@@ -65,8 +67,8 @@ abstract class JHtmlUtility
 	 * Format surface following the component configuration.
 	 * If surface is empty, return a default string value.
 	 *
-	 * @param   float|int  $surface  The surface as number
-	 * @param   string     $default  Default value if surface equals 0
+	 * @param   float|int   $surface The surface as number
+	 * @param   string      $default Default value if surface equals 0
 	 *
 	 * @return  string
 	 */
@@ -88,7 +90,7 @@ abstract class JHtmlUtility
 	/**
 	 * Format number following the component configuration.
 	 *
-	 * @param   float|int  $number  The number to format
+	 * @param   float|int $number The number to format
 	 *
 	 * @return  string
 	 */
@@ -112,7 +114,7 @@ abstract class JHtmlUtility
 	{
 		if (self::$params == null)
 		{
-			self::$params = JComponentHelper::getParams('com_jea');
+			self::$params = ComponentHelper::getParams('com_jea');
 		}
 
 		return self::$params;

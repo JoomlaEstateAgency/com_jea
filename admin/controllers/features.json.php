@@ -24,90 +24,96 @@ defined('_JEXEC') or die;
  */
 class JeaControllerFeatures extends BaseController
 {
-    /**
-     * Get list of areas in relation with a town
-     *
-     * @return void
-     */
-    public function get_areas()
-    {
-        $response = false;
+	/**
+	 * Get list of areas in relation with a town
+	 *
+	 * @return void
+	 */
+	public function get_areas()
+	{
+		$response = false;
 
-        // Require town id
-        if ($town_id = $this->input->getInt('town_id', 0)) {
-            $db = Factory::getContainer()->get(DatabaseDriver::class);
-            $query = $db->getQuery(true);
-            $query->select('f.id , f.value');
-            $query->from('#__jea_areas AS f');
-            $query->where('town_id=' . $town_id);
-            $query->order('f.value ASC');
-            $db->setQuery($query);
-            $response = $db->loadObjectList();
-        }
+		// Require town id
+		if ($town_id = $this->input->getInt('town_id', 0))
+		{
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			$query = $db->getQuery(true);
+			$query->select('f.id , f.value');
+			$query->from('#__jea_areas AS f');
+			$query->where('town_id=' . $town_id);
+			$query->order('f.value ASC');
+			$db->setQuery($query);
+			$response = $db->loadObjectList();
+		}
 
-        echo json_encode($response);
-    }
+		echo json_encode($response);
+	}
 
-    /**
-     * Get list of towns in relation with a department
-     *
-     * @return void
-     */
-    public function get_towns()
-    {
-        $response = false;
+	/**
+	 * Get list of towns in relation with a department
+	 *
+	 * @return void
+	 */
+	public function get_towns()
+	{
+		$response = false;
 
-        // Require department id
-        if ($department_id = $this->input->getInt('department_id', 0)) {
-            $db = Factory::getContainer()->get(DatabaseDriver::class);
-            $query = $db->getQuery(true);
-            $query->select('f.id , f.value');
-            $query->from('#__jea_towns AS f');
-            $query->where('department_id=' . $department_id);
-            $query->order('f.value ASC');
-            $db->setQuery($query);
-            $response = $db->loadObjectList();
-        }
+		// Require department id
+		if ($department_id = $this->input->getInt('department_id', 0))
+		{
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
+			$query = $db->getQuery(true);
+			$query->select('f.id , f.value');
+			$query->from('#__jea_towns AS f');
+			$query->where('department_id=' . $department_id);
+			$query->order('f.value ASC');
+			$db->setQuery($query);
+			$response = $db->loadObjectList();
+		}
 
-        echo json_encode($response);
-    }
+		echo json_encode($response);
+	}
 
-    /**
-     * Get a feature list filtered by language
-     *
-     * @return void
-     */
-    public function get_list()
-    {
-        // TODO: Check if this method is used
-        $response = false;
+	/**
+	 * Get a feature list filtered by language
+	 *
+	 * @return void
+	 */
+	public function get_list()
+	{
+		// TODO: Check if this method is used
+		$response = false;
 
-        $featName = $this->input->getAlnum('feature');
+		$featName = $this->input->getAlnum('feature');
 
-        if (!is_null($featName)) {
-            $model = $this->getModel('Features', 'JeaModel');
-            $features = $model->getItems();
+		if (!is_null($featName))
+		{
+			$model = $this->getModel('Features', 'JeaModel');
+			$features = $model->getItems();
 
-            if (isset($features[$featName])) {
-                if (!$language = $this->input->getString('language', '*')) {
-                    $language = '*';
-                }
+			if (isset($features[$featName]))
+			{
+				if (!$language = $this->input->getString('language', '*'))
+				{
+					$language = '*';
+				}
 
-                $db = Factory::getContainer()->get(DatabaseDriver::class);
-                $query = $db->getQuery(true);
-                $query->select('f.id , f.value');
-                $query->from($db->quoteName($features[$featName]->table) . ' AS f');
+				$db = Factory::getContainer()->get(DatabaseDriver::class);
+				$query = $db->getQuery(true);
+				$query->select('f.id , f.value');
+				$query->from($db->quoteName($features[$featName]->table) . ' AS f');
 
-                if ($language != '*') {
-                    $query->where('f.language=' . $db->quote($language) . 'OR f.language=\'*\'');
-                }
+				if ($language != '*')
+				{
+					$query->where('f.language=' . $db->quote($language) . 'OR f.language=\'*\'');
+				}
 
-                $query->order('f.value ASC');
-                $db->setQuery($query);
-                $response = $db->loadObjectList();
-            }
-        }
+				$query->order('f.value ASC');
+				$db->setQuery($query);
+				$response = $db->loadObjectList();
+			}
+		}
 
-        echo json_encode($response);
-    }
+		echo json_encode($response);
+	}
 }

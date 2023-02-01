@@ -28,89 +28,97 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldAmenities extends FormField
 {
-    /**
-     * The form field type.
-     *
-     * @var string
-     */
-    protected $type = 'Amenities';
+	/**
+	 * The form field type.
+	 *
+	 * @var string
+	 */
+	protected $type = 'Amenities';
 
-    /**
-     * Flag to tell the field to always be in multiple values mode.
-     *
-     * @var boolean
-     */
-    protected $forceMultiple = true;
+	/**
+	 * Flag to tell the field to always be in multiple values mode.
+	 *
+	 * @var boolean
+	 */
+	protected $forceMultiple = true;
 
-    /**
-     * Method to get the field input markup for check boxes.
-     *
-     * @return string The field input markup.
-     */
-    protected function getInput()
-    {
-        $options = $this->getOptions();
-        $output = '<ul id="amenities">';
+	/**
+	 * Method to get the field input markup for check boxes.
+	 *
+	 * @return string The field input markup.
+	 */
+	protected function getInput()
+	{
+		$options = $this->getOptions();
+		$output = '<ul id="amenities">';
 
-        if (!empty($this->value)) {
-            // Preformat data if comes from db
-            if (!is_array($this->value)) {
-                $this->value = explode('-', $this->value);
-            }
-        } else {
-            $this->value = array();
-        }
+		if (!empty($this->value))
+		{
+			// Preformat data if comes from db
+			if (!is_array($this->value))
+			{
+				$this->value = explode('-', $this->value);
+			}
+		}
+		else
+		{
+			$this->value = array();
+		}
 
-        foreach ($options as $k => $row) {
-            $checked = '';
-            $class = '';
+		foreach ($options as $k => $row)
+		{
+			$checked = '';
+			$class = '';
 
-            if (in_array($row->id, $this->value)) {
-                $checked = 'checked="checked"';
-                $class = 'active';
-            }
+			if (in_array($row->id, $this->value))
+			{
+				$checked = 'checked="checked"';
+				$class = 'active';
+			}
 
-            $title = '';
-            $label = HTMLHelper::_('string.truncate', $row->value, 23, false, false);
+			$title = '';
+			$label = HTMLHelper::_('string.truncate', $row->value, 23, false, false);
 
-            if ($row->value != $label) {
-                $title = ' title="' . $row->value . '"';
-            }
+			if ($row->value != $label)
+			{
+				$title = ' title="' . $row->value . '"';
+			}
 
-            $output .= '<li class="amenity ' . $class . '">';
+			$output .= '<li class="amenity ' . $class . '">';
 
-            $output .= '<input class="am-input" type="checkbox" name="' . $this->name . '"'
-                . ' id="' . $this->id . $k . '" value="' . $row->id . '" ' . $checked . ' />'
-                . '<label class="am-title" for="' . $this->id . $k . '" ' . $title . '>' . $label . '</label>';
+			$output .= '<input class="am-input" type="checkbox" name="' . $this->name . '"'
+				. ' id="' . $this->id . $k . '" value="' . $row->id . '" ' . $checked . ' />'
+				. '<label class="am-title" for="' . $this->id . $k . '" ' . $title . '>' . $label . '</label>';
 
-            $output .= '</li>';
-        }
+			$output .= '</li>';
+		}
 
-        $output .= '</ul>';
+		$output .= '</ul>';
 
-        return $output;
-    }
+		return $output;
+	}
 
-    /**
-     * Method to get the field options.
-     *
-     * @return  array  The field option objects.
-     */
-    protected function getOptions()
-    {
-        $db = Factory::getContainer()->get(DatabaseDriver::class);
-        $query = $db->getQuery(true);
+	/**
+	 * Method to get the field options.
+	 *
+	 * @return  array  The field option objects.
+	 */
+	protected function getOptions()
+	{
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
+		$query = $db->getQuery(true);
 
-        $query->select('f.id , f.value');
-        $query->from('#__jea_amenities AS f');
+		$query->select('f.id , f.value');
+		$query->from('#__jea_amenities AS f');
 
-        if (Factory::getApplication()->isClient('site')) {
-            $query->where('f.language in (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-        }
+		if (Factory::getApplication()->isClient('site'))
+		{
+			$query->where('f.language in (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
 
-        $query->order('f.value ASC');
-        $db->setQuery($query);
+		$query->order('f.value ASC');
+		$db->setQuery($query);
 
-        return $db->loadObjectList();
-    }
+		return $db->loadObjectList();
+	}
 }

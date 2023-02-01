@@ -8,9 +8,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 /**
  * Property item view.
@@ -20,7 +27,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
  *
  * @since       2.0
  */
-class JeaViewProperty extends JViewLegacy
+class JeaViewProperty extends HtmlView
 {
 	/**
 	 * The component parameters
@@ -53,7 +60,7 @@ class JeaViewProperty extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -61,7 +68,7 @@ class JeaViewProperty extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::stylesheet('com_jea/jea.css', array('relative' => true));
+		HTMLHelper::stylesheet('com_jea/jea.css', array('relative' => true));
 
 		$this->state = $this->get('State');
 		$item = $this->get('Item');
@@ -69,7 +76,7 @@ class JeaViewProperty extends JViewLegacy
 
 		if (!$item)
 		{
-			throw new RuntimeException(JText::_('COM_JEA_PROPERTY_NOT_FOUND'));
+			throw new RuntimeException(Text::_('COM_JEA_PROPERTY_NOT_FOUND'));
 		}
 
 		$this->row = $item;
@@ -79,7 +86,7 @@ class JeaViewProperty extends JViewLegacy
 
 		if (empty($item->title))
 		{
-			$pageTitle = ucfirst(JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($item->type), $this->escape($item->town)));
+			$pageTitle = ucfirst(Text::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($item->type), $this->escape($item->town)));
 		}
 		else
 		{
@@ -88,11 +95,11 @@ class JeaViewProperty extends JViewLegacy
 
 		$this->page_title = $pageTitle;
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$pathway = $app->getPathway();
 		$pathway->addItem($pageTitle);
 
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->setTitle($pageTitle);
 
 		parent::display($tpl);
@@ -101,8 +108,8 @@ class JeaViewProperty extends JViewLegacy
 	/**
 	 * Get the previous and next links relative to the property
 	 *
-	 * @param   string  $previousPrefix  Previous prefix
-	 * @param   string  $nextPrefix      Next prefix
+	 * @param   string $previousPrefix  Previous prefix
+	 * @param   string $nextPrefix      Next prefix
 	 *
 	 * @return  string
 	 */
@@ -110,8 +117,8 @@ class JeaViewProperty extends JViewLegacy
 	{
 		$res = $this->get('previousAndNext');
 		$html = '';
-		$previous = $previousPrefix . JText::_('JPREVIOUS');
-		$next = JText::_('JNEXT') . $nextPrefix;
+		$previous = $previousPrefix . Text::_('JPREVIOUS');
+		$next = Text::_('JNEXT') . $nextPrefix;
 
 		if ($res['prev'])
 		{
@@ -137,7 +144,7 @@ class JeaViewProperty extends JViewLegacy
 	/**
 	 * Build the property link
 	 *
-	 * @param   object  $item  The property row
+	 * @param   object $item The property row
 	 *
 	 * @return  string
 	 */
@@ -145,7 +152,7 @@ class JeaViewProperty extends JViewLegacy
 	{
 		$slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
-		return JRoute::_('index.php?option=com_jea&view=property&id=' . $slug);
+		return Route::_('index.php?option=com_jea&view=property&id=' . $slug);
 	}
 
 	/**
@@ -155,16 +162,16 @@ class JeaViewProperty extends JViewLegacy
 	 */
 	protected function displayCaptcha()
 	{
-		$plugin = JFactory::getConfig()->get('captcha');
+		$plugin = Factory::getApplication()->get('captcha');
 
 		if ($plugin == '0')
 		{
 			$plugin = 'recaptcha';
 		}
 
-		$captcha = JCaptcha::getInstance($plugin, array('namespace' => 'contact'));
+		$captcha = Captcha::getInstance($plugin, array('namespace' => 'contact'));
 
-		if ($captcha instanceof JCaptcha)
+		if ($captcha instanceof Captcha)
 		{
 			return $captcha->display('captcha', 'jea-captcha', 'required');
 		}

@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerProperties extends JControllerLegacy
+class JeaControllerProperties extends BaseController
 {
 	/**
 	 * Generate KML
@@ -27,7 +33,7 @@ class JeaControllerProperties extends JControllerLegacy
 	 */
 	public function kml()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$Itemid = $app->input->getInt('Itemid', 0);
 
 		$model = $this->getModel('Properties', 'JeaModel', array('ignore_request' => true));
@@ -65,20 +71,20 @@ class JeaControllerProperties extends JControllerLegacy
 				$pointNode = $doc->createElement('Point');
 
 				/*
-																 * Http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
-				 * (longitude, latitude, and optional altitude)
-				 */
+                                                                 * Http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
+                 * (longitude, latitude, and optional altitude)
+                 */
 
 				$coordinates = $row->longitude . ',' . $row->latitude . ',0.000000';
 				$coordsNode = $doc->createElement('coordinates', $coordinates);
 
 				$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-				$url = JRoute::_('index.php?option=com_jea&view=property&id=' . $row->slug . '&Itemid=' . $Itemid);
+				$url = Route::_('index.php?option=com_jea&view=property&id=' . $row->slug . '&Itemid=' . $Itemid);
 
 				if (empty($row->title))
 				{
-					$name = ucfirst(JText::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $row->type, $row->town));
+					$name = ucfirst(Text::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $row->type, $row->town));
 				}
 				else
 				{
@@ -90,7 +96,7 @@ class JeaControllerProperties extends JControllerLegacy
 				$images = json_decode($row->images);
 				$image = null;
 
-				if (! empty($images) && is_array($images))
+				if (!empty($images) && is_array($images))
 				{
 					$image = array_shift($images);
 					$imagePath = JPATH_ROOT . '/images/com_jea';
@@ -99,22 +105,22 @@ class JeaControllerProperties extends JControllerLegacy
 					if (file_exists($imagePath . '/thumb-min/' . $row->id . '-' . $image->name))
 					{
 						// If the thumbnail already exists, display it directly
-						$baseURL = JURI::root(true);
+						$baseURL = Uri::root(true);
 						$imageUrl = $baseURL . '/images/com_jea/thumb-min/' . $row->id . '-' . $image->name;
 					}
 					elseif (file_exists($imagePath . '/images/' . $row->id . '/' . $image->name))
 					{
 						// If the thumbnail doesn't exist, generate it and output it on the fly
 						$url = 'index.php?option=com_jea&task=thumbnail.create&size=min&id=' . $row->id . '&image=' . $image->name;
-						$imageUrl = JRoute::_($url);
+						$imageUrl = Route::_($url);
 					}
 
 					$description .= '<img src="' . $imageUrl . '" alt="' . $image->name . '.jpg" style="float:left;margin-right:10px" />';
 				}
 
 				$description .= substr(strip_tags($row->description), 0, 255)
-							. ' ...<p><a href="' . $url . '">' . JText::_('COM_JEA_DETAIL')
-							. '</a></p><div style="clear:both"></div>';
+					. ' ...<p><a href="' . $url . '">' . Text::_('COM_JEA_DETAIL')
+					. '</a></p><div style="clear:both"></div>';
 
 				$nameCDATA = $doc->createCDATASection($name);
 				$descriptionCDATA = $doc->createCDATASection($description);

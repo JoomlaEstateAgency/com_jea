@@ -22,13 +22,13 @@ defined('_JEXEC') or die;
  */
 class TableGateway extends Table
 {
-    /**
-     * Constructor
-     *
-     * @param JDatabaseDriver $db A database diver object
-     */
-    public function __construct(&$db)
-    {
-        parent::__construct('#__jea_gateways', 'id', $db);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver $db A database diver object
+	 */
+	public function __construct(&$db)
+	{
+		parent::__construct('#__jea_gateways', 'id', $db);
+	}
 }

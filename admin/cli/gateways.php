@@ -13,24 +13,28 @@ use Joomla\CMS\Factory;
 
 $options = getopt('', array('basedir:', 'baseurl:', 'import', 'export'));
 
-if (!isset($options['import']) && !isset($options['export'])) {
-    echo "--import or --export options must be specified.";
-    exit(1);
+if (!isset($options['import']) && !isset($options['export']))
+{
+	echo "--import or --export options must be specified.";
+	exit(1);
 }
 
-if (!isset($options['basedir'])) {
-    echo "--basedir option must be set.\n";
-    exit(1);
+if (!isset($options['basedir']))
+{
+	echo "--basedir option must be set.\n";
+	exit(1);
 }
 
-if (!is_dir($options['basedir'])) {
-    echo "--basedir not found.";
-    exit(1);
+if (!is_dir($options['basedir']))
+{
+	echo "--basedir not found.";
+	exit(1);
 }
 
-if (isset($options['export']) && !isset($options['baseurl'])) {
-    echo "--baseurl option must be set.\n";
-    exit(1);
+if (isset($options['export']) && !isset($options['baseurl']))
+{
+	echo "--baseurl option must be set.\n";
+	exit(1);
 }
 
 define('JPATH_BASE', $options['basedir']);
@@ -57,24 +61,25 @@ ini_set('display_errors', 1);
  */
 class JeaGateways extends ConsoleApplication
 {
-    /**
-     * Entry point for CLI script
-     *
-     */
-    public function doExecute(): int
-    {
-        Factory::$application = $this;
+	/**
+	 * Entry point for CLI script
+	 *
+	 * @return integer the parents result
+	 */
+	public function doExecute(): int
+	{
+		Factory::$application = $this;
 
-        Factory::getApplication()->getLanguage()->load('com_jea', JPATH_COMPONENT, 'fr-FR', false, false);
+		Factory::getApplication()->getLanguage()->load('com_jea', JPATH_COMPONENT, 'fr-FR', false, false);
 
-        $task = $this->input->getBool('import') ? 'import' : 'export';
+		$task = $this->input->getBool('import') ? 'import' : 'export';
 
-        $dispatcher = GatewaysEventDispatcher::getInstance();
-        $dispatcher->loadGateways();
-        $dispatcher->trigger($task);
+		$dispatcher = GatewaysEventDispatcher::getInstance();
+		$dispatcher->loadGateways();
+		$dispatcher->trigger($task);
 
-        return parent::doExecute();
-    }
+		return parent::doExecute();
+	}
 }
 
 ConsoleApplication::getInstance('JeaGateways')->execute();
