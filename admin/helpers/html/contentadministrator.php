@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,42 +24,41 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class JHtmlContentAdministrator
 {
-	/**
-	 * Helper to display the featured icon in a list of items
-	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          The list counter value
-	 * @param   boolean  $canChange  The user right to change the state
-	 *
-	 * @return string
-	 */
-	static public function featured($value = 0, $i = 0, $canChange = true)
-	{
-		// Array of image, task, title, action
-		$states = array(
-			0 => array(
-				'disabled.png',
-				'properties.featured',
-				'COM_JEA_UNFEATURED',
-				'COM_JEA_TOGGLE_TO_FEATURE'
-			),
-			1 => array(
-				'featured.png',
-				'properties.unfeatured',
-				'COM_JEA_FEATURED',
-				'COM_JEA_TOGGLE_TO_UNFEATURE'
-			)
-		);
+    /**
+     * Helper to display the featured icon in a list of items
+     *
+     * @param int $value The state value
+     * @param int $i The list counter value
+     * @param boolean $canChange The user right to change the state
+     *
+     * @return string
+     */
+    static public function featured($value = 0, $i = 0, $canChange = true)
+    {
+        // Array of image, task, title, action
+        $states = array(
+            0 => array(
+                'disabled.png',
+                'properties.featured',
+                'COM_JEA_UNFEATURED',
+                'COM_JEA_TOGGLE_TO_FEATURE'
+            ),
+            1 => array(
+                'featured.png',
+                'properties.unfeatured',
+                'COM_JEA_FEATURED',
+                'COM_JEA_TOGGLE_TO_UNFEATURE'
+            )
+        );
 
-		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html = JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+        $state = ArrayHelper::getValue($states, (int)$value, $states[1]);
+        $html = HTMLHelper::_('image', 'admin/' . $state[0], Text::_($state[2]), null, true);
 
-		if ($canChange)
-		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">'
-					. $html . '</a>';
-		}
+        if ($canChange) {
+            $html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . Text::_($state[3]) . '">'
+                . $html . '</a>';
+        }
 
-		return $html;
-	}
+        return $html;
+    }
 }

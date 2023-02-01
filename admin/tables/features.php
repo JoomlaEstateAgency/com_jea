@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Table\Table;
+
 /**
  * FeaturesFactory table class.
  * This class provides a way to instantiate a feature table on the fly
@@ -19,21 +21,20 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class FeaturesFactory extends JTable
+class FeaturesFactory extends Table
 {
-	/**
-	 * Method to perform sanity checks before to store in the database.
-	 *
-	 * @return  boolean  True if the instance is sane and able to be stored in the database.
-	 */
-	public function check()
-	{
-		// For new insertion
-		if (empty($this->id))
-		{
-			$this->ordering = $this->getNextOrder();
-		}
+    /**
+     * Method to perform sanity checks before to store in the database.
+     *
+     * @return  boolean  True if the instance is sane and able to be stored in the database.
+     */
+    public function check()
+    {
+        // For new insertion
+        if (empty($this->id)) {
+            $this->ordering = $this->getNextOrder();
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

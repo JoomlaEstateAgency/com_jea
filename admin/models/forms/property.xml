@@ -166,6 +166,7 @@
 			subtype="departments"
 			label="COM_JEA_FIELD_DEPARTMENT_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -174,6 +175,7 @@
 			subtype="towns"
 			label="COM_JEA_FIELD_TOWN_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -182,6 +184,7 @@
 			subtype="areas"
 			label="COM_JEA_FIELD_AREA_LABEL"
 			filter="intval"
+			default="0"
 		/>
 
 		<field
@@ -228,6 +231,7 @@
 			size="6"
 			readonly="true"
 			filter="unset"
+			default="0"
 		/>
 
 		<field
@@ -256,6 +260,7 @@
 			format="%Y-%m-%d %H:%M:%S"
 			size="22"
 			filter="user_utc"
+			default="NOW"
 		/>
 
 		<field
@@ -266,6 +271,7 @@
 			format="%Y-%m-%d %H:%M:%S"
 			size="22"
 			filter="user_utc"
+			default="0000-00-00 00:00:00"
 		/>
 
 		<field
@@ -283,6 +289,7 @@
 			label="COM_JEA_FIELD_PRICE_LABEL"
 			class="numberbox"
 			size="10"
+			default="0"
 		/>
 
 		<field
@@ -301,6 +308,7 @@
 			label="COM_JEA_FIELD_CHARGES_LABEL"
 			class="numberbox"
 			size="10"
+			default="0"
 		/>
 
 		<field
@@ -309,6 +317,7 @@
 			label="COM_JEA_FIELD_FEES_LABEL"
 			class="numberbox"
 			size="10"
+			default="0"
 		/>
 
 		<field
@@ -317,6 +326,7 @@
 			label="COM_JEA_FIELD_DEPOSIT_LABEL"
 			class="numberbox"
 			size="10"
+			default="0"
 		/>
 	</fieldset>
 

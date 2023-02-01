@@ -10,16 +10,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JLoader::register('JeaHelper', __DIR__ . '/helpers/jea.php');
 JLoader::register('JeaUpload', __DIR__ . '/helpers/upload.php');
 JLoader::register('JeaHelperUtility', __DIR__ . '/helpers/utility.php');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
-if ($input->getCmd('task') == '')
-{
-	// In order to execute controllers/default.php as default controller and display as default method
-	$input->set('task', 'default.display');
+if ($input->getCmd('task') == '') {
+    // In order to execute controllers/default.php as default controller and display as default method
+    $input->set('task', 'default.display');
 }
 
 $controller = JControllerLegacy::getInstance('jea');

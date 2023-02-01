@@ -8,6 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,62 +20,60 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelList
+ * @see         ListModel
  *
  * @since       3.4
  */
-class JeaModelGateways extends JModelList
+class JeaModelGateways extends ListModel
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @see     JModelList
-	 */
-	public function __construct($config = array())
-	{
-		if (empty($config['filter_fields']))
-		{
-			$config['filter_fields'] = array(
-				'id',
-				'title',
-				'provider',
-				'published',
-				'ordering',
-			);
-		}
+    /**
+     * Constructor.
+     *
+     * @param array $config An optional associative array of configuration settings.
+     *
+     * @see     JModelList
+     */
+    public function __construct($config = array())
+    {
+        if (empty($config['filter_fields'])) {
+            $config['filter_fields'] = array(
+                'id',
+                'title',
+                'provider',
+                'published',
+                'ordering',
+            );
+        }
 
-		parent::__construct($config);
-	}
+        parent::__construct($config);
+    }
 
-	/**
-	 * Overrides parent method
-	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
-	 *
-	 * @see JModelList::getListQuery()
-	 */
-	protected function getListQuery()
-	{
-		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+    /**
+     * Overrides parent method
+     *
+     * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+     *
+     * @see ListModel::getListQuery()
+     */
+    protected function getListQuery()
+    {
+        // Create a new query object.
+        $db = Factory::getContainer()->get(DatabaseDriver::class);
+        $query = $db->getQuery(true);
 
-		$query->select('*');
-		$query->from('#__jea_gateways');
+        $query->select('*');
+        $query->from('#__jea_gateways');
 
-		if ($type = $this->state->get('filter.type'))
-		{
-			$query->where('type=' . $db->Quote($type));
-		}
+        if ($type = $this->state->get('filter.type')) {
+            $query->where('type=' . $db->Quote($type));
+        }
 
-		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'id');
-		$orderDirn = $this->state->get('list.direction', 'desc');
+        // Add the list ordering clause.
+        $orderCol = $this->state->get('list.ordering', 'id');
+        $orderDirn = $this->state->get('list.direction', 'desc');
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+        $query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		return $query;
-	}
+        return $query;
+    }
 }

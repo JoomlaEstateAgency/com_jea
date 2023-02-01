@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,63 +23,60 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewGateway extends JViewLegacy
+class JeaViewGateway extends HtmlView
 {
-	/**
-	 * The form object
-	 *
-	 * @var JForm
-	 */
-	protected $form;
+    /**
+     * The form object
+     *
+     * @var Form
+     */
+    protected $form;
 
-	/**
-	 * The database record
-	 *
-	 * @var JObject|boolean
-	 */
-	protected $item;
+    /**
+     * The database record
+     *
+     * @var JObject|boolean
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var JObject
+     */
+    protected $state;
 
-	/**
-	 * Overrides parent method.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
-	 */
-	public function display($tpl = null)
-	{
-		JeaHelper::addSubmenu('tools');
+    /**
+     * Overrides parent method.
+     *
+     * @param string $tpl The name of the template file to parse.
+     *
+     * @see     HtmlView::display()
+     */
+    public function display($tpl = null)
+    {
+        JeaHelper::addSubmenu('tools');
 
-		$this->state = $this->get('State');
+        $this->state = $this->get('State');
 
-		$title = JText::_('COM_JEA_GATEWAYS');
+        $title = Text::_('COM_JEA_GATEWAYS');
 
-		$this->item = $this->get('Item');
+        $this->item = $this->get('Item');
 
-		switch ($this->_layout)
-		{
-			case 'edit':
-				$this->form = $this->get('Form');
+        switch ($this->_layout) {
+            case 'edit':
+                $this->form = $this->get('Form');
 
-				JToolBarHelper::apply('gateway.apply');
-				JToolBarHelper::save('gateway.save');
-				JToolBarHelper::cancel('gateway.cancel');
-				$isNew = ($this->item->id == 0);
-				$title .= ' : ' . ($isNew ? JText::_('JACTION_CREATE') : JText::_('JACTION_EDIT') . ' : ' . $this->item->title);
-				break;
-		}
+                ToolbarHelper::apply('gateway.apply');
+                ToolbarHelper::save('gateway.save');
+                ToolbarHelper::cancel('gateway.cancel');
+                $isNew = ($this->item->id == 0);
+                $title .= ' : ' . ($isNew ? Text::_('JACTION_CREATE') : Text::_('JACTION_EDIT') . ' : ' . $this->item->title);
+                break;
+        }
 
-		JToolBarHelper::title($title, 'jea');
+        ToolbarHelper::title($title, 'jea');
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

@@ -8,6 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,55 +22,51 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewAbout extends JViewLegacy
+class JeaViewAbout extends HtmlView
 {
-	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
+    /**
+     * The sidebar output
+     *
+     * @var string
+     */
+    protected $sidebar = '';
 
-	/**
-	 * Overrides parent method.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
-	 */
-	public function display($tpl = null)
-	{
-		JeaHelper::addSubmenu('about');
-		JToolbarHelper::title('Joomla Estate Agency', 'jea');
+    /**
+     * Overrides parent method.
+     *
+     * @param string $tpl The name of the template file to parse.
+     *
+     * @see     HtmlView::display()
+     */
+    public function display($tpl = null)
+    {
+        JeaHelper::addSubmenu('about');
+        ToolbarHelper::title('Joomla Estate Agency', 'jea');
 
-		$canDo = JeaHelper::getActions();
+        $canDo = JeaHelper::getActions();
 
-		if ($canDo->get('core.admin'))
-		{
-			JToolBarHelper::preferences('com_jea');
-		}
+        if ($canDo->get('core.admin')) {
+            ToolbarHelper::preferences('com_jea');
+        }
 
-		$this->sidebar = JHtmlSidebar::render();
+        $this->sidebar = Sidebar::render();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Get version of JEA
-	 *
-	 * @return string
-	 */
-	protected function getVersion()
-	{
-		if (is_file(JPATH_COMPONENT . '/jea.xml'))
-		{
-			$xml = simplexml_load_file(JPATH_COMPONENT . '/jea.xml');
+    /**
+     * Get version of JEA
+     *
+     * @return string
+     */
+    protected function getVersion()
+    {
+        if (is_file(JPATH_COMPONENT . '/jea.xml')) {
+            $xml = simplexml_load_file(JPATH_COMPONENT . '/jea.xml');
 
-			return $xml->version;
-		}
+            return $xml->version;
+        }
 
-		return '';
-	}
+        return '';
+    }
 }

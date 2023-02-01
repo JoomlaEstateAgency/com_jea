@@ -10,6 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+
 /**
  * Gateways View
  *
@@ -18,85 +26,82 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewGateways extends JViewLegacy
+class JeaViewGateways extends HtmlView
 {
-	/**
-	 * The user object
-	 *
-	 * @var JUser
-	 */
-	protected $user;
+    /**
+     * The user object
+     *
+     * @var User
+     */
+    protected $user;
 
-	/**
-	 * Array of database records
-	 *
-	 * @var Jobject[]
-	 */
-	protected $items;
+    /**
+     * Array of database records
+     *
+     * @var Jobject[]
+     */
+    protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var JPagination
-	 */
-	protected $pagination;
+    /**
+     * The pagination object
+     *
+     * @var Pagination
+     */
+    protected $pagination;
 
-	/**
-	 * The model state
-	 *
-	 * @var Jobject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var Jobject
+     */
+    protected $state;
 
-	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
+    /**
+     * The sidebar output
+     *
+     * @var string
+     */
+    protected $sidebar = '';
 
-	/**
-	 * Overrides parent method.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
-	 */
-	public function display($tpl = null)
-	{
-		JeaHelper::addSubmenu('tools');
+    /**
+     * Overrides parent method.
+     *
+     * @param string $tpl The name of the template file to parse.
+     *
+     * @see     HtmlView::display()
+     */
+    public function display($tpl = null)
+    {
+        JeaHelper::addSubmenu('tools');
 
-		$this->state = $this->get('State');
+        $this->state = $this->get('State');
 
-		$this->sidebar = JHtmlSidebar::render();
+        $this->sidebar = Sidebar::render();
 
-		$title = JText::_('COM_JEA_GATEWAYS');
+        $title = Text::_('COM_JEA_GATEWAYS');
 
-		switch ($this->_layout)
-		{
-			case 'export':
-				$title = JText::_('COM_JEA_EXPORT');
-				JToolBarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_jea&view=tools');
-				break;
-			case 'import':
-				$title = JText::_('COM_JEA_IMPORT');
-				JToolBarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_jea&view=tools');
-				break;
-			default:
-				$this->user = JFactory::getUser();
-				$this->items = $this->get('Items');
-				$this->pagination = $this->get('Pagination');
-				JToolBarHelper::addNew('gateway.add');
-				JToolBarHelper::editList('gateway.edit');
-				JToolBarHelper::publish('gateways.publish', 'JTOOLBAR_PUBLISH', true);
-				JToolBarHelper::unpublish('gateways.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-				JToolBarHelper::deleteList(JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'gateways.delete');
-		}
+        switch ($this->_layout) {
+            case 'export':
+                $title = Text::_('COM_JEA_EXPORT');
+                ToolbarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_jea&view=tools');
+                break;
+            case 'import':
+                $title = Text::_('COM_JEA_IMPORT');
+                ToolbarHelper::back('JTOOLBAR_BACK', 'index.php?option=com_jea&view=tools');
+                break;
+            default:
+                $this->user = Factory::getApplication()->getIdentity();
+                $this->items = $this->get('Items');
+                $this->pagination = $this->get('Pagination');
+                ToolbarHelper::addNew('gateway.add');
+                ToolbarHelper::editList('gateway.edit');
+                ToolbarHelper::publish('gateways.publish', 'JTOOLBAR_PUBLISH', true);
+                ToolbarHelper::unpublish('gateways.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+                ToolbarHelper::deleteList(Text::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'gateways.delete');
+        }
 
-		JToolBarHelper::title($title, 'jea');
+        ToolbarHelper::title($title, 'jea');
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 }

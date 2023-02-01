@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,63 +24,56 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewTools extends JViewLegacy
+class JeaViewTools extends HtmlView
 {
-	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
+    /**
+     * The sidebar output
+     *
+     * @var string
+     */
+    protected $sidebar = '';
 
-	/**
-	 * Overrides parent method.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
-	 */
-	public function display($tpl = null)
-	{
-		JeaHelper::addSubmenu('tools');
-		JToolBarHelper::title(JText::_('COM_JEA_TOOLS'), 'jea');
+    /**
+     * Overrides parent method.
+     *
+     * @param string $tpl The name of the template file to parse.
+     * @see     HtmlView::display()
+     */
+    public function display($tpl = null)
+    {
+        JeaHelper::addSubmenu('tools');
+        ToolbarHelper::title(Text::_('COM_JEA_TOOLS'), 'jea');
 
-		$canDo = JeaHelper::getActions();
+        $canDo = JeaHelper::getActions();
 
-		if ($canDo->get('core.admin'))
-		{
-			JToolBarHelper::preferences('com_jea');
-		}
+        if ($canDo->get('core.admin')) {
+            ToolbarHelper::preferences('com_jea');
+        }
 
-		$this->sidebar = JHtmlSidebar::render();
+        $this->sidebar = Sidebar::render();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Return tools icons.
-	 *
-	 * @return  array  An array of icons
-	 */
-	protected function getIcons()
-	{
-		$buttons = JeaHelper::getToolsIcons();
+    /**
+     * Return tools icons.
+     *
+     * @return  array  An array of icons
+     */
+    protected function getIcons()
+    {
+        $buttons = JeaHelper::getToolsIcons();
 
-		foreach ($buttons as $button)
-		{
-			if (! empty($button['name']))
-			{
-				$styleSheet = 'media/com_jea/' . $button['name'] . '/styles.css';
+        foreach ($buttons as $button) {
+            if (!empty($button['name'])) {
+                $styleSheet = 'media/com_jea/' . $button['name'] . '/styles.css';
 
-				if (file_exists(JPATH_ROOT . '/' . $styleSheet))
-				{
-					JHtml::stylesheet($styleSheet);
-				}
-			}
-		}
+                if (file_exists(JPATH_ROOT . '/' . $styleSheet)) {
+                    HTMLHelper::stylesheet($styleSheet);
+                }
+            }
+        }
 
-		return JHtml::_('icons.buttons', $buttons);
-	}
+        return HTMLHelper::_('icons.buttons', $buttons);
+    }
 }

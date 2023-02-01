@@ -1,29 +1,34 @@
 <?php
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
-*
-* @package     Joomla.Administrator
-* @subpackage  com_jea
-* @copyright   Copyright (C) 2008 - 2020 PHILIP Sylvain. All rights reserved.
-* @license     GNU General Public License version 2 or later; see LICENSE.txt
-*/
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_jea
+ * @copyright   Copyright (C) 2008 - 2020 PHILIP Sylvain. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * @var $this JeaViewGateways
  */
 
-JHtml::stylesheet('media/com_jea/css/jea.admin.css');
-JHtml::_('behavior.multiselect');
+HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
+HTMLHelper::_('behavior.multiselect');
 
-$listOrder     = $this->escape($this->state->get('list.ordering'));
+$listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirection = $this->escape($this->state->get('list.direction'));
 
-if ($listOrder == 'ordering')
-{
-	$saveOrderingUrl = 'index.php?option=com_jea&task=gateways.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'gateways-list', 'adminForm', strtolower($listDirection), $saveOrderingUrl);
+if ($listOrder == 'ordering') {
+    $saveOrderingUrl = 'index.php?option=com_jea&task=gateways.saveOrderAjax&tmpl=component';
+    HTMLHelper::_('sortablelist.sortable', 'gateways-list', 'adminForm', strtolower($listDirection), $saveOrderingUrl);
 }
 
 $script = <<<JS
@@ -59,132 +64,142 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-$document = JFactory::getDocument();
+$document = Factory::getDocument();
 $document->addScriptDeclaration($script);
 ?>
 
-<div id="j-sidebar-container" class="span2">
-	<?php echo $this->sidebar ?>
+<div class="row">
+
+  <div id="j-sidebar-container" class="col-md-2">
+      <?php echo $this->sidebar ?>
+  </div>
+
+  <div id="j-sidebar-container" class="col-md-10">
+
+      <?php echo LayoutHelper::render('jea.gateways.nav', array('action' => $this->state->get('filter.type'), 'view' => 'gateways'), JPATH_COMPONENT_ADMINISTRATOR) ?>
+
+    <hr/>
+    <form action="<?php echo Route::_('index.php?option=com_jea&view=gateways') ?>" method="post"
+          name="adminForm" id="adminForm">
+
+      <table class="table table-striped" id="gateways-list">
+        <thead>
+        <tr>
+          <th width="1%" class="nowrap center">
+              <?php echo HTMLHelper::_('grid.sort', '', 'ordering', $listDirection, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+          </th>
+
+          <th width="1%" class="nowrap">
+              <?php echo HTMLHelper::_('grid.checkall') ?>
+          </th>
+
+          <th width="1%" class="nowrap">
+              <?php echo HTMLHelper::_('grid.sort', 'JSTATUS', 'published', $listDirection, $listOrder) ?>
+          </th>
+
+          <th width="86%" class="nowrap">
+              <?php echo HTMLHelper::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirection, $listOrder) ?>
+          </th>
+
+          <th width="5%" class="nowrap center">
+              <?php echo Text::_('COM_JEA_LOGS') ?>
+          </th>
+
+          <th width="5%" class="nowrap center">
+              <?php echo HTMLHelper::_('grid.sort', 'COM_JEA_GATEWAY_FIELD_PROVIDER_LABEL', 'provider', $listDirection, $listOrder) ?>
+          </th>
+
+          <th width="1%" class="nowrap hidden-phone">
+              <?php echo HTMLHelper::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirection, $listOrder); ?>
+          </th>
+        </tr>
+        </thead>
+
+        <tfoot>
+        <tr>
+          <td colspan="12"></td>
+        </tr>
+        </tfoot>
+
+        <tbody>
+        <?php foreach ($this->items as $i => $item) : ?>
+          <tr class="row<?php echo $i % 2 ?>">
+            <td width="1%" class="order nowrap center hidden-phone">
+                <?php
+                $iconClass = '';
+                if ($listOrder != 'ordering') $iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::tooltipText('JORDERINGDISABLED');
+                ?>
+              <span class="sortable-handler<?php echo $iconClass ?>"><span class="icon-menu"></span></span>
+                <?php if ($listOrder == 'ordering') : ?>
+                  <input type="text" style="display:none" name="order[]" size="5"
+                         value="<?php echo $item->ordering ?>" class="width-20 text-area-order "/>
+                <?php endif ?>
+            </td>
+
+            <td class="nowrap center">
+                <?php echo HTMLHelper::_('grid.id', $i, $item->id) ?>
+            </td>
+
+            <td width="1%" class="nowrap center">
+                <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'gateways.', true, 'cb') ?>
+            </td>
+
+            <td width="86%" class="title">
+              <a href="<?php echo Route::_('index.php?option=com_jea&task=gateway.edit&type=' . $this->state->get('filter.type') . '&id=' . (int)$item->id) ?>">
+                  <?php echo $item->title ?></a>
+            </td>
+            <td width="5%" class="nowrap center">
+              <button class="btn btn-info show-logs" data-toggle="modal" data-target="#modal"
+                      data-gateway-id="<?php echo $item->id ?>">
+                  <?php echo Text::_('COM_JEA_LOGS') ?>
+              </button>
+            </td>
+            <td width="5%" class="nowrap center">
+                <?php echo $item->provider ?>
+            </td>
+            <td class="hidden-phone">
+                <?php echo (int)$item->id ?>
+            </td>
+          </tr>
+        <?php endforeach ?>
+        </tbody>
+      </table>
+        <?php echo $this->pagination->getListFooter() ?>
+      <div>
+        <input type="hidden" name="task" value=""/>
+        <input type="hidden" name="type" value="<?php echo $this->state->get('filter.type') ?>"/>
+        <input type="hidden" name="boxchecked" value="0"/>
+        <input type="hidden" name="filter_order" value="<?php echo $listOrder ?>"/>
+        <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>"/>
+          <?php echo HTMLHelper::_('form.token') ?>
+      </div>
+    </form>
+  </div>
+
 </div>
 
-<div id="j-main-container" class="span10">
-
-	<?php echo JLayoutHelper::render('jea.gateways.nav', array('action' => $this->state->get('filter.type'), 'view' => 'gateways'), JPATH_COMPONENT_ADMINISTRATOR )?>
-
-	<hr />
-	<form action="<?php echo JRoute::_('index.php?option=com_jea&view=gateways') ?>" method="post" name="adminForm" id="adminForm">
-
-		<table class="table table-striped" id="gateways-list">
-			<thead>
-				<tr>
-					<th width="1%" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', '', 'ordering', $listDirection, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-					</th>
-
-					<th width="1%" class="nowrap">
-						<?php echo JHtml::_('grid.checkall') ?>
-					</th>
-
-					<th width="1%" class="nowrap">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirection , $listOrder ) ?>
-					</th>
-
-					<th width="86%" class="nowrap">
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirection , $listOrder ) ?>
-					</th>
-
-					<th width="5%" class="nowrap center">
-						<?php echo JText::_('COM_JEA_LOGS') ?>
-					</th>
-
-					<th width="5%" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', 'COM_JEA_GATEWAY_FIELD_PROVIDER_LABEL', 'provider', $listDirection , $listOrder ) ?>
-					</th>
-
-					<th width="1%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'id', $listDirection, $listOrder); ?>
-					</th>
-				</tr>
-			</thead>
-
-			<tfoot>
-				<tr>
-					<td colspan="12"></td>
-				</tr>
-			</tfoot>
-
-			<tbody>
-				<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="row<?php echo $i % 2 ?>">
-					<td width="1%" class="order nowrap center hidden-phone">
-					<?php
-					$iconClass = '';
-					if ($listOrder != 'ordering') $iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-					?>
-						<span class="sortable-handler<?php echo $iconClass ?>"><span class="icon-menu"></span></span>
-					<?php if ($listOrder == 'ordering') : ?>
-						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering ?>" class="width-20 text-area-order " />
-					<?php endif ?>
-					</td>
-
-					<td class="nowrap center">
-						<?php echo JHtml::_('grid.id', $i, $item->id) ?>
-					</td>
-
-					<td width="1%" class="nowrap center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'gateways.', true, 'cb') ?>
-					</td>
-
-					<td width="86%" class="title">
-						<a href="<?php echo JRoute::_('index.php?option=com_jea&task=gateway.edit&type='. $this->state->get('filter.type') .'&id='.(int) $item->id) ?>">
-						<?php echo $item->title ?></a>
-					</td>
-					<td width="5%" class="nowrap center">
-						<button class="btn btn-info show-logs" data-toggle="modal" data-target="#modal" data-gateway-id="<?php echo $item->id ?>">
-						<?php echo JText::_('COM_JEA_LOGS') ?>
-						</button>
-					</td>
-					<td width="5%" class="nowrap center">
-						<?php echo $item->provider ?>
-					</td>
-					<td class="hidden-phone">
-						<?php echo (int) $item->id ?>
-					</td>
-				</tr>
-				<?php endforeach ?>
-			</tbody>
-		</table>
-		<?php echo $this->pagination->getListFooter() ?>
-		<div>
-			<input type="hidden" name="task" value="" />
-			<input type="hidden" name="type" value="<?php echo $this->state->get('filter.type')?>" />
-			<input type="hidden" name="boxchecked" value="0" />
-			<input type="hidden" name="filter_order" value="<?php echo $listOrder ?>" />
-			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirection ?>" />
-			<?php echo JHtml::_('form.token') ?>
-		</div>
-	</form>
-</div>
-
-
-<?php ob_start()?>
+<?php ob_start() ?>
 <p>
-	<a class="ajax-refresh-logs" href="<?php echo JRoute::_('index.php?option=com_jea&task=gateway.getLogs&id=') ?>">
-		<?php echo JText::_('JGLOBAL_HELPREFRESH_BUTTON') ?>
-	</a> |
+  <a class="ajax-refresh-logs"
+     href="<?php echo Route::_('index.php?option=com_jea&task=gateway.getLogs&id=') ?>">
+      <?php echo Text::_('JGLOBAL_HELPREFRESH_BUTTON') ?>
+  </a> |
 
-	<a class="ajax-refresh-logs" href="<?php echo JRoute::_('index.php?option=com_jea&task=gateway.deleteLogs&id=') ?>" id="delete_logs">
-		<?php echo JText::_('JACTION_DELETE') ?>
-	</a> |
+  <a class="ajax-refresh-logs"
+     href="<?php echo Route::_('index.php?option=com_jea&task=gateway.deleteLogs&id=') ?>"
+     id="delete_logs">
+      <?php echo Text::_('JACTION_DELETE') ?>
+  </a> |
 
-	<a href="<?php echo JRoute::_('index.php?option=com_jea&task=gateway.downloadLogs&id=') ?>" id="download_logs">
-		<?php echo JText::_('COM_JEA_DOWNLOAD') ?>
-	</a>
+  <a href="<?php echo Route::_('index.php?option=com_jea&task=gateway.downloadLogs&id=') ?>"
+     id="download_logs">
+      <?php echo Text::_('COM_JEA_DOWNLOAD') ?>
+  </a>
 </p>
 
 <pre id="logs"></pre>
 <?php
 $modalBody = ob_get_contents();
 ob_end_clean();
-echo JHtml::_('bootstrap.renderModal', 'modal', array('title' => JText::_('COM_JEA_LOGS')), $modalBody);
+echo HTMLHelper::_('bootstrap.renderModal', 'modal', array('title' => Text::_('COM_JEA_LOGS')), $modalBody);
 ?>

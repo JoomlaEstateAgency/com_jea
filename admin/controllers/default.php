@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 /**
  * Default controller class.
  *
@@ -18,12 +20,12 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerDefault extends JControllerLegacy
+class JeaControllerDefault extends BaseController
 {
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var string
-	 */
-	protected $default_view = 'properties';
+    /**
+     * The default view for the display method.
+     *
+     * @var string
+     */
+    protected $default_view = 'properties';
 }

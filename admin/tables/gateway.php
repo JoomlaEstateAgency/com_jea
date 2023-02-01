@@ -8,6 +8,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Table\Table;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,15 +20,15 @@ defined('_JEXEC') or die;
  *
  * @since       1.0
  */
-class TableGateway extends JTable
+class TableGateway extends Table
 {
-	/**
-	 * Constructor
-	 *
-	 * @param   JDatabaseDriver  $db  A database diver object
-	 */
-	public function __construct(&$db)
-	{
-		parent::__construct('#__jea_gateways', 'id', $db);
-	}
+    /**
+     * Constructor
+     *
+     * @param JDatabaseDriver $db A database diver object
+     */
+    public function __construct(&$db)
+    {
+        parent::__construct('#__jea_gateways', 'id', $db);
+    }
 }

@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,70 +24,67 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewFeature extends JViewLegacy
+class JeaViewFeature extends HtmlView
 {
-	/**
-	 * The form object
-	 *
-	 * @var JForm
-	 */
-	protected $form;
+    /**
+     * The form object
+     *
+     * @var Form
+     */
+    protected $form;
 
-	/**
-	 * The database record
-	 *
-	 * @var JObject|boolean
-	 */
-	protected $item;
+    /**
+     * The database record
+     *
+     * @var JObject|boolean
+     */
+    protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var JObject
-	 */
-	protected $state;
+    /**
+     * The model state
+     *
+     * @var JObject
+     */
+    protected $state;
 
-	/**
-	 * Overrides parent method.
-	 *
-	 * @param   string  $tpl  The name of the template file to parse.
-	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
-	 */
-	public function display($tpl = null)
-	{
-		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
-		$this->state = $this->get('State');
+    /**
+     * Overrides parent method.
+     *
+     * @param string $tpl The name of the template file to parse.
+     *
+     * @see     HtmlView::display()
+     */
+    public function display($tpl = null)
+    {
+        $this->form = $this->get('Form');
+        $this->item = $this->get('Item');
+        $this->state = $this->get('State');
 
-		$this->addToolbar();
+        $this->addToolbar();
 
-		parent::display($tpl);
-	}
+        parent::display($tpl);
+    }
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return void
-	 */
-	protected function addToolbar()
-	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$canDo = JeaHelper::getActions();
+    /**
+     * Add the page title and toolbar.
+     *
+     * @return void
+     */
+    protected function addToolbar()
+    {
+        Factory::getApplication()->input->set('hidemainmenu', true);
+        $canDo = JeaHelper::getActions();
 
-		$title = $this->item->id ? JText::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : JText::_('JACTION_CREATE');
-		JToolBarHelper::title($title, 'jea');
+        $title = $this->item->id ? Text::_('JACTION_EDIT') . ' ' . $this->escape($this->item->value) : Text::_('JACTION_CREATE');
+        ToolbarHelper::title($title, 'jea');
 
-		// For new records, check the create permission.
-		if ($canDo->get('core.create'))
-		{
-			JToolBarHelper::apply('feature.apply');
-			JToolBarHelper::save('feature.save');
-			JToolBarHelper::save2new('feature.save2new');
-		}
+        // For new records, check the create permission.
+        if ($canDo->get('core.create')) {
+            ToolbarHelper::apply('feature.apply');
+            ToolbarHelper::save('feature.save');
+            ToolbarHelper::save2new('feature.save2new');
+        }
 
-		JToolBarHelper::cancel('feature.cancel');
-	}
+        ToolbarHelper::cancel('feature.cancel');
+    }
 }

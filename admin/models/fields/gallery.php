@@ -10,7 +10,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Form Field class for JEA.
@@ -23,97 +27,85 @@ use Joomla\CMS\Image\Image;
  *
  * @since       2.0
  */
-class JFormFieldGallery extends JFormField
+class JFormFieldGallery extends FormField
 {
-	/**
-	 * The form field type.
-	 *
-	 * @var string
-	 */
-	protected $type = 'Gallery';
+    /**
+     * The form field type.
+     *
+     * @var string
+     */
+    protected $type = 'Gallery';
 
-	/**
-	 * Method to get the list of input[type="file"]
-	 *
-	 * @return string The field input markup.
-	 */
-	protected function getInput()
-	{
-		$params = JComponentHelper::getParams('com_jea');
+    /**
+     * Method to get the list of input[type="file"]
+     *
+     * @return string The field input markup.
+     */
+    protected function getInput()
+    {
+        $params = ComponentHelper::getParams('com_jea');
 
-		if (is_string($this->value))
-		{
-			$images = (array) json_decode($this->value);
-		}
-		else
-		{
-			$images = (array) $this->value;
+        if (is_string($this->value)) {
+            $images = (array)json_decode($this->value);
+        } else {
+            $images = (array)$this->value;
 
-			foreach ($images as $k => $image)
-			{
-				$images[$k] = (object) $image;
-			}
-		}
+            foreach ($images as $k => $image) {
+                $images[$k] = (object)$image;
+            }
+        }
 
-		$propertyId = $this->form->getValue('id');
+        $propertyId = $this->form->getValue('id');
 
-		$baseURL = JUri::root(true);
-		$imgBaseURL = $baseURL . '/images/com_jea/images/' . $propertyId;
-		$imgBasePath = JPATH_ROOT . '/images/com_jea/images/' . $propertyId;
+        $baseURL = Uri::root(true);
+        $imgBaseURL = $baseURL . '/images/com_jea/images/' . $propertyId;
+        $imgBasePath = JPATH_ROOT . '/images/com_jea/images/' . $propertyId;
 
-		foreach ($images as $k => &$image)
-		{
-			$imgPath = $imgBasePath . '/' . $image->name;
+        foreach ($images as $k => &$image) {
+            $imgPath = $imgBasePath . '/' . $image->name;
 
-			try
-			{
-				$infos = Image::getImageFileProperties($imgPath);
-			}
-			catch (Exception $e)
-			{
-				$image->error = 'Recorded Image ' . $image->name . ' cannot be accessed';
-				continue;
-			}
+            try {
+                $infos = Image::getImageFileProperties($imgPath);
+            } catch (Exception $e) {
+                $image->error = 'Recorded Image ' . $image->name . ' cannot be accessed';
+                continue;
+            }
 
-			$thumbName = 'thumb-admin-' . $image->name;
+            $thumbName = 'thumb-admin-' . $image->name;
 
-			// Create the thumbnail
-			if (!file_exists($imgBasePath . '/' . $thumbName))
-			{
-				try
-				{
-					// This is where the JImage will be used, so only create it here
-					$JImage = new JImage($imgPath);
-					$thumb = $JImage->resize(150, 90);
-					$thumb->crop(150, 90, 0, 0);
-					$thumb->toFile($imgBasePath . '/' . $thumbName);
+            // Create the thumbnail
+            if (!file_exists($imgBasePath . '/' . $thumbName)) {
+                try {
+                    // This is where the JImage will be used, so only create it here
+                    $JImage = new Image($imgPath);
+                    $thumb = $JImage->resize(150, 90);
+                    $thumb->crop(150, 90, 0, 0);
+                    $thumb->toFile($imgBasePath . '/' . $thumbName);
 
-					// To avoid memory overconsumption, destroy the JImage. We don't need it anymore
-					$JImage->destroy();
-					$thumb->destroy();
-				}
-				catch (Exception $e)
-				{
-					$image->error = 'Thumbnail for ' . $image->name . ' cannot be generated';
-					continue;
-				}
-			}
+                    // To avoid memory overconsumption, destroy the JImage. We don't need it anymore
+                    $JImage->destroy();
+                    $thumb->destroy();
+                } catch (Exception $e) {
+                    $image->error = 'Thumbnail for ' . $image->name . ' cannot be generated';
+                    continue;
+                }
+            }
 
-			$image->thumbUrl = $imgBaseURL . '/' . $thumbName;
-			$image->url = $imgBaseURL . '/' . $image->name;
+            $image->thumbUrl = $imgBaseURL . '/' . $thumbName;
+            $image->url = $imgBaseURL . '/' . $image->name;
 
-			// Kbytes
-			$image->weight = round($infos->bits / 1024, 1);
-			$image->height = $infos->height;
-			$image->width = $infos->width;
-		}
+            // Kbytes
+            $image->weight = round($infos->bits / 1024, 1);
+            $image->height = $infos->height;
+            $image->width = $infos->width;
+        }
 
-		$layoutModel = array (
-			'uploadNumber' => $params->get('img_upload_number', 3),
-			'images' => $images,
-			'name' => $this->name,
-		);
+        $layoutModel = array(
+            'uploadNumber' => $params->get('img_upload_number', 3),
+            'images' => $images,
+            'name' => $this->name,
+        );
 
-		return JLayoutHelper::render('jea.fields.gallery', $layoutModel);
-	}
+        return LayoutHelper::render('jea.fields.gallery', $layoutModel);
+    }
 }

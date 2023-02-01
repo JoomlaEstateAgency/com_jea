@@ -10,6 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Service\Provider\Dispatcher;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -17,214 +22,191 @@ use Joomla\Registry\Registry;
  *
  * @since  3.4
  */
-class GatewaysEventDispatcher extends JEventDispatcher
+class GatewaysEventDispatcher extends Dispatcher
 {
-	/**
-	 * Stores the singleton instance of the dispatcher.
-	 *
-	 * @var GatewaysEventDispatcher
-	 */
-	protected static $gInstance = null;
+    /**
+     * Stores the singleton instance of the dispatcher.
+     *
+     * @var GatewaysEventDispatcher
+     */
+    protected static $gInstance = null;
 
-	/**
-	 * Get unique Instance of GatewaysEventDispatcher
-	 *
-	 * @return GatewaysEventDispatcher
-	 */
-	public static function getInstance()
-	{
-		if (self::$gInstance === null)
-		{
-			self::$gInstance = new static;
-		}
+    /**
+     * Get unique Instance of GatewaysEventDispatcher
+     *
+     * @return GatewaysEventDispatcher
+     */
+    public static function getInstance()
+    {
+        if (self::$gInstance === null) {
+            self::$gInstance = new static;
+        }
 
-		return self::$gInstance;
-	}
+        return self::$gInstance;
+    }
 
-	/**
-	 * Attach an observer object
-	 *
-	 * @param   object  $observer  An observer object to attach
-	 *
-	 * @return  void
-	 */
-	public function attach($observer)
-	{
-		if (! ($observer instanceof JeaGateway))
-		{
-			return;
-		}
+    /**
+     * Attach an observer object
+     *
+     * @param object $observer An observer object to attach
+     *
+     * @return  void
+     */
+    public function attach($observer)
+    {
+        if (!($observer instanceof JeaGateway)) {
+            return;
+        }
 
-		/*
-		 * The main difference with the parent method
-		 * is to attach several instances of the same
-		 * class.
-		 */
+        /*
+         * The main difference with the parent method
+         * is to attach several instances of the same
+         * class.
+         */
 
-		$this->_observers[] = $observer;
-		$methods = get_class_methods($observer);
+        $this->_observers[] = $observer;
+        $methods = get_class_methods($observer);
 
-		end($this->_observers);
-		$key = key($this->_observers);
+        end($this->_observers);
+        $key = key($this->_observers);
 
-		foreach ($methods as $method)
-		{
-			$method = strtolower($method);
+        foreach ($methods as $method) {
+            $method = strtolower($method);
 
-			if (! isset($this->_methods[$method]))
-			{
-				$this->_methods[$method] = array();
-			}
+            if (!isset($this->_methods[$method])) {
+                $this->_methods[$method] = array();
+            }
 
-			$this->_methods[$method][] = $key;
-		}
-	}
+            $this->_methods[$method][] = $key;
+        }
+    }
 
-	/**
-	 * Triggers an event by dispatching arguments to all observers that handle
-	 * the event and returning their return values.
-	 *
-	 * @param   string  $event  The event to trigger.
-	 * @param   array   $args   An array of arguments.
-	 *
-	 * @return  array  An array of results from each function call.
-	 */
-	public function trigger($event, $args = array())
-	{
-		$result = array();
-		$args = (array) $args;
-		$event = strtolower($event);
+    /**
+     * Triggers an event by dispatching arguments to all observers that handle
+     * the event and returning their return values.
+     *
+     * @param string $event The event to trigger.
+     * @param array $args An array of arguments.
+     *
+     * @return  array  An array of results from each function call.
+     */
+    public function trigger($event, $args = array())
+    {
+        $result = array();
+        $args = (array)$args;
+        $event = strtolower($event);
 
-		// Check if any gateways are attached to the event.
-		if (!isset($this->_methods[$event]) || empty($this->_methods[$event]))
-		{
-			// No gateways associated to the event!
-			return $result;
-		}
+        // Check if any gateways are attached to the event.
+        if (!isset($this->_methods[$event]) || empty($this->_methods[$event])) {
+            // No gateways associated to the event!
+            return $result;
+        }
 
-		// Loop through all gateways having a method matching our event
-		foreach ($this->_methods[$event] as $key)
-		{
-			// Check if the gateway is present.
-			if (!isset($this->_observers[$key]))
-			{
-				continue;
-			}
+        // Loop through all gateways having a method matching our event
+        foreach ($this->_methods[$event] as $key) {
+            // Check if the gateway is present.
+            if (!isset($this->_observers[$key])) {
+                continue;
+            }
 
-			if ($this->_observers[$key] instanceof JeaGateway)
-			{
-				try
-				{
-					$args['event'] = $event;
-					$value = $this->_observers[$key]->update($args);
-				}
-				catch (Exception $e)
-				{
-					$application = JFactory::getApplication();
-					$gateway = $this->_observers[$key];
-					$gateway->log($e->getMessage(), 'err');
+            if ($this->_observers[$key] instanceof JeaGateway) {
+                try {
+                    $args['event'] = $event;
+                    $value = $this->_observers[$key]->update($args);
+                } catch (Exception $e) {
+                    $application = Factory::getApplication();
+                    $gateway = $this->_observers[$key];
+                    $gateway->log($e->getMessage(), 'err');
 
-					if ($application instanceof JApplicationCli)
-					{
-						/*
-						 * In CLI mode, output the error but don't stop the
-						 * execution loop of other gateways
-						 */
+                    if ($application instanceof ConsoleApplication) {
+                        /*
+                         * In CLI mode, output the error but don't stop the
+                         * execution loop of other gateways
+                         */
 
-						$gateway->out('Error [' . $gateway->title . '] : ' . $e->getMessage());
-					}
-					else
-					{
-						/*
-						 * In AJAX mode, only one gateway is loaded per request,
-						 * so we can stop the loop.
-						 * Exception will be catched later in a custom Exception handler
-						 */
-						throw $e;
-					}
-				}
-			}
+                        $gateway->out('Error [' . $gateway->title . '] : ' . $e->getMessage());
+                    } else {
+                        /*
+                         * In AJAX mode, only one gateway is loaded per request,
+                         * so we can stop the loop.
+                         * Exception will be catched later in a custom Exception handler
+                         */
+                        throw $e;
+                    }
+                }
+            }
 
-			if (isset($value))
-			{
-				$result[] = $value;
-			}
-		}
+            if (isset($value)) {
+                $result[] = $value;
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Load JEA gateways
-	 *
-	 * @param   string  $type  If set, must be 'export' or 'import'
-	 *
-	 * @return  void
-	 */
-	public function loadGateways($type = null)
-	{
-		$db = JFactory::getDbo();
+    /**
+     * Load JEA gateways
+     *
+     * @param string $type If set, must be 'export' or 'import'
+     *
+     * @return  void
+     */
+    public function loadGateways($type = null)
+    {
+        $db = Factory::getContainer()->get(DatabaseInterface::class);
 
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__jea_gateways');
-		$query->where('published=1');
+        $query = $db->getQuery(true);
+        $query->select('*');
+        $query->from('#__jea_gateways');
+        $query->where('published=1');
 
-		if (! empty($type))
-		{
-			$query->where('type=' . $db->Quote($type));
-		}
+        if (!empty($type)) {
+            $query->where('type=' . $db->Quote($type));
+        }
 
-		$query->order('ordering ASC');
-		$db->setQuery($query);
-		$rows = $db->loadObjectList();
+        $query->order('ordering ASC');
+        $db->setQuery($query);
+        $rows = $db->loadObjectList();
 
-		foreach ($rows as $row)
-		{
-			$this->loadGateway($row);
-		}
-	}
+        foreach ($rows as $row) {
+            $this->loadGateway($row);
+        }
+    }
 
-	/**
-	 * Load one JEA gateway
-	 *
-	 * @param   $object  $gateway  he row DB gateway
-	 *
-	 * @return  JeaGateway
-	 *
-	 * @throws  Exception if gateway cannot be loaded
-	 */
-	public function loadGateway($gateway)
-	{
-		$gatewayFile = JPATH_ADMINISTRATOR . '/components/com_jea/gateways/providers/' . $gateway->provider . '/' . $gateway->type . '.php';
+    /**
+     * Load one JEA gateway
+     *
+     * @param   $object $gateway  he row DB gateway
+     *
+     * @return  JeaGateway
+     *
+     * @throws  Exception if gateway cannot be loaded
+     */
+    public function loadGateway($gateway)
+    {
+        $gatewayFile = JPATH_ADMINISTRATOR . '/components/com_jea/gateways/providers/' . $gateway->provider . '/' . $gateway->type . '.php';
 
-		if (JFile::exists($gatewayFile))
-		{
-			require_once $gatewayFile;
-			$className = 'JeaGateway' . ucfirst($gateway->type) . ucfirst($gateway->provider);
+        if (File::exists($gatewayFile)) {
+            require_once $gatewayFile;
+            $className = 'JeaGateway' . ucfirst($gateway->type) . ucfirst($gateway->provider);
 
-			if (class_exists($className))
-			{
-				$dispatcher = static::getInstance();
+            if (class_exists($className)) {
+                $dispatcher = static::getInstance();
 
-				$config = array(
-						'id' => $gateway->id,
-						'provider' => $gateway->provider,
-						'title' => $gateway->title,
-						'type' => $gateway->type,
-						'params' => new Registry($gateway->params)
-				);
+                $config = array(
+                    'id' => $gateway->id,
+                    'provider' => $gateway->provider,
+                    'title' => $gateway->title,
+                    'type' => $gateway->type,
+                    'params' => new Registry($gateway->params)
+                );
 
-				return new $className($dispatcher, $config);
-			}
-			else
-			{
-				throw new Exception('Gateway class not found : ' . $className);
-			}
-		}
-		else
-		{
-			throw new Exception('Gateway file not found : ' . $gatewayFile);
-		}
-	}
+                return new $className($dispatcher, $config);
+            } else {
+                throw new Exception('Gateway class not found : ' . $className);
+            }
+        } else {
+            throw new Exception('Gateway file not found : ' . $gatewayFile);
+        }
+    }
 }
