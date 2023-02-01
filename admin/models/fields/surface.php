@@ -8,6 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Field\TextField;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -21,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       2.0
  */
-class JFormFieldSurface extends JFormFieldText
+class JFormFieldSurface extends TextField
 {
 	/**
 	 * The form field type.
@@ -38,7 +41,7 @@ class JFormFieldSurface extends JFormFieldText
 	protected function getInput()
 	{
 		$input = parent::getInput();
-		$params = JComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 		$surface_measure = $params->get('surface_measure', 'm²');
 
 		return $input . ' <span class="input-suffix">' . $surface_measure . '</span>';

@@ -10,17 +10,23 @@
 
 defined('_JEXEC') or die;
 
-JHtml::stylesheet('media/com_jea/css/jea.admin.css');
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
 
 /**
  * @var $this JeaViewTools
  */
 ?>
 
-<div id="j-sidebar-container" class="span2">
-	<?php echo $this->sidebar ?>
-</div>
+<div class="row">
 
-<div id="j-main-container" class="span10">
-	<div class="cpanel"><?php echo $this->getIcons()?></div>
+  <div id="j-sidebar-container" class="col-md-2">
+      <?php echo $this->sidebar ?>
+  </div>
+
+  <div id="j-sidebar-container" class="col-md-10">
+    <div class="cpanel"><?php echo $this->getIcons() ?></div>
+  </div>
+
 </div>

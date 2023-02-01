@@ -10,6 +10,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use \Joomla\CMS\Factory;
+
 /**
  * Form Field class for JEA.
  * Provides a list of features
@@ -21,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       2.0
  */
-class JFormFieldFeatureList extends JFormField
+class JFormFieldFeatureList extends ListField
 {
 	/**
 	 * The form field type.
@@ -39,7 +44,7 @@ class JFormFieldFeatureList extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_jea/helpers/html');
 
 		$subtype = (string) $this->element['subtype'];
 
@@ -95,18 +100,18 @@ class JFormFieldFeatureList extends JFormField
 				{
 					$this->_ajaxUpdateList('town_id', 'area_id', 'get_areas');
 
-					return JHtml::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, null));
+					return HTMLHelper::_('features.towns', $this->value, $this->name, $params, $this->form->getValue('department_id', $group, null));
 				}
 
 			case 'areas':
 
 				if ($hasRelationShip)
 				{
-					return JHtml::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, null));
+					return HTMLHelper::_('features.areas', $this->value, $this->name, $params, $this->form->getValue('town_id', $group, null));
 				}
 		}
 
-		return JHtml::_('features.' . $subtype, $this->value, $this->name, $params);
+		return HTMLHelper::_('features.' . $subtype, $this->value, $this->name, $params);
 	}
 
 	/**
@@ -121,7 +126,7 @@ class JFormFieldFeatureList extends JFormField
 			return false;
 		}
 
-		$params = JComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 
 		return (bool) $params->get('relationship_dpts_towns_area', 1);
 	}
@@ -129,9 +134,9 @@ class JFormFieldFeatureList extends JFormField
 	/**
 	 * Add AJAX behavior
 	 *
-	 * @param   string  $fromId  The Element ID where the event come from
-	 * @param   string  $toId    The target Element ID
-	 * @param   string  $task    The AJAX controller task
+	 * @param   string $fromId The Element ID where the event come from
+	 * @param   string $toId   The target Element ID
+	 * @param   string $task   The AJAX controller task
 	 *
 	 * @return  void
 	 */
@@ -151,9 +156,9 @@ class JFormFieldFeatureList extends JFormField
 			$fieldTo = $this->form->getField($toId);
 		}
 
-		if (! empty($fieldTo->id))
+		if (!empty($fieldTo->id))
 		{
-			JFactory::getDocument()->addScriptDeclaration(
+			Factory::getDocument()->addScriptDeclaration(
 				"
 jQuery(document).ready(function($) {
 	$('#{$this->id}').change(function(e) {
@@ -164,12 +169,14 @@ jQuery(document).ready(function($) {
 			success: function(response) {
 				var first = $('#{$fieldTo->id} option').first().clone();
 				$('#{$fieldTo->id}').empty().append(first);
-				if (response.length) {
+				if (response) {
 					$.each(response, function( idx, item ){
+				        console.log(item);
+				        console.log($('#{$fieldTo->id}'));
 						$('#{$fieldTo->id}').append($('<option></option>').text(item.value).attr('value', item.id));
 					});
 				}
-				$('#{$fieldTo->id}').trigger('liszt:updated.chosen'); // Update jQuery choosen
+				$('#{$fieldTo->id}').trigger('chosen:updated.chosen'); // Update jQuery choosen
 			}
 		});
 	});

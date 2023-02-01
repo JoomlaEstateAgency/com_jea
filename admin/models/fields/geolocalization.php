@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Language\Text;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -21,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       2.0
  */
-class JFormFieldGeolocalization extends JFormField
+class JFormFieldGeolocalization extends FormField
 {
 	/**
 	 * The form field type.
@@ -38,23 +43,20 @@ class JFormFieldGeolocalization extends JFormField
 	 */
 	protected function getInput()
 	{
-		$params = JComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 		$ouptut = '';
 
 		// TODO : use JLayout
 		$ouptut = '<div class="button2-left">' . "\n" .
-				'<div class="blank"><a class="modal btn btn-info" href="#map-box-content"' .
-				' rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">' .
-				JText::_('COM_JEA_MAP_OPEN') . '</a></div>' . "\n" . '</div>' . "\n" .
-				'<div id="map-box-content" class="map-box-content" style="display:none">' . "\n" . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') .
-				' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />' . JText::_('COM_JEA_FIELD_LONGITUDE_LABEL') .
-				' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />' .
-				'<div class="map-box-container" style="width: 100%; height: 480px"></div>' . "\n" . '</div>' . "\n";
+			'<div class="blank"><a class="modal btn btn-info" href="#map-box-content"' .
+			' rel="{handler: \'clone\', size: {x: 800, y: 500}, onOpen:initBoxContent, onClose:closeBoxContent }">' .
+			Text::_('COM_JEA_MAP_OPEN') . '</a></div>' . "\n" . '</div>' . "\n" .
+			'<div id="map-box-content" class="map-box-content" style="display:none">' . "\n" . JText::_('COM_JEA_FIELD_LATITUDE_LABEL') .
+			' : <input type="text" readonly="readonly" class="readonly input-latitude" value="" />' . JText::_('COM_JEA_FIELD_LONGITUDE_LABEL') .
+			' : <input type="text" readonly="readonly" class="readonly input-longitude" value="" />' .
+			'<div class="map-box-container" style="width: 100%; height: 480px"></div>' . "\n" . '</div>' . "\n";
 
-		// Load the modal behavior script.
-		JHtml::_('behavior.modal');
-
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$langs = explode('-', $document->getLanguage());
 
 		$lang = $langs[0];
@@ -64,9 +66,9 @@ class JFormFieldGeolocalization extends JFormField
 		$fieldAddress = $this->form->getField('address');
 		$fieldLongitude = $this->form->getField('longitude');
 		$fieldLatitude = $this->form->getField('latitude');
-		$markerLabel = addslashes(JText::_('COM_JEA_MAP_MARKER_LABEL'));
+		$markerLabel = addslashes(Text::_('COM_JEA_MAP_MARKER_LABEL'));
 
-		JFactory::getDocument()->addScriptDeclaration(
+		Factory::getDocument()->addScriptDeclaration(
 			"
             function initBoxContent(elementContent) {
                 var latitude = document.id('{$fieldLatitude->id}').value;
@@ -160,7 +162,7 @@ class JFormFieldGeolocalization extends JFormField
             }"
 		);
 
-		JFactory::getDocument()->addScript(
+		Factory::getDocument()->addScript(
 			'https://maps.google.com/maps/api/js?key=' . $params->get('googlemap_api_key') . '&amp;language=' . $lang . '&amp;region=' . $region
 		);
 

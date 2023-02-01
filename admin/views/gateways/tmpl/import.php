@@ -8,20 +8,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Layout\LayoutHelper;
+
 defined('_JEXEC') or die;
 
 /**
  * @var $this JeaViewGateways
  */
 
-JHtml::stylesheet('media/com_jea/css/jea.admin.css');
+HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
-<div id="j-sidebar-container" class="span2">
-	<?php echo $this->sidebar?>
+<div id="j-sidebar-container" class="col-md-2">
+    <?php echo $this->sidebar ?>
 </div>
 
-<div id="j-main-container" class="span10">
-	<?php echo JLayoutHelper::render('jea.gateways.nav', array('action' => 'import', 'view' => 'console'))?>
-	<?php echo JLayoutHelper::render('jea.gateways.consoles', array('action' => 'import')) ?>
+<div id="j-sidebar-container" class="col-md-10">
+    <?php echo LayoutHelper::render('jea.gateways.nav', array('action' => 'import', 'view' => 'console')) ?>
+    <?php echo LayoutHelper::render('jea.gateways.consoles', array('action' => 'import')) ?>
 </div>

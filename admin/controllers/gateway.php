@@ -8,6 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\FormController;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
@@ -20,19 +23,19 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
  *
  * @since       3.4
  */
-class JeaControllerGateway extends JControllerForm
+class JeaControllerGateway extends FormController
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see JControllerLegacy::__construct()
+	 * @see FormController::__construct()
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$this->view_item .= '&type=' . JFactory::getApplication()->input->getCmd('type');
+		$this->view_item .= '&type=' . Factory::getApplication()->input->getCmd('type');
 	}
 
 	/**
@@ -46,7 +49,7 @@ class JeaControllerGateway extends JControllerForm
 
 		// @var JApplicationWeb  $application
 
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 
 		$application->setHeader('Content-Type', 'text/plain', true);
 		$application->sendHeaders();
@@ -75,7 +78,7 @@ class JeaControllerGateway extends JControllerForm
 	 */
 	public function downloadLogs()
 	{
-		JFactory::getApplication()->setHeader('Content-Disposition', 'attachment; filename="logs.txt"');
+		Factory::getApplication()->setHeader('Content-Disposition', 'attachment; filename="logs.txt"');
 		$this->getLogs();
 	}
 

@@ -10,10 +10,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\User\User;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\User\User;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Event\Event;
+use Joomla\Uri\Uri;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
 
@@ -209,7 +215,7 @@ class JEAPropertyInterface extends JObject
 		$data['town_id'] = self::getFeatureId('towns', $this->town, null, $data['department_id']);
 		$data['area_id'] = self::getFeatureId('areas', $this->area, null, $data['town_id']);
 
-		$orientations = array('0','N','NE','NW','NS','E','EW','W','SW','SE');
+		$orientations = array('0', 'N', 'NE', 'NW', 'NS', 'E', 'EW', 'W', 'SW', 'SE');
 
 		$orientation = strtoupper($this->orientation);
 
@@ -239,13 +245,13 @@ class JEAPropertyInterface extends JObject
 		{
 			if (substr($image, 0, 4) == 'http')
 			{
-				$uri = new \Joomla\Uri\Uri($image);
+				$uri = new Uri($image);
 				$image = $uri->getPath();
 			}
 
 			$image = basename($image);
 
-			if (! empty($image))
+			if (!empty($image))
 			{
 				if (in_array(File::getExt($image), $validExtensions))
 				{
@@ -264,8 +270,8 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Add a custom field to the interface
 	 *
-	 * @param   string  $fieldName  The custom field name
-	 * @param   string  $value      The custom field value
+	 * @param   string $fieldName   The custom field name
+	 * @param   string $value       The custom field value
 	 *
 	 * @return  void
 	 */
@@ -277,23 +283,23 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Save the property
 	 *
-	 * @param   string   $provider   A provider name
-	 * @param   number   $id         The property id
-	 * @param   boolean  $forceUTF8  To force string to be converted into UTF-8
+	 * @param   string  $provider   A provider name
+	 * @param   number  $id         The property id
+	 * @param   boolean $forceUTF8  To force string to be converted into UTF-8
 	 *
 	 * @return  boolean return true if property was saved
 	 */
 	public function save($provider = '', $id = 0, $forceUTF8 = false)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$property = new TableProperty($db);
 		$isNew = true;
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Include the jea plugins for the on save events.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
-		if (! empty($id))
+		if (!empty($id))
 		{
 			$property->load($id);
 			$isNew = false;
@@ -307,7 +313,7 @@ class JEAPropertyInterface extends JObject
 			$data[$fieldName] = $value;
 		}
 
-		if (! empty($provider))
+		if (!empty($provider))
 		{
 			$data['provider'] = $provider;
 		}
@@ -321,7 +327,7 @@ class JEAPropertyInterface extends JObject
 					case 'title':
 					case 'description':
 					case 'address':
-						$data[$k] = utf8_encode($v);
+						$data[$k] = mb_convert_encoding($v, 'UTF-8', 'ISO-8859-1');
 				}
 			}
 		}
@@ -330,13 +336,14 @@ class JEAPropertyInterface extends JObject
 		$property->check();
 
 		// Check override created_by
-		if (! empty($data['created_by']))
+		if (!empty($data['created_by']))
 		{
 			$property->created_by = $data['created_by'];
 		}
 
 		// Trigger the onContentBeforeSave event.
-		$result = $dispatcher->trigger('onBeforeSaveProperty', array('com_jea.propertyInterface', &$property, $isNew));
+		$event = new Event('onBeforeSaveProperty', array('com_jea.propertyInterface', &$property, $isNew));
+		$result = $dispatcher->dispatch('onBeforeSaveProperty', $event);
 
 		if (in_array(false, $result, true))
 		{
@@ -348,11 +355,11 @@ class JEAPropertyInterface extends JObject
 		$property->store();
 
 		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger('onAfterSaveProperty', array('com_jea.propertyInterface', &$property, $isNew));
+		$dispatcher->trigger('onAfterSaveProperty', new Event('onAfterSaveProperty', array('com_jea.propertyInterface', &$property, $isNew)));
 
 		$errors = $property->getErrors();
 
-		if (! empty($errors))
+		if (!empty($errors))
 		{
 			$this->_errors = $errors;
 
@@ -377,7 +384,7 @@ class JEAPropertyInterface extends JObject
 
 				if (substr($image, 0, 4) == 'http')
 				{
-					$uri = new \Joomla\Uri\Uri($image);
+					$uri = new Uri($image);
 					$basename = basename($uri->getPath());
 				}
 
@@ -396,19 +403,19 @@ class JEAPropertyInterface extends JObject
 				{
 					if (File::exists($imgDir . '/' . $basename))
 					{
-						$localtime  = $this->getLastModified($imgDir . '/' . $basename);
+						$localtime = $this->getLastModified($imgDir . '/' . $basename);
 						$remotetime = $this->getLastModified($image);
 
 						if ($remotetime <= $localtime)
 						{
-							JLog::add(
+							Log::add(
 								sprintf(
 									"File %s is up to date. [local time: %u - remote time: %u]",
 									$imgDir . '/' . $basename,
 									$localtime,
 									$remotetime
 								),
-								JLog::DEBUG,
+								Log::DEBUG,
 								'jea'
 							);
 
@@ -431,14 +438,14 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Download an image
 	 *
-	 * @param   string  $url   The image URL
-	 * @param   string  $dest  The destination directory
+	 * @param   string $url  The image URL
+	 * @param   string $dest The destination directory
 	 *
 	 * @return  boolean
 	 */
 	protected function downloadImage($url = '', $dest = '')
 	{
-		JLog::add("Download Image : $url", JLog::DEBUG, 'jea');
+		Log::add("Download Image : $url", Log::DEBUG, 'jea');
 
 		if (empty($url) || empty($dest))
 		{
@@ -471,10 +478,10 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Get Last modified time as Unix timestamp
 	 *
-	 * @param   string  $file  A local or remote file
+	 * @param   string $file A local or remote file
 	 *
-	 * @throws  RuntimeException
 	 * @return  integer Unix timestamp
+	 * @throws  RuntimeException
 	 */
 	public function getLastModified($file)
 	{
@@ -522,7 +529,7 @@ class JEAPropertyInterface extends JObject
 				if (preg_match('/:\s?(.*)$/m', $header, $matches) !== false)
 				{
 					$matches[1];
-					JLog::add(sprintf("Last-Modified: %s - Time: %u", $matches[1], strtotime($matches[1])), JLog::DEBUG, 'jea');
+					Log::add(sprintf("Last-Modified: %s - Time: %u", $matches[1], strtotime($matches[1])), Log::DEBUG, 'jea');
 
 					return strtotime($matches[1]);
 				}
@@ -535,10 +542,10 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Get Feature id related to its value
 	 *
-	 * @param   string   $tableName   The feature table name
-	 * @param   string   $fieldValue  The value to store
-	 * @param   string   $language    The language code
-	 * @param   integer  $parentId    An optional parent id
+	 * @param   string  $tableName  The feature table name
+	 * @param   string  $fieldValue The value to store
+	 * @param   string  $language   The language code
+	 * @param   integer $parentId   An optional parent id
 	 *
 	 * @return  integer
 	 */
@@ -550,11 +557,11 @@ class JEAPropertyInterface extends JObject
 
 		static $tablesOrdering = array();
 
-		if ($r === false && ! empty($fieldValue) && ! isset(self::$features[$tableName][$fieldValue]))
+		if ($r === false && !empty($fieldValue) && !isset(self::$features[$tableName][$fieldValue]))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 
-			if (! isset($tablesOrdering[$tableName]))
+			if (!isset($tablesOrdering[$tableName]))
 			{
 				$db->setQuery('SELECT MAX(ordering) FROM #__jea_' . $tableName);
 				$tablesOrdering[$tableName] = intval($db->loadResult());
@@ -608,9 +615,9 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Return a feature row if already extis in the database
 	 *
-	 * @param   string  $tableName   The feature table name
-	 * @param   string  $fieldName   The feature field name
-	 * @param   string  $fieldValue  The feature field value
+	 * @param   string $tableName  The feature table name
+	 * @param   string $fieldName  The feature field name
+	 * @param   string $fieldValue The feature field value
 	 *
 	 * @return  boolean|object The feature row object or false if feature not found
 	 */
@@ -618,7 +625,7 @@ class JEAPropertyInterface extends JObject
 	{
 		if (self::$tables === null)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 			self::$tables = array();
 
@@ -651,7 +658,7 @@ class JEAPropertyInterface extends JObject
 
 		foreach (self::$tables[$tableName] as $row)
 		{
-			if (! isset($row->$fieldName))
+			if (!isset($row->$fieldName))
 			{
 				return false;
 			}
@@ -668,8 +675,8 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Get an user. Try to create an user if not found.
 	 *
-	 * @param   string  $email  The user email
-	 * @param   string  $name   The user name
+	 * @param   string $email The user email
+	 * @param   string $name  The user name
 	 *
 	 * @return  integer Return the user id. Return 0 if the user cannot be created.
 	 */
@@ -677,7 +684,7 @@ class JEAPropertyInterface extends JObject
 	{
 		if (self::$users == null)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$db->setQuery('SELECT `id`, `email` FROM `#__users`');
 			$rows = $db->loadObjectList();
 
@@ -709,8 +716,8 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Create an user
 	 *
-	 * @param   string  $email  The user email
-	 * @param   string  $name   The user name
+	 * @param   string $email The user email
+	 * @param   string $name  The user name
 	 *
 	 * @return  boolean|number return the user id or false if the user cannot be created
 	 */
@@ -745,8 +752,8 @@ class JEAPropertyInterface extends JObject
 	/**
 	 * Convert Unix timestamp to MYSQL date
 	 *
-	 * @param   integer  $timestamp  An UNIX timestamp
-	 * @param   boolean  $datetime   If true return MYSQL DATETIME else return MYSQL DATE
+	 * @param   integer $timestamp An UNIX timestamp
+	 * @param   boolean $datetime  If true return MYSQL DATETIME else return MYSQL DATE
 	 *
 	 * @return  string
 	 */

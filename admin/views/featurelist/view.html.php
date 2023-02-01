@@ -10,6 +10,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
 use Joomla\String\StringHelper;
 
 /**
@@ -20,12 +28,12 @@ use Joomla\String\StringHelper;
  *
  * @since       2.0
  */
-class JeaViewFeaturelist extends JViewLegacy
+class JeaViewFeaturelist extends HtmlView
 {
 	/**
 	 * The user object
 	 *
-	 * @var JUser
+	 * @var User
 	 */
 	protected $user;
 
@@ -39,7 +47,7 @@ class JeaViewFeaturelist extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var JPagination
+	 * @var Pagination
 	 */
 	protected $pagination;
 
@@ -60,7 +68,7 @@ class JeaViewFeaturelist extends JViewLegacy
 	/**
 	 * The form object for search filters
 	 *
-	 * @var JForm
+	 * @var Form
 	 */
 	public $filterForm;
 
@@ -74,22 +82,22 @@ class JeaViewFeaturelist extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @see     HtmlView::display()
 	 *
-	 * @see     JViewLegacy::display()
+	 * @return  mixed A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('features');
 
-		$this->user = JFactory::getUser();
+		$this->user = Factory::getApplication()->getIdentity();
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
-		$this->sidebar = JHtmlSidebar::render();
-		$this->filterForm    = $this->get('FilterForm');
+		$this->sidebar = Sidebar::render();
+		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
 		$this->addToolbar();
@@ -107,22 +115,22 @@ class JeaViewFeaturelist extends JViewLegacy
 		$canDo = JeaHelper::getActions();
 		$feature = $this->state->get('feature.name');
 
-		JToolBarHelper::title(JText::_(StringHelper::strtoupper("com_jea_list_of_{$feature}_title")), 'jea');
+		ToolbarHelper::title(Text::_(StringHelper::strtoupper("com_jea_list_of_{$feature}_title")), 'jea');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('feature.add');
+			ToolbarHelper::addNew('feature.add');
 		}
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolBarHelper::editList('feature.edit');
+			ToolbarHelper::editList('feature.edit');
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList(JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'featurelist.delete');
+			ToolbarHelper::divider();
+			ToolbarHelper::deleteList(Text::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'featurelist.delete');
 		}
 	}
 }

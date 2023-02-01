@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\BaseController;
+
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
 /**
@@ -20,12 +22,12 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
  *
  * @since       3.4
  */
-class JeaControllerGateway extends JControllerLegacy
+class JeaControllerGateway extends BaseController
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see JControllerLegacy::__construct()
 	 */
@@ -39,7 +41,7 @@ class JeaControllerGateway extends JControllerLegacy
 	 * Custom Exception Handler
 	 * displaying Exception in Json format
 	 *
-	 * @param   Exception  $e  An error exception
+	 * @param   Exception $e An error exception
 	 *
 	 * @return  void
 	 */
@@ -77,7 +79,7 @@ class JeaControllerGateway extends JControllerLegacy
 	/**
 	 * Ask the gateway to execute action
 	 *
-	 * @param   string  $task  Action to execute
+	 * @param   string $task Action to execute
 	 *
 	 * @return  void
 	 */

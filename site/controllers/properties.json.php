@@ -8,6 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +21,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerProperties extends JControllerLegacy
+class JeaControllerProperties extends BaseController
 {
 	/**
 	 * Search action
@@ -27,7 +30,7 @@ class JeaControllerProperties extends JControllerLegacy
 	 */
 	public function search()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$model = $this->getModel();
 		$filters = array_keys($model->getFilters());
 
@@ -51,7 +54,7 @@ class JeaControllerProperties extends JControllerLegacy
 
 		if (JDEBUG)
 		{
-			$result['query'] = (string) JFactory::getDbo()->getQuery();
+			$result['query'] = (string) Factory::getDbo()->getQuery();
 		}
 
 		$result['types'] = array();
@@ -67,25 +70,25 @@ class JeaControllerProperties extends JControllerLegacy
 
 		foreach ($items as $row)
 		{
-			if ($row->type_id && ! isset($temp['types'][$row->type_id]))
+			if ($row->type_id && !isset($temp['types'][$row->type_id]))
 			{
 				$result['types'][] = array('value' => $row->type_id, 'text' => $row->type);
 				$temp['types'][$row->type_id] = true;
 			}
 
-			if ($row->town_id && ! isset($temp['towns'][$row->town_id]))
+			if ($row->town_id && !isset($temp['towns'][$row->town_id]))
 			{
 				$result['towns'][] = array('value' => $row->town_id, 'text' => $row->town);
 				$temp['towns'][$row->town_id] = true;
 			}
 
-			if ($row->department_id && ! isset($temp['departments'][$row->department_id]))
+			if ($row->department_id && !isset($temp['departments'][$row->department_id]))
 			{
 				$result['departments'][] = array('value' => $row->department_id, 'text' => $row->department);
 				$temp['departments'][$row->department_id] = true;
 			}
 
-			if ($row->area_id && ! isset($temp['areas'][$row->area_id]))
+			if ($row->area_id && !isset($temp['areas'][$row->area_id]))
 			{
 				$result['areas'][] = array('value' => $row->area_id, 'text' => $row->area);
 				$temp['areas'][$row->area_id] = true;
@@ -120,8 +123,8 @@ class JeaControllerProperties extends JControllerLegacy
 	/**
 	 * Sort method for usort
 	 *
-	 * @param   array  $arg1  Sort data 1
-	 * @param   array  $arg2  Sort data 2
+	 * @param   array $arg1 Sort data 1
+	 * @param   array $arg2 Sort data 2
 	 *
 	 * @return number
 	 */
@@ -136,13 +139,13 @@ class JeaControllerProperties extends JControllerLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string  $name   The model name. Optional.
+	 * @param   string  $prefix The class prefix. Optional.
+	 * @param   array   $config Configuration array for model. Optional.
 	 *
 	 * @return  JeaModelProperties|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @see JControllerLegacy::getModel()
+	 * @see BaseController::getModel()
 	 */
 	public function getModel($name = 'Properties', $prefix = 'JeaModel', $config = array('ignore_request' => true))
 	{

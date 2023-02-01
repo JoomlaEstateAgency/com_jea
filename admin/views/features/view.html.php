@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +23,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewFeatures extends JViewLegacy
+class JeaViewFeatures extends HtmlView
 {
 	/**
 	 * Array of managed features
@@ -44,11 +49,11 @@ class JeaViewFeatures extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @see     HtmlView::display()
 	 *
-	 * @see     JViewLegacy::display()
+	 * @return  mixed A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -59,7 +64,7 @@ class JeaViewFeatures extends JViewLegacy
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = Sidebar::render();
 
 		parent::display($tpl);
 	}
@@ -73,19 +78,19 @@ class JeaViewFeatures extends JViewLegacy
 	{
 		$canDo = JeaHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea');
+		ToolbarHelper::title(Text::_('COM_JEA_FEATURES_MANAGEMENT'), 'jea');
 
 		if ($canDo->get('core.manage'))
 		{
-			JToolBarHelper::custom('features.import', 'database', '', 'Import', false);
+			ToolbarHelper::custom('features.import', 'database', '', 'Import', false);
 		}
 
-		JToolBarHelper::custom('features.export', 'download', '', 'Export', false);
+		ToolbarHelper::custom('features.export', 'download', '', 'Export', false);
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_jea');
+			ToolbarHelper::divider();
+			ToolbarHelper::preferences('com_jea');
 		}
 	}
 }

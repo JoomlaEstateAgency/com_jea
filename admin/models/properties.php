@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Event\Event;
+
 defined('_JEXEC') or die;
 
 /**
@@ -20,12 +26,12 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaModelProperties extends JModelList
+class JeaModelProperties extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelList
 	 */
@@ -63,7 +69,7 @@ class JeaModelProperties extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string A store id.
 	 */
@@ -82,8 +88,8 @@ class JeaModelProperties extends JModelList
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering  An optional ordering field.
+	 * @param   string $direction An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
@@ -122,13 +128,13 @@ class JeaModelProperties extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Include the jea plugins for the onBeforeSearchQuery event.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
 		$query->select(
 			'p.id, p.ref, p.transaction_type, p.address, p.price, p.rate_frequency, p.created,
@@ -212,7 +218,7 @@ class JeaModelProperties extends JModelList
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		$dispatcher->trigger('onBeforeSearch', array(&$query, &$this->state));
+		$dispatcher->dispatch('onBeforeSearch', new Event('onCheckAnswer', array(&$query, &$this->state)));
 
 		return $query;
 	}

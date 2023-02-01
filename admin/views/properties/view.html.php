@@ -10,6 +10,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+
 /**
  * Properties list View.
  *
@@ -18,7 +28,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewProperties extends JViewLegacy
+class JeaViewProperties extends HtmlView
 {
 	/**
 	 * The component parameters
@@ -30,7 +40,7 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * The user object
 	 *
-	 * @var JUser
+	 * @var User
 	 */
 	protected $user;
 
@@ -44,7 +54,7 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var JPagination
+	 * @var Pagination
 	 */
 	protected $pagination;
 
@@ -65,7 +75,7 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * The form object for search filters
 	 *
-	 * @var JForm
+	 * @var Form
 	 */
 	public $filterForm;
 
@@ -79,27 +89,27 @@ class JeaViewProperties extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @see     HtmlView::display()
 	 *
-	 * @see     JViewLegacy::display()
+	 * @return  mixed A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
-		$this->params = JComponentHelper::getParams('com_jea');
+		$this->params = ComponentHelper::getParams('com_jea');
 
 		JeaHelper::addSubmenu('properties');
 
-		$this->user = JFactory::getUser();
+		$this->user = Factory::getApplication()->getIdentity();
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
 
-		$this->filterForm    = $this->get('FilterForm');
+		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = Sidebar::render();
 
 		$this->addToolbar();
 
@@ -115,37 +125,37 @@ class JeaViewProperties extends JViewLegacy
 	{
 		$canDo = JeaHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea');
+		ToolbarHelper::title(Text::_('COM_JEA_PROPERTIES_MANAGEMENT'), 'jea');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('property.add');
-			JToolBarHelper::custom('properties.copy', 'copy.png', 'copy_f2.png', 'COM_JEA_COPY');
+			ToolBarHelper::addNew('property.add');
+			ToolBarHelper::custom('properties.copy', 'copy.png', 'copy_f2.png', 'COM_JEA_COPY');
 		}
 
 		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{
-			JToolBarHelper::editList('property.edit');
+			ToolBarHelper::editList('property.edit');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('properties.publish', 'JTOOLBAR_PUBLISH', true);
-			JToolBarHelper::unpublish('properties.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolBarHelper::custom('properties.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
+			ToolBarHelper::divider();
+			ToolBarHelper::publish('properties.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolBarHelper::unpublish('properties.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolBarHelper::custom('properties.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList(JText::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'properties.delete');
+			ToolBarHelper::divider();
+			ToolBarHelper::deleteList(Text::_('COM_JEA_MESSAGE_CONFIRM_DELETE'), 'properties.delete');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::divider();
-			JToolBarHelper::preferences('com_jea');
+			ToolBarHelper::divider();
+			ToolBarHelper::preferences('com_jea');
 		}
 	}
 }

@@ -10,7 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
@@ -20,25 +23,25 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelAdmin
+ * @see         AdminModel
  *
  * @since       3.4
  */
-class JeaModelGateway extends JModelAdmin
+class JeaModelGateway extends AdminModel
 {
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data     Data for the form.
+	 * @param   boolean $loadData True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
-	 * @see JModelForm::getForm()
+	 * @see AdminModel::getForm()
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 		$type = $app->getUserStateFromRequest('com_jea.gateway.type', 'type', '', 'cmd');
 
 		// @var $form JForm
@@ -60,7 +63,7 @@ class JeaModelGateway extends JModelAdmin
 			if (File::exists($formConfigFile))
 			{
 				// Try to load provider language file
-				JFactory::getLanguage()->load($item->provider, JPATH_COMPONENT, null, false, false);
+				Factory::getApplication()->getLanguage()->load($item->provider, JPATH_COMPONENT, null, false, false);
 
 				$gatewayForm = $this->loadForm('com_jea.' . $item->type . '.' . $item->provider, $formConfigFile, array('load_data' => false));
 				$form->load($gatewayForm->getXml());
@@ -82,12 +85,12 @@ class JeaModelGateway extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @see JModelForm::loadFormData()
+	 * @see AdminModel::loadFormData()
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data. See JControllerForm::save()
-		$data = JFactory::getApplication()->getUserState('com_jea.edit.gateway.data', array());
+		$data = Factory::getApplication()->getUserState('com_jea.edit.gateway.data', array());
 
 		if (empty($data))
 		{
@@ -100,11 +103,11 @@ class JeaModelGateway extends JModelAdmin
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array $data The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @see JModelAdmin::save()
+	 * @see AdminModel::save()
 	 */
 	public function save($data)
 	{

@@ -10,7 +10,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 require_once JPATH_COMPONENT . '/tables/features.php';
 
@@ -24,17 +29,17 @@ require_once JPATH_COMPONENT . '/tables/features.php';
  *
  * @since       2.0
  */
-class JeaModelFeature extends JModelAdmin
+class JeaModelFeature extends AdminModel
 {
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data       Data for the form.
+	 * @param   boolean $loadData   True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
-	 * @see JModelForm::getForm()
+	 * @see AdminModel::getForm()
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -62,10 +67,10 @@ class JeaModelFeature extends JModelAdmin
 	public function populateState()
 	{
 		/*
-		 * Be careful to not call parent::populateState() because this will cause an
-		 * infinite call of this method in JeaModelFeature::getTable()
-		 */
-		$input = JFactory::getApplication()->input;
+         * Be careful to not call parent::populateState() because this will cause an
+         * infinite call of this method in JeaModelFeature::getTable()
+         */
+		$input = Factory::getApplication()->input;
 		$feature = $input->getCmd('feature');
 		$this->setState('feature.name', $feature);
 
@@ -98,12 +103,12 @@ class JeaModelFeature extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @see JModelForm::loadFormData()
+	 * @see AdminModel::loadFormData()
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data. See JControllerForm::save()
-		$data = JFactory::getApplication()->getUserState('com_jea.edit.feature.data', array());
+		$data = Factory::getApplication()->getUserState('com_jea.edit.feature.data', array());
 
 		if (empty($data))
 		{
@@ -116,13 +121,13 @@ class JeaModelFeature extends JModelAdmin
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
+	 * @param   string  $name    The table name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $options Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A JTable object
 	 *
-	 * @see JModel::getTable()
+	 * @see AdminModel::getTable()
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -131,7 +136,7 @@ class JeaModelFeature extends JModelAdmin
 		if ($table === null)
 		{
 			$tableName = $this->getState('feature.table');
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$table = new FeaturesFactory($db->escape($tableName), 'id', $db);
 		}
 

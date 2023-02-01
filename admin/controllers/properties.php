@@ -10,6 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -20,12 +24,12 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since       1.0
  */
-class JeaControllerProperties extends JControllerAdmin
+class JeaControllerProperties extends AdminController
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see JControllerLegacy::__construct()
 	 */
@@ -44,14 +48,14 @@ class JeaControllerProperties extends JControllerAdmin
 	public function featured()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$ids = $this->input->get('cid', array(), 'array');
 		$values = array(
-				'featured' => 1,
-				'unfeatured' => 0
+			'featured' => 1,
+			'unfeatured' => 0
 		);
 		$task = $this->getTask();
 		$value = ArrayHelper::getValue($values, $task, 0, 'int');
@@ -63,13 +67,13 @@ class JeaControllerProperties extends JControllerAdmin
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
+				$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'warning');
 			}
 		}
 
 		if (empty($ids))
 		{
-			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
+			$this->setMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -96,20 +100,20 @@ class JeaControllerProperties extends JControllerAdmin
 	public function copy()
 	{
 		// Check for request forgeries
-		JSession::checkToken()or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Initialise variables.
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$ids = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
-		if (! $user->authorise('core.create'))
+		if (!$user->authorise('core.create'))
 		{
-			$this->setMessage(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'warning');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'), 'warning');
 		}
 		elseif (empty($ids))
 		{
-			$this->setMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
+			$this->setMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'warning');
 		}
 		else
 		{
@@ -135,7 +139,7 @@ class JeaControllerProperties extends JControllerAdmin
 	 */
 	public function import()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$model = $this->getModel('Import');
 		$type = $app->input->get('type');
@@ -147,9 +151,9 @@ class JeaControllerProperties extends JControllerAdmin
 		try
 		{
 			$model->import();
-			$app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_FOUND_TOTAL', $model->total));
-			$app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_UPDATED', $model->updated));
-			$app->enqueueMessage(JText::sprintf('COM_JEA_PROPERTIES_CREATED', $model->created));
+			$app->enqueueMessage(Text::sprintf('COM_JEA_PROPERTIES_FOUND_TOTAL', $model->total));
+			$app->enqueueMessage(Text::sprintf('COM_JEA_PROPERTIES_UPDATED', $model->updated));
+			$app->enqueueMessage(Text::sprintf('COM_JEA_PROPERTIES_CREATED', $model->created));
 		}
 		catch (Exception $e)
 		{
@@ -162,18 +166,16 @@ class JeaControllerProperties extends JControllerAdmin
 	/**
 	 * Method to get a JeaModelProperty model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
-	 * @param   array   $config  Configuration array for model.
+	 * @param   string $name   The model name.
+	 * @param   string $prefix The class prefix.
+	 * @param   array  $config Configuration array for model.
 	 *
 	 * @return  JeaModelProperty|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @see JControllerForm::getModel()
+	 * @see AdminController::getModel()
 	 */
 	public function getModel($name = 'Property', $prefix = 'JeaModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }

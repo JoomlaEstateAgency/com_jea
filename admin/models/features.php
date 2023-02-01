@@ -10,7 +10,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\Database\DatabaseDriver;
 
 require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
 
@@ -20,11 +23,11 @@ require JPATH_COMPONENT_ADMINISTRATOR . '/tables/features.php';
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelLegacy
+ * @see         BaseModel
  *
  * @since       2.0
  */
-class JeaModelFeatures extends JModelLegacy
+class JeaModelFeatures extends BaseModel
 {
 	/**
 	 * Get the list of features
@@ -55,7 +58,7 @@ class JeaModelFeatures extends JModelLegacy
 				// Check if this feature uses language
 				$lang = $form->xpath("//field[@name='language']");
 
-				if (! empty($lang))
+				if (!empty($lang))
 				{
 					$feature->language = true;
 				}
@@ -70,13 +73,13 @@ class JeaModelFeatures extends JModelLegacy
 	/**
 	 * Return table data as CSV string
 	 *
-	 * @param   string  $tableName  The name of the feature table
+	 * @param   string $tableName The name of the feature table
 	 *
 	 * @return  string  CSV formatted
 	 */
 	public function getCSVData($tableName = '')
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 		$query->select('*')->from($db->escape($tableName));
 		$db->setQuery($query);
@@ -94,8 +97,8 @@ class JeaModelFeatures extends JModelLegacy
 	/**
 	 * Import rows from CSV file and return the number of inserted rows
 	 *
-	 * @param   string  $file       The file path
-	 * @param   string  $tableName  The feature table name to insert csv data
+	 * @param   string $file        The file path
+	 * @param   string $tableName   The feature table name to insert csv data
 	 *
 	 * @return  integer  The number of inserted rows
 	 */
@@ -105,7 +108,7 @@ class JeaModelFeatures extends JModelLegacy
 
 		if (($handle = fopen($file, 'r')) !== false)
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$tableName = $db->escape($tableName);
 			$table = new FeaturesFactory($tableName, 'id', $db);
 			$cols = array_keys($table->getProperties());
@@ -128,10 +131,16 @@ class JeaModelFeatures extends JModelLegacy
 
 			while (($data = fgetcsv($handle, 1000, ';', '"')) !== false)
 			{
+				// Needed because cols contains 'typeAlias' - whatever the reason is
+				if (in_array('typeAlias', $cols))
+				{
+					array_splice($data, 0, 0, '');
+				}
+
 				$num = count($data);
 				$bind = array();
 
-				for ($c = 0; $c < $num; $c ++)
+				for ($c = 0; $c < $num; $c++)
 				{
 					if (isset($cols[$c]))
 					{
@@ -147,14 +156,14 @@ class JeaModelFeatures extends JModelLegacy
 				elseif (isset($bind['ordering']))
 				{
 					$bind['ordering'] = $maxOrdering;
-					$maxOrdering ++;
+					$maxOrdering++;
 				}
 
 				$table->save($bind, '', 'id');
 
 				// To force new insertion
 				$table->id = null;
-				$row ++;
+				$row++;
 			}
 		}
 

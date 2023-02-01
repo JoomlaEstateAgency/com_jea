@@ -10,7 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Feature list model class.
@@ -18,18 +22,18 @@ use Joomla\CMS\Filesystem\Folder;
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelList
+ * @see         ListModel
  *
  * @since       2.0
  */
-class JeaModelFeaturelist extends JModelList
+class JeaModelFeaturelist extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
-	 * @see JModelList
+	 * @see ListModel
 	 */
 	public function __construct($config = array())
 	{
@@ -53,7 +57,7 @@ class JeaModelFeaturelist extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string $id A prefix for the store id.
 	 *
 	 * @return  string A store id.
 	 */
@@ -84,12 +88,12 @@ class JeaModelFeaturelist extends JModelList
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
+	 * @param   string $ordering    An optional ordering field.
+	 * @param   string $direction   An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 *
-	 * @see JModelList::populateState()
+	 * @see ListModel::populateState()
 	 */
 	protected function populateState($ordering = 'f.id', $direction = 'desc')
 	{
@@ -152,8 +156,8 @@ class JeaModelFeaturelist extends JModelList
 	/**
 	 * Get the filter form
 	 *
-	 * @param   array    $data      data
-	 * @param   boolean  $loadData  load current data
+	 * @param   array   $data     data
+	 * @param   boolean $loadData load current data
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
@@ -163,7 +167,7 @@ class JeaModelFeaturelist extends JModelList
 	{
 		$form = parent::getFilterForm($data, $loadData);
 
-		if ($form instanceof JForm)
+		if ($form instanceof Form)
 		{
 			$featureForm = $this->getState('feature.form');
 
@@ -188,12 +192,12 @@ class JeaModelFeaturelist extends JModelList
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @see JModelList::getListQuery()
+	 * @see ListModel::getListQuery()
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 
 		$query->select('f.*')->from($db->escape($this->getState('feature.table')) . ' AS f');

@@ -10,7 +10,11 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Image\Image;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Form Field class for JEA.
@@ -23,7 +27,7 @@ use Joomla\CMS\Image\Image;
  *
  * @since       2.0
  */
-class JFormFieldGallery extends JFormField
+class JFormFieldGallery extends FormField
 {
 	/**
 	 * The form field type.
@@ -39,7 +43,7 @@ class JFormFieldGallery extends JFormField
 	 */
 	protected function getInput()
 	{
-		$params = JComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 
 		if (is_string($this->value))
 		{
@@ -57,7 +61,7 @@ class JFormFieldGallery extends JFormField
 
 		$propertyId = $this->form->getValue('id');
 
-		$baseURL = JUri::root(true);
+		$baseURL = Uri::root(true);
 		$imgBaseURL = $baseURL . '/images/com_jea/images/' . $propertyId;
 		$imgBasePath = JPATH_ROOT . '/images/com_jea/images/' . $propertyId;
 
@@ -83,7 +87,7 @@ class JFormFieldGallery extends JFormField
 				try
 				{
 					// This is where the JImage will be used, so only create it here
-					$JImage = new JImage($imgPath);
+					$JImage = new Image($imgPath);
 					$thumb = $JImage->resize(150, 90);
 					$thumb->crop(150, 90, 0, 0);
 					$thumb->toFile($imgBasePath . '/' . $thumbName);
@@ -108,12 +112,12 @@ class JFormFieldGallery extends JFormField
 			$image->width = $infos->width;
 		}
 
-		$layoutModel = array (
+		$layoutModel = array(
 			'uploadNumber' => $params->get('img_upload_number', 3),
 			'images' => $images,
 			'name' => $this->name,
 		);
 
-		return JLayoutHelper::render('jea.fields.gallery', $layoutModel);
+		return LayoutHelper::render('jea.fields.gallery', $layoutModel);
 	}
 }

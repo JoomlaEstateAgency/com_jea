@@ -10,24 +10,28 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
 /* @var $displayData array */
 
 $action = $displayData['action'];
 
-echo JHtml::_('bootstrap.startTabSet', 'consoles-panel', array('active' => 'console-ajax'));
+echo HTMLHelper::_('bootstrap.startTabSet', 'consoles-panel', array('active' => 'console-ajax'));
 
-echo JHtml::_('bootstrap.addTab', 'consoles-panel', 'console-ajax', JText::_('COM_JEA_'. strtoupper($action) . '_AJAX'));
+echo HTMLHelper::_('bootstrap.addTab', 'consoles-panel', 'console-ajax', Text::_('COM_JEA_' . strtoupper($action) . '_AJAX'));
 
-echo JLayoutHelper::render('jea.gateways.console.ajax', $displayData);
+echo LayoutHelper::render('jea.gateways.console.ajax', $displayData);
 
-echo JHtml::_('bootstrap.endTab');
+echo HTMLHelper::_('bootstrap.endTab');
 
-echo JHtml::_('bootstrap.addTab', 'consoles-panel', 'console-cli', JText::_('COM_JEA_'. strtoupper($action) . '_CLI'));
+echo HTMLHelper::_('bootstrap.addTab', 'consoles-panel', 'console-cli', Text::_('COM_JEA_' . strtoupper($action) . '_CLI'));
 
-echo JLayoutHelper::render('jea.gateways.console.cli', $displayData);
+echo LayoutHelper::render('jea.gateways.console.cli', $displayData);
 
-echo JHtml::_('bootstrap.endTab');
+echo HTMLHelper::_('bootstrap.endTab');
 
-echo JHtml::_('bootstrap.endTabSet');
+echo HTMLHelper::_('bootstrap.endTabSet');
 ?>
 

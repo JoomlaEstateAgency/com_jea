@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Database\DatabaseDriver;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -21,7 +26,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       2.0
  */
-class JFormFieldAmenities extends JFormField
+class JFormFieldAmenities extends FormField
 {
 	/**
 	 * The form field type.
@@ -47,10 +52,10 @@ class JFormFieldAmenities extends JFormField
 		$options = $this->getOptions();
 		$output = '<ul id="amenities">';
 
-		if (! empty($this->value))
+		if (!empty($this->value))
 		{
 			// Preformat data if comes from db
-			if (! is_array($this->value))
+			if (!is_array($this->value))
 			{
 				$this->value = explode('-', $this->value);
 			}
@@ -72,7 +77,7 @@ class JFormFieldAmenities extends JFormField
 			}
 
 			$title = '';
-			$label = JHtml::_('string.truncate', $row->value, 23, false, false);
+			$label = HTMLHelper::_('string.truncate', $row->value, 23, false, false);
 
 			if ($row->value != $label)
 			{
@@ -82,8 +87,8 @@ class JFormFieldAmenities extends JFormField
 			$output .= '<li class="amenity ' . $class . '">';
 
 			$output .= '<input class="am-input" type="checkbox" name="' . $this->name . '"'
-					. ' id="' . $this->id . $k . '" value="' . $row->id . '" ' . $checked . ' />'
-					. '<label class="am-title" for="' . $this->id . $k . '" ' . $title . '>' . $label . '</label>';
+				. ' id="' . $this->id . $k . '" value="' . $row->id . '" ' . $checked . ' />'
+				. '<label class="am-title" for="' . $this->id . $k . '" ' . $title . '>' . $label . '</label>';
 
 			$output .= '</li>';
 		}
@@ -100,15 +105,15 @@ class JFormFieldAmenities extends JFormField
 	 */
 	protected function getOptions()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 
 		$query->select('f.id , f.value');
 		$query->from('#__jea_amenities AS f');
 
-		if (JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
-			$query->where('f.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->where('f.language in (' . $db->quote(Factory::getApplication()->getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('f.value ASC');

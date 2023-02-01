@@ -8,6 +8,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
@@ -86,8 +94,8 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject   The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -113,24 +121,24 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	public function initWebConsole()
 	{
-		JHtml::script('media/com_jea/js/admin/gateway.js');
+		HTMLHelper::script('media/com_jea/js/admin/gateway.js');
 		$title = addslashes($this->title);
 
 		// Register script messages
-		JText::script('COM_JEA_IMPORT_START_MESSAGE', true);
-		JText::script('COM_JEA_IMPORT_END_MESSAGE', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_FOUND', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_CREATED', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_UPDATED', true);
-		JText::script('COM_JEA_GATEWAY_PROPERTIES_DELETED', true);
+		Text::script('COM_JEA_IMPORT_START_MESSAGE', true);
+		Text::script('COM_JEA_IMPORT_END_MESSAGE', true);
+		Text::script('COM_JEA_GATEWAY_PROPERTIES_FOUND', true);
+		Text::script('COM_JEA_GATEWAY_PROPERTIES_CREATED', true);
+		Text::script('COM_JEA_GATEWAY_PROPERTIES_UPDATED', true);
+		Text::script('COM_JEA_GATEWAY_PROPERTIES_DELETED', true);
 
 		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {\n"
-				. "    dispatcher.register(function() {\n"
-				. "        JeaGateway.startImport($this->id, '$title', webConsole);\n"
-				. "    });\n"
-				. "});";
+			. "    dispatcher.register(function() {\n"
+			. "        JeaGateway.startImport($this->id, '$title', webConsole);\n"
+			. "    });\n"
+			. "});";
 
-		JFactory::getDocument()->addScriptDeclaration($script);
+		Factory::getDocument()->addScriptDeclaration($script);
 	}
 
 	/**
@@ -167,7 +175,7 @@ abstract class JeaGatewayImport extends JeaGateway
 		else
 		{
 			$this->beforeImport();
-			$properties = & $this->parse();
+			$properties = &$this->parse();
 		}
 
 		$this->total = count($properties);
@@ -180,11 +188,11 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		$idsToRemove = array();
 
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 		$query->select('*')->from('#__jea_properties');
 
-		if (! empty($this->provider))
+		if (!empty($this->provider))
 		{
 			$query->where('provider=' . $db->quote($this->provider));
 		}
@@ -215,11 +223,11 @@ abstract class JeaGatewayImport extends JeaGateway
 					// Update needed
 					if ($properties[$row->ref]->save($this->provider, $row->id))
 					{
-						$this->updated ++;
+						$this->updated++;
 					}
 				}
 
-				$this->imported ++;
+				$this->imported++;
 				$this->importedProperties[$row->ref] = true;
 				unset($properties[$row->ref]);
 			}
@@ -248,7 +256,7 @@ abstract class JeaGatewayImport extends JeaGateway
 			{
 				if ($row->save($this->provider))
 				{
-					$this->created ++;
+					$this->created++;
 					$this->importedProperties[$ref] = true;
 				}
 				else
@@ -261,15 +269,15 @@ abstract class JeaGatewayImport extends JeaGateway
 					}
 
 					$this->log($msg, 'WARN');
-					JError::raiseNotice(200, "A property cant'be saved. See logs for more infos");
+					Error::raiseNotice(200, "A property cant'be saved. See logs for more infos");
 				}
 			}
 
-			$this->imported ++;
+			$this->imported++;
 			unset($properties[$ref]);
 		}
 
-		if ($this->persistance == true && ! empty($properties))
+		if ($this->persistance == true && !empty($properties))
 		{
 			$this->setPersistentProperties($properties);
 		}
@@ -280,11 +288,11 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		if (empty($properties))
 		{
-			$msg = JText::sprintf('COM_JEA_IMPORT_END_MESSAGE', $this->title)
-				. '. [' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_FOUND', $this->total)
-				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_CREATED', $this->created)
-				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_UPDATED', $this->updated)
-				. ' - ' . JText::sprintf('COM_JEA_GATEWAY_PROPERTIES_DELETED', $this->removed)
+			$msg = Text::sprintf('COM_JEA_IMPORT_END_MESSAGE', $this->title)
+				. '. [' . Text::sprintf('COM_JEA_GATEWAY_PROPERTIES_FOUND', $this->total)
+				. ' - ' . Text::sprintf('COM_JEA_GATEWAY_PROPERTIES_CREATED', $this->created)
+				. ' - ' . Text::sprintf('COM_JEA_GATEWAY_PROPERTIES_UPDATED', $this->updated)
+				. ' - ' . Text::sprintf('COM_JEA_GATEWAY_PROPERTIES_DELETED', $this->removed)
 				. ']';
 
 			$this->out($msg);
@@ -334,7 +342,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	protected function hasPersistentProperties()
 	{
-		$cache = JFactory::getCache('jea_import', 'output', 'file');
+		$cache = Factory::getCache('jea_import', 'output', 'file');
 		$cache->setCaching(true);
 		$properties = $cache->get('properties');
 
@@ -353,7 +361,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	protected function getPersistentProperties()
 	{
-		$cache = JFactory::getCache('jea_import', 'output', 'file');
+		$cache = Factory::getCache('jea_import', 'output', 'file');
 		$cache->setCaching(true);
 
 		$infos = $cache->get('infos');
@@ -377,18 +385,18 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Store properties in cache
 	 *
-	 * @param   JEAPropertyInterface[]  $properties  An array of JEAPropertyInterface instances
+	 * @param   JEAPropertyInterface[] $properties An array of JEAPropertyInterface instances
 	 *
 	 * @return void
 	 */
 	protected function setPersistentProperties($properties = array())
 	{
-		$cache = JFactory::getCache('jea_import', 'output', 'file');
+		$cache = Factory::getCache('jea_import', 'output', 'file');
 		$cache->setCaching(true);
 		$cache->store(serialize($properties), 'properties');
 		$infos = $cache->get('infos');
 
-		if (! $infos)
+		if (!$infos)
 		{
 			$infos = new stdClass;
 			$infos->total = $this->total;
@@ -430,7 +438,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	 */
 	protected function cleanPersistentProperties()
 	{
-		$cache = JFactory::getCache('jea_import', 'output', 'file');
+		$cache = Factory::getCache('jea_import', 'output', 'file');
 		$cache->setCaching(true);
 		$infos = $cache->get('infos');
 
@@ -453,7 +461,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Remove JEA properties
 	 *
-	 * @param   array  $ids  An array of ids to remove
+	 * @param   array $ids An array of ids to remove
 	 *
 	 * @return boolean
 	 */
@@ -464,16 +472,16 @@ abstract class JeaGatewayImport extends JeaGateway
 			return false;
 		}
 
-		$dbo = JFactory::getDbo();
+		$dbo = Factory::getContainer()->get(DatabaseDriver::class);
 		$dbo->setQuery('DELETE FROM #__jea_properties WHERE id IN(' . implode(',', $ids) . ')');
 		$dbo->execute();
 
 		// Remove images folder
 		foreach ($ids as $id)
 		{
-			if (JFolder::exists(JPATH_ROOT . '/images/com_jea/images/' . $id))
+			if (Folder::exists(JPATH_ROOT . '/images/com_jea/images/' . $id))
 			{
-				JFolder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
+				Folder::delete(JPATH_ROOT . '/images/com_jea/images/' . $id);
 			}
 		}
 
@@ -485,20 +493,20 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Return the cache path for the gateway instance
 	 *
-	 * @param   boolean  $createDir  If true, the Directory will be created
+	 * @param   boolean $createDir If true, the Directory will be created
 	 *
 	 * @return  string
 	 */
 	protected function getCachePath($createDir = false)
 	{
-		$cachePath = JFactory::getApplication()->get('cache_path', JPATH_CACHE) . '/' . $this->type . '_' . $this->provider;
+		$cachePath = Factory::getApplication()->get('cache_path', JPATH_CACHE) . '/' . $this->type . '_' . $this->provider;
 
-		if (!JFolder::exists($cachePath) && $createDir)
+		if (!Folder::exists($cachePath) && $createDir)
 		{
-			JFolder::create($cachePath);
+			Folder::create($cachePath);
 		}
 
-		if (!JFolder::exists($cachePath))
+		if (!Folder::exists($cachePath))
 		{
 			throw RuntimeException("Cache directory : $cachePath cannot be created.");
 		}
@@ -509,7 +517,7 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Parse an xml file
 	 *
-	 * @param   string  $xmlFile  The xml file path
+	 * @param   string $xmlFile The xml file path
 	 *
 	 * @return  SimpleXMLElement
 	 *
@@ -522,7 +530,7 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		$xml = simplexml_load_file($xmlFile, 'SimpleXMLElement', LIBXML_PARSEHUGE);
 
-		if (! $xml)
+		if (!$xml)
 		{
 			$msg = "Cannot load : $xmlFile. ";
 			$errors = libxml_get_errors();
@@ -560,8 +568,8 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Download a file and return the file as local file path
 	 *
-	 * @param   string  $url       The file url to download
-	 * @param   string  $destFile  Optionnal file destination name
+	 * @param   string $url      The file url to download
+	 * @param   string $destFile Optionnal file destination name
 	 *
 	 * @return  string  the downloaded file destination name
 	 */
@@ -570,7 +578,7 @@ abstract class JeaGatewayImport extends JeaGateway
 		if (empty($destFile))
 		{
 			$cachePath = $this->getCachePath(true);
-			$fileName = JFilterOutput::stringUrlSafe(basename($url));
+			$fileName = OutputFilter::stringUrlSafe(basename($url));
 
 			if (strlen($fileName) > 20)
 			{
@@ -580,9 +588,9 @@ abstract class JeaGatewayImport extends JeaGateway
 			$destFile = $cachePath . '/' . $fileName;
 		}
 
-		if (JFile::exists($destFile))
+		if (File::exists($destFile))
 		{
-			JFile::delete($destFile);
+			File::delete($destFile);
 		}
 
 		$ch = curl_init();
@@ -607,7 +615,7 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		curl_close($ch);
 
-		JFile::write($destFile, $data);
+		File::write($destFile, $data);
 
 		return $destFile;
 	}

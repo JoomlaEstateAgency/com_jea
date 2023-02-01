@@ -8,6 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Archive\Archive;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +25,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerFeatures extends JControllerLegacy
+class JeaControllerFeatures extends BaseController
 {
 	/**
 	 * Method to export features tables as CSV
@@ -27,23 +34,22 @@ class JeaControllerFeatures extends JControllerLegacy
 	 */
 	public function export()
 	{
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 		$features = $this->input->get('cid', array(), 'array');
 
 		if (!empty($features))
 		{
-			$config = JFactory::getConfig();
-			$exportPath = $config->get('tmp_path') . '/jea_export';
+			$exportPath = $application->get('tmp_path') . '/jea_export';
 
-			if (JFolder::create($exportPath) === false)
+			if (Folder::create($exportPath) === false)
 			{
-				$msg = JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE') . ' : ' . $exportPath;
+				$msg = Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_CREATE') . ' : ' . $exportPath;
 				$this->setRedirect('index.php?option=com_jea&view=features', $msg, 'warning');
 			}
 			else
 			{
 				$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
-				$xmlFiles = JFolder::files($xmlPath);
+				$xmlFiles = Folder::files($xmlPath);
 				$model = $this->getModel();
 				$files = array();
 
@@ -68,7 +74,8 @@ class JeaControllerFeatures extends JControllerLegacy
 				}
 
 				$zipFile = $exportPath . '/jea_export_' . uniqid() . '.zip';
-				$zip = JArchive::getAdapter('zip');
+				$archive = new Archive;
+				$zip = $archive->getAdapter('zip');
 				$zip->create($zipFile, $files);
 
 				$application->setHeader('Content-Type', 'application/zip', true);
@@ -79,15 +86,15 @@ class JeaControllerFeatures extends JControllerLegacy
 				echo readfile($zipFile);
 
 				// Clean tmp files
-				JFile::delete($zipFile);
-				JFolder::delete($exportPath);
+				File::delete($zipFile);
+				Folder::delete($exportPath);
 
 				$application->close();
 			}
 		}
 		else
 		{
-			$msg = JText::_('JERROR_NO_ITEMS_SELECTED');
+			$msg = Text::_('JERROR_NO_ITEMS_SELECTED');
 			$this->setRedirect('index.php?option=com_jea&view=features', $msg);
 		}
 	}
@@ -99,12 +106,12 @@ class JeaControllerFeatures extends JControllerLegacy
 	 */
 	public function import()
 	{
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 		$upload = JeaUpload::getUpload('csv');
 		$validExtensions = array('csv', 'CSV', 'txt', 'TXT');
 
 		$xmlPath = JPATH_COMPONENT . '/models/forms/features/';
-		$xmlFiles = JFolder::files($xmlPath);
+		$xmlFiles = Folder::files($xmlPath);
 		$model = $this->getModel();
 		$tables = array();
 
@@ -138,7 +145,7 @@ class JeaControllerFeatures extends JControllerLegacy
 					try
 					{
 						$rows = $model->importFromCSV($file->temp_name, $tables[$file->key]);
-						$msg = JText::sprintf('COM_JEA_NUM_LINES_IMPORTED_ON_TABLE', $rows, $tables[$file->key]);
+						$msg = Text::sprintf('COM_JEA_NUM_LINES_IMPORTED_ON_TABLE', $rows, $tables[$file->key]);
 						$application->enqueueMessage($msg);
 					}
 					catch (Exception $e)
@@ -162,9 +169,9 @@ class JeaControllerFeatures extends JControllerLegacy
 	/**
 	 * Method to get a JeaModelFeatures model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
-	 * @param   array   $config  Configuration array for model.
+	 * @param   string $name   The model name.
+	 * @param   string $prefix The class prefix.
+	 * @param   array  $config Configuration array for model.
 	 *
 	 * @return  JeaModelFeatures|boolean  Model object on success; otherwise false on failure.
 	 *

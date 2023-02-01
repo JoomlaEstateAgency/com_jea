@@ -8,6 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,16 +20,16 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelList
+ * @see         ListModel
  *
  * @since       3.4
  */
-class JeaModelGateways extends JModelList
+class JeaModelGateways extends ListModel
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array $config An optional associative array of configuration settings.
 	 *
 	 * @see     JModelList
 	 */
@@ -50,12 +54,12 @@ class JeaModelGateways extends JModelList
 	 *
 	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
 	 *
-	 * @see JModelList::getListQuery()
+	 * @see ListModel::getListQuery()
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 
 		$query->select('*');

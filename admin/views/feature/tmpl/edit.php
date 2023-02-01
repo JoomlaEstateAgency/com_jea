@@ -10,26 +10,35 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 /**
  * @var $this JeaViewFeature
  */
-$app = JFactory::getApplication();
-JHtml::_('formbehavior.chosen', 'select');
-JHtml::stylesheet('media/com_jea/css/jea.admin.css');
+$app = Factory::getApplication();
+HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
+
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+    ->useScript('form.validate');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_jea&layout=edit&id='.(int) $this->item->id) ?>"
-	method="post" name="adminForm" id="adminForm" class="form-validate">
+<form
+    action="<?php echo Route::_('index.php?option=com_jea&layout=edit&id=' . (int)$this->item->id) ?>"
+    method="post" name="adminForm" id="adminForm" class="form-validate">
 
-	<div class="form-horizontal">
-	<?php foreach ($this->form->getFieldset('feature') as $field): ?>
-		<?php echo $field->renderField() ?>
-	<?php endforeach ?>
-	</div>
+  <div class="form-horizontal">
+      <?php foreach ($this->form->getFieldset('feature') as $field): ?>
+          <?php echo $field->renderField() ?>
+      <?php endforeach ?>
+  </div>
 
-	<div>
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="feature" value="<?php echo $this->state->get('feature.name')?>" />
-		<input type="hidden" name="return" value="<?php echo $app->input->getCmd('return') ?>" />
-		<?php echo JHtml::_('form.token') ?>
-	</div>
+  <div>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="feature" value="<?php echo $this->state->get('feature.name') ?>"/>
+    <input type="hidden" name="return" value="<?php echo $app->input->getCmd('return') ?>"/>
+      <?php echo HTMLHelper::_('form.token') ?>
+  </div>
 </form>

@@ -7,27 +7,31 @@
  * @copyright   Copyright (C) 2008 - 2020 PHILIP Sylvain. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Factory;
+
 $options = getopt('', array('basedir:', 'baseurl:', 'import', 'export'));
 
-if (! isset($options['import']) && ! isset($options['export']))
+if (!isset($options['import']) && !isset($options['export']))
 {
 	echo "--import or --export options must be specified.";
 	exit(1);
 }
 
-if (! isset($options['basedir']))
+if (!isset($options['basedir']))
 {
 	echo "--basedir option must be set.\n";
 	exit(1);
 }
 
-if (! is_dir($options['basedir']))
+if (!is_dir($options['basedir']))
 {
 	echo "--basedir not found.";
 	exit(1);
 }
 
-if (isset($options['export']) && ! isset($options['baseurl']))
+if (isset($options['export']) && !isset($options['baseurl']))
 {
 	echo "--baseurl option must be set.\n";
 	exit(1);
@@ -55,25 +59,27 @@ ini_set('display_errors', 1);
  *
  * @since  3.4
  */
-class JeaGateways extends JApplicationCli
+class JeaGateways extends ConsoleApplication
 {
 	/**
 	 * Entry point for CLI script
 	 *
-	 * @return  void
+	 * @return integer the parents result
 	 */
-	public function doExecute()
+	public function doExecute(): int
 	{
-		JFactory::$application = $this;
+		Factory::$application = $this;
 
-		JFactory::getLanguage()->load('com_jea', JPATH_COMPONENT, 'fr-FR', false, false);
+		Factory::getApplication()->getLanguage()->load('com_jea', JPATH_COMPONENT, 'fr-FR', false, false);
 
 		$task = $this->input->getBool('import') ? 'import' : 'export';
 
 		$dispatcher = GatewaysEventDispatcher::getInstance();
 		$dispatcher->loadGateways();
 		$dispatcher->trigger($task);
+
+		return parent::doExecute();
 	}
 }
 
-JApplicationCli::getInstance('JeaGateways')->execute();
+ConsoleApplication::getInstance('JeaGateways')->execute();

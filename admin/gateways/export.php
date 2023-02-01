@@ -8,6 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Application\WebApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
@@ -29,21 +36,21 @@ abstract class JeaGatewayExport extends JeaGateway
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject   The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(&$subject, $config = array())
 	{
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 
 		if (defined('BASE_URL'))
 		{
 			$this->baseUrl = BASE_URL;
 		}
 
-		if ($application instanceof JApplicationWeb)
+		if ($application instanceof WebApplication)
 		{
-			$this->baseUrl = JUri::root();
+			$this->baseUrl = Uri::root();
 		}
 
 		parent::__construct($subject, $config);
@@ -59,26 +66,26 @@ abstract class JeaGatewayExport extends JeaGateway
 	/**
 	 * Get all JEA properties
 	 *
-	 * @param   boolean  $published  If true, get only published properties
+	 * @param   boolean $published If true, get only published properties
 	 *
 	 * @return  array
 	 */
 	protected function getJeaProperties($published = true)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 		$query = 'SELECT p.*, t.value AS town, ht.value AS heating_type'
-				. ', hwt.value AS hot_water_type, d.value AS department'
-				. ', a.value AS `area`, s.value AS slogan, c.value AS `condition`, type.value AS type' . PHP_EOL
-				. 'FROM #__jea_properties AS p' . PHP_EOL
-				. 'LEFT JOIN #__jea_towns AS t ON t.id = p.town_id' . PHP_EOL
-				. 'LEFT JOIN #__jea_departments AS d ON d.id = p.department_id' . PHP_EOL
-				. 'LEFT JOIN #__jea_areas AS a ON a.id = p.area_id' . PHP_EOL
-				. 'LEFT JOIN #__jea_heatingtypes AS ht ON ht.id = p.heating_type' . PHP_EOL
-				. 'LEFT JOIN #__jea_hotwatertypes AS hwt ON hwt.id = p.heating_type' . PHP_EOL
-				. 'LEFT JOIN #__jea_types AS type ON type.id = p.type_id' . PHP_EOL
-				. 'LEFT JOIN #__jea_conditions AS c ON c.id = p.condition_id' . PHP_EOL
-				. 'LEFT JOIN #__jea_slogans AS s ON s.id = p.slogan_id' . PHP_EOL;
+			. ', hwt.value AS hot_water_type, d.value AS department'
+			. ', a.value AS `area`, s.value AS slogan, c.value AS `condition`, type.value AS type' . PHP_EOL
+			. 'FROM #__jea_properties AS p' . PHP_EOL
+			. 'LEFT JOIN #__jea_towns AS t ON t.id = p.town_id' . PHP_EOL
+			. 'LEFT JOIN #__jea_departments AS d ON d.id = p.department_id' . PHP_EOL
+			. 'LEFT JOIN #__jea_areas AS a ON a.id = p.area_id' . PHP_EOL
+			. 'LEFT JOIN #__jea_heatingtypes AS ht ON ht.id = p.heating_type' . PHP_EOL
+			. 'LEFT JOIN #__jea_hotwatertypes AS hwt ON hwt.id = p.heating_type' . PHP_EOL
+			. 'LEFT JOIN #__jea_types AS type ON type.id = p.type_id' . PHP_EOL
+			. 'LEFT JOIN #__jea_conditions AS c ON c.id = p.condition_id' . PHP_EOL
+			. 'LEFT JOIN #__jea_slogans AS s ON s.id = p.slogan_id' . PHP_EOL;
 
 		if ($published)
 		{
@@ -138,7 +145,7 @@ abstract class JeaGatewayExport extends JeaGateway
 	/**
 	 * Get pictures of a property
 	 *
-	 * @param   object  $row  The property DB row
+	 * @param   object $row The property DB row
 	 *
 	 * @return  array
 	 */
@@ -147,14 +154,14 @@ abstract class JeaGatewayExport extends JeaGateway
 		$result = array();
 		$images = json_decode($row->images);
 
-		if (empty($images) && ! is_array($images))
+		if (empty($images) && !is_array($images))
 		{
 			return $result;
 		}
 
 		$imgDir = 'images/com_jea/images/' . $row->id;
 
-		if (! JFolder::exists(JPATH_ROOT . '/' . $imgDir))
+		if (!Folder::exists(JPATH_ROOT . '/' . $imgDir))
 		{
 			return $result;
 		}
@@ -163,14 +170,14 @@ abstract class JeaGatewayExport extends JeaGateway
 		{
 			$path = JPATH_ROOT . '/' . $imgDir . '/' . $image->name;
 
-			if (JFile::exists($path))
+			if (File::exists($path))
 			{
 				$result[] = array(
-						'path' => $path,
-						'url' => $this->baseUrl . $imgDir . '/' . $image->name,
-						'name' => $image->name,
-						'title' => $image->title,
-						'description' => $image->description
+					'path' => $path,
+					'url' => $this->baseUrl . $imgDir . '/' . $image->name,
+					'name' => $image->name,
+					'title' => $image->title,
+					'description' => $image->description
 				);
 			}
 		}

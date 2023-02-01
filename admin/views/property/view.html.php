@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,12 +24,12 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewProperty extends JViewLegacy
+class JeaViewProperty extends HtmlView
 {
 	/**
 	 * The form object
 	 *
-	 * @var JForm
+	 * @var Form
 	 */
 	protected $form;
 
@@ -51,11 +57,11 @@ class JeaViewProperty extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @see     HtmlView::display()
 	 *
-	 * @see     JViewLegacy::display()
+	 * @return  mixed A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -76,43 +82,43 @@ class JeaViewProperty extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$user = JFactory::getUser();
+		Factory::getApplication()->input->set('hidemainmenu', true);
+		$user = Factory::getApplication()->getIdentity();
 
 		$isNew = ($this->item->id == 0);
-		$checkedOut = ! ($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
 
-		$title = JText::_('COM_JEA_PROPERTIES_MANAGEMENT') . ' : ';
-		$title .= $isNew ? JText::_('JACTION_CREATE') : JText::_('JACTION_EDIT');
+		$title = Text::_('COM_JEA_PROPERTIES_MANAGEMENT') . ' : ';
+		$title .= $isNew ? Text::_('JACTION_CREATE') : Text::_('JACTION_EDIT');
 
-		JToolBarHelper::title($title, 'jea');
+		ToolbarHelper::title($title, 'jea');
 
 		// Built the actions for new and existing records.
 		// For new records, check the create permission.
 		if ($isNew && ($this->canDo->get('core.create')))
 		{
-			JToolBarHelper::apply('property.apply');
-			JToolBarHelper::save('property.save');
-			JToolBarHelper::save2new('property.save2new');
-			JToolBarHelper::cancel('property.cancel');
+			ToolbarHelper::apply('property.apply');
+			ToolbarHelper::save('property.save');
+			ToolbarHelper::save2new('property.save2new');
+			ToolbarHelper::cancel('property.cancel');
 		}
 		else
 		{
 			// Can't save the record if it's checked out.
-			if (! $checkedOut)
+			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission, or
 				// fall back to edit own if the owner.
 				if ($this->canDo->get('core.edit') || ($this->canDo->get('core.edit.own') && $this->item->created_by == $user->id))
 				{
-					JToolBarHelper::apply('property.apply');
-					JToolBarHelper::save('property.save');
+					ToolbarHelper::apply('property.apply');
+					ToolbarHelper::save('property.save');
 
 					// We can save this record, but check the create permission
 					// to see if we can return to make a new one.
 					if ($this->canDo->get('core.create'))
 					{
-						JToolBarHelper::save2new('property.save2new');
+						ToolbarHelper::save2new('property.save2new');
 					}
 				}
 			}
@@ -120,10 +126,10 @@ class JeaViewProperty extends JViewLegacy
 			// If checked out, we can still save
 			if ($this->canDo->get('core.create'))
 			{
-				JToolBarHelper::save2copy('property.save2copy');
+				ToolbarHelper::save2copy('property.save2copy');
 			}
 
-			JToolBarHelper::cancel('property.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('property.cancel', 'JTOOLBAR_CLOSE');
 		}
 	}
 }

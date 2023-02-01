@@ -10,14 +10,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+
 /* @var $displayData array */
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/dispatcher.php';
 
-JHTML::script('media/com_jea/js/console.js');
+HTMLHelper::script('media/com_jea/js/console.js');
 
-JText::script('COM_JEA_GATEWAY_IMPORT_TIME_REMAINING', true);
-JText::script('COM_JEA_GATEWAY_IMPORT_TIME_ELAPSED', true);
+Text::script('COM_JEA_GATEWAY_IMPORT_TIME_REMAINING', true);
+Text::script('COM_JEA_GATEWAY_IMPORT_TIME_ELAPSED', true);
 
 $action = $displayData['action'];
 
@@ -64,13 +68,13 @@ jQuery(document).ready(function($) {
 });
 JS;
 
-$document = JFactory::getDocument();
+$document = Factory::getDocument();
 $document->addScriptDeclaration($script);
 ?>
 
 <button id="ajax-launch" class="btn btn-success has-spinner">
-<span class="spinner"><i class="jea-icon-spin icon-refresh"></i></span>
-<?php echo JText::_('COM_JEA_'. strtoupper($action) . '_LAUNCH')?>
+  <span class="spinner"><i class="jea-icon-spin icon-refresh"></i></span>
+    <?php echo Text::_('COM_JEA_' . strtoupper($action) . '_LAUNCH') ?>
 </button>
 
 <div id="console" class="console"></div>

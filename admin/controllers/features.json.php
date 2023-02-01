@@ -8,6 +8,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +22,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerFeatures extends JControllerLegacy
+class JeaControllerFeatures extends BaseController
 {
 	/**
 	 * Get list of areas in relation with a town
@@ -32,7 +36,7 @@ class JeaControllerFeatures extends JControllerLegacy
 		// Require town id
 		if ($town_id = $this->input->getInt('town_id', 0))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$query = $db->getQuery(true);
 			$query->select('f.id , f.value');
 			$query->from('#__jea_areas AS f');
@@ -57,7 +61,7 @@ class JeaControllerFeatures extends JControllerLegacy
 		// Require department id
 		if ($department_id = $this->input->getInt('department_id', 0))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$query = $db->getQuery(true);
 			$query->select('f.id , f.value');
 			$query->from('#__jea_towns AS f');
@@ -94,7 +98,7 @@ class JeaControllerFeatures extends JControllerLegacy
 					$language = '*';
 				}
 
-				$db = JFactory::getDbo();
+				$db = Factory::getContainer()->get(DatabaseDriver::class);
 				$query = $db->getQuery(true);
 				$query->select('f.id , f.value');
 				$query->from($db->quoteName($features[$featName]->table) . ' AS f');

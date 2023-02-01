@@ -8,12 +8,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 /**
  * JEA router functions
  *
- * @param   array  $query  An array of URL arguments
+ * @param   array $query An array of URL arguments
  *
  * @return  array The URL arguments to use to assemble the subsequent URL.
  *
@@ -46,7 +48,7 @@ function jeaBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @param   array  $segments  The segments of the URL to parse.
+ * @param   array $segments The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  *
@@ -57,7 +59,7 @@ function jeaParseRoute($segments)
 	$vars = array();
 
 	// Get the active menu item
-	$app  = JFactory::getApplication();
+	$app = Factory::getApplication();
 	$menu = $app->getMenu();
 	$item = $menu->getActive();
 
@@ -65,7 +67,8 @@ function jeaParseRoute($segments)
 	$count = count($segments);
 
 	// Standard routing for property
-	if (! isset($item))
+
+	if (!isset($item))
 	{
 		$vars['view'] = 'property';
 		$vars['id'] = $segments[$count - 1];

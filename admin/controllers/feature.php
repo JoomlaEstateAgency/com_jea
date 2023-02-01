@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Controller\FormController;
+
 /**
  * Feature controller class.
  *
@@ -18,7 +20,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerFeature extends JControllerForm
+class JeaControllerFeature extends FormController
 {
 	/**
 	 * The default view for the display method.
@@ -30,8 +32,8 @@ class JeaControllerFeature extends JControllerForm
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId  The primary key id for the item.
-	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * @param   integer $recordId The primary key id for the item.
+	 * @param   string  $urlVar   The name of the URL variable for the id.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
@@ -40,7 +42,7 @@ class JeaControllerFeature extends JControllerForm
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$feature = $this->input->getCmd('feature');
-		$append  = parent::getRedirectToItemAppend($recordId, $urlVar);
+		$append = parent::getRedirectToItemAppend($recordId, $urlVar);
 
 		if ($feature)
 		{
@@ -53,13 +55,13 @@ class JeaControllerFeature extends JControllerForm
 	/**
 	 * Method to get a JeaModelFeature model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
-	 * @param   array   $config  Configuration array for model.
+	 * @param   string $name   The model name.
+	 * @param   string $prefix The class prefix.
+	 * @param   array  $config Configuration array for model.
 	 *
 	 * @return  JeaModelFeature|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @see JControllerForm::getModel()
+	 * @see FormController::getModel()
 	 */
 	public function getModel($name = 'Feature', $prefix = 'JeaModel', $config = array())
 	{

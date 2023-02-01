@@ -11,8 +11,12 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-JFormHelper::loadFieldClass('list');
+FormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of gateway providers
@@ -20,11 +24,11 @@ JFormHelper::loadFieldClass('list');
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JFormFieldList
+ * @see         ListFieldList
  *
  * @since       2.0
  */
-class JFormFieldGatewayProviderList extends JFormFieldList
+class ListFieldGatewayProviderList extends ListField
 {
 	/**
 	 * The form field type.
@@ -43,11 +47,11 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string $name The property name for which to the the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @see JFormField::__get()
+	 * @see ListField::__get()
 	 */
 	public function __get($name)
 	{
@@ -62,12 +66,12 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
-	 * @param   mixed   $value  The value of the property.
+	 * @param   string $name  The property name for which to the the value.
+	 * @param   mixed  $value The value of the property.
 	 *
 	 * @return  void
 	 *
-	 * @see JFormField::__set()
+	 * @see ListField::__set()
 	 */
 	public function __set($name, $value)
 	{
@@ -82,13 +86,13 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
-	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value.
+	 * @param   SimpleXMLElement $element    The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed            $value      The form field value to validate.
+	 * @param   string           $group      The field name group control value.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see JFormField::setup()
+	 * @see ListField::setup()
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -107,7 +111,7 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @see JFormFieldList::getOptions()
+	 * @see ListFieldList::getOptions()
 	 */
 	protected function getOptions()
 	{
@@ -117,13 +121,13 @@ class JFormFieldGatewayProviderList extends JFormFieldList
 
 		$folders = Folder::folders($path);
 
-		$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
+		$options[] = HTMLHelper::_('select.option', '', Text::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 
 		foreach ($folders as $folder)
 		{
 			if (file_exists($path . '/' . $folder . '/' . $this->providerType . '.xml'))
 			{
-				$options[] = JHtml::_('select.option', $folder, $folder);
+				$options[] = HTMLHelper::_('select.option', $folder, $folder);
 			}
 		}
 

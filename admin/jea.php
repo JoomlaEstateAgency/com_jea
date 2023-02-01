@@ -10,11 +10,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JLoader::register('JeaHelper', __DIR__ . '/helpers/jea.php');
 JLoader::register('JeaUpload', __DIR__ . '/helpers/upload.php');
 JLoader::register('JeaHelperUtility', __DIR__ . '/helpers/utility.php');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->getInput();
 
 if ($input->getCmd('task') == '')
 {

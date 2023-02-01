@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/import.php';
@@ -31,12 +36,12 @@ class JeaGatewayImportJea extends JeaGatewayImport
 		$properties = array();
 		$importDir = $this->params->get('import_directory');
 
-		if (! JFolder::exists($importDir))
+		if (!Folder::exists($importDir))
 		{
 			// Maybe a relative path to Joomla ?
-			if (! JFolder::exists(JPATH_ROOT . '/' . trim($importDir, '/')))
+			if (!Folder::exists(JPATH_ROOT . '/' . trim($importDir, '/')))
 			{
-				throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_DIRECTORY_NOT_FOUND', $importDir));
+				throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_DIRECTORY_NOT_FOUND', $importDir));
 			}
 
 			$importDir = JPATH_ROOT . '/' . trim($importDir, '/');
@@ -51,7 +56,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 
 		foreach ($tmpDirs as $dir)
 		{
-			$xmlFiles = JFolder::files($dir, '.(xml|XML)$', false, true);
+			$xmlFiles = Folder::files($dir, '.(xml|XML)$', false, true);
 
 			if (empty($xmlFiles))
 			{
@@ -68,21 +73,21 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	/**
 	 * Extract Zip files and return extracting directories
 	 *
-	 * @param   string  $importDir  The directory where to find zip files
+	 * @param   string $importDir The directory where to find zip files
 	 *
 	 * @return  array
 	 */
 	protected function extractZips($importDir)
 	{
 		$tmpDirs = array();
-		$tmpPath = JFactory::getConfig()->get('tmp_path');
+		$tmpPath = Factory::getApplication()->get('tmp_path');
 
 		// Find zip files
-		$zips = JFolder::files($importDir, '.(zip|ZIP)$', false, true);
+		$zips = Folder::files($importDir, '.(zip|ZIP)$', false, true);
 
 		if (empty($zips))
 		{
-			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_NO_ZIP_FOUND', $importDir));
+			throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_IMPORT_NO_ZIP_FOUND', $importDir));
 		}
 
 		// Extract zips
@@ -90,16 +95,18 @@ class JeaGatewayImportJea extends JeaGatewayImport
 		{
 			$tmpDir = $tmpPath . '/' . basename($zipfile);
 
-			if (! JFolder::create($tmpDir))
+			if (!Folder::create($tmpDir))
 			{
-				throw new Exception(JText::sprintf('COM_JEA_ERROR_CANNOT_CREATE_DIR', $tmpDir));
+				throw new Exception(Text::sprintf('COM_JEA_ERROR_CANNOT_CREATE_DIR', $tmpDir));
 			}
 
 			$tmpDirs[] = $tmpDir;
 
-			if (! JArchive::extract($zipfile, $tmpDir))
+			$archive = new;
+
+			if (!$archive->extract($zipfile, $tmpDir))
 			{
-				throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_CANNOT_EXTRACT_ZIP', $zipfile));
+				throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_CANNOT_EXTRACT_ZIP', $zipfile));
 			}
 		}
 
@@ -109,8 +116,8 @@ class JeaGatewayImportJea extends JeaGatewayImport
 	/**
 	 * Xml parser
 	 *
-	 * @param   array   $properties   Will be filled with JEAPropertyInterface instances
-	 * @param   string  $xmlFile      The xml file path
+	 * @param   array   $properties Will be filled with JEAPropertyInterface instances
+	 * @param   string  $xmlFile    The xml file path
 	 *
 	 * @return  void
 	 *
@@ -162,7 +169,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 
 					foreach ($images as $image)
 					{
-						if (JFile::exists($currentDirectory . '/' . $image->name))
+						if (File::exists($currentDirectory . '/' . $image->name))
 						{
 							$property->images[] = $currentDirectory . '/' . $image->name;
 						}

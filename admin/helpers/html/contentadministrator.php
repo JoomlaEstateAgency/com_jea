@@ -10,6 +10,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,9 +27,9 @@ abstract class JHtmlContentAdministrator
 	/**
 	 * Helper to display the featured icon in a list of items
 	 *
-	 * @param   int      $value      The state value
-	 * @param   int      $i          The list counter value
-	 * @param   boolean  $canChange  The user right to change the state
+	 * @param   int     $value      The state value
+	 * @param   int     $i          The list counter value
+	 * @param   boolean $canChange  The user right to change the state
 	 *
 	 * @return string
 	 */
@@ -50,12 +52,12 @@ abstract class JHtmlContentAdministrator
 		);
 
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$html = JHtml::_('image', 'admin/' . $state[0], JText::_($state[2]), null, true);
+		$html = HTMLHelper::_('image', 'admin/' . $state[0], Text::_($state[2]), null, true);
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . JText::_($state[3]) . '">'
-					. $html . '</a>';
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" title="' . Text::_($state[3]) . '">'
+				. $html . '</a>';
 		}
 
 		return $html;

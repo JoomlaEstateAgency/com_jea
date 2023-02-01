@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.5" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>jea</name>
 	<author>Sylvain Philip</author>
 	<creationDate>jan 2020</creationDate>
@@ -10,8 +10,7 @@
 	<version>3.5.1</version>
 	<description>Easy real estate Ads management</description>
 
-	<!-- Runs on install/uninstall/update -->
-	<scriptfile>script.php</scriptfile>
+	<namespace path="/">sphilip\Component\JEA</namespace>
 
 	<!-- Install / Uninstall Database Section -->
 	<install>

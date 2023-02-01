@@ -12,6 +12,11 @@ defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/export.php';
 
@@ -32,9 +37,9 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * Get the export directory path
 	 *
+	 * @return string The export dir
 	 * @throws Exception if directory is not found
 	 *
-	 * @return string The export dir
 	 */
 	protected function getExportDirectory()
 	{
@@ -42,14 +47,14 @@ class JeaGatewayExportJea extends JeaGatewayExport
 		{
 			$dir = $this->params->get('export_directory');
 
-			if (! JFolder::exists($dir))
+			if (!Folder::exists($dir))
 			{
 				// Try to create dir into joomla root dir
 				$dir = JPATH_ROOT . '/' . trim($dir, '/');
 
-				if (JFolder::exists(basename($dir)) && ! JFolder::create($dir))
+				if (Folder::exists(basename($dir)) && !Folder::create($dir))
 				{
-					throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_EXPORT_DIRECTORY_CANNOT_BE_CREATED', $dir));
+					throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_EXPORT_DIRECTORY_CANNOT_BE_CREATED', $dir));
 				}
 			}
 
@@ -62,11 +67,11 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * Create the zip file
 	 *
-	 * @param   string  $filename  The zipfile path to create.
-	 * @param   array   $files     A set of files to be included into the zipfile.
+	 * @param   string $filename The zipfile path to create.
+	 * @param   array  $files    A set of files to be included into the zipfile.
 	 *
-	 * @throws  Exception if zip file cannot be created
 	 * @return  void
+	 * @throws  Exception if zip file cannot be created
 	 */
 	protected function createZip($filename, &$files)
 	{
@@ -74,7 +79,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 
 		if (!@$zipAdapter->create($filename, $files))
 		{
-			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_ZIP_CREATION', $filename));
+			throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_ZIP_CREATION', $filename));
 		}
 
 		$this->log("Zip creation : $filename");
@@ -83,8 +88,8 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * Build XML
 	 *
-	 * @param   string|array  $data         The data to convert
-	 * @param   string        $elementName  The element name
+	 * @param   string|array    $data        The data to convert
+	 * @param   string          $elementName The element name
 	 *
 	 * @return  DOMDocument|DOMElement
 	 */
@@ -108,12 +113,12 @@ class JeaGatewayExportJea extends JeaGatewayExport
 				if (is_int($key))
 				{
 					$childsName = array(
-							$rootName => 'property',
-							'amenities' => 'amenity',
-							'images' => 'image'
+						$rootName => 'property',
+						'amenities' => 'amenity',
+						'images' => 'image'
 					);
 
-					if (! isset($childsName[$elementName]))
+					if (!isset($childsName[$elementName]))
 					{
 						continue;
 					}
@@ -144,10 +149,10 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	/**
 	 * Send File over FTP
 	 *
-	 * @param   string  $file  The file to send
+	 * @param   string $file The file to send
 	 *
-	 * @throws Exception if FTP transfer fails
 	 * @return  void
+	 * @throws Exception if FTP transfer fails
 	 */
 	protected function ftpSend($file)
 	{
@@ -155,17 +160,17 @@ class JeaGatewayExportJea extends JeaGatewayExport
 
 		if (!$ftpClient->connect($this->params->get('ftp_host')))
 		{
-			throw new Exception(JText::sprintf('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_CONNECT_TO_HOST', $this->params->get('ftp_host')));
+			throw new Exception(Text::sprintf('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_CONNECT_TO_HOST', $this->params->get('ftp_host')));
 		}
 
 		if (!$ftpClient->login($this->params->get('ftp_username'), $this->params->get('ftp_password')))
 		{
-			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_LOGIN'));
+			throw new Exception(Text::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_LOGIN'));
 		}
 
 		if (!$ftpClient->store($file))
 		{
-			throw new Exception(JText::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_SEND_FILE'));
+			throw new Exception(Text::_('COM_JEA_GATEWAY_ERROR_FTP_UNABLE_TO_SEND_FILE'));
 		}
 
 		$ftpClient->quit();
@@ -178,21 +183,21 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	 */
 	public function initWebConsole()
 	{
-		JHtml::script('media/com_jea/js/gateway-jea.js', true);
+		HTMLHelper::script('media/com_jea/js/gateway-jea.js', true);
 		$title = addslashes($this->title);
 
 		// Register script messages
-		JText::script('COM_JEA_EXPORT_START_MESSAGE', true);
-		JText::script('COM_JEA_EXPORT_END_MESSAGE', true);
-		JText::script('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS', true);
-		JText::script('COM_JEA_GATEWAY_DOWNLOAD_ZIP', true);
+		Text::script('COM_JEA_EXPORT_START_MESSAGE', true);
+		Text::script('COM_JEA_EXPORT_END_MESSAGE', true);
+		Text::script('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS', true);
+		Text::script('COM_JEA_GATEWAY_DOWNLOAD_ZIP', true);
 
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$script = "jQuery(document).on('registerGatewayAction', function(event, webConsole, dispatcher) {"
-				. "    dispatcher.register(function() {"
-				. "        JeaGateway.startExport($this->id, '$title', webConsole);"
-				. "    });"
-				. "});";
+			. "    dispatcher.register(function() {"
+			. "        JeaGateway.startExport($this->id, '$title', webConsole);"
+			. "    });"
+			. "});";
 		$document->addScriptDeclaration($script);
 	}
 
@@ -238,7 +243,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 		}
 
 		// Init $xmlFile before DOMDocument::save()
-		JFile::write($xmlFile, '');
+		File::write($xmlFile, '');
 
 		$xml = $this->buildXMl($properties, 'jea');
 		$xml->formatOutput = true;
@@ -257,7 +262,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 			'ftp_sent' => false
 		);
 
-		$message = JText::_('COM_JEA_EXPORT_END_MESSAGE');
+		$message = Text::_('COM_JEA_EXPORT_END_MESSAGE');
 		$message = str_replace(
 			array('{title}', '{count}'),
 			array($this->title, $response['exported_properties']),
@@ -268,7 +273,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 		{
 			$this->ftpSend($zipFile);
 			$response['ftp_sent'] = true;
-			$message .= ' ' . JText::_('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS');
+			$message .= ' ' . Text::_('COM_JEA_GATEWAY_FTP_TRANSFERT_SUCCESS');
 		}
 
 		$this->out($message);

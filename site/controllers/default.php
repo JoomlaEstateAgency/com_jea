@@ -8,6 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +25,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaControllerDefault extends JControllerLegacy
+class JeaControllerDefault extends BaseController
 {
 	/**
 	 * The default view for the display method.
@@ -30,21 +37,21 @@ class JeaControllerDefault extends JControllerLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean $cachable    If true, the view output will be cached
+	 * @param   array   $urlparams   An array of safe URL parameters and their variable types, for valid values see {@link InputFilter::clean()}.
 	 *
-	 * @return  JControllerLegacy.
+	 * @return  BaseController.
 	 *
 	 * @since   3.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$layout = JFactory::getApplication()->input->get('layout');
+		$layout = Factory::getApplication()->input->get('layout');
 
 		if ($layout == 'manage' || $layout == 'edit')
 		{
-			$user = JFactory::getUser();
-			$uri = JUri::getInstance();
+			$user = Factory::getApplication()->getIdentity();
+			$uri = Uri::getInstance();
 			$return = base64_encode($uri);
 			$access = false;
 
@@ -54,7 +61,7 @@ class JeaControllerDefault extends JControllerLegacy
 			}
 			elseif ($layout == 'edit')
 			{
-				$params = JFactory::getApplication()->getParams();
+				$params = Factory::getApplication()->getParams();
 
 				if ($params->get('login_behavior', 'before') == 'before')
 				{
@@ -72,14 +79,14 @@ class JeaControllerDefault extends JControllerLegacy
 			{
 				if ($user->id)
 				{
-					$this->setMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+					$this->setMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 				}
 				else
 				{
-					$this->setMessage(JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+					$this->setMessage(Text::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 				}
 
-				return $this->setRedirect(JRoute::_('index.php?option=com_users&view=login&return=' . $return, false));
+				return $this->setRedirect(Route::_('index.php?option=com_users&view=login&return=' . $return, false));
 			}
 		}
 
@@ -89,7 +96,7 @@ class JeaControllerDefault extends JControllerLegacy
 	/**
 	 * Send contact form action
 	 *
-	 * @return JControllerLegacy
+	 * @return BaseController
 	 */
 	public function sendContactForm()
 	{
@@ -97,9 +104,9 @@ class JeaControllerDefault extends JControllerLegacy
 		$returnURL = $model->getState('contact.propertyURL');
 
 		// Check for request forgeries
-		if (!JSession::checkToken())
+		if (!Session::checkToken())
 		{
-			return $this->setRedirect($returnURL, JText::_('JINVALID_TOKEN'), 'warning');
+			return $this->setRedirect($returnURL, Text::_('JINVALID_TOKEN'), 'warning');
 		}
 
 		if (!$model->sendContactForm())
@@ -115,7 +122,7 @@ class JeaControllerDefault extends JControllerLegacy
 			return $this->setRedirect($returnURL, $msg, 'warning');
 		}
 
-		$msg = JText::_('COM_JEA_CONTACT_FORM_SUCCESSFULLY_SENT');
+		$msg = Text::_('COM_JEA_CONTACT_FORM_SUCCESSFULLY_SENT');
 
 		return $this->setRedirect($returnURL, $msg);
 	}

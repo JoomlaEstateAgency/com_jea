@@ -10,15 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Log\Log;
+use Joomla\Event\Event;
+use Joomla\Registry\Registry;
 
 /**
  * The base class for all gateways
  *
  * @since  3.4
  */
-abstract class JeaGateway extends JEvent
+abstract class JeaGateway extends Event
 {
 	/**
 	 * A Registry object holding the parameters for the gateway
@@ -65,8 +69,8 @@ abstract class JeaGateway extends JEvent
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject   The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object $subject The object to observe
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -114,8 +118,8 @@ abstract class JeaGateway extends JEvent
 	 * INFO = 6; // Informational: informational messages
 	 * DEBUG = 7; // Debug: debug messages
 	 *
-	 * @param   string  $message  The log message
-	 * @param   string  $status   See status codes above
+	 * @param   string $message The log message
+	 * @param   string $status  See status codes above
 	 *
 	 * @return  void
 	 */
@@ -151,15 +155,15 @@ abstract class JeaGateway extends JEvent
 	/**
 	 * Output a message in CLI mode
 	 *
-	 * @param   string  $message  A message
+	 * @param   string $message A message
 	 *
 	 * @return void
 	 */
 	public function out($message = '')
 	{
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 
-		if ($application instanceof JApplicationCli)
+		if ($application instanceof ConsoleApplication)
 		{
 			// @var JApplicationCli $application
 			$application->out($message);
@@ -173,9 +177,9 @@ abstract class JeaGateway extends JEvent
 	 */
 	public function getLogs()
 	{
-		$file = JFactory::getConfig()->get('log_path') . '/' . $this->logFile;
+		$file = Factory::getApplication()->get('log_path') . '/' . $this->logFile;
 
-		if (JFile::exists($file))
+		if (File::exists($file))
 		{
 			return file_get_contents($file);
 		}
@@ -190,11 +194,11 @@ abstract class JeaGateway extends JEvent
 	 */
 	public function deleteLogs()
 	{
-		$file = JFactory::getConfig()->get('log_path') . '/' . $this->logFile;
+		$file = Factory::getApplication()->get('log_path') . '/' . $this->logFile;
 
-		if (JFile::exists($file))
+		if (File::exists($file))
 		{
-			return JFile::delete($file);
+			return File::delete($file);
 		}
 
 		return false;

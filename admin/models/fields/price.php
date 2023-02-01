@@ -8,6 +8,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Form\Field\TextField;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -21,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since       2.0
  */
-class JFormFieldPrice extends JFormFieldText
+class JFormFieldPrice extends TextField
 {
 	/**
 	 * The form field type.
@@ -33,7 +36,7 @@ class JFormFieldPrice extends JFormFieldText
 	/**
 	 * Method to change the label
 	 *
-	 * @param   string  $label  The field label
+	 * @param   string $label The field label
 	 *
 	 * @return void
 	 */
@@ -51,7 +54,7 @@ class JFormFieldPrice extends JFormFieldText
 	{
 		$input = parent::getInput();
 
-		$params = JComponentHelper::getParams('com_jea');
+		$params = ComponentHelper::getParams('com_jea');
 		$symbol_place = $params->get('symbol_place', 1);
 		$currency_symbol = $params->get('currency_symbol', '€');
 

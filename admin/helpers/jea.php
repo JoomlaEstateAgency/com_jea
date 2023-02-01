@@ -10,6 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Jea Helper class
  *
@@ -23,13 +28,13 @@ class JeaHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $viewName  The name of the active view.
+	 * @param   string $viewName The name of the active view.
 	 *
 	 * @return  void
 	 */
 	public static function addSubmenu($viewName)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 		$query->select('m.*')
 			->from('#__menu AS m')
@@ -61,11 +66,11 @@ class JeaHelper
 				$active = $matches[1] == $viewName;
 			}
 
-			JHtmlSidebar::addEntry(JText::_($item->title), $item->link, $active);
+			Sidebar::addEntry(Text::_($item->title), $item->link, $active);
 		}
 
-		JHtmlSidebar::addEntry(
-			JText::_('COM_JEA_ABOUT'),
+		Sidebar::addEntry(
+			Text::_('COM_JEA_ABOUT'),
 			'index.php?option=com_jea&view=about',
 			$viewName == 'about'
 		);
@@ -74,13 +79,13 @@ class JeaHelper
 	/**
 	 * Gets a list of actions that can be performed.
 	 *
-	 * @param   int  $propertyId  The property ID.
+	 * @param   int $propertyId The property ID.
 	 *
 	 * @return  Jobject
 	 */
 	public static function getActions($propertyId = 0)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$result = new JObject;
 
 		if (empty($propertyId))
@@ -93,13 +98,13 @@ class JeaHelper
 		}
 
 		$actions = array(
-				'core.admin',
-				'core.manage',
-				'core.create',
-				'core.edit',
-				'core.edit.own',
-				'core.edit.state',
-				'core.delete'
+			'core.admin',
+			'core.manage',
+			'core.create',
+			'core.edit',
+			'core.edit.own',
+			'core.edit.state',
+			'core.delete'
 		);
 
 		foreach ($actions as $action)
@@ -117,7 +122,7 @@ class JeaHelper
 	 */
 	public static function getToolsIcons()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 
 		$query = $db->getQuery(true);
 		$query->select(array('link', 'title AS text', 'icon AS image', 'access'));
@@ -128,7 +133,7 @@ class JeaHelper
 
 		foreach ($buttons as &$button)
 		{
-			$button['text'] = JText::_($button['text']);
+			$button['text'] = Text::_($button['text']);
 
 			if (!empty($button['access']))
 			{

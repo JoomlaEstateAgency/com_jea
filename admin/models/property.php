@@ -10,10 +10,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\Event\Event;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Property model class.
@@ -21,11 +28,11 @@ use Joomla\CMS\Filesystem\Folder;
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         JModelAdmin
+ * @see         AdminModel
  *
  * @since       2.0
  */
-class JeaModelProperty extends JModelAdmin
+class JeaModelProperty extends AdminModel
 {
 	/**
 	 * The event to trigger after saving the data.
@@ -44,19 +51,19 @@ class JeaModelProperty extends JModelAdmin
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array    $data      Data for the form.
-	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 * @param   array   $data       Data for the form.
+	 * @param   boolean $loadData   True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A JForm object on success, false on failure
 	 *
-	 * @see JModelForm::getForm()
+	 * @see AdminModel::getForm()
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = Factory::getApplication()->getDispatcher();
 
 		// Include the jea plugins for the on after load property form events.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
 		$form = $this->loadForm('com_jea.property', 'property', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -65,9 +72,9 @@ class JeaModelProperty extends JModelAdmin
 			return false;
 		}
 
-		$jinput = JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 		$id = $jinput->get('id', 0);
-		$user = JFactory::getUser();
+		$user = Factory::getApplication()->getIdentity();
 		$item = $this->getItem($id);
 
 		// Remove deposit field if transaction type is not SELLING
@@ -83,8 +90,8 @@ class JeaModelProperty extends JModelAdmin
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (! $user->authorise('core.edit.state', 'com_jea.property.' . (int) $id))
-			|| ($id == 0 && ! $user->authorise('core.edit.state', 'com_jea')))
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_jea.property.' . (int) $id))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_jea')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
@@ -96,7 +103,7 @@ class JeaModelProperty extends JModelAdmin
 		}
 
 		// Trigger the onAfterLoadPropertyForm event.
-		$dispatcher->trigger('onAfterLoadPropertyForm', array(&$form));
+		$dispatcher->dispatch('onAfterLoadPropertyForm', new Event('onAfterLoadPropertyForm', array(&$form)));
 
 		return $form;
 	}
@@ -104,23 +111,23 @@ class JeaModelProperty extends JModelAdmin
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array $data The form data.
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @see JModelAdmin::save()
+	 * @see AdminModel::save()
 	 */
 	public function save($data)
 	{
 		// Include the jea plugins for the on save events.
-		JPluginHelper::importPlugin('jea');
+		PluginHelper::importPlugin('jea');
 
 		// Alter the title for save as copy
-		if (JFactory::getApplication()->input->getCmd('task') == 'save2copy')
+		if (Factory::getApplication()->input->getCmd('task') == 'save2copy')
 		{
-			$data['ref'] = JString::increment($data['ref']);
-			$data['title'] = JString::increment($data['title']);
-			$data['alias'] = JString::increment($data['alias'], 'dash');
+			$data['ref'] = StringHelper::increment($data['ref']);
+			$data['title'] = StringHelper::increment($data['title']);
+			$data['alias'] = StringHelper::increment($data['alias'], 'dash');
 		}
 
 		if (empty($data['images']))
@@ -178,14 +185,14 @@ class JeaModelProperty extends JModelAdmin
 				{
 					$file->setValidExtensions($validExtensions)->nameToSafe();
 
-					if (! Folder::exists($uploadDir))
+					if (!Folder::exists($uploadDir))
 					{
 						Folder::create($uploadDir);
 					}
 
 					if ($file->moveTo($uploadDir))
 					{
-						if (! isset($imageNames[$file->name]))
+						if (!isset($imageNames[$file->name]))
 						{
 							$image = new stdClass;
 							$image->name = $file->name;
@@ -203,7 +210,7 @@ class JeaModelProperty extends JModelAdmin
 
 						foreach ($errors as $error)
 						{
-							$this->setError(JText::_($error));
+							$this->setError(Text::_($error));
 						}
 
 						return false;
@@ -229,7 +236,7 @@ class JeaModelProperty extends JModelAdmin
 					continue;
 				}
 
-				if (! isset($imageNames[$filename]))
+				if (!isset($imageNames[$filename]))
 				{
 					$removeList = Folder::files($uploadDir, $filename . '$', false, true);
 
@@ -247,8 +254,8 @@ class JeaModelProperty extends JModelAdmin
 	/**
 	 * Method to toggle the featured setting of properties.
 	 *
-	 * @param   array    $pks    The ids of the items to toggle.
-	 * @param   integer  $value  The value to toggle to.
+	 * @param   array   $pks    The ids of the items to toggle.
+	 * @param   integer $value  The value to toggle to.
 	 *
 	 * @return  void.
 	 */
@@ -257,7 +264,7 @@ class JeaModelProperty extends JModelAdmin
 		// Sanitize the ids.
 		$pks = ArrayHelper::toInteger((array) $pks);
 
-		$db = $this->getDbo();
+		$db = $this->getDatabase();
 		$db->setQuery('UPDATE #__jea_properties SET featured = ' . (int) $value . ' WHERE id IN (' . implode(',', $pks) . ')');
 		$db->execute();
 	}
@@ -265,7 +272,7 @@ class JeaModelProperty extends JModelAdmin
 	/**
 	 * Method to copy a set of properties.
 	 *
-	 * @param   array  $pks  The ids of the items to copy.
+	 * @param   array $pks The ids of the items to copy.
 	 *
 	 * @return  void.
 	 */
@@ -281,6 +288,7 @@ class JeaModelProperty extends JModelAdmin
 		$fields = $table->getProperties();
 
 		unset($fields['id']);
+		unset($fields['typeAlias']);
 		unset($fields['checked_out']);
 		unset($fields['checked_out_time']);
 
@@ -291,27 +299,27 @@ class JeaModelProperty extends JModelAdmin
 		foreach ($rows as $row)
 		{
 			$row = (array) $row;
-			$row['ref'] = JString::increment($row['ref']);
-			$row['title'] = JString::increment($row['title']);
-			$row['alias'] = JString::increment($row['alias'], 'dash');
+			$row['ref'] = StringHelper::increment($row['ref']);
+			$row['title'] = StringHelper::increment($row['title']);
+			$row['alias'] = StringHelper::increment($row['alias'], 'dash');
 			$row['ordering'] = $nextOrdering;
 			$row['created'] = date('Y-m-d H:i:s');
 
 			$table->bind($row);
 			$table->store();
 
-			$nextOrdering ++;
+			$nextOrdering++;
 		}
 	}
 
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   array  $pks   An array of record primary keys.
+	 * @param   array $pks An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
-	 * @see JModelAdmin::delete()
+	 * @see AdminModel::delete()
 	 */
 	public function delete(&$pks)
 	{
@@ -337,13 +345,13 @@ class JeaModelProperty extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @see JModelForm::loadFormData()
+	 * @see AdminModel::loadFormData()
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data. See
 		// JControllerForm::save()
-		$data = JFactory::getApplication()->getUserState('com_jea.edit.property.data', array());
+		$data = Factory::getApplication()->getUserState('com_jea.edit.property.data', array());
 
 		if (empty($data))
 		{
@@ -356,11 +364,11 @@ class JeaModelProperty extends JModelAdmin
 	/**
 	 * Overrides parent method
 	 *
-	 * @param   JTable  $table  A JTable object.
+	 * @param   Table $table A JTable object.
 	 *
 	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @see JModelAdmin::getReorderConditions()
+	 * @see AdminModel::getReorderConditions()
 	 */
 	protected function getReorderConditions($table)
 	{

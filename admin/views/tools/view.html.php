@@ -8,6 +8,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\Helpers\Sidebar;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +24,7 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewTools extends JViewLegacy
+class JeaViewTools extends HtmlView
 {
 	/**
 	 * The sidebar output
@@ -30,25 +36,24 @@ class JeaViewTools extends JViewLegacy
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
+	 * @see     HtmlView::display()
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
-	 *
-	 * @see     JViewLegacy::display()
+	 * @return  mixed A string if successful, otherwise an Error object.
 	 */
 	public function display($tpl = null)
 	{
 		JeaHelper::addSubmenu('tools');
-		JToolBarHelper::title(JText::_('COM_JEA_TOOLS'), 'jea');
+		ToolbarHelper::title(Text::_('COM_JEA_TOOLS'), 'jea');
 
 		$canDo = JeaHelper::getActions();
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_jea');
+			ToolbarHelper::preferences('com_jea');
 		}
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = Sidebar::render();
 
 		parent::display($tpl);
 	}
@@ -64,17 +69,17 @@ class JeaViewTools extends JViewLegacy
 
 		foreach ($buttons as $button)
 		{
-			if (! empty($button['name']))
+			if (!empty($button['name']))
 			{
 				$styleSheet = 'media/com_jea/' . $button['name'] . '/styles.css';
 
 				if (file_exists(JPATH_ROOT . '/' . $styleSheet))
 				{
-					JHtml::stylesheet($styleSheet);
+					HTMLHelper::stylesheet($styleSheet);
 				}
 			}
 		}
 
-		return JHtml::_('icons.buttons', $buttons);
+		return HTMLHelper::_('icons.buttons', $buttons);
 	}
 }

@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 defined('_JEXEC') or die;
 
 /**
@@ -47,16 +52,17 @@ abstract class JHtmlFeatures
 	 */
 	static public function departments($value = 0, $name = 'department_id', $attr = '')
 	{
+
 		return self::getHTMLSelectList($value, $name, 'COM_JEA_FIELD_DEPARTMENT_LABEL', $attr, 'departments');
 	}
 
 	/**
 	 * Method to get towns in a HTML <select> element
 	 *
-	 * @param   string  $value          The selected value
-	 * @param   string  $name           The element name
-	 * @param   mixed   $attr           An array or a string of element attributes
-	 * @param   string  $department_id  To get the department town list
+	 * @param   string  $value           The selected value
+	 * @param   string  $name            The element name
+	 * @param   mixed   $attr            An array or a string of element attributes
+	 * @param   string  $department_id   To get the department town list
 	 *
 	 * @return  string HTML for the select list.
 	 */
@@ -81,10 +87,10 @@ abstract class JHtmlFeatures
 	/**
 	 * Method to get areas in a HTML <select> element
 	 *
-	 * @param   string  $value    The selected value
-	 * @param   string  $name     The element name
-	 * @param   mixed   $attr     An array or a string of element attributes
-	 * @param   string  $town_id  To get the town area list
+	 * @param   string  $value   The selected value
+	 * @param   string  $name    The element name
+	 * @param   mixed   $attr    An array or a string of element attributes
+	 * @param   string  $town_id To get the town area list
 	 *
 	 * @return  string HTML for the select list.
 	 */
@@ -186,13 +192,14 @@ abstract class JHtmlFeatures
 		$attr = '', $featureTable = '', $conditions = null, $ordering = 'f.value asc'
 	)
 	{
-		$db = JFactory::getDbo();
+
+		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
 
 		$query->select('f.id , f.value');
 		$query->from('#__jea_' . $featureTable . ' AS f');
 
-		if (! empty($conditions))
+		if (!empty($conditions))
 		{
 			if (is_string($conditions))
 			{
@@ -213,11 +220,11 @@ abstract class JHtmlFeatures
 
 		// Assemble the list options.
 		$options = array();
-		$options[] = JHTML::_('select.option', '', '- ' . JText::_($defaultOptionLabel) . ' -&nbsp;');
+		$options[] = HTMLHelper::_('select.option', '', '- ' . Text::_($defaultOptionLabel) . ' -&nbsp;');
 
 		foreach ($items as &$item)
 		{
-			$options[] = JHtml::_('select.option', $item->id, $item->value);
+			$options[] = HTMLHelper::_('select.option', $item->id, $item->value);
 		}
 
 		// Manage attributes
@@ -245,7 +252,7 @@ abstract class JHtmlFeatures
 		}
 		else
 		{
-			if ((float) JVERSION > 3 && JFactory::getApplication()->isClient('administrator'))
+			if ((float) JVERSION > 3 && Factory::getApplication()->isClient('administrator'))
 			{
 				$attr = 'class="inputbox span12 small" size="1" ' . $attr;
 			}
@@ -255,7 +262,7 @@ abstract class JHtmlFeatures
 			}
 		}
 
-		return JHTML::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);
+		return HTMLHelper::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);
 	}
 
 	/**
@@ -267,9 +274,9 @@ abstract class JHtmlFeatures
 	{
 		$condition = '';
 
-		if (JFactory::getApplication()->isClient('site'))
+		if (Factory::getApplication()->isClient('site'))
 		{
-			$db = JFactory::getDbo();
+			$db = Factory::getContainer()->get(DatabaseDriver::class);
 			$condition = 'f.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')';
 		}
 

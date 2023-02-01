@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Session\Session;
+use Joomla\Uri\Uri;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,7 +23,7 @@ defined('_JEXEC') or die;
  *
  * @since       3.4
  */
-class JeaControllerGateways extends JControllerAdmin
+class JeaControllerGateways extends AdminController
 {
 	/**
 	 * Ask the gateways to execute their export handlers
@@ -43,20 +48,20 @@ class JeaControllerGateways extends JControllerAdmin
 	/**
 	 * Ask the gateways to execute their action handlers
 	 *
-	 * @param   string  $task  Action to execute
+	 * @param   string $task Action to execute
 	 *
 	 * @return  void
 	 */
 	protected function gatewaysExecute($task)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$application = JFactory::getApplication();
+		$application = Factory::getApplication();
 		$application->setHeader('Content-Type', 'text/plain', true);
 		$application->sendHeaders();
 
-		$interpreter = JFactory::getApplication()->input->getString('php_interpreter', 'php');
+		$interpreter = Factory::getApplication()->input->getString('php_interpreter', 'php');
 
 		$matches = array();
 
@@ -72,8 +77,8 @@ class JeaControllerGateways extends JControllerAdmin
 		}
 
 		$command = ($task == 'export' ? $interpreter . ' '
-				. JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --export --basedir="' . JPATH_ROOT . '" --baseurl="' . JUri::root() . '"' :
-				$interpreter . ' ' . JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --import --basedir="' . JPATH_ROOT . '"');
+			. JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --export --basedir="' . JPATH_ROOT . '" --baseurl="' . Uri::root() . '"' :
+			$interpreter . ' ' . JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --import --basedir="' . JPATH_ROOT . '"');
 
 		echo "> $command\n\n";
 
@@ -98,18 +103,16 @@ class JeaControllerGateways extends JControllerAdmin
 	/**
 	 * Method to get a JeaModelGateway model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name.
-	 * @param   string  $prefix  The class prefix.
-	 * @param   array   $config  Configuration array for model.
+	 * @param   string $name   The model name.
+	 * @param   string $prefix The class prefix.
+	 * @param   array  $config Configuration array for model.
 	 *
 	 * @return  JeaModelGateway|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @see JControllerForm::getModel()
+	 * @see AdminController::getModel()
 	 */
 	public function getModel($name = 'Gateway', $prefix = 'JeaModel', $config = array())
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 }

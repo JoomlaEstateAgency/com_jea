@@ -10,6 +10,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Service\Provider\Dispatcher;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -17,7 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.4
  */
-class GatewaysEventDispatcher extends JEventDispatcher
+class GatewaysEventDispatcher extends Dispatcher
 {
 	/**
 	 * Stores the singleton instance of the dispatcher.
@@ -44,22 +49,22 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	/**
 	 * Attach an observer object
 	 *
-	 * @param   object  $observer  An observer object to attach
+	 * @param   object $observer An observer object to attach
 	 *
 	 * @return  void
 	 */
 	public function attach($observer)
 	{
-		if (! ($observer instanceof JeaGateway))
+		if (!($observer instanceof JeaGateway))
 		{
 			return;
 		}
 
 		/*
-		 * The main difference with the parent method
-		 * is to attach several instances of the same
-		 * class.
-		 */
+         * The main difference with the parent method
+         * is to attach several instances of the same
+         * class.
+         */
 
 		$this->_observers[] = $observer;
 		$methods = get_class_methods($observer);
@@ -71,7 +76,7 @@ class GatewaysEventDispatcher extends JEventDispatcher
 		{
 			$method = strtolower($method);
 
-			if (! isset($this->_methods[$method]))
+			if (!isset($this->_methods[$method]))
 			{
 				$this->_methods[$method] = array();
 			}
@@ -84,8 +89,8 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	 * Triggers an event by dispatching arguments to all observers that handle
 	 * the event and returning their return values.
 	 *
-	 * @param   string  $event  The event to trigger.
-	 * @param   array   $args   An array of arguments.
+	 * @param   string $event The event to trigger.
+	 * @param   array  $args  An array of arguments.
 	 *
 	 * @return  array  An array of results from each function call.
 	 */
@@ -120,26 +125,26 @@ class GatewaysEventDispatcher extends JEventDispatcher
 				}
 				catch (Exception $e)
 				{
-					$application = JFactory::getApplication();
+					$application = Factory::getApplication();
 					$gateway = $this->_observers[$key];
 					$gateway->log($e->getMessage(), 'err');
 
-					if ($application instanceof JApplicationCli)
+					if ($application instanceof ConsoleApplication)
 					{
 						/*
-						 * In CLI mode, output the error but don't stop the
-						 * execution loop of other gateways
-						 */
+                         * In CLI mode, output the error but don't stop the
+                         * execution loop of other gateways
+                         */
 
 						$gateway->out('Error [' . $gateway->title . '] : ' . $e->getMessage());
 					}
 					else
 					{
 						/*
-						 * In AJAX mode, only one gateway is loaded per request,
-						 * so we can stop the loop.
-						 * Exception will be catched later in a custom Exception handler
-						 */
+                         * In AJAX mode, only one gateway is loaded per request,
+                         * so we can stop the loop.
+                         * Exception will be catched later in a custom Exception handler
+                         */
 						throw $e;
 					}
 				}
@@ -157,20 +162,20 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	/**
 	 * Load JEA gateways
 	 *
-	 * @param   string  $type  If set, must be 'export' or 'import'
+	 * @param   string $type If set, must be 'export' or 'import'
 	 *
 	 * @return  void
 	 */
 	public function loadGateways($type = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getContainer()->get(DatabaseInterface::class);
 
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__jea_gateways');
 		$query->where('published=1');
 
-		if (! empty($type))
+		if (!empty($type))
 		{
 			$query->where('type=' . $db->Quote($type));
 		}
@@ -188,7 +193,7 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	/**
 	 * Load one JEA gateway
 	 *
-	 * @param   $object  $gateway  he row DB gateway
+	 * @param   $object $gateway  he row DB gateway
 	 *
 	 * @return  JeaGateway
 	 *
@@ -198,7 +203,7 @@ class GatewaysEventDispatcher extends JEventDispatcher
 	{
 		$gatewayFile = JPATH_ADMINISTRATOR . '/components/com_jea/gateways/providers/' . $gateway->provider . '/' . $gateway->type . '.php';
 
-		if (JFile::exists($gatewayFile))
+		if (File::exists($gatewayFile))
 		{
 			require_once $gatewayFile;
 			$className = 'JeaGateway' . ucfirst($gateway->type) . ucfirst($gateway->provider);
@@ -208,11 +213,11 @@ class GatewaysEventDispatcher extends JEventDispatcher
 				$dispatcher = static::getInstance();
 
 				$config = array(
-						'id' => $gateway->id,
-						'provider' => $gateway->provider,
-						'title' => $gateway->title,
-						'type' => $gateway->type,
-						'params' => new Registry($gateway->params)
+					'id' => $gateway->id,
+					'provider' => $gateway->provider,
+					'title' => $gateway->title,
+					'type' => $gateway->type,
+					'params' => new Registry($gateway->params)
 				);
 
 				return new $className($dispatcher, $config);

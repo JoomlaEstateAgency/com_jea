@@ -8,6 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Document\Feed\FeedItem;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
 /**
@@ -18,23 +23,23 @@ defined('_JEXEC') or die;
  *
  * @since       2.0
  */
-class JeaViewProperties extends JViewLegacy
+class JeaViewProperties extends HtmlView
 {
 	/**
 	 * Overrides parent method.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse.
+	 * @param   string $tpl The name of the template file to parse.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::display()
+	 * @see     HtmlView::display()
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-		$document = JFactory::getDocument();
-		$document->link = JRoute::_('index.php?option=com_jea&view=properties');
-		JFactory::getApplication()->input->set('limit', $app->get('feed_limit'));
+		$app = Factory::getApplication();
+		$document = Factory::getDocument();
+		$document->link = Route::_('index.php?option=com_jea&view=properties');
+		Factory::getApplication()->input->set('limit', $app->get('feed_limit'));
 		$rows = $this->get('Items');
 
 		foreach ($rows as $row)
@@ -52,13 +57,13 @@ class JeaViewProperties extends JViewLegacy
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// Url link to article
-			$link = JRoute::_('index.php?view=properties&id=' . $row->slug);
+			$link = Route::_('index.php?view=properties&id=' . $row->slug);
 
 			// Strip html from feed item description text
 			$description = strip_tags($row->description);
 
 			// Load individual item creator class
-			$item = new JFeedItem;
+			$item = new FeedItem;
 			$item->title = html_entity_decode($title);
 			$item->link = $link;
 			$item->description = $description;

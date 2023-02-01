@@ -8,11 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
+
 defined('_JEXEC') or die;
 
 JLoader::register('JeaUpload', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.php');
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 if ($input->getCmd('task') == '')
 {
