@@ -9,7 +9,7 @@
  */
 
 defined('_JEXEC') or die;
-
+use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -172,7 +172,13 @@ if ($saveOrder) {
                     <?php if ($item->transaction_type == 'RENTING') echo Text::_('COM_JEA_PRICE_PER_FREQUENCY_' . $item->rate_frequency) ?>
                 </td>
                 <td class="center">
-                    <?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange) ?>
+                    <?php
+                    $options = [
+                        'task_prefix' => 'properties.',
+                        'disabled' => !$canChange,
+                        'id' => 'featured-' . $item->id
+                    ];
+                    echo (new FeaturedButton())->render((int) $item->featured, $i, $options); ?>
                 </td>
                 <td class="center">
                     <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'properties.', $canChange, 'cb', $item->publish_up, $item->publish_down) ?>
