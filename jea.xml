@@ -25,7 +25,7 @@
 	</uninstall>
 
 	<!-- Runs on update-->
-	<update> 
+	<update>
 		<schemas>
 			<schemapath type="mysql">sql/updates/mysql</schemapath>
 		</schemas>
@@ -56,6 +56,7 @@
 			<menu img="icon" view="properties">com_jea_properties</menu>
 			<menu img="icon" view="features">com_jea_features</menu>
 			<menu img="icon" view="tools">com_jea_tools</menu>
+			<menu img="icon" view="about">com_jea_about</menu>
 		</submenu>
 
 		<files folder="admin">
