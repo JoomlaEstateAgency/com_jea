@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Pagination\Pagination;
@@ -59,13 +58,6 @@ class JeaViewFeaturelist extends HtmlView
 	protected $state;
 
 	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
-
-	/**
 	 * The form object for search filters
 	 *
 	 * @var Form
@@ -96,7 +88,6 @@ class JeaViewFeaturelist extends HtmlView
 		$this->items = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
 		$this->state = $this->get('State');
-		$this->sidebar = Sidebar::render();
 		$this->filterForm = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 

@@ -20,11 +20,5 @@ defined('_JEXEC') or die;
 HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
 ?>
 
-<div id="j-sidebar-container" class="col-md-2">
-    <?php echo $this->sidebar ?>
-</div>
-
-<div id="j-sidebar-container" class="col-md-10">
-    <?php echo LayoutHelper::render('jea.gateways.nav', array('action' => 'export', 'view' => 'console')) ?>
-    <?php echo LayoutHelper::render('jea.gateways.consoles', array('action' => 'export')) ?>
-</div>
+<?php echo LayoutHelper::render('jea.gateways.nav', array('action' => 'export', 'view' => 'console')) ?>
+<?php echo LayoutHelper::render('jea.gateways.consoles', array('action' => 'export')) ?>

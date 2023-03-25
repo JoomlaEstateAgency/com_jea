@@ -28,55 +28,45 @@ $count = 0;
       name="adminForm"
       id="adminForm" enctype="multipart/form-data">
 
-  <div class="row">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th width="1%" class="center">
+          <?php echo HTMLHelper::_('grid.checkall') ?>
+      </th>
+      <th width="60%">
+          <?php echo Text::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?>
+      </th>
+      <th width="39%" class="center">
+          <?php echo Text::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?>
+      </th>
+    </tr>
+    </thead>
 
-    <div id="j-sidebar-container" class="col-md-2">
-        <?php echo $this->sidebar; ?>
-    </div>
+    <tbody>
+    <?php foreach ($this->items as $i => $item) : $count++ ?>
+      <tr class="row<?php echo $count % 2 ?>">
+        <td>
+            <?php echo HTMLHelper::_('grid.id', $i, $item->name) ?>
+        </td>
 
-    <div id="j-sidebar-container" class="col-md-10">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th width="1%" class="center">
-              <?php echo HTMLHelper::_('grid.checkall') ?>
-          </th>
-          <th width="60%">
-              <?php echo Text::_('COM_JEA_HEADING_FEATURES_LIST_NAME') ?>
-          </th>
-          <th width="39%" class="center">
-              <?php echo Text::_('COM_JEA_HEADING_FEATURES_IMPORT_CSV') ?>
-          </th>
-        </tr>
-        </thead>
+        <td>
+          <a href="<?php echo Route::_('index.php?option=com_jea&view=featurelist&feature=' . $item->name) ?>">
+              <?php echo Text::_(StringHelper::strtoupper("com_jea_list_of_{$item->name}_title")) ?>
+          </a>
+        </td>
 
-        <tbody>
-        <?php foreach ($this->items as $i => $item) : $count++ ?>
-          <tr class="row<?php echo $count % 2 ?>">
-            <td>
-                <?php echo HTMLHelper::_('grid.id', $i, $item->name) ?>
-            </td>
+        <td class="center">
+          <input type="file" name="csv[<?php echo $item->name ?>]" value="" size="20"/>
+        </td>
+      </tr>
+    <?php endforeach ?>
+    </tbody>
+  </table>
 
-            <td>
-              <a href="<?php echo Route::_('index.php?option=com_jea&view=featurelist&feature=' . $item->name) ?>">
-                  <?php echo Text::_(StringHelper::strtoupper("com_jea_list_of_{$item->name}_title")) ?>
-              </a>
-            </td>
-
-            <td class="center">
-              <input type="file" name="csv[<?php echo $item->name ?>]" value="" size="20"/>
-            </td>
-          </tr>
-        <?php endforeach ?>
-        </tbody>
-      </table>
-
-      <div>
-        <input type="hidden" name="task" value=""/>
-        <input type="hidden" name="boxchecked" value="0"/>
-          <?php echo HTMLHelper::_('form.token') ?>
-      </div>
-    </div>
-
+  <div>
+    <input type="hidden" name="task" value=""/>
+    <input type="hidden" name="boxchecked" value="0"/>
+      <?php echo HTMLHelper::_('form.token') ?>
   </div>
 </form>

@@ -19,14 +19,4 @@ HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
  */
 ?>
 
-<div class="row">
-
-  <div id="j-sidebar-container" class="col-md-2">
-      <?php echo $this->sidebar ?>
-  </div>
-
-  <div id="j-sidebar-container" class="col-md-10">
-    <div class="cpanel"><?php echo $this->getIcons() ?></div>
-  </div>
-
-</div>
+<div class="cpanel"><?php echo $this->getIcons() ?></div>

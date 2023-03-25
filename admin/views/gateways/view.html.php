@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
 use Joomla\CMS\Pagination\Pagination;
@@ -57,13 +56,6 @@ class JeaViewGateways extends HtmlView
 	protected $state;
 
 	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
-
-	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string $tpl The name of the template file to parse.
@@ -77,8 +69,6 @@ class JeaViewGateways extends HtmlView
 		JeaHelper::addSubmenu('tools');
 
 		$this->state = $this->get('State');
-
-		$this->sidebar = Sidebar::render();
 
 		$title = Text::_('COM_JEA_GATEWAYS');
 

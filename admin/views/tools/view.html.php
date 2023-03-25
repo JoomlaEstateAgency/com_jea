@@ -8,7 +8,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\HTML\Helpers\Sidebar;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView;
@@ -26,13 +25,6 @@ defined('_JEXEC') or die;
  */
 class JeaViewTools extends HtmlView
 {
-	/**
-	 * The sidebar output
-	 *
-	 * @var string
-	 */
-	protected $sidebar = '';
-
 	/**
 	 * Overrides parent method.
 	 *
@@ -52,8 +44,6 @@ class JeaViewTools extends HtmlView
 		{
 			ToolbarHelper::preferences('com_jea');
 		}
-
-		$this->sidebar = Sidebar::render();
 
 		parent::display($tpl);
 	}
