@@ -20,13 +20,15 @@ $view = $displayData['view'];
 ?>
 
 <ul class="nav nav-pills">
-  <li<?php if ($view == 'console') echo ' class="active"' ?>>
-    <a href="<?php echo Route::_('index.php?option=com_jea&view=gateways&layout=' . $action) ?>">
+  <li class="nav-item">
+    <a class="nav-link<?php if ($view == 'console') echo ' active' ?>"
+       href="<?php echo Route::_('index.php?option=com_jea&view=gateways&layout=' . $action) ?>">
       <span class="icon-play"></span> <?php echo Text::_('COM_JEA_' . strtoupper($action)) ?></a>
   </li>
 
-  <li<?php if ($view == 'gateways') echo ' class="active"' ?>>
-    <a href="<?php echo Route::_('index.php?option=com_jea&view=gateways&filter[type]=' . $action) ?>">
+  <li class="nav-item">
+    <a class="nav-link<?php if ($view == 'gateways') echo ' active' ?>"
+       href="<?php echo Route::_('index.php?option=com_jea&view=gateways&filter[type]=' . $action) ?>">
       <span class="icon-list"></span> <?php echo Text::_('COM_JEA_GATEWAYS') ?></a>
   </li>
 </ul>

@@ -13,6 +13,8 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 
+use Joomla\Archive\Archive;
+
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/import.php';
@@ -102,7 +104,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 
 			$tmpDirs[] = $tmpDir;
 
-			$archive = new;
+			$archive = new Archive();
 
 			if (!$archive->extract($zipfile, $tmpDir))
 			{
