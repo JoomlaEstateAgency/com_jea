@@ -71,9 +71,9 @@ class JeaControllerProperties extends BaseController
 				$pointNode = $doc->createElement('Point');
 
 				/*
-                                                                 * Http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
-                 * (longitude, latitude, and optional altitude)
-                 */
+																 * Http://code.google.com/intl/fr/apis/kml/documentation/kml_tut.html#placemarks
+				 * (longitude, latitude, and optional altitude)
+				 */
 
 				$coordinates = $row->longitude . ',' . $row->latitude . ',0.000000';
 				$coordsNode = $doc->createElement('coordinates', $coordinates);

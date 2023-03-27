@@ -104,7 +104,7 @@ class JeaGatewayImportJea extends JeaGatewayImport
 
 			$tmpDirs[] = $tmpDir;
 
-			$archive = new Archive();
+			$archive = new Archive;
 
 			if (!$archive->extract($zipfile, $tmpDir))
 			{

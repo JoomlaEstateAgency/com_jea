@@ -133,9 +133,9 @@ class JeaModelProperties extends ListModel
 			if (!$searchContext && !empty($state))
 			{
 				/*
-                 This flag indiquate that some filters are set by an user, so the context is a search.
-                 * It will be usefull in the view to retrieve this flag.
-                 */
+				 This flag indiquate that some filters are set by an user, so the context is a search.
+				 * It will be usefull in the view to retrieve this flag.
+				 */
 				$searchContext = true;
 			}
 			else

@@ -61,10 +61,10 @@ class GatewaysEventDispatcher extends Dispatcher
 		}
 
 		/*
-         * The main difference with the parent method
-         * is to attach several instances of the same
-         * class.
-         */
+		 * The main difference with the parent method
+		 * is to attach several instances of the same
+		 * class.
+		 */
 
 		$this->_observers[] = $observer;
 		$methods = get_class_methods($observer);
@@ -132,19 +132,19 @@ class GatewaysEventDispatcher extends Dispatcher
 					if ($application instanceof ConsoleApplication)
 					{
 						/*
-                         * In CLI mode, output the error but don't stop the
-                         * execution loop of other gateways
-                         */
+						 * In CLI mode, output the error but don't stop the
+						 * execution loop of other gateways
+						 */
 
 						$gateway->out('Error [' . $gateway->title . '] : ' . $e->getMessage());
 					}
 					else
 					{
 						/*
-                         * In AJAX mode, only one gateway is loaded per request,
-                         * so we can stop the loop.
-                         * Exception will be catched later in a custom Exception handler
-                         */
+						 * In AJAX mode, only one gateway is loaded per request,
+						 * so we can stop the loop.
+						 * Exception will be catched later in a custom Exception handler
+						 */
 						throw $e;
 					}
 				}

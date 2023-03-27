@@ -67,9 +67,9 @@ class JeaModelFeature extends AdminModel
 	public function populateState()
 	{
 		/*
-         * Be careful to not call parent::populateState() because this will cause an
-         * infinite call of this method in JeaModelFeature::getTable()
-         */
+		 * Be careful to not call parent::populateState() because this will cause an
+		 * infinite call of this method in JeaModelFeature::getTable()
+		 */
 		$input = Factory::getApplication()->input;
 		$feature = $input->getCmd('feature');
 		$this->setState('feature.name', $feature);
