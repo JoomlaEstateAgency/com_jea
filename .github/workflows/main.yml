@@ -17,4 +17,4 @@ jobs:
       - name: Install Composer dependencies
         run: composer install
       - name: Run Joomla coding standards
-        run: ant standard
+        run: composer run-script standard

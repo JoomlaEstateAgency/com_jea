@@ -17,10 +17,12 @@
 	},
 	"scripts" : {
 		"release": "php scripts/release.php",
-		"standard": "phpcs --extensions=php --standard=coding-standards"
+		"standard": "phpcs --extensions=php --standard=coding-standards .",
+		"fix-standard": "phpcbf --extensions=php --standard=coding-standards ."
 	},
 	"scripts-descriptions": {
         "release": "Build a component release in a zip archive.",
-        "standard": "Generate codestyle report using PHP_CodeSniffer."
+        "standard": "Generate codestyle report using PHP_CodeSniffer.",
+        "fix-standard": "Fix codestyle errors using PHP_CodeSniffer."
     }
 }
