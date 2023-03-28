@@ -192,10 +192,8 @@ abstract class JHtmlFeatures
 		$attr = '', $featureTable = '', $conditions = null, $ordering = 'f.value asc'
 	)
 	{
-
 		$db = Factory::getContainer()->get(DatabaseDriver::class);
 		$query = $db->getQuery(true);
-
 		$query->select('f.id , f.value');
 		$query->from('#__jea_' . $featureTable . ' AS f');
 
@@ -245,21 +243,14 @@ abstract class JHtmlFeatures
 
 			if (empty($attr['class']))
 			{
-				$attr['class'] = 'inputbox';
+				$attr['class'] = 'form-select';
 			}
 
 			$attr['class'] = trim($attr['class']);
 		}
-		else
+		elseif (is_string($attr))
 		{
-			if ((float) JVERSION > 3 && Factory::getApplication()->isClient('administrator'))
-			{
-				$attr = 'class="inputbox span12 small" size="1" ' . $attr;
-			}
-			else
-			{
-				$attr = 'class="inputbox" size="1" ' . $attr;
-			}
+			$attr = 'class="form-select" size="1" ' . $attr;
 		}
 
 		return HTMLHelper::_('select.genericlist', $options, $name, $attr, 'value', 'text', $value, $idTag);
