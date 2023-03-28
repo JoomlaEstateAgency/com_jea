@@ -46,8 +46,8 @@ HTMLHelper::_('formbehavior.chosen', '#localization select');
   <?php echo LayoutHelper::render('joomla.edit.title_alias', $this) ?>
 
   <div class="main-card">
-    <?php echo HTMLHelper::_('uitab.startTabSet', 'property-tab', ['active' => 'general', 'recall' => true, 'breakpoint' => 768]) ?>
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'general', Text::_('COM_JEA_CONFIG_GENERAL')) ?>
+    <?php echo HTMLHelper::_('uitab.startTabSet', 'property-tabs', ['active' => 'general-tab', 'recall' => true, 'breakpoint' => 768]) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'general-tab', Text::_('COM_JEA_CONFIG_GENERAL')) ?>
       <div class="row">
         <div class="col-lg-9">
           <fieldset class="adminform">
@@ -87,21 +87,21 @@ HTMLHelper::_('formbehavior.chosen', '#localization select');
       </div>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'financial', Text::_('COM_JEA_FINANCIAL_INFORMATIONS')) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'financial-tab', Text::_('COM_JEA_FINANCIAL_INFORMATIONS')) ?>
       <?php foreach ($this->form->getFieldset('financial_informations') as $field) echo $field->renderField() ?>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'localization', Text::_('COM_JEA_LOCALIZATION')) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'localization-tab', Text::_('COM_JEA_LOCALIZATION')) ?>
       <div id="localization">
           <?php foreach ($this->form->getFieldset('localization') as $field) echo $field->renderField() ?>
       </div>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'details', Text::_('COM_JEA_DETAILS')) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'details-tab', Text::_('COM_JEA_DETAILS')) ?>
       <?php foreach ($this->form->getFieldset('details') as $field) echo $field->renderField() ?>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'amenities', Text::_('COM_JEA_AMENITIES')) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'amenities-tab', Text::_('COM_JEA_AMENITIES')) ?>
       <div>
         <fieldset class="options-form">
           <legend><?php echo Text::_('COM_JEA_AMENITIES') ?></legend>
@@ -110,12 +110,12 @@ HTMLHelper::_('formbehavior.chosen', '#localization select');
       </div>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'amenities', Text::_('COM_JEA_PUBLICATION_INFO')) ?>
+    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'info-tab', Text::_('COM_JEA_PUBLICATION_INFO')) ?>
       <?php foreach ($this->form->getFieldset('publication') as $field) echo $field->renderField() ?>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
     <?php if ($this->canDo->get('core.admin')) : ?>
-      <?php echo HTMLHelper::_('uitab.addTab', 'property-tab', 'rules', Text::_('COM_JEA_FIELDSET_RULES')) ?>
+      <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'rules-tab', Text::_('COM_JEA_FIELDSET_RULES')) ?>
         <?php echo $this->form->getInput('rules') ?>
       <?php echo HTMLHelper::_('uitab.endTab') ?>
     <?php endif ?>
