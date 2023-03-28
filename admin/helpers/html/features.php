@@ -277,7 +277,7 @@ abstract class JHtmlFeatures
 		if (Factory::getApplication()->isClient('site'))
 		{
 			$db = Factory::getContainer()->get(DatabaseDriver::class);
-			$condition = 'f.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')';
+			$condition = 'f.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')';
 		}
 
 		return $condition;
