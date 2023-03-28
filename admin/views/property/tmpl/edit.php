@@ -31,7 +31,7 @@ HTMLHelper::script('media/com_jea/js/property.form.js');
 
 HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('formbehavior.chosen', 'select');
+HTMLHelper::_('formbehavior.chosen', '#localization select');
 ?>
 <div id="ajaxupdating">
   <h3><?php echo Text::_('COM_JEA_FEATURES_UPDATED_WARNING') ?></h3>
@@ -101,7 +101,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     <div class="card-header">
       <h2><?php echo Text::_('COM_JEA_LOCALIZATION') ?></h2>
     </div>
-    <div class="card-body">
+    <div class="card-body" id="localization">
         <?php foreach ($this->form->getFieldset('localization') as $field) echo $field->renderField() ?>
     </div>
   </div>
