@@ -68,22 +68,23 @@ HTMLHelper::_('formbehavior.chosen', 'select');
               <?php echo $this->form->renderField('slogan_id') ?>
           </fieldset>
 
-            <?php echo HTMLHelper::_('bootstrap.startAccordion', 'property-sliders', array('useCookie' => 1)) ?>
+          <?php echo HTMLHelper::_('bootstrap.startAccordion', 'property-sliders', ['active' => 'picture-pane']) ?>
             <?php $dispatcher->dispatch('onAfterStartPanels', new Event('onAfterStartPanels', array(&$this->item))) ?>
 
-            <?php echo Text::_('COM_JEA_PICTURES'); ?>
-          <fieldset>
-              <?php echo $this->form->getInput('images') ?>
-          </fieldset>
-
-            <?php echo HTMLHelper::_('bootstrap.addSlide', 'note-pane', Text::_('COM_JEA_NOTES'), 'note-pane') ?>
-          <fieldset class="form-vertical panelform">
-              <?php echo $this->form->renderField('notes') ?>
-          </fieldset>
-
+            <?php echo HTMLHelper::_('bootstrap.addSlide', 'property-sliders', Text::_('COM_JEA_PICTURES'), 'picture-pane') ?>
+              <fieldset>
+                <?php echo $this->form->getInput('images') ?>
+              </fieldset>
             <?php echo HTMLHelper::_('bootstrap.endSlide') ?>
+
+            <?php echo HTMLHelper::_('bootstrap.addSlide', 'property-sliders', Text::_('COM_JEA_NOTES'), 'note-pane') ?>
+              <fieldset class="form-vertical panelform">
+              <?php echo $this->form->renderField('notes') ?>
+              </fieldset>
+            <?php echo HTMLHelper::_('bootstrap.endSlide') ?>
+
             <?php $dispatcher->dispatch('onBeforeEndPanels', new Event('onBeforeEndPanels', array(&$this->item))) ?>
-            <?php echo HTMLHelper::_('bootstrap.endAccordion') ?>
+          <?php echo HTMLHelper::_('bootstrap.endAccordion') ?>
         </div>
       </div>
     </div>
