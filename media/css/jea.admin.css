@@ -1,152 +1,153 @@
 
 .icon-jea {
-  background-image: url(../images/header/icon-36-jea.png);
-  height: 36px !important;
-  width: 36px !important;
-  line-height: 36px !important;
-  vertical-align: middle;
+	background-image: url(../images/header/icon-36-jea.png);
+	height: 36px !important;
+	width: 36px !important;
+	line-height: 36px !important;
+	vertical-align: middle;
 }
 
 .numberbox {
-  text-align: right;
-  padding-right: 2px;
+	text-align: right;
+	padding-right: 2px;
 }
 
 /* Used to format price / surface fields */
 span.input-suffix {
-  display: inline-block;
-  margin-left: 5px;
+	display: inline-block;
+	margin-left: 5px;
 }
 
 span.input-prefix {
-  display: inline-block;
-  margin-right: 5px;
+	display: inline-block;
+	margin-right: 5px;
 }
 
 ul.gallery {
-  margin-top: 10px;
+	margin-top: 10px;
 }
 
 ul.gallery,
 ul.gallery li {
-  list-style: none outside none;
-  margin: 0;
-  padding: 10px;
+	list-style: none outside none;
+	margin: 0;
+	padding: 10px;
 }
 
 ul.gallery li {
-  padding: 10px 0 10px 10px;
-  border-top: 1px solid #ccc;
+	padding: 10px 0 10px 10px;
+	border-top: 1px solid #ccc;
 }
 
 ul.gallery li:FIRST-CHILD {
-  background: #FFFFCC
+	background: #FFFFCC
 }
 
 ul.gallery a.imgLink {
-  float: left;
-  margin: 0 10px 5px 0;
+	float: left;
+	margin: 0 10px 5px 0;
 }
 
 ul.gallery a.imgLink img {
-  float: none;
-  margin: 0;
+	float: none;
+	margin: 0;
 }
 
 ul.gallery .imgTools a {
-  cursor: pointer;
-  display: inline-block;
-  padding: 0 5px;
+	cursor: pointer;
+	display: inline-block;
+	padding: 0 5px;
 }
 
 ul.gallery .imgTools a.delete-img {
-  margin-left: 20px;
+	margin-left: 20px;
 }
 
 ul.gallery .control-group {
-  margin-bottom: 3px !important;
+	margin-bottom: 3px !important;
 }
 
 ul.gallery .control-group input {
-  font-size: 12px !important;
-  line-height: 14px !important;
+	font-size: 12px !important;
+	line-height: 14px !important;
 }
 
 #ajaxupdating {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #DE7A7B;
+	padding: 5px;
+	border-radius: 5px;
+	border: 1px solid #DE7A7B;
 }
 
 fieldset.adminform label.amenity {
-  display: inline-block;
-  width: 200px;
-  margin-right: 15px;
-  padding: 0;
-  clear: none;
-  float: left;
-  font-size: 12px;
-  line-height: 13px;
+	display: inline-block;
+	width: 200px;
+	margin-right: 15px;
+	padding: 0;
+	clear: none;
+	float: left;
+	font-size: 12px;
+	line-height: 13px;
 }
 
 fieldset.adminform label.amenity input {
-  float: none;
-  margin: 0 10px 0 0;
+	float: none;
+	margin: 0 10px 0 0;
 }
 
 /* property form - amenities */
 ul#amenities {
-  margin: 0 -17px;
-  padding: 5px 5px 0 5px;
-  overflow: hidden; /* clearfix */
+	margin: 0 -17px;
+	padding: 5px 5px 0 5px;
+	/* clearfix */
+	overflow: hidden;
 }
 
 ul#amenities li {
-  margin: 0 0 5px 5px;
-  border-radius: 5px;
-  padding: 2px 5px;
-  color: #ffffff;
-  background-color: #990000;
-  display: inline-block;
+	margin: 0 0 5px 5px;
+	border-radius: 5px;
+	padding: 2px 5px;
+	color: #ffffff;
+	background-color: #990000;
+	display: inline-block;
 }
 
 ul#amenities li label,
 ul#amenities li input {
-  float: none;
+	float: none;
 }
 
 ul#amenities li.active {
-  background-color: #009900;
+	background-color: #009900;
 }
 
 ul#amenities li.active label {
-  background: url(../images/checked.png) no-repeat scroll 100% 50% transparent;
+	background: url(../images/checked.png) no-repeat scroll 100% 50% transparent;
 }
 
 ul#amenities li label {
-  background: url(../images/unchecked.png) no-repeat scroll 100% 50% transparent;
-  min-width: 75px;
-  padding: 0 20px 0 0;
+	background: url(../images/unchecked.png) no-repeat scroll 100% 50% transparent;
+	min-width: 75px;
+	padding: 0 20px 0 0;
 }
 
 
 .admin .pane-sliders .panel {
-  border: 1px solid #CCCCCC;
-  margin-bottom: 3px;
+	border: 1px solid #CCCCCC;
+	margin-bottom: 3px;
 }
 
 .pane-sliders .panel h3 {
-  background: none repeat scroll 0 0 #FAFAFA;
+	background: none repeat scroll 0 0 #FAFAFA;
 }
 
 .pane-sliders .title {
-  cursor: pointer;
-  margin: 0;
-  padding: 2px 2px 2px 5px;
+	cursor: pointer;
+	margin: 0;
+	padding: 2px 2px 2px 5px;
 }
 
 .pane-toggler-down {
-  border-bottom: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
 }
 
 /* Tools view */
@@ -157,113 +158,94 @@ ul#amenities li label {
 /* Console */
 
 .console {
-  background: #000;
-  color: #fff;
-  font-size: 11px;
-  font-family: monospace;
-  padding: 5px;
-  min-height: 250px;
-  margin: 10px 0;
+	background: #000;
+	color: #fff;
+	font-size: 11px;
+	font-family: monospace;
+	padding: 5px;
+	min-height: 250px;
+	margin: 10px 0;
 }
 
 .console p {
-  margin: 0 0 5px 0;
-  border: none !important;
-  background: none !important;
-  color: #fff !important;
-  font-size: 12px !important;
-  font-family: monospace !important;
-  padding: 0 !important;
+	margin: 0 0 5px 0;
+	border: none !important;
+	background: none !important;
+	color: #fff !important;
+	font-size: 12px !important;
+	font-family: monospace !important;
+	padding: 0 !important;
 }
 
 .console p.error {
-  color: red !important;
+	color: red !important;
 }
 
 .console p.warning {
-  color: orange !important;
+	color: orange !important;
 }
 
 .console a {
-  color: #a2cff6;
+	color: #a2cff6;
 }
 
 /* logs */
 pre#logs {
-  font-size: 11px;
-  font-family: "Courier New", Courier, monospace;
-  background: #fff;
-  padding: 1em;
-  border: 1px solid #ccc;
-  margin: 1em;
-  min-height: 200px;
-  max-height: 300px;
-  overflow: auto;
+	font-size: 11px;
+	font-family: "Courier New", Courier, monospace;
+	background: #fff;
+	padding: 1em;
+	border: 1px solid #ccc;
+	margin: 1em;
+	min-height: 200px;
+	max-height: 300px;
+	overflow: auto;
 }
 
 /* Spinner */
 @-ms-keyframes spin {
-  from {
-    -ms-transform: rotate(0deg);
-  }
-  to {
-    -ms-transform: rotate(360deg);
-  }
+	from { -ms-transform: rotate(0deg); }
+	to { -ms-transform: rotate(360deg); }
 }
 
 @-moz-keyframes spin {
-  from {
-    -moz-transform: rotate(0deg);
-  }
-  to {
-    -moz-transform: rotate(360deg);
-  }
+	from { -moz-transform: rotate(0deg); }
+	to { -moz-transform: rotate(360deg); }
 }
 
 @-webkit-keyframes spin {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
+	from { -webkit-transform: rotate(0deg); }
+	to { -webkit-transform: rotate(360deg); }
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+	from { transform:rotate(0deg); }
+	to { transform:rotate(360deg); }
 }
 
 .jea-icon-spin {
-  -moz-animation: spin 2s infinite linear;
-  -o-animation: spin 2s infinite linear;
-  -webkit-animation: spin 2s infinite linear;
-  animation: spin 2s infinite linear;
-  display: inline-block;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	-webkit-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+	display: inline-block;
 }
 
 .spinner {
-  display: inline-block;
-  opacity: 0;
-  max-width: 0;
-
-  -webkit-transition: opacity 0.25s, max-width 0.45s;
-  -moz-transition: opacity 0.25s, max-width 0.45s;
-  -o-transition: opacity 0.25s, max-width 0.45s;
-  transition: opacity 0.25s, max-width 0.45s;
+	display: inline-block;
+	opacity: 0;
+	max-width: 0;
+	-webkit-transition: opacity 0.25s, max-width 0.45s;
+	-moz-transition: opacity 0.25s, max-width 0.45s;
+	-o-transition: opacity 0.25s, max-width 0.45s;
+	transition: opacity 0.25s, max-width 0.45s;
 }
 
 .has-spinner.active {
-  cursor: progress;
+	cursor: progress;
 }
 
 .has-spinner.active .spinner {
-  opacity: 1;
-  max-width: 50px;
+	opacity: 1;
+	max-width: 50px;
 }
-
-
