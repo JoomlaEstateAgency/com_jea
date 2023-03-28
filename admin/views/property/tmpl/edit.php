@@ -23,8 +23,6 @@ use Joomla\Event\Event;
 
 $wa = $this->document->getWebAssetManager();
 $wa->useScript('form.validate');
-
-$user = Factory::getApplication()->getIdentity();
 $dispatcher = Factory::getApplication()->getDispatcher();
 PluginHelper::importPlugin('jea');
 
@@ -135,16 +133,16 @@ HTMLHelper::_('formbehavior.chosen', 'select');
     </div>
   </div>
 
-    <?php if ($user->authorise('core.admin', $this->extension)) : ?>
-      <div class="card mt-4">
-        <div class="card-header">
-          <h2><?php echo Text::_('COM_JEA_PUBLICATION_INFO') ?></h2>
-        </div>
-        <div class="card-body">
-            <?php echo $this->form->getInput('rules') ?>
-        </div>
+  <?php if ($this->canDo->get('core.admin')) : ?>
+    <div class="card mt-4">
+      <div class="card-header">
+        <h2><?php echo Text::_('COM_JEA_FIELDSET_RULES') ?></h2>
       </div>
-    <?php endif ?>
+      <div class="card-body">
+          <?php echo $this->form->getInput('rules') ?>
+      </div>
+    </div>
+  <?php endif ?>
 
   <div>
     <input type="hidden" name="task" value=""/>
