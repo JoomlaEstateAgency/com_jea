@@ -49,7 +49,7 @@ HTMLHelper::script('media/com_jea/js/admin/gallery.js');
           }
           ?>
 
-        <a href="<?php echo $image->url ?>" title="Zoom" class="imgLink modal"
+        <a href="<?php echo $image->url ?>" title="Zoom" class="imgLink"
            rel="{handler: 'image'}">
           <img src="<?php echo $image->thumbUrl ?>" alt="<?php echo $image->name ?>"/>
         </a>
