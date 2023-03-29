@@ -61,6 +61,6 @@ HTMLHelper::stylesheet('media/com_jea/css/jea.admin.css');
     <input type="hidden" name="task" value=""/>
       <?php echo $this->form->getInput('id') ?>
       <?php echo $this->form->getInput('type') ?>
-      <?php echo Text::_('form.token') ?>
+      <?php echo HTMLHelper::_('form.token') ?>
   </div>
 </form>
