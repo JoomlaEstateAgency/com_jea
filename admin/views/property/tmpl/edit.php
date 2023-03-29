@@ -99,15 +99,10 @@ HTMLHelper::_('formbehavior.chosen', '#localization select');
 
     <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'details-tab', Text::_('COM_JEA_DETAILS')) ?>
       <?php foreach ($this->form->getFieldset('details') as $field) echo $field->renderField() ?>
-    <?php echo HTMLHelper::_('uitab.endTab') ?>
-
-    <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'amenities-tab', Text::_('COM_JEA_AMENITIES')) ?>
-      <div>
-        <fieldset class="options-form">
-          <legend><?php echo Text::_('COM_JEA_AMENITIES') ?></legend>
-          <?php echo $this->form->getInput('amenities') ?>
-        </fieldset>
-      </div>
+      <fieldset class="options-form">
+        <legend><?php echo Text::_('COM_JEA_AMENITIES') ?></legend>
+        <?php echo $this->form->getInput('amenities') ?>
+      </fieldset>
     <?php echo HTMLHelper::_('uitab.endTab') ?>
 
     <?php echo HTMLHelper::_('uitab.addTab', 'property-tabs', 'info-tab', Text::_('COM_JEA_PUBLICATION_INFO')) ?>
