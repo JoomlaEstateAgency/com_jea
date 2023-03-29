@@ -19,7 +19,7 @@ $action = $displayData['action'];
 $view = $displayData['view'];
 ?>
 
-<ul class="nav nav-pills">
+<ul class="nav nav-pills mb-4">
   <li class="nav-item">
     <a class="nav-link<?php if ($view == 'console') echo ' active' ?>"
        href="<?php echo Route::_('index.php?option=com_jea&view=gateways&layout=' . $action) ?>">

@@ -22,13 +22,13 @@ echo HTMLHelper::_('bootstrap.startTabSet', 'consoles-panel', array('active' => 
 
 echo HTMLHelper::_('bootstrap.addTab', 'consoles-panel', 'console-ajax', Text::_('COM_JEA_' . strtoupper($action) . '_AJAX'));
 
-echo LayoutHelper::render('jea.gateways.console.ajax', $displayData);
+echo '<div class="p-2">', LayoutHelper::render('jea.gateways.console.ajax', $displayData) , '</div>';
 
 echo HTMLHelper::_('bootstrap.endTab');
 
 echo HTMLHelper::_('bootstrap.addTab', 'consoles-panel', 'console-cli', Text::_('COM_JEA_' . strtoupper($action) . '_CLI'));
 
-echo LayoutHelper::render('jea.gateways.console.cli', $displayData);
+echo '<div class="p-2">', LayoutHelper::render('jea.gateways.console.cli', $displayData) , '</div>';
 
 echo HTMLHelper::_('bootstrap.endTab');
 
