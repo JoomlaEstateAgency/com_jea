@@ -10,18 +10,19 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Mail\MailHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\User;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Event\Event;
 use Joomla\Uri\Uri;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Log\Log;
+use Joomla\Event\Event;
+use Joomla\CMS\User\User;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseDriver;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/tables/property.php';
 
 /**
  * JEAPropertyInterface model class.
@@ -33,7 +34,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/tables/property.php';
  *
  * @since       2.0
  */
-class JEAPropertyInterface extends JObject
+class JEAPropertyInterface extends CMSObject
 {
 	// These public members concern the interface
 	public $ref = '';
@@ -343,19 +344,12 @@ class JEAPropertyInterface extends JObject
 
 		// Trigger the onContentBeforeSave event.
 		$event = new Event('onBeforeSaveProperty', array('com_jea.propertyInterface', &$property, $isNew));
-		$result = $dispatcher->dispatch('onBeforeSaveProperty', $event);
-
-		if (in_array(false, $result, true))
-		{
-			$this->_errors = $property->getError();
-
-			return false;
-		}
+		$dispatcher->dispatch('onBeforeSaveProperty', $event);
 
 		$property->store();
 
 		// Trigger the onContentAfterSave event.
-		$dispatcher->trigger('onAfterSaveProperty', new Event('onAfterSaveProperty', array('com_jea.propertyInterface', &$property, $isNew)));
+		$dispatcher->dispatch('onAfterSaveProperty', new Event('onAfterSaveProperty', array('com_jea.propertyInterface', &$property, $isNew)));
 
 		$errors = $property->getErrors();
 

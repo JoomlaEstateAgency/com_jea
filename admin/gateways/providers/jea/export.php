@@ -10,15 +10,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Archive\Archive;
-use Joomla\CMS\Client\FtpClient;
+use Joomla\Archive\Zip;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Archive\Archive;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Filesystem\Folder;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/export.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/gateways/export.php';
 
 /**
  * The export class for JEA gateway provider
@@ -76,6 +77,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	protected function createZip($filename, &$files)
 	{
 		$zipAdapter = (new Archive)->getAdapter('zip');
+		assert($zipAdapter instanceof Zip);
 
 		if (!@$zipAdapter->create($filename, $files))
 		{
@@ -183,7 +185,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 	 */
 	public function initWebConsole()
 	{
-		HTMLHelper::script('media/com_jea/js/gateway-jea.js', true);
+		HTMLHelper::script('media/com_jea/js/gateway-jea.js');
 		$title = addslashes($this->title);
 
 		// Register script messages
@@ -262,12 +264,7 @@ class JeaGatewayExportJea extends JeaGatewayExport
 			'ftp_sent' => false
 		);
 
-		$message = Text::_('COM_JEA_EXPORT_END_MESSAGE');
-		$message = str_replace(
-			array('{title}', '{count}'),
-			array($this->title, $response['exported_properties']),
-			$message
-		);
+		$message = Text::sprintf('COM_JEA_EXPORT_END_MESSAGE', $this->title, $response['exported_properties']);
 
 		if ($this->params->get('send_by_ftp') == '1')
 		{

@@ -10,20 +10,33 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Service\Provider\Dispatcher;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Database\DatabaseInterface;
+use Joomla\CMS\Application\ConsoleApplication;
 
 /**
  * Custom Event dispatcher class for JEA gateways
  *
  * @since  3.4
  */
-class GatewaysEventDispatcher extends Dispatcher
+class GatewaysEventDispatcher
 {
+	/**
+	 * An array of Observer objects to notify
+	 *
+	 * @var    array
+	 */
+	protected $observers = [];
+
+	/**
+	 * A multi dimensional array of [function][] = key for observers
+	 *
+	 * @var    array
+	 */
+	protected $methods = [];
+
 	/**
 	 * Stores the singleton instance of the dispatcher.
 	 *
@@ -60,28 +73,22 @@ class GatewaysEventDispatcher extends Dispatcher
 			return;
 		}
 
-		/*
-		 * The main difference with the parent method
-		 * is to attach several instances of the same
-		 * class.
-		 */
-
-		$this->_observers[] = $observer;
+		$this->observers[] = $observer;
 		$methods = get_class_methods($observer);
 
-		end($this->_observers);
-		$key = key($this->_observers);
+		end($this->observers);
+		$key = key($this->observers);
 
 		foreach ($methods as $method)
 		{
 			$method = strtolower($method);
 
-			if (!isset($this->_methods[$method]))
+			if (!isset($this->methods[$method]))
 			{
-				$this->_methods[$method] = array();
+				$this->methods[$method] = array();
 			}
 
-			$this->_methods[$method][] = $key;
+			$this->methods[$method][] = $key;
 		}
 	}
 
@@ -101,32 +108,32 @@ class GatewaysEventDispatcher extends Dispatcher
 		$event = strtolower($event);
 
 		// Check if any gateways are attached to the event.
-		if (!isset($this->_methods[$event]) || empty($this->_methods[$event]))
+		if (!isset($this->methods[$event]) || empty($this->methods[$event]))
 		{
 			// No gateways associated to the event!
 			return $result;
 		}
 
 		// Loop through all gateways having a method matching our event
-		foreach ($this->_methods[$event] as $key)
+		foreach ($this->methods[$event] as $key)
 		{
 			// Check if the gateway is present.
-			if (!isset($this->_observers[$key]))
+			if (!isset($this->observers[$key]))
 			{
 				continue;
 			}
 
-			if ($this->_observers[$key] instanceof JeaGateway)
+			if ($this->observers[$key] instanceof JeaGateway)
 			{
 				try
 				{
 					$args['event'] = $event;
-					$value = $this->_observers[$key]->update($args);
+					$value = $this->observers[$key]->update($args);
 				}
 				catch (Exception $e)
 				{
 					$application = Factory::getApplication();
-					$gateway = $this->_observers[$key];
+					$gateway = $this->observers[$key];
 					$gateway->log($e->getMessage(), 'err');
 
 					if ($application instanceof ConsoleApplication)
@@ -220,7 +227,10 @@ class GatewaysEventDispatcher extends Dispatcher
 					'params' => new Registry($gateway->params)
 				);
 
-				return new $className($dispatcher, $config);
+				$gateway = new $className($config);
+				$dispatcher->attach($gateway);
+
+				return $gateway;
 			}
 			else
 			{

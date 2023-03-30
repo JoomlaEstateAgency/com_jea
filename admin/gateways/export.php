@@ -17,7 +17,7 @@ use Joomla\Database\DatabaseDriver;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/gateways/gateway.php';
 
 /**
  * The base class for export gateways
@@ -36,24 +36,16 @@ abstract class JeaGatewayExport extends JeaGateway
 	/**
 	 * Constructor
 	 *
-	 * @param   object $subject The object to observe
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct($config = array())
 	{
-		$application = Factory::getApplication();
+		/*
+		* In Joomla CLI console, specify --live-site=https://www.example.com
+		*/
+		$this->baseUrl = Uri::root();
 
-		if (defined('BASE_URL'))
-		{
-			$this->baseUrl = BASE_URL;
-		}
-
-		if ($application instanceof WebApplication)
-		{
-			$this->baseUrl = Uri::root();
-		}
-
-		parent::__construct($subject, $config);
+		parent::__construct($config);
 	}
 
 	/**

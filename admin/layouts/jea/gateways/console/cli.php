@@ -69,10 +69,10 @@ $document->addScriptDeclaration($script);
 
     <?php if ($action == 'export') : ?>
       <pre
-          id="cli-command"><?php echo 'php ' . JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --export --basedir="' . JPATH_ROOT . '" --baseurl="' . Uri::root() . '"' ?></pre>
+          id="cli-command"><?php echo 'php ' . JPATH_ROOT . '/cli/joomla.php jea:gateways:export --live-site=' . Uri::root() ?></pre>
     <?php else: ?>
       <pre
-          id="cli-command"><?php echo 'php ' . JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --import --basedir="' . JPATH_ROOT . '"' ?></pre>
+          id="cli-command"><?php echo 'php ' . JPATH_ROOT . '/cli/joomla.php jea:gateways:import' ?></pre>
     <?php endif ?>
 
   <div>

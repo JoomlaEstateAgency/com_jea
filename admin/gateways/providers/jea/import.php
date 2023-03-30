@@ -17,8 +17,8 @@ use Joomla\Archive\Archive;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/import.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/models/propertyInterface.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/gateways/import.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/models/propertyInterface.php';
 
 /**
  * The import class for JEA gateway provider

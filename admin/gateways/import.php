@@ -9,16 +9,17 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/gateways/gateway.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_jea/gateways/gateway.php';
 
 /**
  * The base class for import gateways
@@ -94,12 +95,11 @@ abstract class JeaGatewayImport extends JeaGateway
 	/**
 	 * Constructor
 	 *
-	 * @param   object $subject The object to observe
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct($config = array())
 	{
-		parent::__construct($subject, $config);
+		parent::__construct($config);
 		$this->autoDeletion = (bool) $this->params->get('auto_deletion', 0);
 	}
 
@@ -216,7 +216,7 @@ abstract class JeaGatewayImport extends JeaGateway
 				}
 
 				// Verify update time
-				$date = new JDate($row->modified);
+				$date = new Date($row->modified);
 
 				if ($date->toUnix() < $properties[$row->ref]->modified)
 				{
@@ -269,7 +269,6 @@ abstract class JeaGatewayImport extends JeaGateway
 					}
 
 					$this->log($msg, 'WARN');
-					Error::raiseNotice(200, "A property cant'be saved. See logs for more infos");
 				}
 			}
 
@@ -508,7 +507,7 @@ abstract class JeaGatewayImport extends JeaGateway
 
 		if (!Folder::exists($cachePath))
 		{
-			throw RuntimeException("Cache directory : $cachePath cannot be created.");
+			throw new RuntimeException("Cache directory : $cachePath cannot be created.");
 		}
 
 		return $cachePath;

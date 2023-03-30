@@ -10,19 +10,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Log\Log;
-use Joomla\Event\Event;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Application\ConsoleApplication;
 
 /**
  * The base class for all gateways
  *
  * @since  3.4
  */
-abstract class JeaGateway extends Event
+abstract class JeaGateway
 {
 	/**
 	 * A Registry object holding the parameters for the gateway
@@ -69,10 +68,9 @@ abstract class JeaGateway extends Event
 	/**
 	 * Constructor
 	 *
-	 * @param   object $subject The object to observe
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 */
-	public function __construct(&$subject, $config = array())
+	public function __construct($config = array())
 	{
 		if (isset($config['params']) && $config['params'] instanceof Registry)
 		{
@@ -100,8 +98,34 @@ abstract class JeaGateway extends Event
 		}
 
 		$this->logFile = $this->type . '_' . $this->provider . '.php';
+	}
 
-		parent::__construct($subject);
+	/**
+	 * Method to trigger events.
+	 * The method first generates the even from the argument array. Then it unsets the argument
+	 * since the argument has no bearing on the event handler.
+	 * If the method exists it is called and returns its return value. If it does not exist it
+	 * returns null.
+	 *
+	 * @param   array  $args  Arguments
+	 *
+	 * @return  mixed  Routine return value
+	 */
+	public function update(&$args)
+	{
+		// First let's get the event from the argument array.  Next we will unset the
+		// event argument as it has no bearing on the method to handle the event.
+		$event = $args['event'];
+		unset($args['event']);
+
+		/*
+		 * If the method to handle an event exists, call it and return its return
+		 * value.  If it does not exist, return null.
+		 */
+		if (method_exists($this, $event))
+		{
+			return call_user_func_array(array($this, $event), $args);
+		}
 	}
 
 	/**
@@ -165,8 +189,7 @@ abstract class JeaGateway extends Event
 
 		if ($application instanceof ConsoleApplication)
 		{
-			// @var JApplicationCli $application
-			$application->out($message);
+			$application->getConsoleOutput()->write($message);
 		}
 	}
 

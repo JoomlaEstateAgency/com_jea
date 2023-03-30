@@ -8,10 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\Uri\Uri;
+use Joomla\CMS\MVC\Controller\AdminController;
 
 defined('_JEXEC') or die;
 
@@ -55,9 +56,11 @@ class JeaControllerGateways extends AdminController
 	protected function gatewaysExecute($task)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$application = Factory::getApplication();
+		assert($application instanceof \Joomla\CMS\Application\WebApplication);
+
 		$application->setHeader('Content-Type', 'text/plain', true);
 		$application->sendHeaders();
 
@@ -76,9 +79,8 @@ class JeaControllerGateways extends AdminController
 			$application->close();
 		}
 
-		$command = ($task == 'export' ? $interpreter . ' '
-			. JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --export --basedir="' . JPATH_ROOT . '" --baseurl="' . Uri::root() . '"' :
-			$interpreter . ' ' . JPATH_COMPONENT_ADMINISTRATOR . '/cli/gateways.php --import --basedir="' . JPATH_ROOT . '"');
+		$command = $interpreter . ' ' . JPATH_ROOT . '/cli/joomla.php jea:gateways:'
+					. ($task == 'export' ? 'export --live-site=' . Uri::root() : 'import');
 
 		echo "> $command\n\n";
 
