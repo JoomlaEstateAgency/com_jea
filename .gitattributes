@@ -1,10 +1,11 @@
 # Ignore these files with "export-ignore".
+/.editorconfig      export-ignore
 /.gitattributes     export-ignore
 /.github            export-ignore
 /.gitignore         export-ignore
 /.gitmodules        export-ignore
-/build.xml          export-ignore
 /composer.json      export-ignore
 /composer.lock      export-ignore
 /coding-standards   export-ignore
 /dist               export-ignore
+/scripts            export-ignore
