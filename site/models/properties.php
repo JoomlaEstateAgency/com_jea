@@ -313,7 +313,19 @@ class JeaModelProperties extends ListModel
 			if (is_array($value))
 			{
 				$value = ArrayHelper::toInteger($value);
-				$query->where('p.type_id IN(' . implode(',', $value) . ')');
+
+				foreach ($value as  $k => $v)
+				{
+					if ($v === 0)
+					{
+						unset($value[$k]);
+					}
+				}
+
+				if (count($value))
+				{
+					$query->where('p.type_id IN(' . implode(',', $value) . ')');
+				}
 			}
 			else
 			{
