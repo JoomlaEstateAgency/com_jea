@@ -213,7 +213,6 @@
 			description="COM_JEA_FIELD_IMAGES_LAYOUT_DESC"
 		>
 			<option value="gallery">Classical</option>
-			<option value="squeezebox">SqueezeBox</option>
 			<option value="magnificpopup">Magnific popup</option>
 		</field>
 

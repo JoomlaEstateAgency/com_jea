@@ -38,7 +38,7 @@ jQuery(function($) {
 
 	});
 
-	$('.modal').magnificPopup({
+	$('.image-modal').magnificPopup({
 		type: 'image'
 	});
 
@@ -58,7 +58,7 @@ $gallery_orientation = $this->params->get('gallery_orientation', 'vertical');
 <div id="jea-gallery" class="<?php echo $gallery_orientation ?>">
 
   <div id="jea-gallery-preview" class="<?php echo $gallery_orientation ?>">
-    <a href="<?php echo $mainImage->URL ?>" class="modal">
+    <a href="<?php echo $mainImage->URL ?>" class="image-modal">
       <img src="<?php echo $mainImage->mediumURL ?>" id="jea-preview-img"
            alt="<?php echo $mainImage->title ?>" title="<?php echo $mainImage->description ?>"/>
     </a>
