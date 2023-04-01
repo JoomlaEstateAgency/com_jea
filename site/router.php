@@ -32,7 +32,6 @@ function jeaBuildRoute(&$query)
 
 	if (isset($query['layout']))
 	{
-		$segments[] = $query['layout'];
 		unset($query['layout']);
 	}
 
@@ -54,43 +53,31 @@ function jeaBuildRoute(&$query)
  *
  * @deprecated  4.0  Use Class based routers instead
  */
-function jeaParseRoute($segments)
+function jeaParseRoute(&$segments)
 {
 	$vars = array();
 
 	// Get the active menu item
 	$app = Factory::getApplication();
+	assert($app instanceof \Joomla\CMS\Application\SiteApplication);
+
 	$menu = $app->getMenu();
+	assert($menu instanceof \Joomla\CMS\Menu\SiteMenu);
+
 	$item = $menu->getActive();
 
 	// Count route segments
 	$count = count($segments);
 
 	// Standard routing for property
-
-	if (!isset($item))
+	if ($count == 1 && !isset($item))
 	{
+		// $vars['option'] = 'com_jea';
 		$vars['view'] = 'property';
-		$vars['id'] = $segments[$count - 1];
+		$vars['id'] = $segments[0];
+		unset($segments[0]);
 
 		return $vars;
-	}
-
-	if ($count == 1 && is_numeric($segments[0]))
-	{
-		// If there is only one numeric segment, then it points to a property detail
-		if (strpos($segments[0], ':') === false)
-		{
-			$id = (int) $segments[0];
-		}
-		else
-		{
-			$exp = explode(':', $segments[0], 2);
-			$id = (int) $exp[0];
-		}
-
-		$vars['view'] = 'property';
-		$vars['id'] = $id;
 	}
 
 	if ($item->query['view'] == 'properties')
@@ -107,25 +94,34 @@ function jeaParseRoute($segments)
 
 				if ($count == 1)
 				{
+					$vars['view'] = 'property';
+
 					// If there is only one, then it points to a property detail
 					if (is_numeric($segments[0]))
 					{
-						$vars['view'] = 'property';
 						$vars['id'] = (int) $segments[0];
 					}
 					elseif (strpos($segments[0], ':') !== false)
 					{
 						$exp = explode(':', $segments[0], 2);
 						$vars['id'] = (int) $exp[0];
-						$vars['view'] = 'property';
 					}
+
+					unset($segments[0]);
 				}
 				break;
 			case 'manage':
 				$vars['view'] = 'properties';
 				$vars['layout'] = 'manage';
 
-				if ($count > 0 && $segments[0] == 'edit')
+				if ($count == 1 && is_numeric($segments[0]))
+				{
+					$vars['view'] = 'form';
+					$vars['layout'] = 'edit';
+					$vars['id'] = (int) $segments[0];
+					unset($segments[0]);
+				}
+				elseif ($count > 0 && $segments[0] == 'edit')
 				{
 					$vars['view'] = 'form';
 					$vars['layout'] = 'edit';
@@ -133,7 +129,10 @@ function jeaParseRoute($segments)
 					if ($count == 2)
 					{
 						$vars['id'] = (int) $segments[1];
+						unset($segments[1]);
 					}
+
+					unset($segments[0]);
 				}
 
 				break;
@@ -149,12 +148,15 @@ function jeaParseRoute($segments)
 			if ($segments[0] == 'edit' && $count == 2)
 			{
 				$vars['id'] = (int) $segments[1];
+				unset($segments[1]);
 			}
 			elseif ($segments[0] == 'manage')
 			{
 				$vars['view'] = 'properties';
 				$vars['layout'] = 'manage';
 			}
+
+			unset($segments[0]);
 		}
 	}
 

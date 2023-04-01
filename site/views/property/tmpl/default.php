@@ -258,5 +258,5 @@ PluginHelper::importPlugin('jea');
 <?php endif ?>
 
 <p>
-  <a href="<?php echo Route::_('index.php?option=com_jea&view=properties') ?>"><?php echo Text::_('COM_JEA_RETURN_TO_THE_LIST') ?></a>
+  <a href="<?php echo Route::_('index.php?option=com_jea&view=properties&Itemid=' . $this->itemId) ?>"><?php echo Text::_('COM_JEA_RETURN_TO_THE_LIST') ?></a>
 </p>

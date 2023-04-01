@@ -58,6 +58,13 @@ class JeaViewProperty extends HtmlView
 	protected $page_title = '';
 
 	/**
+	 * The current menu item id
+	 *
+	 * @var integer
+	 */
+	protected $itemId = 0;
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string $tpl The name of the template file to parse.
@@ -73,6 +80,7 @@ class JeaViewProperty extends HtmlView
 		$this->state = $this->get('State');
 		$item = $this->get('Item');
 		$this->params = $this->state->params;
+		$this->itemId = Factory::getApplication()->input->getInt('Itemid', 0);
 
 		if (!$item)
 		{
@@ -152,7 +160,7 @@ class JeaViewProperty extends HtmlView
 	{
 		$slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
-		return Route::_('index.php?option=com_jea&view=property&id=' . $slug);
+		return Route::_('index.php?option=com_jea&view=property&id=' . $slug . '&Itemid=' . $this->itemId);
 	}
 
 	/**

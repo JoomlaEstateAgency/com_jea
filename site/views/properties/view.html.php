@@ -59,6 +59,13 @@ class JeaViewProperties extends HtmlView
 	protected $pagination;
 
 	/**
+	 * The current menu item id
+	 *
+	 * @var integer
+	 */
+	protected $itemId = 0;
+
+	/**
 	 * Overrides parent method.
 	 *
 	 * @param   string $tpl The name of the template file to parse.
@@ -74,6 +81,7 @@ class JeaViewProperties extends HtmlView
 		$state = $this->get('State');
 		$this->params = $state->params;
 		$this->state = $state;
+		$this->itemId = Factory::getApplication()->input->getInt('Itemid', 0);
 
 		$layout = $this->getLayout();
 

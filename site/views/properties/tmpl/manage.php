@@ -54,7 +54,7 @@ $this->document->addScriptDeclaration($script);
 
 <?php if ($user->authorise('core.create', 'com_jea')): ?>
   <p class="jea_add_new">
-    <a href="<?php echo Route::_('index.php?option=com_jea&task=property.add') ?>"><?php echo Text::_('COM_JEA_ADD_NEW_PROPERTY') ?></a>
+    <a href="<?php echo Route::_('index.php?option=com_jea&task=property.add&Itemid=' . $this->itemId) ?>"><?php echo Text::_('COM_JEA_ADD_NEW_PROPERTY') ?></a>
   </p>
 <?php endif ?>
 
@@ -117,7 +117,7 @@ $this->document->addScriptDeclaration($script);
 
           <tr class="row<?php echo $i % 2 ?>">
             <td class="nowrap">
-              <a href="<?php echo Route::_('index.php?option=com_jea&task=property.edit&id=' . $row->id) ?>"
+              <a href="<?php echo Route::_('index.php?option=com_jea&task=property.edit&id=' . $row->id . '&Itemid=' . $this->itemId) ?>"
                  title="<?php echo Text::_('JACTION_EDIT') ?>">
                   <?php echo $row->ref ?>
               </a>

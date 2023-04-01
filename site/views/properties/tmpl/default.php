@@ -11,6 +11,7 @@
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 defined('_JEXEC') or die;
 
@@ -56,7 +57,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
     <?php endif ?>
 
     <?php if (!empty($this->items)): ?>
-      <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()) ?>" id="jForm"
+      <form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()) ?>" id="jForm"
             method="post">
 
         <p class="sort-options">
@@ -70,10 +71,13 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
         <div class="jea-items">
             <?php foreach ($this->items as $row): ?>
-                <?php $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id ?>
+                <?php
+                $row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
+                $itemUrl = Route::_('index.php?option=com_jea&view=property&id=' . $row->slug . '&Itemid=' . $this->itemId);
+                ?>
               <dl class="jea_item">
                 <dt class="title">
-                  <a href="<?php echo Route::_('index.php?option=com_jea&view=property&id=' . $row->slug) ?>"
+                  <a href="<?php echo $itemUrl ?>"
                      title="<?php echo Text::_('COM_JEA_DETAIL') ?>"><strong>
                           <?php if (empty($row->title)): ?>
                               <?php echo ucfirst(Text::sprintf('COM_JEA_PROPERTY_TYPE_IN_TOWN', $this->escape($row->type), $this->escape($row->town))) ?>
@@ -90,7 +94,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 
                   <?php if ($imgUrl = $this->getFirstImageUrl($row)): ?>
                     <dt class="image">
-                      <a href="<?php echo Route::_('index.php?option=com_jea&view=property&id=' . $row->slug) ?>"
+                      <a href="<?php echo $itemUrl ?>"
                          title="<?php echo Text::_('COM_JEA_DETAIL') ?>">
                         <img src="<?php echo $imgUrl ?>"
                              alt="<?php echo Text::_('COM_JEA_DETAIL') ?>"/>
@@ -124,7 +128,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
                     <?php endif ?>
 
                   <br/>
-                  <a href="<?php echo Route::_('index.php?option=com_jea&view=property&id=' . $row->slug) ?>"
+                  <a href="<?php echo $itemUrl ?>"
                      title="<?php echo Text::_('COM_JEA_DETAIL') ?>">
                       <?php echo Text::_('COM_JEA_DETAIL') ?></a>
                 </dd>

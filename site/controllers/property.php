@@ -203,6 +203,7 @@ class JeaControllerProperty extends FormController
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$tmpl = $this->input->getCmd('tmpl');
+		$itemId = $this->input->getCmd('Itemid');
 		$append = '&layout=edit';
 
 		// Setup redirect info.
@@ -214,6 +215,11 @@ class JeaControllerProperty extends FormController
 		if ($recordId)
 		{
 			$append .= '&' . $urlVar . '=' . $recordId;
+		}
+
+		if ($itemId)
+		{
+			$append .= '&Itemid=' . $itemId;
 		}
 
 		return $append;

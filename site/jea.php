@@ -9,6 +9,7 @@
  */
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 defined('_JEXEC') or die;
 
@@ -22,6 +23,6 @@ if ($input->getCmd('task') == '')
 	$input->set('task', 'default.display');
 }
 
-$controller = JControllerLegacy::getInstance('jea');
+$controller = BaseController::getInstance('jea');
 $controller->execute($input->getCmd('task'));
 $controller->redirect();
