@@ -187,7 +187,7 @@ $this->document->addScriptDeclaration($script);
     <?php endif ?>
 <?php endif ?>
 
-<form action="<?php echo Route::_('index.php?option=com_jea&view=properties&task=properties.search') ?>"
+<form action="<?php echo Route::_('index.php?option=com_jea&view=properties&task=properties.search&Itemid=' . $this->itemId) ?>"
       method="post" id="jea-search-form">
   <p>
       <?php echo HTMLHelper::_('features.types', $this->state->get('filter.type_id', 0), 'filter_type_id') ?>

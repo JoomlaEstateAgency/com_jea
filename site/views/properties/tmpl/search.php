@@ -73,7 +73,7 @@ $this->document->addScriptDeclaration($script);
     <?php endif ?>
 <?php endif ?>
 
-<form action="<?php echo Route::_('index.php?option=com_jea&view=properties&task=properties.search') ?>"
+<form action="<?php echo Route::_('index.php?option=com_jea&view=properties&task=properties.search&Itemid=' . $this->itemId) ?>"
       method="post" id="jea-search-form">
 
     <?php if ($this->params->get('searchform_show_freesearch')): ?>
