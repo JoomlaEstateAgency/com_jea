@@ -128,7 +128,7 @@ class JeaControllerProperties extends BaseController
 	 *
 	 * @return number
 	 */
-	public function _ajaxAlphaSort(&$arg1, &$arg2)
+	public function _ajaxAlphaSort($arg1, $arg2)
 	{
 		$val1 = strtolower($arg1['text']);
 		$val2 = strtolower($arg2['text']);
