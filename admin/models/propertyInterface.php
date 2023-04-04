@@ -48,9 +48,9 @@ class JEAPropertyInterface extends CMSObject
 	/**
 	 * Renting or selling price
 	 *
-	 * @var string
+	 * @var float
 	 */
-	public $price = '';
+	public $price = 0.0;
 
 	public $address = '';
 
@@ -66,15 +66,15 @@ class JEAPropertyInterface extends CMSObject
 
 	public $living_space = '';
 
-	public $land_space = '';
+	public $land_space = 0;
 
-	public $rooms = '';
+	public $rooms = 0;
 
-	public $bedrooms = '';
+	public $bedrooms = 0;
 
-	public $charges = '';
+	public $charges = 0.0;
 
-	public $fees = '';
+	public $fees = 0.0;
 
 	public $deposit = '';
 
@@ -82,9 +82,9 @@ class JEAPropertyInterface extends CMSObject
 
 	public $heating_type = '';
 
-	public $bathrooms = '';
+	public $bathrooms = 0;
 
-	public $toilets = '';
+	public $toilets = 0;
 
 	public $availability = '';
 
