@@ -555,6 +555,8 @@ class JEAPropertyInterface extends CMSObject
 		{
 			$db = Factory::getContainer()->get(DatabaseDriver::class);
 
+			assert($db instanceof DatabaseDriver);
+
 			if (!isset($tablesOrdering[$tableName]))
 			{
 				$db->setQuery('SELECT MAX(ordering) FROM #__jea_' . $tableName);
@@ -589,7 +591,7 @@ class JEAPropertyInterface extends CMSObject
 			$query->columns($columns);
 			$query->values($values);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 			$id = $db->insertid();
 
 			self::$features[$tableName][$fieldValue] = $id;
