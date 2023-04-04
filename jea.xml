@@ -60,7 +60,6 @@
 		</submenu>
 
 		<files folder="admin">
-			<folder>cli</folder>
 			<folder>controllers</folder>
 			<folder>gateways</folder>
 			<folder>helpers</folder>
