@@ -24,18 +24,17 @@ FormHelper::loadFieldClass('list');
  * @package     Joomla.Administrator
  * @subpackage  com_jea
  *
- * @see         ListFieldList
- *
+ * @see         ListField
  * @since       2.0
  */
-class ListFieldGatewayProviderList extends ListField
+class JFormFieldGatewayproviderlist extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var string
 	 */
-	protected $type = 'GatewayProviderList';
+	protected $type = 'Gatewayproviderlist';
 
 	/**
 	 * The provider type (import or export).
