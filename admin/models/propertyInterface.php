@@ -216,7 +216,7 @@ class JEAPropertyInterface extends CMSObject
 		$data['town_id'] = self::getFeatureId('towns', $this->town, null, $data['department_id']);
 		$data['area_id'] = self::getFeatureId('areas', $this->area, null, $data['town_id']);
 
-		$orientations = array('0', 'N', 'NE', 'NW', 'NS', 'E', 'EW', 'W', 'SW', 'SE');
+		$orientations = array('0', 'N', 'NE', 'NW', 'NS', 'E', 'W', 'S', 'SW', 'SE', 'EW');
 
 		$orientation = strtoupper($this->orientation);
 
@@ -226,7 +226,7 @@ class JEAPropertyInterface extends CMSObject
 		}
 		else
 		{
-			$data['orientation'] = 'O';
+			$data['orientation'] = '0';
 		}
 
 		if (is_array($this->amenities))
