@@ -1,9 +1,9 @@
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_advantages`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_amenities` (
   `id` int(11) NOT NULL auto_increment,
@@ -15,9 +15,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_amenities` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_areas`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_areas` (
   `id` int(11) NOT NULL auto_increment,
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_areas` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_conditions`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_conditions` (
   `id` int(11) NOT NULL auto_increment,
@@ -43,9 +43,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_conditions` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_departments`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_departments` (
   `id` int(11) NOT NULL auto_increment,
@@ -57,9 +57,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_departments` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_heatingtypes`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_heatingtypes` (
   `id` int(11) NOT NULL auto_increment,
@@ -71,9 +71,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_heatingtypes` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_hotwatertypes`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_hotwatertypes` (
   `id` int(11) NOT NULL auto_increment,
@@ -85,13 +85,13 @@ CREATE TABLE IF NOT EXISTS `#__jea_hotwatertypes` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_properties`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `id` int(11) NOT NULL auto_increment,
-  `asset_id` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table', 
+  `asset_id` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table',
   `ref` varchar(20) NOT NULL default '',
   `title` varchar(255) NOT NULL default '',
   `alias` varchar(255) NOT NULL default '',
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `floors_number` int(11) NOT NULL default '0',
   `orientation` ENUM('0', 'N', 'NE', 'NW', 'NS', 'E', 'W', 'S', 'SW', 'SE', 'EW') NOT NULL default '0',
   `amenities` varchar(255) NOT NULL default '' COMMENT 'amenities list',
-  `description` text NOT NULL,
+  `description` text NOT NULL default '',
   `slogan_id` int(11) NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',
   `access` int(11) NOT NULL default '0',
@@ -135,11 +135,11 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL default '0',
   `hits` int(11) NOT NULL default '0',
-  `images` TEXT NOT NULL,
+  `images` TEXT NOT NULL default '',
   `latitude` varchar(20) NOT NULL default '0',
   `longitude` varchar(20) NOT NULL default '0',
-  `notes` TEXT NOT NULL,
-  `language` char(7) NOT NULL COMMENT 'language where property is shown',
+  `notes` TEXT NOT NULL default '',
+  `language` char(7) NOT NULL default '' COMMENT 'language where property is shown',
   `provider` varchar(50) NOT NULL default '' COMMENT 'A gateway provider name',
   PRIMARY KEY  (`id`),
   KEY `idx_jea_transactiontype` (`transaction_type`),
@@ -150,9 +150,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_tools`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_tools` (
   `id` int(11) NOT NULL auto_increment,
@@ -165,15 +165,15 @@ CREATE TABLE IF NOT EXISTS `#__jea_tools` (
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 INSERT INTO `#__jea_tools` (`id` , `title` , `link` , `icon` , `params` , `access`)
-VALUES 
+VALUES
 ('1', 'com_jea_import', 'index.php?option=com_jea&view=gateways&layout=import', 'download', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']'),
 ('2', 'com_jea_export', 'index.php?option=com_jea&view=gateways&layout=export', 'upload', '', '[''core.manage'', ''com_jea'', ''core.create'', ''com_jea'']');
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_slogans`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_slogans` (
   `id` int(11) NOT NULL auto_increment,
@@ -185,9 +185,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_slogans` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_towns`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_towns` (
   `id` int(11) NOT NULL auto_increment,
@@ -199,9 +199,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_towns` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_types`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_types` (
   `id` int(11) NOT NULL auto_increment,
@@ -213,9 +213,9 @@ CREATE TABLE IF NOT EXISTS `#__jea_types` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Table schema `#__jea_gateways`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__jea_gateways` (
   `id` int(11) NOT NULL auto_increment,
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_gateways` (
   `title` varchar(255) NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  `params` TEXT NOT NULL,
+  `params` TEXT NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
