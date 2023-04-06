@@ -10,9 +10,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+
+$app = Factory::getApplication();
+assert($app instanceof AdministratorApplication);
+$am = $app->getDocument()->getWebAssetManager();
+$am->useScript('jquery');
+$am->useScript('bootstrap.tab');
 
 /* @var $displayData array */
 
