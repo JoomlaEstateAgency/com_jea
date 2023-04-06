@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `floors_number` int(11) NOT NULL default '0',
   `orientation` ENUM('0', 'N', 'NE', 'NW', 'NS', 'E', 'W', 'S', 'SW', 'SE', 'EW') NOT NULL default '0',
   `amenities` varchar(255) NOT NULL default '' COMMENT 'amenities list',
-  `description` text NOT NULL default '',
+  `description` text NOT NULL,
   `slogan_id` int(11) NOT NULL default '0',
   `published` tinyint(1) NOT NULL default '0',
   `access` int(11) NOT NULL default '0',
@@ -135,10 +135,10 @@ CREATE TABLE IF NOT EXISTS `#__jea_properties` (
   `checked_out_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `created_by` int(11) NOT NULL default '0',
   `hits` int(11) NOT NULL default '0',
-  `images` TEXT NOT NULL default '',
+  `images` TEXT NOT NULL,
   `latitude` varchar(20) NOT NULL default '0',
   `longitude` varchar(20) NOT NULL default '0',
-  `notes` TEXT NOT NULL default '',
+  `notes` TEXT NOT NULL,
   `language` char(7) NOT NULL default '' COMMENT 'language where property is shown',
   `provider` varchar(50) NOT NULL default '' COMMENT 'A gateway provider name',
   PRIMARY KEY  (`id`),
@@ -224,7 +224,7 @@ CREATE TABLE IF NOT EXISTS `#__jea_gateways` (
   `title` varchar(255) NOT NULL default '',
   `published` tinyint(1) NOT NULL default '0',
   `ordering` int(11) NOT NULL default '0',
-  `params` TEXT NOT NULL default '',
+  `params` TEXT NOT NULL,
   PRIMARY KEY  (`id`)
 ) AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
