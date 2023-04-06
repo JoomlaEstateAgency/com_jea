@@ -22,4 +22,15 @@
 		<exclude-pattern type="relative">admin/models/interface.php</exclude-pattern>
 		<exclude-pattern type="relative">admin/models/propertyInterface.php</exclude-pattern>
 	</rule>
+
+	<rule ref="Joomla">
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.FunctionNoCapital"/>
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.MethodUnderscore"/>
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.ScopeNotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidFunctionName.FunctionNameInvalid"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.ClassVarHasUnderscore"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.MemberNotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.NotCamelCaps"/>
+		<exclude name="Joomla.NamingConventions.ValidVariableName.StringNotCamelCaps"/>
+	</rule>
 </ruleset>
