@@ -32,4 +32,22 @@ class TableGateway extends Table
 	{
 		parent::__construct('#__jea_gateways', 'id', $db);
 	}
+
+	/**
+	 * Method to bind an associative array or object to the TableInterface instance.
+	 *
+	 * @param   mixed $array    An associative array or object to bind to the TableInterface instance.
+	 * @param   mixed $ignore   An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see Table::bind()
+	 */
+	public function bind($array, $ignore = '')
+	{
+		$array['params'] = isset($array['params']) && is_array($array['params']) ?
+		json_encode($array['params']) : '{}';
+
+		return parent::bind($array, $ignore);
+	}
 }

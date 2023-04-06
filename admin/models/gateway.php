@@ -99,23 +99,4 @@ class JeaModelGateway extends AdminModel
 
 		return $data;
 	}
-
-	/**
-	 * Overrides parent method
-	 *
-	 * @param   array $data The form data.
-	 *
-	 * @return  boolean  True on success, False on error.
-	 *
-	 * @see AdminModel::save()
-	 */
-	public function save($data)
-	{
-		if (isset($data['params']) && is_array($data['params']))
-		{
-			$data['params'] = json_encode($data['params']);
-		}
-
-		return parent::save($data);
-	}
 }
