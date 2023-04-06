@@ -8,11 +8,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Access\Rules;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\Database\DatabaseDriver;
 
 defined('_JEXEC') or die;
 
@@ -29,9 +31,9 @@ class TableProperty extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver $db A database diver object
+	 * @param   DatabaseDriver $db A database diver object
 	 */
-	public function __construct(&$db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__jea_properties', 'id', $db);
 	}
@@ -74,8 +76,8 @@ class TableProperty extends Table
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{
-		// TODO td0703: Table::getInstance
 		$asset = Table::getInstance('Asset');
+		assert($asset instanceof Asset);
 		$asset->loadByName('com_jea');
 
 		return $asset->id;
@@ -205,6 +207,7 @@ class TableProperty extends Table
 	{
 		$name = $this->_getAssetName();
 		$asset = Table::getInstance('Asset');
+		assert($asset instanceof Asset);
 
 		// Force to delete even if property asset doesn't exist.
 		if (!$asset->loadByName($name))

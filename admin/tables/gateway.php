@@ -9,6 +9,7 @@
  */
 
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 defined('_JEXEC') or die;
 
@@ -25,9 +26,9 @@ class TableGateway extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   JDatabaseDriver $db A database diver object
+	 * @param   DatabaseDriver $db A database diver object
 	 */
-	public function __construct(&$db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__jea_gateways', 'id', $db);
 	}
