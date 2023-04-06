@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of Joomla Estate Agency - Joomla! extension for real estate agency
  *
@@ -24,6 +25,13 @@ defined('_JEXEC') or die;
 class TableGateway extends Table
 {
 	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 */
+	protected $_jsonEncode = ['params'];
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver $db A database diver object
@@ -34,20 +42,19 @@ class TableGateway extends Table
 	}
 
 	/**
-	 * Method to bind an associative array or object to the TableInterface instance.
+	 * Override Table::check()
 	 *
-	 * @param   mixed $array    An associative array or object to bind to the TableInterface instance.
-	 * @param   mixed $ignore   An optional array or space separated list of properties to ignore while binding.
+	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @see Table::bind()
 	 */
-	public function bind($array, $ignore = '')
+	public function check()
 	{
-		$array['params'] = isset($array['params']) && is_array($array['params']) ?
-		json_encode($array['params']) : '{}';
+		if (empty($this->params))
+		{
+			 // Field 'params' must have a default value.
+			$this->params = '{}';
+		}
 
-		return parent::bind($array, $ignore);
+		return parent::check();
 	}
 }
