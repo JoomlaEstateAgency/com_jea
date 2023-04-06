@@ -1,6 +1,9 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 4.0.4 / 04-2023=
+# Fix loading dependent assets in gateways console layout
+
 RELEASE 4.0.3 / 04-2023=
 # Fix bug when saving gateway params
 
