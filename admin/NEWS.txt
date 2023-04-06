@@ -1,6 +1,9 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 4.0.2 / 04-2023=
+# Fix DB schema
+
 RELEASE 4.0.1 / 04-2023=
 # Fix bugs in gateways
 # Fix DB schema
