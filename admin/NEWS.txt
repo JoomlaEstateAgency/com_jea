@@ -1,6 +1,9 @@
 Joomla Estate Agency          News
 ==================================
 
+RELEASE 4.0.3 / 04-2023=
+# Fix bug when saving gateway params
+
 RELEASE 4.0.2 / 04-2023=
 # Fix DB schema
 
