@@ -10,11 +10,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+
+$app = Factory::getApplication();
+assert($app instanceof AdministratorApplication);
+$am = $app->getDocument()->getWebAssetManager();
+$am->useScript('jquery');
+$am->useScript('bootstrap.modal');
 
 /**
  * @var $this JeaViewGateways
@@ -142,7 +149,7 @@ $document->addScriptDeclaration($script);
               <?php echo $item->title ?></a>
         </td>
         <td width="5%" class="nowrap center">
-          <button class="btn btn-info show-logs" data-toggle="modal" data-target="#modal"
+          <button class="btn btn-info show-logs" data-bs-toggle="modal" data-bs-target="#modal"
                   data-gateway-id="<?php echo $item->id ?>">
               <?php echo Text::_('COM_JEA_LOGS') ?>
           </button>
