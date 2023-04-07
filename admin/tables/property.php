@@ -178,6 +178,12 @@ class TableProperty extends Table
 		// Clean description for xhtml transitional compliance
 		$this->description = str_replace('<br>', '<br />', $this->description);
 
+		// Notes field cannot be NULL in the db schema
+		if ($this->notes === null)
+		{
+			$this->notes = '';
+		}
+
 		// For new insertion
 		if (empty($this->id))
 		{
