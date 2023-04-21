@@ -24,13 +24,6 @@
 		</sql>
 	</uninstall>
 
-	<!-- Runs on update-->
-	<update>
-		<schemas>
-			<schemapath type="mysql">sql/updates/mysql</schemapath>
-		</schemas>
-	</update>
-
 	<!-- Frontend -->
 	<files folder="site">
 		<folder>controllers</folder>
