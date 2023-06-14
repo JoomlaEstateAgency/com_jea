@@ -130,7 +130,7 @@ class JeaModelProperties extends ListModel
 		{
 			$state = $this->getUserStateFromRequest($this->context . '.filter.' . $name, 'filter_' . $name, $defaultValue, 'none', false);
 
-			if (!$searchContext && !empty($state))
+			if (!empty($state))
 			{
 				/*
 				 This flag indiquate that some filters are set by an user, so the context is a search.
@@ -138,7 +138,7 @@ class JeaModelProperties extends ListModel
 				 */
 				$searchContext = true;
 			}
-			else
+			elseif (!$searchContext)
 			{
 				// Get component menuitem parameters
 				$state2 = $params->get('filter_' . $name, $defaultValue);
