@@ -6,8 +6,9 @@
 
 	<exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
 	<exclude-pattern type="relative">*/layouts/*</exclude-pattern>
-	<exclude-pattern type="relative">vendor/*</exclude-pattern>
 	<exclude-pattern type="relative">scripts/*</exclude-pattern>
+	<exclude-pattern type="relative">tests/*</exclude-pattern>
+	<exclude-pattern type="relative">vendor/*</exclude-pattern>
 
 	<rule ref="../vendor/joomla/coding-standards/Joomla">
 		<!-- Temporary deactivate this rule because a bug in the class ClassCommentSniff -->
