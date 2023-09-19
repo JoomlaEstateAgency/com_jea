@@ -23,7 +23,7 @@ if ($input->getCmd('task') == '')
 	$input->set('task', 'default.display');
 }
 
-if (!in_array ($input->getCmd('view'), ['properties', 'property', 'form']))
+if (!in_array($input->getCmd('view'), ['properties', 'property', 'form']))
 {
 	// A workaround while waiting to make a real router for JEA
 	$input->set('view', 'properties');
