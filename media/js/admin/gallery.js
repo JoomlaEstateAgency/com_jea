@@ -6,47 +6,34 @@
  * @license GNU/GPL, see LICENSE.txt
  */
 
-window.addEventListener('domready', function () {
-  var sortOptions = {
-    transition: Fx.Transitions.Back.easeInOut,
-    duration: 700,
-    mode: 'vertical',
-    onComplete: function () {
-      mySort.rearrangeDOM()
-    }
-  };
++function ($) {
 
-  var mySort = new Fx.Sort($$('ul.gallery li'), sortOptions);
+  $(document).ready(function() {
+      $('a.delete-img').click(function(e) {
+          e.preventDefault();
+          $(this).closest('li').fadeOut(300, function() { $(this).remove(); });
+      });
 
-  $$('a.delete-img').each(function (item) {
-    item.addEvent('click', function () {
-      this.getParent('li').destroy();
-      mySort = new Fx.Sort($$('ul.gallery li'), sortOptions);
-    });
+      $('a.img-move-up').click(function(e) {
+          e.preventDefault();
+          var activeLi = $(this).closest('li');
+          activeLi.fadeOut(300, function() {
+              if (activeLi.prev().length) { activeLi.insertBefore(activeLi.prev()); }
+              else if (activeLi.parent().children().length > 1) { activeLi.appendTo(activeLi.parent()); }
+              activeLi.fadeIn(300);
+          });
+      });
+
+      $('a.img-move-down').click(function(e) {
+          e.preventDefault();
+          var activeLi = $(this).closest('li');
+          activeLi.fadeOut(300, function() {
+              if (activeLi.next().length) { activeLi.insertAfter(activeLi.next()); }
+              else if (activeLi.parent().children().length > 1) { activeLi.prependTo(activeLi.parent()); }
+              activeLi.fadeIn(300);
+          });
+      });
   });
 
-  $$('a.img-move-up').each(function (item) {
-    item.addEvent('click', function () {
-      var activeLi = this.getParent('li');
-      if (activeLi.getPrevious()) {
-        mySort.swap(activeLi, activeLi.getPrevious());
-      } else if (this.getParent('ul').getChildren().length > 1) {
-        // Swap with the last element
-        mySort.swap(activeLi, this.getParent('ul').getLast('li'));
-      }
-    });
-  });
+}(jQuery);
 
-  $$('a.img-move-down').each(function (item) {
-    item.addEvent('click', function () {
-      var activeLi = this.getParent('li');
-      if (activeLi.getNext()) {
-        mySort.swap(activeLi, activeLi.getNext());
-      } else if (this.getParent('ul').getChildren().length > 1) {
-        // Swap with the first element
-        mySort.swap(activeLi, this.getParent('ul').getFirst('li'));
-      }
-    });
-  });
-
-});
