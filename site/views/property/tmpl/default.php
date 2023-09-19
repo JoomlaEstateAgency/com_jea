@@ -46,7 +46,7 @@ PluginHelper::importPlugin('jea');
   </p>
 <?php endif ?>
 
-<?php if (!empty($this->row->images)) echo $this->loadTemplate($this->params->get('images_layout', 'squeezebox')) ?>
+<?php if (!empty($this->row->images)) echo $this->loadTemplate($this->params->get('images_layout', 'magnificpopup')) ?>
 
 <h2 class="clr"><?php echo Text::_('COM_JEA_REF') ?>
   : <?php echo $this->escape($this->row->ref) ?></h2>
