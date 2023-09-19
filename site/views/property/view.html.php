@@ -172,9 +172,9 @@ class JeaViewProperty extends HtmlView
 	{
 		$plugin = Factory::getApplication()->get('captcha');
 
-		if ($plugin == '0')
+		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
-			$plugin = 'recaptcha';
+			return 'Error: No captcha found. Please configure a default captcha in your Joomla configuration';
 		}
 
 		$captcha = Captcha::getInstance($plugin, array('namespace' => 'contact'));
