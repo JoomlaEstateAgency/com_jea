@@ -17,8 +17,11 @@ function updateFeature(name, fieldId, language) {
     element.empty();
     if (response) {
       for (let item of response) {
-        element.append(`<option value="${item.id}" selected="${activeValue
-        === item.id}">${item.value}</option>`);
+        let option = $(`<option value="${item.id}">${item.value}</option>`);
+        if (activeValue == item.id) {
+          option.attr('selected', 'selected');
+        }
+        element.append(option);
       }
       element.trigger('chosen:updated.chosen'); // Update jQuery choosen
     }
