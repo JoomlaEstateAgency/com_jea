@@ -719,7 +719,7 @@ class JEAPropertyInterface extends CMSObject
 	 */
 	protected static function _createUser($email = '', $name = '')
 	{
-		if (!MailHelper::isEmailAddress($email))
+		if (!$email || !MailHelper::isEmailAddress($email))
 		{
 			return false;
 		}
