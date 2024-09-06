@@ -184,7 +184,7 @@ class JeaViewProperties extends HtmlView
 	 */
 	protected function sort($title, $order, $direction = 'asc', $selected = 0)
 	{
-		$direction = strtolower($direction);
+		$direction = strtolower((string) $direction);
 
 		$images = array('sort_asc.png', 'sort_desc.png');
 
