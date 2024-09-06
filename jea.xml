@@ -2,12 +2,12 @@
 <extension type="component" method="upgrade">
 	<name>jea</name>
 	<author>Sylvain Philip</author>
-	<creationDate>jan 2020</creationDate>
+	<creationDate>sept 2024</creationDate>
 	<authorEmail>contact@sphilip.com</authorEmail>
 	<authorUrl>www.sphilip.com</authorUrl>
 	<copyright>Copyright (C) PHILIP Sylvain. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later</license>
-	<version>4.0.7</version>
+	<version>4.0.8</version>
 	<description>Easy real estate Ads management</description>
 
 	<namespace path="/">sphilip\Component\JEA</namespace>
