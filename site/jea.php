@@ -17,10 +17,16 @@ JLoader::register('JeaUpload', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/upload.
 
 $input = Factory::getApplication()->input;
 
-if ($input->getCmd('task') == '')
+$task = $input->getCmd('task');
+
+if (empty($task))
 {
 	// Set 'controllers/default.php' as default controller and 'display' as default method
 	$input->set('task', 'default.display');
+}
+elseif (strpos($task, '.') === false)
+{
+	$input->set('task', 'default.' . $task);
 }
 
 if (!in_array($input->getCmd('view'), ['properties', 'property', 'form']))
